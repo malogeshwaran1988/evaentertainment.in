@@ -1,0 +1,95 @@
+.project-slider {
+	@media (max-width: 1399px) {
+		margin-left: 40px;
+		margin-right: 40px;
+	}
+	@media (max-width: 991px) {
+		margin-left: -24px;
+		margin-right: -24px;
+	}
+	@media (max-width: 767px) {
+		margin-left: -15px;
+		margin-right: -15px;
+	}
+}
+
+.project-slider:not(:first-child) {
+	margin-top: 50px;
+}
+.project-item {
+	&:not(.slick-slide) {
+		display: inline-block;
+		width: 33.333%;
+		margin-right: -4px;
+		margin-bottom: 30px;
+	}
+	position: relative;
+	text-align: center;
+	&-photo {
+		display: block;
+		text-decoration: none;
+		position: relative;
+		z-index: 0;
+		overflow: hidden;
+		background: @dark-grey-bg;
+		img {
+			width: 100%;
+		}
+		&:after {
+			content: '';
+			position: absolute;
+			z-index: 1;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			background: url(../images/bg-hover.png) repeat rgba(0,0,0,.7);
+			opacity: 0;
+			transition: .3s;
+		}
+	}
+	&-photo + * {
+		margin-top: 25px !important;
+	}
+	&-title {
+		font-size: 26px;
+		line-height: 30px;
+	}
+	&-author {
+		font-size: 20px;
+		line-height: 24px;
+		color: @custom-color;
+	}
+	& > * {
+		margin-bottom: 0;
+	}
+	& > *:not(:first-child){
+		margin-top: 7px;
+	}
+}
+.project-item:hover {
+	.project-item-photo {
+		&:after {
+			opacity: .5;
+		}
+	}
+}
+.project-slider {
+	.slick-prev, .slick-next {
+		&:before {
+			color: @body-font-color;
+		}
+	}
+	.slick-prev {
+		left: -80px;
+		@media (max-width: 1399px) {
+			left: -50px;
+		}
+	}
+	.slick-next {
+		right: -80px;
+		@media (max-width: 1399px) {
+			right: -50px;
+		}
+	}
+}

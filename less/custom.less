@@ -1,0 +1,179 @@
+/*-------------------------------
+[Table of contents]
+
+1. Typography
+	1.1 Typography Styles
+	1.2 Page Preloader
+	1.3 Forms
+	1.4 Buttons
+	1.5 Breadcrumbs
+	1.6 Calendar
+	1.7 Tags
+2. Main Structure
+	2.1 Layout Styles
+	2.2 Header
+	2.3 Footer
+	2.4 Main Slider
+3. Content
+	3.1 Home Page Player
+	3.2 Popup Player
+	3.3 Playlist Player
+	3.4 Ticker
+	3.5 Studio Slider
+	3.6 Project Slider
+	3.7 Projects Grid
+	3.8 News
+	3.9 Reviews
+	3.10 Team
+	3.11 Text Slider
+	3.12 Booking Link
+	3.13 Booking Form
+	3.14 Social Widgets
+	3.15 Equipment
+	3.16 Services
+	3.17 Icons Blocks
+	3.18 About Articles
+	3.19 Timeline
+	3.20 Gallery
+	3.21 Clients
+	3.22 Price Box
+4. Special Pages
+5. Custom Animation
+6. Vendor overlay styles
+-----------------------------------*/
+
+//  Layout Variables
+@custom-color: #70b615; // green
+@custom-color-bright: #abee2d; // bright green
+@custom-color-alt: #328add; // blue
+
+@dark-grey-bg: #181818;
+
+@body-font: 'Raleway', sans-serif;
+@body-font-color: #13161d;
+@body-bg-color: #fff;
+
+// body dark background
+@body-dark-font-color: #fff;
+@body-dark-bg-color: @dark-grey-bg;
+
+@menu-color: #fff;
+@menu-hover-color: @custom-color;
+
+@h-font: @body-font;
+@h-color: @body-font-color;
+
+@block-bottom-space: 105px;
+@block-bottom-space-mobile: 50px;
+
+@header-mobile-logo: 45px;
+@header-mobile-height: @header-mobile-logo + 30;
+@header-bg: #181818;
+@header-bg-transparent: rgba(0, 0, 0, .7);
+
+@desktop-alt-breikpoint: 1680px;
+@mobile-menu-breikpoint: 1024px;
+
+@button-color: #fff;
+@button-bg: @custom-color;
+@button-hover-color: #fff;
+@button-hover-bg: @custom-color-alt;
+
+@text-gradient-color-1: @custom-color-alt;
+@text-gradient-color-2: @custom-color-bright;
+
+//  Less Mixin
+@import (reference) "_mixin.less";
+
+/*---------------------------------------*/
+/*--------     1. Typography     --------*/
+/*---------------------------------------*/
+/*-------  1.1 Typography Styles --------*/
+@import "_typography.less";
+/*-------- 1.2 Preloader    --------*/
+@import "_loader.less";
+/*-------- 1.3 Forms             --------*/
+@import "_forms.less";
+/*-------- 1.4 Buttons           --------*/
+@import "_buttons.less";
+/*-------- 1.5 Breadcrumbs           ----*/
+@import "_breadcrumbs.less";
+/*-------- 1.6 Calendar              ----*/
+@import "_calendar.less";
+/*-------- 1.7 Tags                  ----*/
+@import "_tags.less";
+
+/*---------------------------------------*/
+/*--------   2. Main Structure   --------*/
+/*---------------------------------------*/
+/*--------   2.1 Layout Styles   --------*/
+@import "_layout.less";
+/*--------   2.2 Header          --------*/
+@import "_header.less";
+@import "_header-menu.less";
+/*--------   2.3 Footer          --------*/
+@import "_footer.less";
+/*--------   2.4 Main Slider     --------*/
+@import "_slider.less";
+
+/*----------------------------------------*/
+/*--------      3. Content        --------*/
+/*----------------------------------------*/
+/*--------   3.1 Home Page Player --------*/
+@import "_home-player.less";
+/*--------   3.2 Popup Player     --------*/
+@import "_popup-player.less";
+/*--------   3.3 Playlist Player  --------*/
+@import "_playlist-player.less";
+/*--------   3.4 Ticker           --------*/
+@import "_ticker.less";
+/*--------   3.5 Studio Slider    --------*/
+@import "_studio-gallery.less";
+/*--------   3.6 Project Slider   --------*/
+@import "_project-slider.less";
+/*--------   3.7 Projects Grid    --------*/
+@import "_project-grid.less";
+/*--------   3.8 News             --------*/
+@import "_news.less";
+/*--------   3.9 Reviews          --------*/
+@import "_reviews.less";
+/*--------   3.10 Team            --------*/
+@import "_team-member.less";
+/*--------   3.11 Text Slider     --------*/
+@import "_text-slider.less";
+/*--------   3.12 Booking Link    --------*/
+@import "_booking-link.less";
+/*--------   3.13 Booking Form    --------*/
+@import "_booking-form.less";
+/*--------   3.14 Social Widgets  --------*/
+@import "_social-widget.less";
+/*--------   3.15 Equipment       --------*/
+@import "_equipment.less";
+/*--------   3.16 Services        --------*/
+@import "_services-grid.less";
+/*--------   3.17 Icons Blocks    --------*/
+@import "_icn-text.less";
+/*--------   3.18 About Articles  --------*/
+@import "_about.less";
+/*--------   3.19 Timeline        --------*/
+@import "_timeline.less";
+/*--------   3.20 Gallery         --------*/
+@import "_gallery-grid.less";
+/*--------   3.21 Clients         --------*/
+@import "_clients.less";
+/*--------   3.22 Price Box       --------*/
+@import "_price-box.less";
+
+///*---------------------------------------*/
+///*--------   4. Special Pages    --------*/
+///*---------------------------------------*/
+@import "_blog.less";
+
+/*-----  5. Custom Animation      --------*/
+@import "_animation.less";
+
+/*----------------------------------------*/
+/*----   6. Vendor overlay styles  ------*/
+/*----------------------------------------*/
+@import "_slick.less";
+@import "_mscrollbar.less";

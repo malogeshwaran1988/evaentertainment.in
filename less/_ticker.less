@@ -1,0 +1,34 @@
+.tickerwrapper {
+	position: absolute;
+	display: none;
+	bottom: 10px;
+	left: 0;
+	background: transparent;
+	width: 100%;
+	height: 30px;
+	overflow: hidden;
+	font-size: 18px;
+	line-height: 30px;
+	color: #fff;
+	b {
+		text-transform: uppercase;
+		color: @custom-color-bright;
+	}
+	ul.ticker {
+		position: relative;
+		display: inline-block;
+		list-style: none;
+	}
+	ul.ticker.cloned {
+		position: absolute;
+		top: 0;
+		left: 0;
+	}
+	ul.ticker li {
+		float: left;
+		padding-left: 20px;
+	}
+	@media (max-width: 767px) {
+		display: none;
+	}
+}

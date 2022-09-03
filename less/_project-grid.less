@@ -1,0 +1,122 @@
+@media (min-width: 992px) {
+	.filtr-item.col-md-20 {
+		width: 20%;
+	}
+}
+.row.project-grid {
+	margin-left: 0;
+	margin-right: 0;
+	overflow: hidden;
+}
+.filtr-item.col-md-20 {
+	padding: 0 !important;
+}
+@media (max-width: 767px) {
+	.filtr-item[class*='col-'] {
+		width: 50%;
+	}
+}
+@media (max-width: 480px) {
+	.filtr-item[class*='col-'] {
+		width: 100%;
+	}
+}
+.filtr-row, .simple-filter {
+	margin: 0 0 60px;
+	padding: 0;
+	list-style: none;
+	@media (max-width: 479px) {
+		margin-bottom: 30px;
+	}
+	li {
+		display: inline-block;
+		@media (max-width: 479px) {
+			display: block;
+			text-align: center;
+		}
+		margin: 0 5px;
+		font-size: 18px;
+		line-height: 30px;
+		font-weight: 600;
+		padding: 15px 25px;
+		border-radius: 7px;
+		transition: .2s;
+		cursor: pointer;
+		text-transform: uppercase;
+		@media (max-width: (@desktop-alt-breikpoint - 1)) {
+			font-size: 16px;
+			line-height: 26px;
+		}
+		&:hover {
+			color: @custom-color;
+		}
+		&.active {
+			background: @custom-color;
+			color: #fff;
+		}
+	}
+}
+.project-grid .filtr-container:not(.is-loaded) {
+	opacity: 0;
+}
+.project-grid .filtr-container.is-loaded {
+	opacity: 1;
+}
+.project-grid-item {
+	display: block;
+	position: relative;
+	cursor: pointer;
+	img {
+		width: 100%;
+	}
+	&-caption {
+		position: absolute;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-direction: column;
+		z-index: 1;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background: url(../images/bg-hover.png) repeat rgba(0,0,0,.7);
+		opacity: 0;
+		transition: .4s;
+	}
+	&-title {
+		font-size: 26px;
+		line-height: 40px;
+		font-weight: 500;
+		color: #fff;
+		@media (max-width: 991px) {
+			font-size: 22px;
+			line-height: 36px;
+		}
+	}
+	&-artist {
+		font-size: 20px;
+		line-height: 30px;
+		font-weight: 500;
+		color: @custom-color-bright;
+		@media (max-width: 991px) {
+			font-size: 16px;
+			line-height: 26px;
+		}
+	}
+	&:hover .project-grid-item-caption {
+		opacity: 1;
+		visibility: visible;
+	}
+	.link-social {
+		&:not(:first-child) {
+			margin-top: 40px;
+		}
+	}
+	.link-social a {
+		color: #fff;
+		&:hover {
+			color: @custom-color-bright;
+		}
+	}
+}

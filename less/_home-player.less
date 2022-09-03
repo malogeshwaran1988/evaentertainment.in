@@ -1,0 +1,228 @@
+.awp-home-player {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	z-index: 101;
+	.awp-player-holder {
+		position: absolute;
+		width: 100%;
+		height: 55px;
+		bottom: 0px;
+		background: rgba(0, 0, 0, .7);
+		display: flex;
+		align-items: center;
+	}
+	.awp-player-holder>* {
+		margin: 0 5px;
+	}
+	.awp-icon-color {
+		color: #fff;
+		transition: color 0.3s ease-in-out;
+		&:hover {
+			color: @custom-color-bright;
+		}
+	}
+	.awp-icon-rollover-color {
+		color: @custom-color-bright !important;
+		transition: color 0.3s ease-in-out;
+	}
+	.awp-contr-btn-i {
+		font-size: 32px;
+		line-height: 55px;
+	}
+	.awp-contr-btn-vol-i {
+		font-size: 18px !important;
+	}
+	.awp-playback-toggle {
+		width: 34px;
+	}
+	.awp-prev-toggle {
+		width: 34px;
+	}
+	.awp-next-toggle {
+		width: 34px;
+	}
+	.awp-media-time {
+		color: #fff;
+		line-height: 55px;
+		font-size: 14px;
+		margin-right: 35px;
+	}
+	.awp-media-time span {
+		padding: 0 5px;
+		vertical-align: middle;
+	}
+	.awp-waveform-wrap {
+		flex: 1;
+		padding-top: 1px;
+	}
+	.awp-waveform-preloader {
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		transform: translate(-50%, -50%);
+		color: #333;
+		font-size: 18px;
+		pointer-events: none;
+		opacity: 0;
+	}
+	.awp-info {
+		position: relative;
+		top: 2px;
+		color: #fff;
+		line-height: 55px;
+		font-size: 12px;
+		white-space: nowrap;
+		margin-left: 25px;
+		margin-right: 15px;
+		text-transform: uppercase;
+	}
+	.awp-playlist-holder {
+		display: none;
+	}
+	.awp-volume-wrapper {
+		margin: 0 10px;
+	}
+	@media (max-width: @mobile-menu-breikpoint) {
+		.awp-volume-wrapper {
+			display: none;
+		}
+	}
+	@media (max-width: 761px) {
+		.awp-info,
+		.awp-media-time {
+			display: none;
+		}
+	}
+}
+//
+.icon-play-circle.fa-play:before {
+	content: "\e927";
+}
+.icon-play-circle.fa-pause:before {
+	content: "\e902";
+}
+.icon-music-equalizer-1.fa-volume-up:before {
+	content: "\e926";
+}
+.awp-volume-wrapper {
+	width: 185px;
+	height: 25px;
+	position: relative;
+}
+.awp-player-volume {
+	position: absolute;
+	width: 25px;
+	height: 25px;
+	left: 0;
+	top: 0;
+}
+.awp-player-volume i {
+	position: absolute;
+	width: 25px;
+	height: 25px;
+	font-size: 18px!important;
+	line-height: 25px!important;
+	color: #fff !important;
+	text-align: center;
+	display: inline-block;
+}
+.awp-volume-seekbar {
+	position: absolute;
+	right: 0;
+	top: 4px;
+	width: 150px;
+	height: 9px;
+	cursor: pointer;
+	touch-action: none;
+}
+.awp-volume-bg {
+	position: absolute;
+	top: 5px;
+	left: 0;
+	width: 100%;
+	height: 9px;
+	background: #181818;
+	border: 3px solid #282828;
+	border-radius: 6px;
+}
+.awp-volume-level {
+	position: absolute;
+	top: 8px;
+	left: 3px;
+	width: 0px;
+	height: 3px;
+	background: @custom-color-bright;
+	&:after {
+		content: '';
+		position: absolute;
+		right: -7.5px;
+		top: -7.5px;
+		width: 15px;
+		height: 15px;
+		border-radius: 7.5px;
+		z-index: 1;
+		background: @custom-color-bright;
+	}
+}
+.awp-hidden {
+	opacity: 0;
+	filter: alpha(opacity=0);
+}
+.awp-visible {
+	opacity: 1;
+	-webkit-transition: opacity 500ms ease-out;
+	-moz-transition: opacity 500ms ease-out;
+	transition: opacity 500ms ease-out;
+}
+.awp-preloader {
+	position: fixed;
+	width: 80px;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+.awp-preloader span {
+	display: block;
+	bottom: 0px;
+	width: 9px;
+	height: 5px;
+	background: #baacf1;
+	position: absolute;
+	animation: awp_preloader 1.5s infinite ease-in-out;
+}
+.awp-preloader span:nth-child(2) {
+	left: 11px;
+	animation-delay: .2s;
+}
+.awp-preloader span:nth-child(3) {
+	left: 22px;
+	animation-delay: .4s;
+}
+.awp-preloader span:nth-child(4) {
+	left: 33px;
+	animation-delay: .6s;
+}
+.awp-preloader span:nth-child(5) {
+	left: 44px;
+	animation-delay: .8s;
+}
+@keyframes awp_preloader {
+	0% {
+		height: 5px;
+		transform: translateY(0px);
+	}
+	25% {
+		height: 30px;
+		transform: translateY(15px);
+	}
+	50% {
+		height: 5px;
+		transform: translateY(0px);
+	}
+	100% {
+		height: 5px;
+		transform: translateY(0px);
+	}
+}

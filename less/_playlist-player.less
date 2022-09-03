@@ -1,0 +1,307 @@
+.awp-project-player {
+	position: relative;
+	margin-bottom: 30px;
+	.awp-player-row-top {
+		display: flex;
+		align-items: center;
+		margin-bottom: 40px;
+	}
+	.awp-player-thumb-wrapper {
+		position: relative;
+		width: 100px;
+		height: 100px;
+		overflow: hidden;
+		margin-right: 30px;
+	}
+	.awp-player-thumb {
+		position: absolute;
+		width: 100px;
+		height: 100px;
+		overflow: hidden;
+	}
+	.awp-player-thumb img {
+		display: block;
+		position: absolute;
+		max-width: none;
+		height: 100%;
+		width: auto!important;
+		min-width: 100px;
+	}
+	.awp-player-holder {
+		position: relative;
+		height: 55px;
+		overflow: hidden;
+		display: flex;
+		margin-bottom: 40px;
+	}
+	.awp-playback-toggle,
+	.awp-contr-btn {
+		display: inline-block;
+		vertical-align: middle;
+	}
+	.awp-playback-toggle i {
+		padding: 0 12px;
+		font-size: 54px!important;
+		line-height: 55px!important;
+		color: #13161d !important;
+		text-align: center;
+		display: inline-block;
+	}
+	.awp-info {
+		position: relative;
+		pointer-events: none;
+	}
+	.awp-player-artist {
+		font-size: 20px;
+		line-height: 26px;
+		@media (max-width: (@desktop-alt-breikpoint - 1)) {
+			font-size: 18px;
+			line-height: 22px;
+		}
+		color: @custom-color;
+		margin: 0;
+		padding: 0;
+	}
+	.awp-player-title {
+		font-size: 26px;
+		line-height: 30px;
+		@media (max-width: (@desktop-alt-breikpoint - 1)) {
+			font-size: 22px;
+			line-height: 26px;
+		}
+		display: inline-block;
+		margin: 0;
+		margin-bottom: 3px;
+		padding: 0;
+	}
+	.awp-waveform-wrap {
+		position: relative;
+		height: 55px;
+		overflow: hidden;
+		flex: 1;
+		margin: 0 15px;
+	}
+	.awp-waveform-with-time {
+		display: flex;
+		flex: 1;
+	}
+	@media (max-width: 767px) {
+		.awp-player-holder {
+			flex-wrap: wrap;
+			height: auto;
+		}
+		.awp-waveform-with-time {
+			flex: 1;
+			order: -1;
+			min-width: 100%;
+			margin-bottom: 10px;
+		}
+	}
+	.awp-waveform-preloader {
+		position: absolute;
+		left: 40%;
+		top: 50%;
+		-webkit-transform: translate(-50%, -50%);
+		-ms-transform: translate(-50%, -50%);
+		transform: translate(-50%, -50%);
+		color: #fff;
+		font-size: 18px;
+		pointer-events: none;
+		opacity: 0;
+	}
+	.awp-waveform-img {
+		display: none;
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		pointer-events: none;
+	}
+	.awp-waveform-img-load {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+	}
+	.awp-waveform-img-progress-wrap {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 0;
+		height: 100%;
+		overflow: hidden;
+		border-right: 3px solid #0000ff;
+	}
+	.awp-waveform-img-progress {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+	}
+	.awp-waveform-img-load img,
+	.awp-waveform-img-progress img {
+		display: block;
+		width: 100%;
+		height: 100%;
+	}
+	.awp-player-controls {
+		width: 185px;
+		height: 55px;
+	}
+	.awp-icon-color {
+		color: #13161d;
+		&:hover {
+			color: @custom-color;
+		}
+	}
+	.awp-contr-btn-i {
+		display: inline-block;
+		font-size: 32px!important;
+		line-height: 55px!important;
+	}
+	.awp-media-time-current,
+	.awp-media-time-total {
+		position: relative;
+		pointer-events: none;
+		font-size: 13px;
+		line-height: 55px;
+	}
+	#awp-playlist-list {
+		display: none;
+	}
+	.awp-playlist-holder {
+		position: relative;
+		top: 0px;
+		width: 100%;
+		overflow: hidden;
+	}
+	.awp-playlist-inner {
+		min-height: 200px;
+		max-height: 500px;
+	}
+	.awp-playlist-item {
+		position: relative;
+		overflow: hidden;
+		line-height: 30px;
+		padding: 0;
+		border-top: 1px solid #e3e3e3;
+	}
+	.awp-playlist-item > a {
+		border: 0;
+		padding-top: 10px;
+	}
+	.awp-playlist-item:last-child {
+		margin-bottom: 0px!important;
+	}
+	.awp-playlist-non-selected {
+		float: left;
+		text-decoration: none;
+		margin-right: 10px;
+	}
+	.awp-playlist-selected {
+		float: left;
+		color: @custom-color!important;
+		text-decoration: none;
+		margin-right: 10px;
+	}
+	.awp-playlist-title {
+		font-size: 18px;
+		color: inherit;
+		@media (max-width: (@desktop-alt-breikpoint - 1)) {
+			font-size: 16px;
+		}
+	}
+	.awp-download,
+	.awp-link {
+		float: right;
+		padding-top: 0 !important;
+		color: @body-font-color !important;
+		font-size: 13px!important;
+		width: 30px;
+		text-align: center;
+		text-decoration: none;
+	}
+	.awp-download i,
+	.awp-link i {
+		line-height: 30px;
+		color: inherit;
+		font-style: normal;
+	}
+	.awp-download i.fa-download:before {
+		display: block;
+		font-family: 'recording';
+		content: '\e939';
+		font-size: 18px;
+		line-height: 50px;
+		position: relative;
+	}
+	.awp-download:hover,
+	.awp-link:hover {
+		color: @custom-color!important;
+		text-decoration: none;
+	}
+	.awp-bottom-bar {
+		position: relative;
+		top: 0px;
+		clear: both;
+		height: 30px;
+		width: 100%;
+		overflow: hidden;
+		border-top: 1px solid #232323;
+		margin-top: 30px;
+	}
+	.awp-download-confirm {
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		-webkit-transform: translate(-50%, -50%);
+		-ms-transform: translate(-50%, -50%);
+		transform: translate(-50%, -50%);
+		border: 1px solid #555;
+		opacity: 0;
+		z-index: 1000;
+		display: none;
+	}
+	.awp-download-confirm p {
+		padding: 10px 5px !important;
+		font-size: 14px;
+		color: #fff;
+		background: #333;
+		text-align: center;
+	}
+	.awp-preloader {
+		position: absolute;
+		width: 36px;
+		height: 30px;
+		top: 50%;
+		left: 50%;
+		margin-left: -16px;
+		margin-top: -15px;
+		background: #111 url('../images/ajax-loader.gif') no-repeat center center;
+	}
+	.awp-hidden {
+		opacity: 0;
+		filter: alpha(opacity=0);
+	}
+	.awp-visible {
+		opacity: 1;
+		-webkit-transition: opacity 500ms ease-out;
+		-moz-transition: opacity 500ms ease-out;
+		transition: opacity 500ms ease-out;
+	}
+	/* scroll */
+	.awp-playlist-inner .mCSB_inside > .mCSB_container {
+		margin-right: 30px;
+	}
+	.mCS-records.mCSB_scrollTools .mCSB_draggerRail {
+		background-color: #d7d7d7;
+		width: 2px;
+		box-shadow: none;
+	}
+}
+#awp-home-playlist {
+	visibility: hidden;
+}
