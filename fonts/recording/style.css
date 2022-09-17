@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'recording';
-  src:  url('fonts/recording.eot?g3f0kt');
-  src:  url('fonts/recording.eot?g3f0kt#iefix') format('embedded-opentype'),
-    url('fonts/recording.ttf?g3f0kt') format('truetype'),
-    url('fonts/recording.woff?g3f0kt') format('woff'),
-    url('fonts/recording.svg?g3f0kt#recording') format('svg');
+  src:  url('fonts/recording.eot?d4qrjy');
+  src:  url('fonts/recording.eot?d4qrjy#iefix') format('embedded-opentype'),
+    url('fonts/recording.ttf?d4qrjy') format('truetype'),
+    url('fonts/recording.woff?d4qrjy') format('woff'),
+    url('fonts/recording.svg?d4qrjy#recording') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -24,14 +24,39 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-download:before {
-  content: "\e939";
+.icon-folleyrecording:before {
+  content: "\e93e";
 }
-.icon-calendar:before {
-  content: "\e938";
+.icon-landline:before {
+  content: "\e93f";
 }
-.icon-share:before {
-  content: "\e93a";
+.icon-lip-syncdubbing-01:before {
+  content: "\e940";
+}
+.icon-lip-syncdubbing-02:before {
+  content: "\e941";
+}
+.icon-songrecording:before {
+  content: "\e942";
+}
+.icon-stocklibrary:before {
+  content: "\e943";
+}
+.icon-usericon:before {
+  content: "\e944";
+}
+.icon-voiceover:before {
+  content: "\e945";
+}
+.icon-mixing:before {
+  content: "\e93b";
+  color: #5d5d5d;
+}
+.icon-translate1:before {
+  content: "\e93c";
+}
+.icon-translate2:before {
+  content: "\e93d";
 }
 .icon-promotion-1:before {
   content: "\e900";
@@ -168,9 +193,6 @@
 .icon-user:before {
   content: "\e91a";
 }
-.icon-joomla:before {
-  content: "\eab5";
-}
 .icon-play-circle:before {
   content: "\e927";
 }
@@ -203,4 +225,13 @@
 }
 .icon-instagram-logo-lined:before {
   content: "\e935";
+}
+.icon-download:before {
+  content: "\e939";
+}
+.icon-calendar:before {
+  content: "\e938";
+}
+.icon-share:before {
+  content: "\e93a";
 }

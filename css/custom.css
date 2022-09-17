@@ -2940,11 +2940,15 @@ body.fixed .darkOverlay {
   margin-bottom: 15px;
 }
 .footer-info i.icon {
-  font-size: 28px;
+  /* font-size: 28px;
   color: #70b615;
   position: absolute;
   left: 15px;
-  top: 3px;
+  top: 3px; */
+  font-size: 21px;
+  color: #70b615;
+  position: absolute;
+  left: 35px;
 }
 @media (max-width: 1199px) {
   .footer-info {
@@ -5659,8 +5663,8 @@ iframe.iframe-facebook {
 .icn-txt-icon {
   position: absolute;
   top: 0;
-  left: 0;
-  font-size: 28px;
+  left: 15px;
+  font-size: 21px;
   color: #70b615;
 }
 .block--darkbg .icn-txt-icon {
@@ -7205,4 +7209,94 @@ body.page-blog .block.single-post {
 }
 .mCS-records.mCSB_scrollTools_vertical.mCSB_scrollTools_onDrag_expand .mCSB_dragger.mCSB_dragger_onDrag_expanded + .mCSB_draggerRail {
   width: 3px;
+}
+
+.service-icon{
+  height: 120px;
+  width: 120px;
+  border-radius: 50%;
+  display: inline-block;
+  border: 2px solid #f2f2f2;
+  padding: 30px 3px 0 3px;
+  text-align: center;
+  margin-bottom: 15px;
+}
+.service-icon i{
+  font-size: 50px;
+}
+
+.sub-content {
+    width: 1100px;
+    margin: auto;
+}
+.people{
+    list-style: none;
+    margin: 0px;
+    padding: 0px;
+    display: inline-block;
+    width: 100%;
+}
+.people{
+    margin-left: -10px;
+    margin-right: -10px;
+}
+.people>li {
+    width: 25%;
+    height: 240px;
+    float: left;
+    position: relative;
+    overflow: hidden;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-bottom: 10px;
+}
+.people>li>a {
+    text-decoration: none;
+}
+
+.people .profile-img {
+    height: 180px;
+    overflow: hidden;
+}
+.people>li>a {
+    text-decoration: none;
+}
+.people .profile-img img {
+    width: 100%;
+    -webkit-filter: grayscale(1);
+    filter: grayscale(1);
+    -webkit-transition: all 0.3s ease-in-out 0.1s;
+    -moz-transition: all 0.3s ease-in-out 0.1s;
+    transition: all 0.3s ease-in-out 0.1s;
+}
+.people>li>a:hover img {
+    -webkit-filter: grayscale(0);
+    filter: grayscale(0);
+}
+.profile-details {
+    text-align: center;
+    color: #666;
+}
+.profile-details h2 {
+    font-size: 22px;
+    text-align: center;
+    margin: 0px;
+    color: #333;
+}
+
+@media (max-width: 1023px) {
+  .sub-content {
+	        width: 100%;
+	        display: inline-block;
+	    }
+	    .people{
+	        margin: 0px;
+	    }
+	    .people>li {
+	        width: 100%;
+	        height: auto;
+	    }
+	    .people .profile-img {
+	        height: auto;
+	    }
 }

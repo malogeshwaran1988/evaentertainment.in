@@ -13,9 +13,17 @@
 		el.innerHTML = '<span style="font-family: \'recording\'">' + entity + '</span>' + html;
 	}
 	var icons = {
-		'icon-download': '&#xe939;',
-		'icon-calendar': '&#xe938;',
-		'icon-share': '&#xe93a;',
+		'icon-folleyrecording': '&#xe93e;',
+		'icon-landline': '&#xe93f;',
+		'icon-lip-syncdubbing-01': '&#xe940;',
+		'icon-lip-syncdubbing-02': '&#xe941;',
+		'icon-songrecording': '&#xe942;',
+		'icon-stocklibrary': '&#xe943;',
+		'icon-usericon': '&#xe944;',
+		'icon-voiceover': '&#xe945;',
+		'icon-mixing': '&#xe93b;',
+		'icon-translate1': '&#xe93c;',
+		'icon-translate2': '&#xe93d;',
 		'icon-promotion-1': '&#xe900;',
 		'icon-audio': '&#xe903;',
 		'icon-settings': '&#xe904;',
@@ -72,6 +80,9 @@
 		'icon-facebook-logo-lined': '&#xe933;',
 		'icon-twitter-logo-lined': '&#xe934;',
 		'icon-instagram-logo-lined': '&#xe935;',
+		'icon-download': '&#xe939;',
+		'icon-calendar': '&#xe938;',
+		'icon-share': '&#xe93a;',
 		'0': 0
 		},
 		els = document.getElementsByTagName('*'),
