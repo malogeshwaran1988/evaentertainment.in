@@ -4,7 +4,7 @@ import Breadcrumbs from "@@/components/common/Breadcrumbs";
 import { Routes } from "@@/constants/routes";
 
 export const metadata: Metadata = {
-  title: { absolute: "Thank You | EVA Entertainment" },
+  title: { absolute: "Thank You" },
   description: "Your message was sent successfully to EVA Entertainment.",
   robots: {
     index: false,

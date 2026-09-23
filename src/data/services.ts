@@ -4,7 +4,7 @@ export const SERVICES_PAGE_URL = `${APP_BASE_URL}/services`;
 export const SERVICES_OG_IMAGE = DEFAULT_OG_IMAGE;
 
 export const SERVICES_SEO = {
-  title: "Services | Lip-Sync Dubbing, Voice Over & Subtitling | EVA Entertainment",
+  title: "Services | Lip-Sync Dubbing, Voice Over & Subtitling",
   description:
     "Explore EVA Entertainment services: lip-sync dubbing, voice-over, Foley recording, 5.1 mixing, and subtitling for film, TV, e-learning, and multimedia.",
 };

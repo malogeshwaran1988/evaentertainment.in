@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Routes } from "@@/constants/routes";
 
 export const metadata: Metadata = {
-  title: { absolute: "Page Not Found | EVA Entertainment" },
+  title: { absolute: "Page Not Found" },
   description: "The page you are looking for does not exist.",
   robots: {
     index: false,

@@ -4,7 +4,7 @@ export const EQUIPMENT_PAGE_URL = `${APP_BASE_URL}/equipment`;
 export const EQUIPMENT_OG_IMAGE = DEFAULT_OG_IMAGE;
 
 export const EQUIPMENT_SEO = {
-  title: "Our Equipment | Pro Tools Recording Studio | EVA Entertainment",
+  title: "Our Equipment | Pro Tools Recording Studio",
   description:
     "EVA Entertainment studios use Pro Tools, Rode & Neumann microphones, Genelec & Yamaha speakers, and multi-track digital recording for dubbing and production.",
 };
