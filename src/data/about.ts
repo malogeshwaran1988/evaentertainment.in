@@ -4,7 +4,7 @@ export const ABOUT_PAGE_URL = `${APP_BASE_URL}/about`;
 export const ABOUT_OG_IMAGE = DEFAULT_OG_IMAGE;
 
 export const ABOUT_SEO = {
-  title: "About Us | EVA Entertainment Mumbai",
+  title: "About Us",
   description:
     "Learn about EVA Entertainment — India's lip-sync dubbing, voice-over, Foley, subtitling, and multimedia localization studio based in Andheri, Mumbai.",
 };

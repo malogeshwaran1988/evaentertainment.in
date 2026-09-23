@@ -1,11 +1,11 @@
 import { APP_BASE_URL, CONTACT, DEFAULT_OG_IMAGE, SITE_NAME } from "@@/constants/constants";
 import type { LegalSection } from "@@/data/legal";
 
-export const PRIVACY_PAGE_URL = `${APP_BASE_URL}/privacy`;
+export const PRIVACY_PAGE_URL = `${APP_BASE_URL}/privacy-policy`;
 export const PRIVACY_OG_IMAGE = DEFAULT_OG_IMAGE;
 
 export const PRIVACY_SEO = {
-  title: `Privacy Policy | ${SITE_NAME} Mumbai`,
+  title: "Privacy Policy",
   description:
     "Privacy Policy for EVA Entertainment Recording Studio — how we collect, use, store, and protect personal data under Indian DPDP law and international standards for our Mumbai studio and global clients.",
 };

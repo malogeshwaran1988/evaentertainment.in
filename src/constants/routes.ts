@@ -6,8 +6,8 @@ export const Routes = {
   CONTACT: "/contact",
   BOOK: "/book",
   THANK_YOU: "/thank-you",
-  PRIVACY: "/privacy",
-  TERMS: "/terms",
+  PRIVACY: "/privacy-policy",
+  TERMS: "/terms-conditions",
 } as const;
 
 export type AppRoute = (typeof Routes)[keyof typeof Routes];

@@ -9,6 +9,16 @@ const nextConfig: NextConfig = {
         destination: "https://evaentertainment.in/:path*",
         permanent: true,
       },
+      {
+        source: "/privacy",
+        destination: "/privacy-policy",
+        permanent: true,
+      },
+      {
+        source: "/terms",
+        destination: "/terms-conditions",
+        permanent: true,
+      },
     ];
   },
 

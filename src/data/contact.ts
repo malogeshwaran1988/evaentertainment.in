@@ -4,7 +4,7 @@ export const CONTACT_PAGE_URL = `${APP_BASE_URL}/contact`;
 export const CONTACT_OG_IMAGE = DEFAULT_OG_IMAGE;
 
 export const CONTACT_SEO = {
-  title: "Contact | EVA Entertainment Recording Studio Andheri Mumbai",
+  title: "Contact | Recording Studio Andheri Mumbai",
   description:
     "Contact EVA Entertainment in Andheri West, Mumbai for booking, dubbing, and localization inquiries. Call +91 8652063177 or email info@evaentertainment.in.",
 };
