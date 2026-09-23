@@ -1,0 +1,21 @@
+export const Routes = {
+  HOME: "/",
+  ABOUT: "/about",
+  SERVICES: "/services",
+  EQUIPMENT: "/equipment",
+  CONTACT: "/contact",
+  BOOK: "/book",
+  THANK_YOU: "/thank-you",
+  PRIVACY: "/privacy",
+  TERMS: "/terms",
+} as const;
+
+export type AppRoute = (typeof Routes)[keyof typeof Routes];
+
+/** Primary nav links (Contact is a separate header CTA). */
+export const NAV_ITEMS: { label: string; href: AppRoute }[] = [
+  { label: "HOME", href: Routes.HOME },
+  { label: "ABOUT", href: Routes.ABOUT },
+  { label: "SERVICES", href: Routes.SERVICES },
+  { label: "OUR EQUIPMENT", href: Routes.EQUIPMENT },
+];

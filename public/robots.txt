@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /cgi-bin/
+
+Sitemap: https://evaentertainment.in/sitemap.xml

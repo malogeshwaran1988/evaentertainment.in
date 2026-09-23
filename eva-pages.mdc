@@ -1,0 +1,49 @@
+---
+description: EVA public page pattern (AVR-style) — SEO layout, server pages, a11y
+globs:
+  - src/app/(web)/**/page.tsx
+  - src/app/(web)/**/layout.tsx
+  - src/data/**
+  - src/components/**
+---
+
+# EVA Public Page Standard
+
+Mirror AVR Energies marketing patterns. No admin panel in this phase.
+
+## Architecture
+
+| File | Role |
+|------|------|
+| Route `page.tsx` (or `layout.tsx`) | `metadata`, JSON-LD, server HTML |
+| `src/data/*.ts` | Copy + `*_PAGE_URL` / `*_OG_IMAGE` / `*_SEO` |
+| `src/components/*` | Client islands only (menu, hero, forms, modals) |
+
+## Visual rule
+
+Do not redesign. Preserve existing EVA CSS classes, colors, and copy from `public/css`.
+
+## SEO
+
+- Unique title + description per route
+- Canonical, robots, Open Graph, Twitter
+- JSON-LD where relevant (LocalBusiness, AboutPage, ContactPage, Service)
+- Keep `public/robots.txt` + `public/sitemap.xml` updated
+
+## UX / accessibility
+
+Apply Laws of UX and WCAG 2.2 AA without changing brand look:
+
+- Labels / `aria-invalid` / error text on forms
+- Visible `:focus-visible`
+- Meaningful image `alt`
+- Footer on every page
+- No skip-to-content link (project decision)
+
+## Checklist
+
+1. Add route to `src/constants/routes.ts` and nav if needed
+2. Add `src/data/<page>.ts` with SEO constants
+3. Server page + client islands only where interactive
+4. Update sitemap
+5. `npm run build`
