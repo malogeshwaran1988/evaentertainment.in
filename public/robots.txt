@@ -2,5 +2,14 @@ User-agent: *
 Allow: /
 Disallow: /api/
 Disallow: /cgi-bin/
+Disallow: /__nextjs_original-stack-frame
+Disallow: /_error
+Disallow: /_next/data/
+
+User-agent: Googlebot
+Allow: /
+
+User-agent: Google-InspectionTool
+Allow: /
 
 Sitemap: https://evaentertainment.in/sitemap.xml

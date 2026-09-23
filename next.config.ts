@@ -1,6 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  images: {
+    formats: ["image/avif", "image/webp"],
+  },
+
   async redirects() {
     return [
       {
@@ -37,6 +41,19 @@ const nextConfig: NextConfig = {
               ],
             },
           ]),
+      {
+        source: "/sitemap.xml",
+        headers: [
+          {
+            key: "Content-Type",
+            value: "text/xml; charset=utf-8",
+          },
+          {
+            key: "Cache-Control",
+            value: "public, max-age=300",
+          },
+        ],
+      },
       {
         source: "/(.*)",
         headers: [

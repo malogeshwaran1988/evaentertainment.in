@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 import { HERO_SLIDES } from "@@/data/home";
 
@@ -67,10 +68,16 @@ export default function HeroSlider() {
               className={`slide${i === index ? " is-active" : ""}`}
               aria-hidden={i !== index}
             >
-              <div
-                className="img--holder"
-                style={{ backgroundImage: `url(${slide.image})` }}
-              />
+              <div className="img--holder eva-hero-media">
+                <Image
+                  src={slide.image}
+                  alt=""
+                  fill
+                  priority={i === 0}
+                  sizes="100vw"
+                  className="eva-hero-media-img"
+                />
+              </div>
               <div className="slide-content left">
                 <div className="vert-wrap container">
                   <div className="vert">

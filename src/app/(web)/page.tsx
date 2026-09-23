@@ -54,19 +54,9 @@ export default function HomePage() {
               {HOME_INTRO}
             </p>
           </div>
-          <div className="row text-center what-we-do-row" style={{ marginBottom: 50 }}>
-            {WHAT_WE_DO.slice(0, 4).map((item) => (
-              <div className="col-xs-6 col-lg-3" key={item.title}>
-                <div className="service-icon">
-                  <i className={item.icon} aria-hidden="true" />
-                </div>
-                <h3 className="heading-as-h4">{item.title}</h3>
-              </div>
-            ))}
-          </div>
           <div className="row text-center what-we-do-row">
-            {WHAT_WE_DO.slice(4).map((item) => (
-              <div className="col-xs-6 col-lg-3" key={item.title}>
+            {WHAT_WE_DO.map((item) => (
+              <div className="col-xs-6 col-sm-4 col-lg-3" key={item.title}>
                 <div className="service-icon">
                   <i className={item.icon} aria-hidden="true" />
                 </div>

@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
@@ -89,8 +90,14 @@ export function Header() {
         <div className="eva-header-bar">
           <div className="logo">
             <Link href={Routes.HOME}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/images/common/eva-logo.avif" alt="EVA Entertainment" />
+              <Image
+                src="/images/common/eva-logo.avif"
+                alt="EVA Entertainment"
+                width={160}
+                height={45}
+                priority
+                sizes="160px"
+              />
             </Link>
           </div>
 
