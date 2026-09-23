@@ -28,7 +28,7 @@ Do not redesign. Preserve existing EVA CSS classes, colors, and copy from `publi
 - Unique title + description per route
 - Canonical, robots, Open Graph, Twitter
 - JSON-LD where relevant (LocalBusiness, AboutPage, ContactPage, Service)
-- Keep `public/robots.txt` + `public/sitemap.xml` updated
+- Keep `public/robots.txt` updated and `src/app/sitemap.ts` in sync with indexable routes
 
 ## UX / accessibility
 
@@ -45,5 +45,5 @@ Apply Laws of UX and WCAG 2.2 AA without changing brand look:
 1. Add route to `src/constants/routes.ts` and nav if needed
 2. Add `src/data/<page>.ts` with SEO constants
 3. Server page + client islands only where interactive
-4. Update sitemap
+4. Update `src/app/sitemap.ts` (and robots.txt if needed)
 5. `npm run build`

@@ -3,6 +3,7 @@
 import { FormEvent, useId, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Routes } from "@@/constants/routes";
+import { COUNTRIES } from "@@/data/countries";
 
 const SERVICES = [
   "Language Dubbing",
@@ -189,8 +190,11 @@ export default function BookingForm() {
                   className="input-custom"
                   defaultValue="IND"
                 >
-                  <option value="IND">India</option>
-                  <option value="KY">Other</option>
+                  {COUNTRIES.map((country) => (
+                    <option key={country.code} value={country.code}>
+                      {country.name}
+                    </option>
+                  ))}
                 </select>
               </div>
             </div>

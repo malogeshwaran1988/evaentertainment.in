@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { CONTACT, SITE_NAME } from "@@/constants/constants";
 import { NAV_ITEMS, Routes } from "@@/constants/routes";
@@ -23,12 +24,12 @@ export default function Footer() {
         <div className="eva-footer-grid">
           <div className="eva-footer-brand">
             <Link href={Routes.HOME} className="eva-footer-logo">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
+              <Image
                 src="/images/common/eva-logo.avif"
                 alt={SITE_NAME}
-                loading="lazy"
-                decoding="async"
+                width={160}
+                height={45}
+                sizes="160px"
               />
             </Link>
             <div className="eva-footer-social" aria-label="Social media">

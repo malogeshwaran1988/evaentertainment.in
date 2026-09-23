@@ -52,14 +52,11 @@ export const metadata: Metadata = {
   },
 };
 
-/** Single stylesheet set — mirrors live Glory template vendors used for chrome. */
+/** Stylesheets for Glory chrome — vendors actually used by App Router pages. */
 const STYLESHEETS = [
   "/css/vendor/bootstrap.min.css",
   "/css/vendor/animate.min.css",
   "/css/vendor/slick.css",
-  "/css/vendor/magnific-popup.css",
-  "/css/vendor/bootstrap-datetimepicker.css",
-  "/css/animate.css",
   "/fonts/recording/style.css",
   "https://use.fontawesome.com/releases/v5.4.1/css/all.css",
   "https://fonts.googleapis.com/css?family=Raleway:300,400,500,600,700,800,900&display=swap",
@@ -73,6 +70,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
         {STYLESHEETS.map((href) =>
           href.includes("fontawesome") ? (
             <link
