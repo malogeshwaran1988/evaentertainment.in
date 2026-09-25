@@ -16,6 +16,7 @@ export const ABOUT_CONTENT = {
     "Based in India, we are a leading provider of lip-sync dubbing, voice-over, Folley Recording, Stock Library, subtitling & multimedia localization services in any international languages.",
   missionTitle: "Our Mission at EVA ENTERAINMENT",
   missionImage: "/images/about/about-1.jpg",
+  missionImageAlt: "Production studio with keyboards and monitors",
   missionParagraphs: [
     "EVA Entertainment is been serving the industries for the past years' experiencing, delivering high-quality localization services to our satisfied clients.",
     "No matter the platform or media type or goal is always the same — to ensure that our clients fully engage their audiences around the world. To this end, we offer a customer-first approach to multimedia localization, creating custom solutions for client content suites, and ensuring consistently high quality, native fluency, and accuracy in all languages. At EVA Entertainment, we advocate for our clients and their content, as well as our partners and production teams. That's why we'll always be willing to talk. In any language.",

@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { LOGO_ALT } from "@@/constants/constants";
 import { NAV_ITEMS, Routes } from "@@/constants/routes";
 
 const SCROLL_TOP_THRESHOLD = 80;
@@ -92,7 +93,7 @@ export function Header() {
             <Link href={Routes.HOME}>
               <Image
                 src="/images/common/eva-logo.avif"
-                alt="EVA Entertainment"
+                alt={LOGO_ALT}
                 width={160}
                 height={45}
                 priority

@@ -8,7 +8,7 @@ import {
   SERVICES_PAGE_URL,
   SERVICES_SEO,
 } from "@@/data/services";
-import { SITE_NAME } from "@@/constants/constants";
+import { DEFAULT_OG_IMAGE_ALT, SITE_NAME } from "@@/constants/constants";
 
 export const metadata: Metadata = {
   title: { absolute: SERVICES_SEO.title },
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
         url: SERVICES_OG_IMAGE,
         width: 1200,
         height: 630,
-        alt: SERVICES_SEO.title,
+        alt: DEFAULT_OG_IMAGE_ALT,
       },
     ],
     locale: "en_US",
@@ -114,6 +114,8 @@ export default function ServicesPage() {
                 <div
                   className={imageOnLeft ? "half-bg-left" : "half-bg-right"}
                   style={{ backgroundImage: `url(${block.image})` }}
+                  role="img"
+                  aria-label={block.alt}
                 />
                 <div
                   className={`col-sm-6${imageOnLeft ? " pull-right" : ""}`}

@@ -7,7 +7,7 @@ import {
   EQUIPMENT_PAGE_URL,
   EQUIPMENT_SEO,
 } from "@@/data/equipment";
-import { SITE_NAME } from "@@/constants/constants";
+import { DEFAULT_OG_IMAGE_ALT, SITE_NAME } from "@@/constants/constants";
 
 export const metadata: Metadata = {
   title: { absolute: EQUIPMENT_SEO.title },
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
         url: EQUIPMENT_OG_IMAGE,
         width: 1200,
         height: 630,
-        alt: EQUIPMENT_SEO.title,
+        alt: DEFAULT_OG_IMAGE_ALT,
       },
     ],
     locale: "en_US",

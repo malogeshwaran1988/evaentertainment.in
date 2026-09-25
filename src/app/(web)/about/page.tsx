@@ -7,7 +7,7 @@ import {
   ABOUT_PAGE_URL,
   ABOUT_SEO,
 } from "@@/data/about";
-import { SITE_NAME } from "@@/constants/constants";
+import { DEFAULT_OG_IMAGE_ALT, SITE_NAME } from "@@/constants/constants";
 
 export const metadata: Metadata = {
   title: { absolute: ABOUT_SEO.title },
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
         url: ABOUT_OG_IMAGE,
         width: 1200,
         height: 630,
-        alt: ABOUT_SEO.title,
+        alt: DEFAULT_OG_IMAGE_ALT,
       },
     ],
     locale: "en_US",
@@ -114,7 +114,7 @@ export default function AboutPage() {
               <img
                 src={ABOUT_CONTENT.missionImage}
                 className="img-responsive"
-                alt="About EVA Entertainment"
+                alt={ABOUT_CONTENT.missionImageAlt}
                 fetchPriority="high"
                 decoding="async"
               />

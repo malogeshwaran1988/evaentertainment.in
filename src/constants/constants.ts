@@ -1,6 +1,8 @@
 export const APP_BASE_URL = "https://evaentertainment.in";
 export const SITE_NAME = "EVA Entertainment";
 export const DEFAULT_OG_IMAGE = "/images/home/slide-1.jpg";
+export const DEFAULT_OG_IMAGE_ALT = "EVA Entertainment dubbing and recording studio";
+export const LOGO_ALT = "EVA Entertainment logo";
 
 export const CONTACT = {
   addressLines: [
@@ -16,3 +18,16 @@ export const CONTACT = {
   bookingEmail: "felixanthony@evaentertainment.in",
   infoEmail: "info@evaentertainment.in",
 } as const;
+
+export const SOCIAL_LINKS = [
+  {
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/in/felix-anthony-5b1114173/",
+    iconClass: "icon icon-linkedin-logo",
+  },
+  {
+    label: "IMDb",
+    href: "https://www.imdb.com/name/nm9896831/",
+    iconClass: "fab fa-imdb",
+  },
+] as const;
