@@ -1,6 +1,8 @@
 export const APP_BASE_URL = "https://evaentertainment.in";
 export const SITE_NAME = "EVA Entertainment";
 export const DEFAULT_OG_IMAGE = "/images/home/slide-1.jpg";
+export const DEFAULT_OG_IMAGE_ALT = "EVA Entertainment dubbing and recording studio";
+export const LOGO_ALT = "EVA Entertainment logo";
 
 export const CONTACT = {
   addressLines: [

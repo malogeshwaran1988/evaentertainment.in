@@ -7,7 +7,7 @@ import {
   BOOKING_PAGE_URL,
   BOOKING_SEO,
 } from "@@/data/booking";
-import { APP_BASE_URL, SITE_NAME } from "@@/constants/constants";
+import { APP_BASE_URL, DEFAULT_OG_IMAGE_ALT, SITE_NAME } from "@@/constants/constants";
 
 export const metadata: Metadata = {
   title: { absolute: BOOKING_SEO.title },
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
         url: BOOKING_OG_IMAGE,
         width: 1200,
         height: 630,
-        alt: BOOKING_SEO.title,
+        alt: DEFAULT_OG_IMAGE_ALT,
       },
     ],
     locale: "en_US",

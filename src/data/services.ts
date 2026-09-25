@@ -13,6 +13,7 @@ export type ServiceBlock = {
   id?: string;
   title: string;
   image: string;
+  alt: string;
   dark?: boolean;
   paragraphs: string[];
   extraHeading?: string;
@@ -23,6 +24,7 @@ export const SERVICE_BLOCKS: ServiceBlock[] = [
     id: "Lip-Sync",
     title: "Lip-Sync Dubbing",
     image: "/images/services/equipment-01.jpg",
+    alt: "Condenser microphones in a dubbing booth",
     paragraphs: [
       "We offer to dub in various languages for movies, Fiction & Non-Fictions, ad films, documentaries, E-learning etc. Normally, a professional dubbing team consists of Sound Eng, Dubbing Artists, Dubbing Directors, Scriptwriter, Artist coordinator, and Translator. The main idea behind Dubbing is to ensure that the voice behind the video is in synchronization with the display.",
       "We offer complete one-stop dubbing solutions. You can simply hand over your video in the source language to us and we shall provide you a final finished video in the target language of your choice.",
@@ -32,6 +34,7 @@ export const SERVICE_BLOCKS: ServiceBlock[] = [
   {
     title: "Voice Over",
     image: "/images/services/equipment-02.jpg",
+    alt: "Microphone preamps for voice-over recording",
     dark: true,
     paragraphs: [
       "We have a group of native professional artists who are familiar with their mother tongue. We provide voice talents i.e. male, female and child of all ages. Depending on your content, we shall provide you voice samples.",
@@ -43,6 +46,7 @@ export const SERVICE_BLOCKS: ServiceBlock[] = [
     id: "Folley",
     title: "Folley Recording",
     image: "/images/services/equipment-03.jpg",
+    alt: "Foley and sound design workstation",
     paragraphs: [
       "Sound design is commonly known as foley and sound effects. It is a process of specifying, acquiring, manipulating or generating audio elements. It employs a variety of disciplines including filmmaking, television, theatre, sound recording, live performance, sound art, and post-production.",
       "Sound design most commonly involves the manipulation of previously composed or recorded audio, such as sound effects and dialogue. In some instances, it may also involve the composition or manipulation of audio to create a desired effect or mood. A sound designer is one who practices the art of sound design.",
@@ -53,6 +57,7 @@ export const SERVICE_BLOCKS: ServiceBlock[] = [
     id: "mixing",
     title: "5.1 Mixing",
     image: "/images/services/equipment-04.jpg",
+    alt: "Studio patch cables for 5.1 mixing",
     dark: true,
     paragraphs: [
       "We create and mix audio for the broadcast, film, corporate and multimedia industries; the award-winning team behind EVA Entertainment is committed to delivering creative mixes on budget & on time.",
@@ -63,6 +68,7 @@ export const SERVICE_BLOCKS: ServiceBlock[] = [
     id: "Subtitling",
     title: "Subtitling",
     image: "/images/services/equipment-05.jpg",
+    alt: "Subtitled video beside a subtitle file",
     paragraphs: [
       "We offer International language subtitles for your English/Other language movies in the language of your requirement. If you require our services for subtitling projects with time stamping, we can provide you with a range of text services for corporate videos, movies, DVDs, games, advertisements and other media. So in case you are a professional/amateur filmmaker and require subtitling to be done for your movies/advertisement, you are welcome to contact us. By this way, you can increase potential viewers for your films.",
       "EVA ENTERTAINMENT uses only native speakers when it comes to creating subtitles for movies, so you can be sure that the depth of your film's dialogues has been conveyed. Translation and subtitling experts of EVA Entertainment can develop subtitles in English for foreign to international language movies and voice over. Our experience in providing subtitles for movies to several filmmakers has made us a leading provider of subtitles for movies.",

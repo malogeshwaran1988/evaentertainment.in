@@ -27,6 +27,7 @@ export const SERVICE_CARDS = [
   {
     href: "/services#Lip-Sync",
     image: "/images/home/services-grid-1.jpg",
+    alt: "Voice artist dubbing at a studio microphone",
     eyebrow: "Offering",
     title: "Language Dubbing",
     description:
@@ -35,6 +36,7 @@ export const SERVICE_CARDS = [
   {
     href: "/services#mixing",
     image: "/images/home/services-grid-2.jpg",
+    alt: "Sound engineer at a 5.1 mixing console",
     eyebrow: "Digital",
     title: "5.1 Mixing",
     description: "",
@@ -42,6 +44,7 @@ export const SERVICE_CARDS = [
   {
     href: "/services#Folley",
     image: "/images/home/services-grid-3.jpg",
+    alt: "Mixing console faders for Foley recording",
     eyebrow: "Royal",
     title: "Folley Recording",
     description: "",
@@ -49,6 +52,7 @@ export const SERVICE_CARDS = [
   {
     href: "/services",
     image: "/images/home/services-grid-4.jpg",
+    alt: "Studio headphones resting on piano keys",
     eyebrow: "Voice",
     title: "Translation",
     description:
@@ -57,6 +61,7 @@ export const SERVICE_CARDS = [
   {
     href: "/services",
     image: "/images/home/services-grid-5.jpg",
+    alt: "Producer browsing a stock music library",
     eyebrow: "Royal",
     title: "Stock Library",
     description: "Amplify your ideas and explore our curated stock music library.",
@@ -64,6 +69,7 @@ export const SERVICE_CARDS = [
   {
     href: "/services#Subtitling",
     image: "/images/home/services-grid-6.jpg",
+    alt: "Laptop running subtitle editing software",
     eyebrow: "Text Services",
     title: "Subtitling",
     description:
@@ -74,6 +80,7 @@ export const SERVICE_CARDS = [
 export const HERO_SLIDES = [
   {
     image: "/images/home/slide-1.jpg",
+    alt: "Female vocalist recording a voice-over",
     lines: [
       {
         role: "h1" as const,
@@ -89,6 +96,7 @@ export const HERO_SLIDES = [
   },
   {
     image: "/images/home/slide-2.jpg",
+    alt: "Recording studio control room with mixing console",
     lines: [
       {
         role: "subtitle" as const,

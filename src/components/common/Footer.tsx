@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { CONTACT, SITE_NAME } from "@@/constants/constants";
+import { CONTACT, LOGO_ALT, SITE_NAME } from "@@/constants/constants";
 import { NAV_ITEMS, Routes } from "@@/constants/routes";
 import { SERVICE_BLOCKS } from "@@/data/services";
 
@@ -26,7 +26,7 @@ export default function Footer() {
             <Link href={Routes.HOME} className="eva-footer-logo">
               <Image
                 src="/images/common/eva-logo.avif"
-                alt={SITE_NAME}
+                alt={LOGO_ALT}
                 width={160}
                 height={45}
                 sizes="160px"

@@ -3,7 +3,6 @@ import Link from "next/link";
 import HeroSlider from "@@/components/home/HeroSlider";
 import { CONTACT, SITE_NAME } from "@@/constants/constants";
 import {
-  HERO_SLIDES,
   HOME_INTRO,
   HOME_PAGE_URL,
   SERVICE_CARDS,
@@ -30,12 +29,6 @@ export default function HomePage() {
 
   return (
     <main className="page-main home-page">
-      <link
-        rel="preload"
-        as="image"
-        href={HERO_SLIDES[0].image}
-        fetchPriority="high"
-      />
       <Script
         id="home-localbusiness-jsonld"
         type="application/ld+json"
@@ -94,7 +87,7 @@ export default function HomePage() {
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={card.image}
-                        alt={card.title}
+                        alt={card.alt}
                         loading="lazy"
                         decoding="async"
                       />

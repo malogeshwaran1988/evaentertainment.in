@@ -3,6 +3,7 @@ import "@@/styles/globals.scss";
 import {
   APP_BASE_URL,
   DEFAULT_OG_IMAGE,
+  DEFAULT_OG_IMAGE_ALT,
   SITE_NAME,
 } from "@@/constants/constants";
 import { HOME_OG_IMAGE, HOME_PAGE_URL, HOME_SEO } from "@@/data/home";
@@ -40,7 +41,7 @@ export const metadata: Metadata = {
         url: HOME_OG_IMAGE,
         width: 1200,
         height: 630,
-        alt: SITE_NAME,
+        alt: DEFAULT_OG_IMAGE_ALT,
       },
     ],
   },

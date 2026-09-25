@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import Breadcrumbs from "@@/components/common/Breadcrumbs";
 import ContactForm from "@@/components/contact/ContactForm";
-import { CONTACT, SITE_NAME } from "@@/constants/constants";
+import { CONTACT, DEFAULT_OG_IMAGE_ALT, SITE_NAME } from "@@/constants/constants";
 import {
   CONTACT_INTRO,
   CONTACT_OG_IMAGE,
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
         url: CONTACT_OG_IMAGE,
         width: 1200,
         height: 630,
-        alt: CONTACT_SEO.title,
+        alt: DEFAULT_OG_IMAGE_ALT,
       },
     ],
     locale: "en_US",

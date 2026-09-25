@@ -71,9 +71,10 @@ export default function HeroSlider() {
               <div className="img--holder eva-hero-media">
                 <Image
                   src={slide.image}
-                  alt=""
+                  alt={slide.alt}
                   fill
-                  priority={i === 0}
+                  preload={i === 0}
+                  fetchPriority={i === 0 ? "high" : undefined}
                   sizes="100vw"
                   className="eva-hero-media-img"
                 />
