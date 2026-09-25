@@ -1,6 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
-import { CONTACT, LOGO_ALT, SITE_NAME } from "@@/constants/constants";
+import {
+  CONTACT,
+  LOGO_ALT,
+  SITE_NAME,
+  SOCIAL_LINKS,
+} from "@@/constants/constants";
 import { NAV_ITEMS, Routes } from "@@/constants/routes";
 import { SERVICE_BLOCKS } from "@@/data/services";
 
@@ -33,21 +38,16 @@ export default function Footer() {
               />
             </Link>
             <div className="eva-footer-social" aria-label="Social media">
-              <a
-                href="#"
-                className="icon icon-facebook-logo"
-                aria-label="Facebook (coming soon)"
-              />
-              <a
-                href="#"
-                className="icon icon-twitter-logo"
-                aria-label="Twitter (coming soon)"
-              />
-              <a
-                href="#"
-                className="icon icon-linkedin-logo"
-                aria-label="LinkedIn (coming soon)"
-              />
+              {SOCIAL_LINKS.map((s) => (
+                <a
+                  key={s.href}
+                  href={s.href}
+                  className={s.iconClass}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`${SITE_NAME} on ${s.label} (opens in new tab)`}
+                />
+              ))}
             </div>
           </div>
 

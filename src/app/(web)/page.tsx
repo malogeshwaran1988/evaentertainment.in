@@ -1,7 +1,7 @@
 import Script from "next/script";
 import Link from "next/link";
 import HeroSlider from "@@/components/home/HeroSlider";
-import { CONTACT, SITE_NAME } from "@@/constants/constants";
+import { CONTACT, SITE_NAME, SOCIAL_LINKS } from "@@/constants/constants";
 import {
   HOME_INTRO,
   HOME_PAGE_URL,
@@ -25,6 +25,7 @@ export default function HomePage() {
       postalCode: "400053",
       addressCountry: "IN",
     },
+    sameAs: SOCIAL_LINKS.map((s) => s.href),
   };
 
   return (
