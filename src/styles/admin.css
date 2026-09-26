@@ -1,0 +1,98 @@
+@config "../../tailwind.admin.config.ts";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* EVA brand green #70b615 = hsl(86 79% 40%). White text on it is only
+       2.5:1, so primary-foreground is near-black (7.6:1). */
+    --link-rgb: 61 110 10;
+
+    --surface: #ffffff;
+    --surface-muted: #fafafa;
+    --surface-raised: #f4f4f5;
+    --border-muted: #f4f4f5;
+    --ink: #18181b;
+    --ink-muted: #52525b;
+    --ink-subtle: #71717a;
+    --card-shadow: 0 1px 2px 0 rgb(24 24 27 / 0.04), 0 1px 3px 0 rgb(24 24 27 / 0.06);
+
+    --background: 0 0% 98%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 86 79% 40%;
+    --primary-foreground: 0 0% 9%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 86 79% 40%;
+    --radius: 0.5rem;
+
+    /* Sidebar stays EVA dark (#181818) in both themes. */
+    --sidebar-background: 0 0% 9%;
+    --sidebar-foreground: 0 0% 85%;
+    --sidebar-primary: 86 79% 40%;
+    --sidebar-primary-foreground: 0 0% 9%;
+    --sidebar-accent: 0 0% 16%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 0 0% 18%;
+    --sidebar-ring: 82 85% 55%;
+  }
+
+  .dark {
+    --link-rgb: 171 238 45;
+
+    --surface: #18181b;
+    --surface-muted: #09090b;
+    --surface-raised: #27272a;
+    --border-muted: #202023;
+    --ink: #fafafa;
+    --ink-muted: #d4d4d8;
+    --ink-subtle: #a1a1aa;
+    --card-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.4), 0 1px 3px 0 rgb(0 0 0 / 0.3);
+
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 240 5.9% 10%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 5.9% 10%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 82 85% 55%;
+    --primary-foreground: 0 0% 9%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 63% 45%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 82 85% 55%;
+
+    --sidebar-background: 240 5.9% 8%;
+    --sidebar-border: 240 3.7% 15.9%;
+
+    color-scheme: dark;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family:
+      ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
+      Arial, sans-serif;
+  }
+}
