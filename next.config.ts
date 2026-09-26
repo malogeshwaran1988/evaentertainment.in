@@ -1,6 +1,11 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  experimental: {
+    // Required with multiple root layouts ((web) and (admin)).
+    globalNotFound: true,
+  },
+
   images: {
     formats: ["image/avif", "image/webp"],
   },
@@ -54,6 +59,10 @@ const nextConfig: NextConfig = {
           },
         ],
       },
+      ...["/login", "/admin", "/admin/:path*"].map((source) => ({
+        source,
+        headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow, noarchive" }],
+      })),
       {
         source: "/(.*)",
         headers: [

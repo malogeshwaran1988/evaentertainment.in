@@ -863,6 +863,36 @@ body .block.block--full.no-pad-gutter > .container.container--bleed {
   }
 }
 
+/* Narrow tablet 768–991: fit five nav items on one line */
+@media (min-width: 768px) and (max-width: 991px) {
+  .eva-header-bar {
+    gap: 0.75rem;
+  }
+
+  .eva-header-bar > .logo,
+  .header-actions {
+    flex: 0 0 auto;
+    width: auto;
+    min-width: 0;
+  }
+
+  .eva-header-bar > .logo img {
+    max-width: 120px;
+  }
+
+  .eva-header-bar .header-menu .menu {
+    flex-wrap: nowrap;
+    gap: 0.25rem 0.9rem;
+  }
+
+  .eva-header-bar .header-menu .menu > li > a,
+  .header .header-menu ul li a {
+    padding: 0.5rem 0.2rem !important;
+    font-size: 12px !important;
+    letter-spacing: 0;
+  }
+}
+
 /* Phone ≤767: logo + hamburger; Glory drawer with Contact */
 @media (max-width: 767px) {
   .eva-header-bar {
@@ -2028,6 +2058,203 @@ a.eva-contact-card-meta:hover {
 
   .eva-contact-map-frame iframe {
     height: 280px;
+  }
+}
+
+/* ---- Our Projects: language filters + poster grid ---- */
+.block.eva-projects-hero {
+  margin-bottom: 0;
+}
+
+.eva-projects-hero h1 .fas {
+  font-size: 0.7em;
+  padding-right: 18px;
+  color: #abee2d;
+}
+
+.block.eva-projects {
+  margin-bottom: 0;
+  padding-top: 56px;
+  padding-bottom: 80px;
+}
+
+.eva-projects-filters {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px 28px;
+  margin: 0 0 48px;
+}
+
+.eva-projects-filter {
+  min-height: 44px;
+  padding: 8px 4px;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  font-family: "Raleway", sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.72);
+  cursor: pointer;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.eva-projects-filter:hover {
+  color: #fff;
+}
+
+.eva-projects-filter[aria-pressed="true"] {
+  color: #70b615;
+  border-bottom-color: #70b615;
+}
+
+.eva-projects-filter:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
+
+.eva-projects-grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 40px 24px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.eva-project-card {
+  margin: 0;
+  text-align: left;
+}
+
+.eva-project-poster {
+  position: relative;
+  aspect-ratio: 2 / 3;
+  overflow: hidden;
+  margin-bottom: 16px;
+  background: #13161d;
+}
+
+.eva-project-poster img {
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.eva-project-card:hover .eva-project-poster img {
+  transform: scale(1.05);
+}
+
+.eva-project-poster-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 16px;
+  text-align: center;
+  background: linear-gradient(160deg, #26282f 0%, #13161d 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.eva-project-poster-placeholder i {
+  font-size: 32px;
+  color: #70b615;
+}
+
+.eva-project-poster-placeholder span {
+  font-family: "Raleway", sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.3;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+body:not(.page-blog) .block--darkbg .eva-project-title,
+.eva-project-title {
+  margin: 0 0 4px;
+  padding: 0;
+  font-family: "Raleway", sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.4;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.eva-project-meta {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.eva-projects-empty {
+  margin: 0;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+@media (max-width: 1199px) {
+  .eva-projects-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 991px) {
+  .eva-projects-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 767px) {
+  .block.eva-projects {
+    padding-top: 36px;
+    padding-bottom: 56px;
+  }
+
+  .eva-projects-filters {
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    gap: 0 20px;
+    margin-bottom: 32px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .eva-projects-filters::-webkit-scrollbar {
+    display: none;
+  }
+
+  .eva-projects-filter {
+    flex: 0 0 auto;
+    font-size: 15px;
+  }
+
+  .eva-projects-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 32px 16px;
+  }
+
+  .eva-project-title,
+  .eva-project-meta {
+    font-size: 13px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .eva-project-poster img,
+  .eva-projects-filter {
+    transition: none;
+  }
+
+  .eva-project-card:hover .eva-project-poster img {
+    transform: none;
   }
 }
 

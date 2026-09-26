@@ -15,7 +15,7 @@ const address = CONTACT.addressLines.join(" ");
 export const PRIVACY_CONTENT = {
   pageTitle: "Privacy Policy",
   effectiveDate: "23 September 2026",
-  lastUpdated: "23 September 2026",
+  lastUpdated: "26 September 2026",
   intro:
     "EVA Entertainment (“EVA”, “we”, “us”, or “our”) operates a professional recording, dubbing, voice-over, Foley, subtitling, and multimedia localization studio in Mumbai, India, and works with clients in India and internationally. This Privacy Policy explains how we collect, use, disclose, retain, and protect personal data when you visit evaentertainment.in, contact us, book studio time, or engage us for production services.",
   sections: [
@@ -74,7 +74,7 @@ export const PRIVACY_CONTENT = {
         },
         {
           type: "p",
-          text: "When you visit our website, our hosting and server infrastructure may automatically collect limited technical data such as IP address, browser type, device information, referring URL, pages viewed, and timestamps. We use this information for security, diagnostics, and to keep the site reliable. We do not currently operate third-party advertising or analytics cookies on this site beyond what is required for basic website operation.",
+          text: "When you visit our website, our hosting and server infrastructure may automatically collect limited technical data such as IP address, browser type, device information, referring URL, pages viewed, and timestamps. We use this information for security, diagnostics, and to keep the site reliable. We also use Microsoft Clarity to understand how visitors use our website. Clarity captures mouse movements, clicks, scrolling, and page interactions as session recordings and heatmaps, which we review to improve site usability and content. Text typed into form fields is masked and is not captured. Microsoft processes this data under the Microsoft Privacy Statement (https://privacy.microsoft.com/privacystatement). We do not operate third-party advertising trackers on this site.",
         },
         {
           type: "h3",
@@ -136,7 +136,7 @@ export const PRIVACY_CONTENT = {
       blocks: [
         {
           type: "p",
-          text: "Our website may use essential cookies or similar storage needed for security, session continuity, and basic site function. We do not sell personal data and do not use advertising trackers as part of our standard site configuration. If we introduce optional analytics or marketing cookies in the future, we will update this Policy and, where required, seek appropriate consent.",
+          text: "Our website may use essential cookies or similar storage needed for security, session continuity, and basic site function. We also use Microsoft Clarity for website analytics, which sets first-party and third-party cookies (such as _clck and _clsk) to measure how visitors use the site and to link page views within a visit. You can block or delete these cookies in your browser settings; the website will continue to work without them. We do not sell personal data and do not use advertising trackers. If we introduce marketing cookies in the future, we will update this Policy and, where required, seek appropriate consent.",
         },
       ],
     },
@@ -151,7 +151,7 @@ export const PRIVACY_CONTENT = {
         {
           type: "ul",
           items: [
-            "Service providers who support hosting, email delivery, IT, accounting, or similar operations under confidentiality obligations.",
+            "Service providers who support hosting, email delivery, website analytics (Microsoft Clarity), IT, accounting, or similar operations under confidentiality obligations.",
             "Freelance talent, engineers, directors, or production partners engaged for your project, limited to what is necessary for delivery.",
             "Professional advisers (legal, accounting) where required.",
             "Government authorities, courts, or law enforcement when required by applicable law or to protect our rights, users, or the public.",

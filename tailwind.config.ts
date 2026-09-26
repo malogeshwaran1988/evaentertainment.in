@@ -5,6 +5,10 @@ export default {
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    // Admin UI has its own config (tailwind.admin.config.ts).
+    "!./src/app/\\(admin\\)/**",
+    "!./src/components/admin/**",
+    "!./src/components/ui/**",
   ],
   theme: {
     extend: {},

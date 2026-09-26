@@ -18,6 +18,11 @@
 # production
 /build
 
+# admin-managed data (projects.json, uploaded project posters)
+/storage/
+/public/images/our-projects/*
+!/public/images/our-projects/.gitkeep
+
 # misc
 .DS_Store
 *.pem
