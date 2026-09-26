@@ -2,14 +2,13 @@
 
 import Clarity from "@microsoft/clarity";
 import { useEffect } from "react";
+import { CLARITY_PROJECT_ID } from "@@/constants/constants";
 
-const PROJECT_ID = process.env.NEXT_PUBLIC_CLARITY_PROJECT_ID;
-
-/** Microsoft Clarity session analytics — production builds only, no-op without a project ID. */
+/** Microsoft Clarity session analytics — production builds only, so local dev sessions aren't recorded. */
 export default function ClarityAnalytics() {
   useEffect(() => {
-    if (!PROJECT_ID || process.env.NODE_ENV !== "production") return;
-    Clarity.init(PROJECT_ID);
+    if (process.env.NODE_ENV !== "production") return;
+    Clarity.init(CLARITY_PROJECT_ID);
   }, []);
 
   return null;
