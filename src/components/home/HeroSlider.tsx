@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 import { HERO_SLIDES } from "@@/data/home";
+import { imageLoading } from "@@/lib/image-loading";
 
 function SlideLine({
   role,
@@ -73,8 +74,7 @@ export default function HeroSlider() {
                   src={slide.image}
                   alt={slide.alt}
                   fill
-                  preload={i === 0}
-                  fetchPriority={i === 0 ? "high" : undefined}
+                  {...imageLoading(i)}
                   sizes="100vw"
                   className="eva-hero-media-img"
                 />

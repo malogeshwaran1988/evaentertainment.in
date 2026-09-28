@@ -115,6 +115,7 @@ export default function AboutPage() {
                 src={ABOUT_CONTENT.missionImage}
                 className="img-responsive"
                 alt={ABOUT_CONTENT.missionImageAlt}
+                loading="eager"
                 fetchPriority="high"
                 decoding="async"
               />

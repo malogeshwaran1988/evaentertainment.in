@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Script from "next/script";
 import Breadcrumbs from "@@/components/common/Breadcrumbs";
 import {
@@ -9,6 +10,7 @@ import {
   SERVICES_SEO,
 } from "@@/data/services";
 import { DEFAULT_OG_IMAGE_ALT, SITE_NAME } from "@@/constants/constants";
+import { imageLoading } from "@@/lib/image-loading";
 
 export const metadata: Metadata = {
   title: { absolute: SERVICES_SEO.title },
@@ -76,12 +78,6 @@ export default function ServicesPage() {
 
   return (
     <main className="page-main">
-      <link
-        rel="preload"
-        as="image"
-        href={SERVICE_BLOCKS[0].image}
-        fetchPriority="high"
-      />
       <Script
         id="services-jsonld"
         type="application/ld+json"
@@ -99,7 +95,7 @@ export default function ServicesPage() {
         </div>
       </div>
 
-      {SERVICE_BLOCKS.map((block) => {
+      {SERVICE_BLOCKS.map((block, i) => {
         const imageOnLeft = Boolean(block.dark);
         return (
           <section
@@ -111,12 +107,16 @@ export default function ServicesPage() {
               <div
                 className={`row row--half${block.dark ? " bg-grey-dark" : ""}`}
               >
-                <div
-                  className={imageOnLeft ? "half-bg-left" : "half-bg-right"}
-                  style={{ backgroundImage: `url(${block.image})` }}
-                  role="img"
-                  aria-label={block.alt}
-                />
+                <div className={imageOnLeft ? "half-bg-left" : "half-bg-right"}>
+                  <Image
+                    src={block.image}
+                    alt={block.alt}
+                    fill
+                    {...imageLoading(i)}
+                    sizes="(min-width: 768px) 50vw, 100vw"
+                    className="eva-half-bg-img"
+                  />
+                </div>
                 <div
                   className={`col-sm-6${imageOnLeft ? " pull-right" : ""}`}
                 >

@@ -96,7 +96,7 @@ export function Header() {
                 alt={LOGO_ALT}
                 width={160}
                 height={45}
-                priority
+                loading="eager"
                 sizes="160px"
               />
             </Link>
