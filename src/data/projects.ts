@@ -30,7 +30,7 @@ export const PROJECT_CATEGORIES = [
 export const POSTER_MAX_BYTES = 150 * 1024;
 export const POSTER_TYPES = ["image/jpeg", "image/png", "image/webp", "image/avif"] as const;
 export const POSTER_ACCEPT = POSTER_TYPES.join(",");
-/** Public URL prefix for admin-uploaded posters (files live in public/images/our-projects). */
+/** Public URL prefix for admin-uploaded posters, served by the /images/our-projects route. */
 export const POSTER_URL_PREFIX = "/images/our-projects/";
 
 export type Project = {
@@ -39,7 +39,7 @@ export type Project = {
   from: ProjectLanguage;
   to: ProjectLanguage[];
   category: string;
-  /** Path under /public, e.g. "/images/projects/sardar-2.jpg" */
+  /** Seeded: a /public path. Uploaded: "/images/our-projects/<name>?v=<version>". */
   poster?: string;
   /** Alt text for the poster; the website falls back to "<title> poster". */
   posterAlt?: string;
@@ -51,6 +51,18 @@ export type ProjectInput = Pick<
   Project,
   "title" | "from" | "to" | "category" | "poster" | "posterAlt"
 >;
+
+/**
+ * Two projects clash when their names match ignoring case, accents, spaces and punctuation
+ * ("Biker", "biker" and "Biker!" are the same project). Works for any script, not just Latin.
+ */
+export function projectNameKey(title: string) {
+  return title
+    .normalize("NFKD")
+    .replace(/\p{M}/gu, "")
+    .toLowerCase()
+    .replace(/[^\p{L}\p{N}]+/gu, "");
+}
 
 export function projectPosterAlt(project: Pick<Project, "title" | "posterAlt">) {
   return project.posterAlt || `${project.title} poster`;

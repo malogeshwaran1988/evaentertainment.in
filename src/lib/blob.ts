@@ -4,8 +4,11 @@ import { BlobNotFoundError, BlobPreconditionFailedError, del, get, head, put } f
 /** Vercel sets the token when the Blob store is connected; without it (local dev) data stays on disk. */
 export const USE_BLOB = Boolean(process.env.BLOB_READ_WRITE_TOKEN);
 
-/** The store may be shared with other sites, so everything EVA writes lives under this folder. */
-const BLOB_PREFIX = "eva/";
+/**
+ * The store may be shared with other sites, so everything EVA writes lives under this folder.
+ * Local tests against the real store set EVA_BLOB_PREFIX (e.g. "eva-test/") to keep off live data.
+ */
+const BLOB_PREFIX = process.env.EVA_BLOB_PREFIX || "eva/";
 
 const blobPath = (pathname: string) => `${BLOB_PREFIX}${pathname}`;
 
