@@ -4,7 +4,7 @@ import { mkdir, readFile, rename, writeFile } from "node:fs/promises";
 import path from "node:path";
 import type { Project, ProjectInput } from "@@/data/projects";
 import { PROJECTS_SEED } from "@@/data/projects-seed";
-import { BlobPreconditionFailedError, readBlob, USE_BLOB, writeBlob } from "@@/lib/blob";
+import { BlobPreconditionFailedError, readBlobVersioned, USE_BLOB, writeBlob } from "@@/lib/blob";
 
 const DATA_DIR = path.resolve(
   /*turbopackIgnore: true*/ process.env.EVA_DATA_DIR || "storage",
@@ -51,9 +51,9 @@ function seedProjects(): Project[] {
 }
 
 async function fetchBlobSnapshot(): Promise<Snapshot | null> {
-  const blob = await readBlob(BLOB_FILE, { fresh: true });
+  const blob = await readBlobVersioned(BLOB_FILE);
   if (!blob) return null;
-  return { projects: parseProjects(await new Response(blob.stream).text()), etag: blob.etag };
+  return { projects: parseProjects(blob.text), etag: blob.etag };
 }
 
 async function readBlobSnapshot(): Promise<Snapshot> {

@@ -15,7 +15,7 @@ export default async function AdminProjectsPage() {
   const projects = await getProjects();
 
   return (
-    <>
+    <div className="mx-auto w-full max-w-6xl">
       <PageHeader
         title="Our Projects"
         description="Projects listed on the public Our Projects page."
@@ -29,6 +29,6 @@ export default async function AdminProjectsPage() {
         }
       />
       <ProjectsTable projects={projects} />
-    </>
+    </div>
   );
 }
