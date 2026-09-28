@@ -14,6 +14,9 @@ import {
 import { imageLoading } from "@@/lib/image-loading";
 
 type Filter = "All" | ProjectLanguage;
+type Direction = "prev" | "next";
+
+const SWIPE_MIN_PX = 50;
 
 type ProjectsGalleryProps = {
   projects: Project[];
@@ -55,9 +58,11 @@ export default function ProjectsGallery({
   languages,
 }: ProjectsGalleryProps) {
   const [filter, setFilter] = useState<Filter>("All");
-  const [active, setActive] = useState<Project | null>(null);
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const [direction, setDirection] = useState<Direction | null>(null);
   const dialogRef = useRef<HTMLDialogElement>(null);
-  const openerRef = useRef<HTMLButtonElement | null>(null);
+  const gridRef = useRef<HTMLUListElement>(null);
+  const touchStart = useRef<{ x: number; y: number } | null>(null);
 
   const usedLanguages = languages.filter((l) =>
     projects.some((p) => p.from === l || p.to.includes(l)),
@@ -71,21 +76,62 @@ export default function ProjectsGallery({
           (p) => p.from === filter || p.to.includes(filter),
         );
 
+  const active = activeIndex === null ? null : (visible[activeIndex] ?? null);
+  const prev = activeIndex !== null && activeIndex > 0 ? visible[activeIndex - 1] : null;
+  const next = activeIndex !== null ? (visible[activeIndex + 1] ?? null) : null;
+
   useEffect(() => {
     const dialog = dialogRef.current;
-    if (active && dialog && !dialog.open) dialog.showModal();
-  }, [active]);
+    if (activeIndex !== null && dialog && !dialog.open) {
+      dialog.showModal();
+      dialog.querySelector<HTMLButtonElement>(".eva-project-dialog-close")?.focus();
+    }
+  }, [activeIndex]);
 
-  const openProject = (project: Project, opener: HTMLButtonElement) => {
-    openerRef.current = opener;
-    setActive(project);
+  const prevPoster = prev?.poster;
+  const nextPoster = next?.poster;
+  useEffect(() => {
+    for (const src of [prevPoster, nextPoster]) {
+      if (src) new window.Image().src = src;
+    }
+  }, [prevPoster, nextPoster]);
+
+  const openProject = (index: number) => {
+    setDirection(null);
+    setActiveIndex(index);
   };
+
+  const showAt = (index: number, dir: Direction) => {
+    if (index < 0 || index >= visible.length) return;
+    setDirection(dir);
+    setActiveIndex(index);
+  };
+
+  const showPrev = () => activeIndex !== null && showAt(activeIndex - 1, "prev");
+  const showNext = () => activeIndex !== null && showAt(activeIndex + 1, "next");
 
   const closeDialog = () => dialogRef.current?.close();
 
   const handleClose = () => {
-    setActive(null);
-    openerRef.current?.focus();
+    const shownId = active?.id;
+    setActiveIndex(null);
+    if (shownId) {
+      gridRef.current
+        ?.querySelector<HTMLButtonElement>(`[data-project-id="${CSS.escape(shownId)}"]`)
+        ?.focus();
+    }
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    const start = touchStart.current;
+    touchStart.current = null;
+    if (!start) return;
+    const touch = e.changedTouches[0];
+    const dx = touch.clientX - start.x;
+    const dy = touch.clientY - start.y;
+    if (Math.abs(dx) < SWIPE_MIN_PX || Math.abs(dx) <= Math.abs(dy)) return;
+    if (dx < 0) showNext();
+    else showPrev();
   };
 
   if (projects.length === 0) {
@@ -121,7 +167,7 @@ export default function ProjectsGallery({
           No {filter} projects to show yet.
         </p>
       ) : (
-        <ul className="eva-projects-grid">
+        <ul className="eva-projects-grid" ref={gridRef}>
           {visible.map((project, i) => (
             <li className="eva-project-card" key={project.id}>
               <div className="eva-project-poster">
@@ -146,7 +192,8 @@ export default function ProjectsGallery({
                   type="button"
                   className="eva-project-open"
                   aria-haspopup="dialog"
-                  onClick={(e) => openProject(project, e.currentTarget)}
+                  data-project-id={project.id}
+                  onClick={() => openProject(i)}
                 >
                   {project.title}
                   <span className="sr-only">, view details</span>
@@ -167,57 +214,105 @@ export default function ProjectsGallery({
         onClick={(e) => {
           if (e.target === e.currentTarget) closeDialog();
         }}
+        onKeyDown={(e) => {
+          if (e.key === "ArrowLeft") showPrev();
+          else if (e.key === "ArrowRight") showNext();
+        }}
       >
-        {active ? (
-          <div className="eva-project-dialog-body">
-            <button
-              type="button"
-              className="eva-project-dialog-close"
-              aria-label="Close"
-              onClick={closeDialog}
+        {active && activeIndex !== null ? (
+          <>
+            {visible.length > 1 ? (
+              // aria-disabled (not disabled) keeps focus on the button at either end.
+              <button
+                type="button"
+                className="eva-project-dialog-nav eva-project-dialog-nav--prev"
+                aria-label={prev ? `Previous project: ${prev.title}` : "Previous project"}
+                aria-disabled={!prev}
+                onClick={showPrev}
+              >
+                <span aria-hidden="true">‹</span>
+              </button>
+            ) : null}
+            <div
+              className="eva-project-dialog-panel"
+              onTouchStart={(e) => {
+                const touch = e.touches[0];
+                touchStart.current = { x: touch.clientX, y: touch.clientY };
+              }}
+              onTouchEnd={handleTouchEnd}
             >
-              <span aria-hidden="true">×</span>
-            </button>
-            <div className="eva-project-dialog-poster">
-              <YearBadge year={active.year} />
-              {active.poster ? (
-                // Posters are served unoptimized by the route handler.
-                // eslint-disable-next-line @next/next/no-img-element
-                <img src={active.poster} alt={projectPosterAlt(active)} />
-              ) : (
-                <PosterPlaceholder title={active.title} />
-              )}
+              <button
+                type="button"
+                className="eva-project-dialog-close"
+                aria-label="Close"
+                onClick={closeDialog}
+              >
+                <span aria-hidden="true">×</span>
+              </button>
+              <div
+                className="eva-project-dialog-body"
+                key={active.id}
+                data-dir={direction ?? undefined}
+              >
+                <div className="eva-project-dialog-poster">
+                  <YearBadge year={active.year} />
+                  {active.poster ? (
+                    // Posters are served unoptimized by the route handler.
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={active.poster} alt={projectPosterAlt(active)} />
+                  ) : (
+                    <PosterPlaceholder title={active.title} />
+                  )}
+                </div>
+                <div className="eva-project-dialog-details">
+                  <h2 id="eva-project-dialog-title" className="eva-project-dialog-title">
+                    {active.title}
+                  </h2>
+                  <dl className="eva-project-dialog-list">
+                    {active.year ? (
+                      <div>
+                        <dt>Year</dt>
+                        <dd>
+                          {active.year === PROJECT_YEAR_ONGOING
+                            ? "Ongoing (in production)"
+                            : active.year}
+                        </dd>
+                      </div>
+                    ) : null}
+                    <div>
+                      <dt>Source language</dt>
+                      <dd>{active.from}</dd>
+                    </div>
+                    <div>
+                      <dt>Dubbed into</dt>
+                      <dd>{joinList(active.to)}</dd>
+                    </div>
+                    <div>
+                      <dt>Category</dt>
+                      <dd>{active.category}</dd>
+                    </div>
+                  </dl>
+                </div>
+              </div>
+              {visible.length > 1 ? (
+                <p className="eva-project-dialog-count" aria-live="polite">
+                  {activeIndex + 1} / {visible.length}
+                  <span className="eva-project-dialog-hint"> · Swipe for more</span>
+                </p>
+              ) : null}
             </div>
-            <div className="eva-project-dialog-details">
-              <h2 id="eva-project-dialog-title" className="eva-project-dialog-title">
-                {active.title}
-              </h2>
-              <dl className="eva-project-dialog-list">
-                {active.year ? (
-                  <div>
-                    <dt>Year</dt>
-                    <dd>
-                      {active.year === PROJECT_YEAR_ONGOING
-                        ? "Ongoing (in production)"
-                        : active.year}
-                    </dd>
-                  </div>
-                ) : null}
-                <div>
-                  <dt>Source language</dt>
-                  <dd>{active.from}</dd>
-                </div>
-                <div>
-                  <dt>Dubbed into</dt>
-                  <dd>{joinList(active.to)}</dd>
-                </div>
-                <div>
-                  <dt>Category</dt>
-                  <dd>{active.category}</dd>
-                </div>
-              </dl>
-            </div>
-          </div>
+            {visible.length > 1 ? (
+              <button
+                type="button"
+                className="eva-project-dialog-nav eva-project-dialog-nav--next"
+                aria-label={next ? `Next project: ${next.title}` : "Next project"}
+                aria-disabled={!next}
+                onClick={showNext}
+              >
+                <span aria-hidden="true">›</span>
+              </button>
+            ) : null}
+          </>
         ) : null}
       </dialog>
     </>

@@ -2377,25 +2377,39 @@ html:has(.eva-project-dialog[open]) {
 }
 
 .eva-project-dialog {
-  width: min(880px, calc(100% - 32px));
+  width: min(1000px, calc(100% - 32px));
   max-width: none;
-  max-height: calc(100dvh - 32px);
+  max-height: none;
   margin: auto;
   padding: 0;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 4px;
-  background: #181818;
+  border: 0;
+  background: transparent;
   color: #fff;
-  overflow: auto;
-  overscroll-behavior: contain;
+  overflow: visible;
 }
 
 .eva-project-dialog[open] {
+  display: flex;
+  align-items: center;
+  gap: 16px;
   animation: eva-dialog-in 0.2s ease-out;
 }
 
 .eva-project-dialog::backdrop {
   background: rgba(0, 0, 0, 0.8);
+}
+
+.eva-project-dialog-panel {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  max-height: calc(100dvh - 32px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  background: #181818;
+  overflow: auto;
+  overscroll-behavior: contain;
+  touch-action: pan-y;
 }
 
 .eva-project-dialog-body {
@@ -2404,6 +2418,62 @@ html:has(.eva-project-dialog[open]) {
   grid-template-columns: minmax(0, 340px) minmax(0, 1fr);
   gap: 32px;
   padding: 32px;
+}
+
+.eva-project-dialog-body[data-dir="next"] {
+  animation: eva-dialog-slide-next 0.2s ease-out;
+}
+
+.eva-project-dialog-body[data-dir="prev"] {
+  animation: eva-dialog-slide-prev 0.2s ease-out;
+}
+
+.eva-project-dialog-nav {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  padding: 0 0 4px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  background: rgba(24, 24, 24, 0.9);
+  font-size: 34px;
+  line-height: 1;
+  color: #fff;
+  cursor: pointer;
+  transition: color 0.2s ease, border-color 0.2s ease, opacity 0.2s ease;
+}
+
+.eva-project-dialog-nav:hover {
+  color: #70b615;
+  border-color: #70b615;
+}
+
+.eva-project-dialog-nav:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+.eva-project-dialog-nav[aria-disabled="true"] {
+  opacity: 0.35;
+  cursor: default;
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.eva-project-dialog-count {
+  margin: -8px 0 0;
+  padding: 0 32px 24px;
+  font-size: 14px;
+  letter-spacing: 0.08em;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.eva-project-dialog-hint {
+  display: none;
 }
 
 .eva-project-dialog-close {
@@ -2502,7 +2572,50 @@ body:not(.page-blog) .block--darkbg .eva-project-dialog-title,
   }
 }
 
+@keyframes eva-dialog-slide-next {
+  from {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes eva-dialog-slide-prev {
+  from {
+    opacity: 0;
+    transform: translateX(-40px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .eva-project-dialog-body {
+    grid-template-columns: minmax(0, 260px) minmax(0, 1fr);
+    gap: 24px;
+    padding: 24px;
+  }
+}
+
 @media (max-width: 767px) {
+  .eva-project-dialog-nav {
+    display: none;
+  }
+
+  .eva-project-dialog-hint {
+    display: inline;
+  }
+
+  .eva-project-dialog-count {
+    margin-top: -4px;
+    padding: 0 20px 16px;
+  }
+
   .eva-project-dialog-body {
     grid-template-columns: minmax(0, 1fr);
     gap: 20px;
@@ -2534,7 +2647,8 @@ body:not(.page-blog) .block--darkbg .eva-project-dialog-title,
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .eva-project-dialog[open] {
+  .eva-project-dialog[open],
+  .eva-project-dialog-body[data-dir] {
     animation: none;
   }
 
