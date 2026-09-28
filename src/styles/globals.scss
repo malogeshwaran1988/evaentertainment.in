@@ -2174,6 +2174,131 @@ a.eva-contact-card-meta:hover {
   letter-spacing: 0.04em;
 }
 
+.eva-project-badge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 1;
+  padding: 3px 8px;
+  border-radius: 2px;
+  background: rgba(0, 0, 0, 0.78);
+  font-family: "Raleway", sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+/* Dark text: white on #70b615 is below 4.5:1. */
+.eva-project-badge--ongoing {
+  background: #70b615;
+  color: #0b0d10;
+}
+
+.block.block--title.eva-404 {
+  display: flex;
+  align-items: center;
+  min-height: 100vh;
+  min-height: 100svh;
+  margin-bottom: 0;
+  padding-top: 150px;
+  padding-bottom: 90px;
+}
+
+.eva-404 .container {
+  width: 100%;
+}
+
+.eva-404-inner {
+  max-width: 640px;
+  margin: 0 auto;
+  animation: eva-404-in 0.5s ease-out both;
+}
+
+.eva-404-code {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.08em;
+  margin: 0 0 8px;
+  font-family: "Raleway", sans-serif;
+  font-size: clamp(96px, 22vw, 200px);
+  font-weight: 800;
+  line-height: 1;
+  background-image: linear-gradient(to right, #70b615, #328add);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.eva-404-icon {
+  font-size: 0.5em;
+  color: #fff;
+  -webkit-text-fill-color: #fff;
+}
+
+.eva-404-kicker {
+  margin: 0 0 12px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #70b615;
+}
+
+.eva-404 h1 + .eva-404-text {
+  margin-top: 16px;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.eva-404-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.eva-404-actions .btn:not(:last-child) {
+  margin-bottom: 0;
+}
+
+.eva-404-actions .btn:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
+
+@media (max-width: 575px) {
+  .block.block--title.eva-404 {
+    padding-top: 120px;
+    padding-bottom: 60px;
+  }
+
+  .eva-404-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+@keyframes eva-404-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .eva-404-inner {
+    animation: none;
+  }
+}
+
 body:not(.page-blog) .block--darkbg .eva-project-title,
 .eva-project-title {
   margin: 0 0 4px;

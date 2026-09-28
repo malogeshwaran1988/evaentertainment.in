@@ -1,5 +1,11 @@
 import { Film } from "lucide-react";
-import { projectLanguageLine, projectPosterAlt, type ProjectLanguage } from "@@/data/projects";
+import {
+  PROJECT_YEAR_ONGOING,
+  projectLanguageLine,
+  projectPosterAlt,
+  projectYearLabel,
+  type ProjectLanguage,
+} from "@@/data/projects";
 import { cn } from "@@/lib/utils";
 
 type ProjectCardPreviewProps = {
@@ -7,6 +13,7 @@ type ProjectCardPreviewProps = {
   from: ProjectLanguage | "";
   to: ProjectLanguage[];
   category: string;
+  year?: string;
   poster?: string;
   posterAlt?: string;
   className?: string;
@@ -23,6 +30,7 @@ export default function ProjectCardPreview({
   from,
   to,
   category,
+  year,
   poster,
   posterAlt,
   className,
@@ -34,6 +42,18 @@ export default function ProjectCardPreview({
     <div className={cn("flex justify-center rounded-lg bg-[#181818] p-6", RALEWAY, className)}>
       <div className="w-[200px] text-left">
         <div className="relative mb-4 aspect-[2/3] overflow-hidden bg-[#13161d]">
+          {year ? (
+            <span
+              className={cn(
+                "absolute left-2 top-2 z-[1] rounded-[2px] px-2 py-[3px] text-xs font-bold uppercase leading-[1.4] tracking-[0.04em]",
+                year === PROJECT_YEAR_ONGOING
+                  ? "bg-[#70b615] text-[#0b0d10]"
+                  : "bg-black/[0.78] text-white",
+              )}
+            >
+              {projectYearLabel(year)}
+            </span>
+          ) : null}
           {poster ? (
             // Blob URLs and fresh uploads can't go through next/image.
             // eslint-disable-next-line @next/next/no-img-element

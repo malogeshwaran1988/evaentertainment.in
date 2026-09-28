@@ -4,8 +4,10 @@ import Image from "next/image";
 import { useState } from "react";
 import {
   POSTER_URL_PREFIX,
+  PROJECT_YEAR_ONGOING,
   projectLanguageLine,
   projectPosterAlt,
+  projectYearLabel,
   type Project,
   type ProjectLanguage,
 } from "@@/data/projects";
@@ -64,6 +66,17 @@ export default function ProjectsGallery({
           {visible.map((project) => (
             <li className="eva-project-card" key={project.id}>
               <div className="eva-project-poster">
+                {project.year ? (
+                  <span
+                    className={
+                      project.year === PROJECT_YEAR_ONGOING
+                        ? "eva-project-badge eva-project-badge--ongoing"
+                        : "eva-project-badge"
+                    }
+                  >
+                    {projectYearLabel(project.year)}
+                  </span>
+                ) : null}
                 {project.poster ? (
                   <Image
                     src={project.poster}

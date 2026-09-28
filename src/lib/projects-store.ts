@@ -2,7 +2,7 @@ import "server-only";
 import { randomUUID } from "node:crypto";
 import { mkdir, readFile, rename, writeFile } from "node:fs/promises";
 import path from "node:path";
-import type { Project, ProjectInput } from "@@/data/projects";
+import { compareProjects, type Project, type ProjectInput } from "@@/data/projects";
 import { PROJECTS_SEED } from "@@/data/projects-seed";
 import { BlobPreconditionFailedError, readBlobVersioned, USE_BLOB, writeBlob } from "@@/lib/blob";
 
@@ -104,10 +104,10 @@ function mutate<T>(fn: (projects: Project[]) => { next: Project[]; result: T }) 
   return run;
 }
 
-/** Newest first. */
+/** Ongoing first, then newest year; see compareProjects. */
 export async function getProjects(): Promise<Project[]> {
   const projects = await readAll();
-  return [...projects].sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+  return [...projects].sort(compareProjects);
 }
 
 export async function getProject(id: string) {

@@ -54,6 +54,7 @@ import {
 import {
   PROJECT_LANGUAGES,
   projectLanguageLine,
+  projectYearLabel,
   type Project,
 } from "@@/data/projects";
 import { projectEditPath } from "@@/lib/admin-session";
@@ -131,6 +132,18 @@ export default function ProjectsTable({ projects }: { projects: Project[] }) {
         accessorKey: "category",
         header: "Category",
         cell: ({ getValue }) => <Badge variant="secondary">{getValue<string>()}</Badge>,
+      },
+      {
+        id: "year",
+        header: "Year",
+        cell: ({ row }) =>
+          row.original.year ? (
+            <span className="whitespace-nowrap">{projectYearLabel(row.original.year)}</span>
+          ) : (
+            <span className="text-muted-foreground" aria-label="No year">
+              –
+            </span>
+          ),
       },
       {
         accessorKey: "updatedAt",
