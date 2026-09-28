@@ -18,7 +18,7 @@ export async function GET(
     headers: {
       "Content-Type": poster.contentType,
       "Content-Length": String(poster.size),
-      // Upload names are unique and never reused, so browsers and the CDN can keep them.
+      // Stored poster paths carry a `?v=` that changes on every upload, so each URL is immutable.
       "Cache-Control": "public, max-age=31536000, s-maxage=31536000, immutable",
       "X-Content-Type-Options": "nosniff",
     },

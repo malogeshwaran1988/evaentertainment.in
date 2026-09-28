@@ -5,11 +5,13 @@ import { z } from "zod";
 import {
   PROJECT_CATEGORIES,
   PROJECT_LANGUAGES,
+  projectNameKey,
+  type Project,
   type ProjectInput,
 } from "@@/data/projects";
 import { requireAdmin } from "@@/lib/admin-auth";
 import { AdminRoutes } from "@@/lib/admin-session";
-import { deletePoster, savePoster } from "@@/lib/project-posters";
+import { deletePoster, isSamePosterFile, renamePoster, savePoster } from "@@/lib/project-posters";
 import * as store from "@@/lib/projects-store";
 
 export type ProjectFormState = {
@@ -68,6 +70,32 @@ function posterFile(formData: FormData) {
   return value instanceof File && value.size > 0 ? value : null;
 }
 
+const SAVE_FAILED = "Couldn't save the project. Please try again.";
+const DELETE_FAILED = "Couldn't delete the project. Please try again.";
+
+/** Old posters are removed after the project is already saved, so a failure here is only logged. */
+async function deletePosterQuietly(poster: string | undefined) {
+  try {
+    await deletePoster(poster);
+  } catch (err) {
+    console.error("Failed to delete poster", poster, err);
+  }
+}
+
+/** Posters are named after the project, so two projects can't share a name. */
+async function duplicateNameState(
+  title: string,
+  exceptId?: string,
+): Promise<ProjectFormState | null> {
+  const key = projectNameKey(title);
+  const clash = (await store.getProjects()).find(
+    (p) => p.id !== exceptId && projectNameKey(p.title) === key,
+  );
+  if (!clash) return null;
+  const message = `A project named “${clash.title}” already exists.`;
+  return { fieldErrors: { title: message }, message };
+}
+
 function revalidateProjects() {
   revalidatePath("/projects");
   revalidatePath(AdminRoutes.PROJECTS);
@@ -82,20 +110,29 @@ export async function createProjectAction(
   if (!data) return { fieldErrors, message: "Please fix the highlighted fields." };
 
   let poster: string | undefined;
-  const file = posterFile(formData);
-  if (file) {
-    const saved = await savePoster(file, data.title);
-    if (!saved.ok) return { fieldErrors: { poster: saved.error }, message: saved.error };
-    poster = saved.path;
-  }
+  try {
+    const duplicate = await duplicateNameState(data.title);
+    if (duplicate) return duplicate;
 
-  const project = await store.createProject({
-    ...data,
-    poster,
-    posterAlt: poster ? data.posterAlt : undefined,
-  });
-  revalidateProjects();
-  return { ok: true, message: `“${project.title}” added.` };
+    const file = posterFile(formData);
+    if (file) {
+      const saved = await savePoster(file, data.title);
+      if (!saved.ok) return { fieldErrors: { poster: saved.error }, message: saved.error };
+      poster = saved.path;
+    }
+
+    const project = await store.createProject({
+      ...data,
+      poster,
+      posterAlt: poster ? data.posterAlt : undefined,
+    });
+    revalidateProjects();
+    return { ok: true, message: `“${project.title}” added.` };
+  } catch (err) {
+    console.error("Failed to create project", err);
+    await deletePosterQuietly(poster);
+    return { message: SAVE_FAILED };
+  }
 }
 
 export async function updateProjectAction(
@@ -107,39 +144,61 @@ export async function updateProjectAction(
   const { data, fieldErrors } = parse(formData);
   if (!data) return { fieldErrors, message: "Please fix the highlighted fields." };
 
-  const existing = await store.getProject(id);
-  if (!existing) return { message: "This project no longer exists." };
+  let existing: Project | null = null;
+  let uploaded: string | undefined;
+  /** A same-name replace overwrote the old file, so it must not be deleted on failure. */
+  const discardUploaded = () =>
+    isSamePosterFile(uploaded, existing?.poster) ? undefined : deletePosterQuietly(uploaded);
+  try {
+    existing = await store.getProject(id);
+    if (!existing) return { message: "This project no longer exists." };
+    const duplicate = await duplicateNameState(data.title, id);
+    if (duplicate) return duplicate;
 
-  let poster = existing.poster;
-  const file = posterFile(formData);
-  if (file) {
-    const saved = await savePoster(file, data.title);
-    if (!saved.ok) return { fieldErrors: { poster: saved.error }, message: saved.error };
-    poster = saved.path;
-  } else if (formData.get("removePoster") === "on") {
-    poster = undefined;
-  }
+    let poster = existing.poster;
+    const file = posterFile(formData);
+    if (file) {
+      const saved = await savePoster(file, data.title);
+      if (!saved.ok) return { fieldErrors: { poster: saved.error }, message: saved.error };
+      poster = uploaded = saved.path;
+    } else if (formData.get("removePoster") === "on") {
+      poster = undefined;
+    } else if (poster) {
+      const renamed = await renamePoster(poster, data.title);
+      if (renamed !== poster) poster = uploaded = renamed;
+    }
 
-  const project = await store.updateProject(id, {
-    ...data,
-    poster,
-    posterAlt: poster ? data.posterAlt : undefined,
-  });
-  if (!project) {
-    if (poster !== existing.poster) await deletePoster(poster);
-    return { message: "This project no longer exists." };
+    const project = await store.updateProject(id, {
+      ...data,
+      poster,
+      posterAlt: poster ? data.posterAlt : undefined,
+    });
+    if (!project) {
+      await discardUploaded();
+      return { message: "This project no longer exists." };
+    }
+    if (!isSamePosterFile(existing.poster, poster)) await deletePosterQuietly(existing.poster);
+    revalidateProjects();
+    revalidatePath(`${AdminRoutes.PROJECTS}/${id}/edit`);
+    return { ok: true, message: `“${project.title}” updated.` };
+  } catch (err) {
+    console.error("Failed to update project", id, err);
+    await discardUploaded();
+    return { message: SAVE_FAILED };
   }
-  if (existing.poster !== poster) await deletePoster(existing.poster);
-  revalidateProjects();
-  revalidatePath(`${AdminRoutes.PROJECTS}/${id}/edit`);
-  return { ok: true, message: `“${project.title}” updated.` };
 }
 
 export async function deleteProjectAction(id: string): Promise<ProjectFormState> {
   await requireAdmin();
-  const removed = await store.deleteProject(id);
+  let removed;
+  try {
+    removed = await store.deleteProject(id);
+  } catch (err) {
+    console.error("Failed to delete project", id, err);
+    return { message: DELETE_FAILED };
+  }
   if (!removed) return { message: "This project was already deleted." };
-  await deletePoster(removed.poster);
+  await deletePosterQuietly(removed.poster);
   revalidateProjects();
   return { ok: true, message: "Project deleted." };
 }
