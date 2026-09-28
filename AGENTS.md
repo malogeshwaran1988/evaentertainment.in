@@ -14,6 +14,9 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 - Preserve existing design, colors, and copy from `public/css`.
 - Admin panel (Our Projects only) lives in the `(admin)` route group: `/login` and `/admin/*`, with its own root layout, shadcn/ui (`src/components/ui`) and `tailwind.admin.config.ts`. Never import `admin.css` or shadcn components into `(web)` pages, or Glory CSS into admin pages.
 - Every admin page must stay noindex/nofollow and call `requireAdmin()`; every admin server action must call `requireAdmin()` too (the proxy is not a security boundary).
-- Projects are stored in `${EVA_DATA_DIR:-./storage}/projects.json` via `src/lib/projects-store.ts`.
-- Project posters are uploaded to `public/images/our-projects/` via `src/lib/project-posters.ts` (150 KB cap, magic-byte type check). Render them unoptimized/`<img>`: they can be newer than the running server.
+- Projects and posters go through `src/lib/projects-store.ts` and `src/lib/project-posters.ts` (150 KB cap, magic-byte type check).
+  - When `BLOB_READ_WRITE_TOKEN` is set (Vercel), both are stored in the private Blob store under `eva/` via `src/lib/blob.ts`.
+  - Otherwise (local dev), they're stored in `${EVA_DATA_DIR:-./storage}/projects.json` and `public/images/our-projects/`.
+  - Never write to the app's own files on Vercel; they're read-only.
+- Posters are always referenced as `/images/our-projects/<name>` and served by the route handler. Render them unoptimized/`<img>`.
 - After finishing each task, commit and push to `origin logeshwaran` with a descriptive message (a summary line plus bullet notes), and share the notes in chat. Fetch or rebase first, never force-push, and never commit `.env`, `storage/` or uploaded posters.

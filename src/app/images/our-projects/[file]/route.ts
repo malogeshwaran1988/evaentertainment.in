@@ -1,8 +1,9 @@
 import { readPoster } from "@@/lib/project-posters";
 
 /**
- * `next start` only serves public/ files that existed at startup, so posters uploaded
- * later from the admin fall through to this handler and are read from disk.
+ * Serves admin-uploaded posters. On Vercel they live in the private Blob store, which
+ * browsers can't read directly; locally they're on disk, and `next start` only serves
+ * public/ files that existed at startup.
  */
 export async function GET(
   _request: Request,
@@ -13,12 +14,12 @@ export async function GET(
   if (!poster) {
     return new Response("Not found", { status: 404 });
   }
-  return new Response(new Uint8Array(poster.bytes), {
+  return new Response(poster.body, {
     headers: {
       "Content-Type": poster.contentType,
-      "Content-Length": String(poster.bytes.length),
-      // Upload names are unique and never reused.
-      "Cache-Control": "public, max-age=31536000, immutable",
+      "Content-Length": String(poster.size),
+      // Upload names are unique and never reused, so browsers and the CDN can keep them.
+      "Cache-Control": "public, max-age=31536000, s-maxage=31536000, immutable",
       "X-Content-Type-Options": "nosniff",
     },
   });

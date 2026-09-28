@@ -20,10 +20,10 @@ Copy `.env.example` to `.env.local` and set SMTP credentials for contact/booking
 
 - Sign in at `/login` with `ADMIN_USERNAME` / `ADMIN_PASSWORD`. `ADMIN_SESSION_SECRET` (32+ random characters) signs the session cookie; changing it logs everyone out.
 - `/admin/projects` lists, adds, edits and deletes projects shown on the public `/projects` page. `/admin/profile` shows the account and a logout button.
-- Data is saved to `projects.json` in `EVA_DATA_DIR` (default `./storage`, gitignored). It is seeded with sample projects on first run.
-- **Production (cPanel / Webhostbox Node app):** set `EVA_DATA_DIR` to a folder outside the app directory, e.g. `/home/<user>/eva-data`, so redeploys don't overwrite saved projects. Back that folder up.
-- Project posters (optional, JPG/PNG/WebP/AVIF, max 150 KB, portrait 2:3) are uploaded from the project form and saved to `public/images/our-projects/` (gitignored). Replacing, removing or deleting a project deletes the old file. Files uploaded after `next start` are served by the `/images/our-projects/[file]` route handler.
-- **Production:** `public/images/our-projects/` lives inside the app, so back it up and keep it when redeploying (don't delete and re-upload the whole app folder), otherwise the posters referenced in `projects.json` are lost.
+- Project posters are optional: JPG/PNG/WebP/AVIF, max 150 KB, portrait 2:3. Replacing, removing or deleting a project deletes the old poster. Posters are always served at `/images/our-projects/<name>` by the route handler in `src/app/images/our-projects/[file]/route.ts`.
+- The project list is seeded with sample projects on first run.
+- **Production (Vercel):** the project list and posters are saved in the private Vercel Blob store `eva-our-project`, under `eva/projects.json` and `eva/our-projects/`. Connecting the store to the project sets `BLOB_READ_WRITE_TOKEN`, and the app switches to Blob when that variable exists. Vercel's own files are read-only and reset on every deploy, so nothing is saved there. Browse or back up the data from Vercel > Storage.
+- **Local development (no `BLOB_READ_WRITE_TOKEN`):** the project list is saved to `projects.json` in `EVA_DATA_DIR` (default `./storage`), and posters to `public/images/our-projects/`. Both are gitignored.
 - All admin URLs send `noindex, nofollow` (meta tag and `X-Robots-Tag` header) and are not in the sitemap.
 
 ## Structure
