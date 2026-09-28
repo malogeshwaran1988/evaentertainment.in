@@ -43,14 +43,39 @@ export type Project = {
   poster?: string;
   /** Alt text for the poster; the website falls back to "<title> poster". */
   posterAlt?: string;
+  /** "ongoing" (still being dubbed) or a release year like "2025". Older projects have none. */
+  year?: string;
   createdAt: string;
   updatedAt: string;
 };
 
 export type ProjectInput = Pick<
   Project,
-  "title" | "from" | "to" | "category" | "poster" | "posterAlt"
+  "title" | "from" | "to" | "category" | "poster" | "posterAlt" | "year"
 >;
+
+export const PROJECT_YEAR_ONGOING = "ongoing";
+export const PROJECT_YEAR_MIN = 1990;
+
+/** "ongoing" first, then the current year down to PROJECT_YEAR_MIN. */
+export function projectYearOptions() {
+  const years: string[] = [PROJECT_YEAR_ONGOING];
+  for (let y = new Date().getFullYear(); y >= PROJECT_YEAR_MIN; y--) years.push(String(y));
+  return years;
+}
+
+export function projectYearLabel(year: string) {
+  return year === PROJECT_YEAR_ONGOING ? "Ongoing" : year;
+}
+
+/** Ongoing first, then newest year, then projects without a year; ties go to the newest added. */
+export function compareProjects(a: Project, b: Project) {
+  const rank = (p: Project) =>
+    p.year === PROJECT_YEAR_ONGOING ? Infinity : p.year ? Number(p.year) : -Infinity;
+  const diff = rank(b) - rank(a);
+  if (diff !== 0 && !Number.isNaN(diff)) return diff;
+  return b.createdAt.localeCompare(a.createdAt);
+}
 
 /**
  * Two projects clash when their names match ignoring case, accents, spaces and punctuation

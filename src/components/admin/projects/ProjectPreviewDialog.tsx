@@ -13,7 +13,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@@/components/ui/dialog";
-import { projectLanguageLine, type Project } from "@@/data/projects";
+import { projectLanguageLine, projectYearLabel, type Project } from "@@/data/projects";
 import { projectEditPath } from "@@/lib/admin-session";
 import ProjectCardPreview from "./ProjectCardPreview";
 
@@ -59,6 +59,7 @@ export default function ProjectPreviewDialog({ project, onClose }: ProjectPrevie
                 from={shown.from}
                 to={shown.to}
                 category={shown.category}
+                year={shown.year}
                 poster={shown.poster}
                 posterAlt={shown.posterAlt}
               />
@@ -70,6 +71,12 @@ export default function ProjectPreviewDialog({ project, onClose }: ProjectPrevie
                 <div>
                   <dt className="text-muted-foreground">Category</dt>
                   <dd className="font-medium">{shown.category}</dd>
+                </div>
+                <div>
+                  <dt className="text-muted-foreground">Year</dt>
+                  <dd className="font-medium">
+                    {shown.year ? projectYearLabel(shown.year) : "Not set"}
+                  </dd>
                 </div>
                 <div>
                   <dt className="text-muted-foreground">Poster</dt>

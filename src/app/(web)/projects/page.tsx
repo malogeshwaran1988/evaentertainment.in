@@ -6,6 +6,7 @@ import ProjectsGallery from "@@/components/projects/ProjectsGallery";
 import { getProjects } from "@@/lib/projects-store";
 import {
   PROJECT_LANGUAGES,
+  PROJECT_YEAR_ONGOING,
   PROJECTS_OG_IMAGE,
   PROJECTS_PAGE_URL,
   PROJECTS_SEO,
@@ -66,7 +67,13 @@ export default async function ProjectsPage() {
       itemListElement: projects.map((project, index) => ({
         "@type": "ListItem",
         position: index + 1,
-        item: { "@type": "Movie", name: project.title },
+        item: {
+          "@type": "Movie",
+          name: project.title,
+          ...(project.year && project.year !== PROJECT_YEAR_ONGOING
+            ? { dateCreated: project.year }
+            : {}),
+        },
       })),
     },
   };

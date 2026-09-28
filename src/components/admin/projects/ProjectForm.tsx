@@ -20,6 +20,8 @@ import {
 import {
   PROJECT_CATEGORIES,
   PROJECT_LANGUAGES,
+  PROJECT_YEAR_ONGOING,
+  projectYearOptions,
   type ProjectInput,
   type ProjectLanguage,
 } from "@@/data/projects";
@@ -50,6 +52,8 @@ export default function ProjectForm({ action, initial, submitLabel }: ProjectFor
   const [from, setFrom] = useState<ProjectLanguage | "">(initial?.from ?? "");
   const [to, setTo] = useState<ProjectLanguage[]>(initial?.to ?? []);
   const [category, setCategory] = useState(initial?.category ?? PROJECT_CATEGORIES[0]);
+  const [year, setYear] = useState(initial?.year ?? "");
+  const [yearOptions] = useState(projectYearOptions);
   const [picked, setPicked] = useState<PickedPoster | null>(null);
   const [removePoster, setRemovePoster] = useState(false);
   const [posterClientError, setPosterClientError] = useState<string>();
@@ -147,7 +151,7 @@ export default function ProjectForm({ action, initial, submitLabel }: ProjectFor
           <FieldError id="title-error" message={errors.title} />
         </div>
 
-        <div className="grid gap-6 sm:grid-cols-2">
+        <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
           <div className="space-y-2">
             <Label htmlFor="from">Source language</Label>
             <Select
@@ -196,6 +200,27 @@ export default function ProjectForm({ action, initial, submitLabel }: ProjectFor
               </SelectContent>
             </Select>
             <FieldError id="category-error" message={errors.category} />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="year">Year</Label>
+            <Select name="year" value={year} onValueChange={setYear}>
+              <SelectTrigger
+                id="year"
+                aria-invalid={errors.year ? true : undefined}
+                aria-describedby={errors.year ? "year-error" : undefined}
+              >
+                <SelectValue placeholder="Choose year" />
+              </SelectTrigger>
+              <SelectContent>
+                {yearOptions.map((y) => (
+                  <SelectItem key={y} value={y}>
+                    {y === PROJECT_YEAR_ONGOING ? "Ongoing (in production)" : y}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <FieldError id="year-error" message={errors.year} />
           </div>
         </div>
 
@@ -259,6 +284,7 @@ export default function ProjectForm({ action, initial, submitLabel }: ProjectFor
           from={from}
           to={PROJECT_LANGUAGES.filter((l) => to.includes(l))}
           category={category}
+          year={year}
           poster={picked?.url ?? (removePoster ? undefined : initial?.poster)}
           posterAlt={posterAlt}
         />

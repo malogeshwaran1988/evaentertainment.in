@@ -5,6 +5,8 @@ import { z } from "zod";
 import {
   PROJECT_CATEGORIES,
   PROJECT_LANGUAGES,
+  PROJECT_YEAR_MIN,
+  PROJECT_YEAR_ONGOING,
   projectNameKey,
   type Project,
   type ProjectInput,
@@ -19,6 +21,8 @@ export type ProjectFormState = {
   message?: string;
   fieldErrors?: Partial<Record<keyof ProjectInput, string>>;
 };
+
+const YEAR_ERROR = "Choose the year or Ongoing.";
 
 const projectSchema = z
   .object({
@@ -37,6 +41,16 @@ const projectSchema = z
       .array(z.enum(PROJECT_LANGUAGES))
       .min(1, "Choose at least one target language."),
     category: z.enum(PROJECT_CATEGORIES, { error: "Choose a category." }),
+    year: z
+      .string({ error: YEAR_ERROR })
+      .refine(
+        (v) =>
+          v === PROJECT_YEAR_ONGOING ||
+          (/^\d{4}$/.test(v) &&
+            Number(v) >= PROJECT_YEAR_MIN &&
+            Number(v) <= new Date().getFullYear()),
+        YEAR_ERROR,
+      ),
   })
   .refine((v) => !v.to.includes(v.from), {
     path: ["to"],
@@ -50,6 +64,7 @@ function parse(formData: FormData) {
     from: formData.get("from"),
     to: formData.getAll("to"),
     category: formData.get("category"),
+    year: formData.get("year") ?? undefined,
   });
   if (result.success) {
     // Keep target languages in the canonical PROJECT_LANGUAGES order.
