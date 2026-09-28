@@ -3,6 +3,10 @@ import { randomBytes } from "node:crypto";
 import { mkdir, readFile, unlink, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { POSTER_MAX_BYTES, POSTER_URL_PREFIX } from "@@/data/projects";
+import { deleteBlob, readBlob, USE_BLOB, writeBlob } from "@@/lib/blob";
+
+const posterBlobPath = (name: string) => `our-projects/${name}`;
+const ONE_YEAR = 60 * 60 * 24 * 365;
 
 export const POSTER_DIR = path.join(
   /*turbopackIgnore: true*/ process.cwd(),
@@ -74,8 +78,15 @@ export async function savePoster(file: File, title: string): Promise<PosterResul
     return { ok: false, error: "Poster must be a JPG, PNG, WebP or AVIF image." };
   }
   const name = `${slugify(title)}-${randomBytes(4).toString("hex")}.${ext}`;
-  await mkdir(POSTER_DIR, { recursive: true });
-  await writeFile(path.join(POSTER_DIR, name), bytes);
+  if (USE_BLOB) {
+    await writeBlob(posterBlobPath(name), bytes, {
+      contentType: POSTER_CONTENT_TYPES[ext],
+      cacheControlMaxAge: ONE_YEAR,
+    });
+  } else {
+    await mkdir(POSTER_DIR, { recursive: true });
+    await writeFile(path.join(POSTER_DIR, name), bytes);
+  }
   return { ok: true, path: `${POSTER_URL_PREFIX}${name}` };
 }
 
@@ -84,6 +95,10 @@ export async function deletePoster(posterPath: string | undefined) {
   if (!posterPath?.startsWith(POSTER_URL_PREFIX)) return;
   const name = posterPath.slice(POSTER_URL_PREFIX.length);
   if (!POSTER_FILE_PATTERN.test(name)) return;
+  if (USE_BLOB) {
+    await deleteBlob(posterBlobPath(name));
+    return;
+  }
   try {
     await unlink(path.join(POSTER_DIR, name));
   } catch (err) {
@@ -91,12 +106,22 @@ export async function deletePoster(posterPath: string | undefined) {
   }
 }
 
-export async function readPoster(name: string) {
+export type PosterFile = {
+  body: ReadableStream<Uint8Array> | Uint8Array<ArrayBuffer>;
+  size: number;
+  contentType: string;
+};
+
+export async function readPoster(name: string): Promise<PosterFile | null> {
   if (!POSTER_FILE_PATTERN.test(name)) return null;
+  const ext = name.slice(name.lastIndexOf(".") + 1) as PosterExt;
+  if (USE_BLOB) {
+    const blob = await readBlob(posterBlobPath(name));
+    return blob && { body: blob.stream, size: blob.size, contentType: POSTER_CONTENT_TYPES[ext] };
+  }
   try {
     const bytes = await readFile(path.join(POSTER_DIR, name));
-    const ext = name.slice(name.lastIndexOf(".") + 1) as PosterExt;
-    return { bytes, contentType: POSTER_CONTENT_TYPES[ext] };
+    return { body: new Uint8Array(bytes), size: bytes.length, contentType: POSTER_CONTENT_TYPES[ext] };
   } catch (err) {
     if ((err as NodeJS.ErrnoException).code === "ENOENT") return null;
     throw err;

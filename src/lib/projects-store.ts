@@ -4,19 +4,40 @@ import { mkdir, readFile, rename, writeFile } from "node:fs/promises";
 import path from "node:path";
 import type { Project, ProjectInput } from "@@/data/projects";
 import { PROJECTS_SEED } from "@@/data/projects-seed";
+import { BlobPreconditionFailedError, readBlob, USE_BLOB, writeBlob } from "@@/lib/blob";
 
 const DATA_DIR = path.resolve(
   /*turbopackIgnore: true*/ process.env.EVA_DATA_DIR || "storage",
 );
 const FILE = path.join(DATA_DIR, "projects.json");
+const BLOB_FILE = "projects.json";
+const MAX_WRITE_ATTEMPTS = 3;
 
 /** Serialises writes within this process so concurrent saves can't interleave. */
 let writeQueue: Promise<unknown> = Promise.resolve();
 
-async function writeAll(projects: Project[]) {
+/** `etag` is the Blob version that was read; writes fail if another instance saved since. */
+type Snapshot = { projects: Project[]; etag?: string };
+
+const serialize = (projects: Project[]) => `${JSON.stringify(projects, null, 2)}\n`;
+
+function parseProjects(raw: string): Project[] {
+  const parsed = JSON.parse(raw);
+  return Array.isArray(parsed) ? (parsed as Project[]) : [];
+}
+
+/** Returns the new Blob ETag (undefined on disk). */
+async function writeAll(projects: Project[], etag?: string): Promise<string | undefined> {
+  if (USE_BLOB) {
+    const saved = await writeBlob(BLOB_FILE, serialize(projects), {
+      contentType: "application/json",
+      ...(etag ? { ifMatch: etag } : { allowOverwrite: false }),
+    });
+    return saved.etag;
+  }
   await mkdir(DATA_DIR, { recursive: true });
   const tmp = `${FILE}.${process.pid}.${Date.now()}.tmp`;
-  await writeFile(tmp, `${JSON.stringify(projects, null, 2)}\n`, "utf8");
+  await writeFile(tmp, serialize(projects), "utf8");
   await rename(tmp, FILE);
 }
 
@@ -29,24 +50,55 @@ function seedProjects(): Project[] {
   });
 }
 
-async function readAll(): Promise<Project[]> {
+async function fetchBlobSnapshot(): Promise<Snapshot | null> {
+  const blob = await readBlob(BLOB_FILE, { fresh: true });
+  if (!blob) return null;
+  return { projects: parseProjects(await new Response(blob.stream).text()), etag: blob.etag };
+}
+
+async function readBlobSnapshot(): Promise<Snapshot> {
+  const existing = await fetchBlobSnapshot();
+  if (existing) return existing;
+  const seeded = seedProjects();
   try {
-    const raw = await readFile(FILE, "utf8");
-    const parsed = JSON.parse(raw);
-    return Array.isArray(parsed) ? (parsed as Project[]) : [];
+    return { projects: seeded, etag: await writeAll(seeded) };
+  } catch (err) {
+    // Another instance seeded first; use its copy.
+    const theirs = await fetchBlobSnapshot();
+    if (!theirs) throw err;
+    return theirs;
+  }
+}
+
+async function readSnapshot(): Promise<Snapshot> {
+  if (USE_BLOB) return readBlobSnapshot();
+  try {
+    return { projects: parseProjects(await readFile(FILE, "utf8")) };
   } catch (err) {
     if ((err as NodeJS.ErrnoException).code !== "ENOENT") throw err;
     const seeded = seedProjects();
     await writeAll(seeded);
-    return seeded;
+    return { projects: seeded };
   }
+}
+
+async function readAll(): Promise<Project[]> {
+  return (await readSnapshot()).projects;
 }
 
 function mutate<T>(fn: (projects: Project[]) => { next: Project[]; result: T }) {
   const run = writeQueue.then(async () => {
-    const { next, result } = fn(await readAll());
-    await writeAll(next);
-    return result;
+    for (let attempt = 1; ; attempt++) {
+      const { projects, etag } = await readSnapshot();
+      const { next, result } = fn(projects);
+      try {
+        await writeAll(next, etag);
+        return result;
+      } catch (err) {
+        const conflict = err instanceof BlobPreconditionFailedError;
+        if (!conflict || attempt >= MAX_WRITE_ATTEMPTS) throw err;
+      }
+    }
   });
   writeQueue = run.catch(() => undefined);
   return run;
