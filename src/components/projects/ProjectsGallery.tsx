@@ -11,6 +11,7 @@ import {
   type Project,
   type ProjectLanguage,
 } from "@@/data/projects";
+import { imageLoading } from "@@/lib/image-loading";
 
 type Filter = "All" | ProjectLanguage;
 
@@ -121,7 +122,7 @@ export default function ProjectsGallery({
         </p>
       ) : (
         <ul className="eva-projects-grid">
-          {visible.map((project) => (
+          {visible.map((project, i) => (
             <li className="eva-project-card" key={project.id}>
               <div className="eva-project-poster">
                 <YearBadge year={project.year} />
@@ -130,6 +131,7 @@ export default function ProjectsGallery({
                     src={project.poster}
                     alt={projectPosterAlt(project)}
                     fill
+                    {...imageLoading(i)}
                     sizes="(min-width: 1200px) 16vw, (min-width: 992px) 23vw, (min-width: 768px) 30vw, 46vw"
                     // Uploads are already capped at 150 KB and may not exist when the optimizer starts.
                     unoptimized={project.poster.startsWith(POSTER_URL_PREFIX)}

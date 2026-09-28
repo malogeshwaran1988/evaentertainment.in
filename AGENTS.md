@@ -12,6 +12,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 - Follow [`eva-pages.mdc`](eva-pages.mdc) for public page / SEO / a11y patterns (AVR-style).
 - Preserve existing design, colors, and copy from `public/css`.
+- Images: the first visible image on a page is eager + `fetchPriority="high"`, every other image is lazy; use `imageLoading(i)` from `src/lib/image-loading.ts` (see eva-pages.mdc).
 - Admin panel (Our Projects only) lives in the `(admin)` route group: `/login` and `/admin/*`, with its own root layout, shadcn/ui (`src/components/ui`) and `tailwind.admin.config.ts`. Never import `admin.css` or shadcn components into `(web)` pages, or Glory CSS into admin pages.
 - Every admin page must stay noindex/nofollow and call `requireAdmin()`; every admin server action must call `requireAdmin()` too (the proxy is not a security boundary).
 - Projects and posters go through `src/lib/projects-store.ts` and `src/lib/project-posters.ts` (150 KB cap, magic-byte type check).

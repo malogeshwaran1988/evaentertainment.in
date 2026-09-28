@@ -163,6 +163,16 @@ textarea:focus-visible {
   position: relative;
 }
 
+.half-bg-left,
+.half-bg-right {
+  overflow: hidden;
+}
+
+.eva-half-bg-img {
+  object-fit: cover;
+  object-position: left top;
+}
+
 .booking-modal-backdrop {
   position: fixed;
   inset: 0;
@@ -1509,8 +1519,14 @@ body .block.block--full.no-pad-gutter > .container.container--bleed {
 
   .half-bg-left,
   .half-bg-right {
+    position: relative;
+    overflow: hidden;
     width: 100%;
     background-position: center;
+  }
+
+  .eva-half-bg-img {
+    object-position: center;
   }
 
   body {

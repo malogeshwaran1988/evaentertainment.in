@@ -40,6 +40,13 @@ Apply Laws of UX and WCAG 2.2 AA without changing brand look:
 - Footer on every page
 - No skip-to-content link (project decision)
 
+## Images
+
+- First visible image on every page: `loading="eager"` + `fetchPriority="high"`. In lists, spread `imageLoading(i)` from `src/lib/image-loading.ts`.
+- Every other image is lazy (`next/image` default; plain `<img>` needs `loading="lazy"`).
+- Never use the deprecated `priority` prop, and don't combine `preload` with `loading` / `fetchPriority`.
+- Prefer `next/image` `fill` over CSS `background-image` so it can lazy-load. A CSS background that is the main image gets one `<link rel="preload" as="image" fetchPriority="high">`.
+
 ## Checklist
 
 1. Add route to `src/constants/routes.ts` and nav if needed
