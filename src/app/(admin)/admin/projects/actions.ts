@@ -112,6 +112,7 @@ async function duplicateNameState(
 }
 
 function revalidateProjects() {
+  revalidatePath("/");
   revalidatePath("/projects");
   revalidatePath(AdminRoutes.PROJECTS);
 }

@@ -19,5 +19,5 @@ export const NAV_ITEMS: { label: string; href: AppRoute }[] = [
   { label: "ABOUT", href: Routes.ABOUT },
   { label: "SERVICES", href: Routes.SERVICES },
   { label: "OUR PROJECTS", href: Routes.PROJECTS },
-  { label: "OUR EQUIPMENT", href: Routes.EQUIPMENT },
+  { label: "EQUIPMENT", href: Routes.EQUIPMENT },
 ];

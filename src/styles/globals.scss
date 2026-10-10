@@ -237,166 +237,135 @@ textarea:focus-visible {
   }
 }
 
-/* Hero slide lines: preserve Glory h2/h4 look without extra heading tags */
-.mainSlider .slide-content h1 {
+/*
+ * Hero slide lines: one standard for h1, title and subtitle lines. Every line is
+ * a black box with the same side padding (so text edges align) and one gap.
+ */
+.mainSlider .slide-content {
+  --hero-title: 90px;
+  --hero-sub: 34px;
+  --hero-pad: 18px;
+  --hero-gap: 12px;
+}
+
+.mainSlider .slide-content h1,
+.mainSlider .slide-content .slide-line {
+  display: block;
   margin: 0;
-  text-transform: none;
-  font-size: inherit;
-  line-height: inherit;
-  color: inherit;
+  padding: 0;
   font-family: inherit;
-  font-weight: inherit;
-}
-
-.mainSlider .slide-content h1 span {
-  display: inline-block;
-  position: relative;
-  padding: 0 0.2em;
-  font-size: 90px;
-  line-height: 1.3em;
+  font-size: inherit;
   font-weight: 400;
-  color: #fff;
-}
-
-.mainSlider .slide-content h1 span:before {
-  content: "";
-  position: absolute;
-  z-index: -1;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.7);
-}
-
-.mainSlider .slide-content .slide-line--title,
-.mainSlider .slide-content h1 + .slide-line--title {
-  margin: 0;
+  line-height: inherit;
   text-transform: none;
-}
-
-.mainSlider .slide-content .slide-line--title:not(:first-child),
-.mainSlider .slide-content h1 + .slide-line--title,
-.mainSlider .slide-content .slide-line--title + .slide-line--title {
-  margin-top: 20px;
-}
-
-.mainSlider .slide-content h1 + .slide-line--title {
-  margin-top: 0 !important;
-}
-
-.mainSlider .slide-content .slide-line--title span {
-  display: inline-block;
-  position: relative;
-  padding: 0 0.2em;
-  font-size: 90px;
-  line-height: 1.3em;
-  font-weight: 400;
   color: #fff;
 }
 
-.mainSlider .slide-content .slide-line--title span:before {
-  content: "";
-  position: absolute;
-  z-index: -1;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.7);
+.mainSlider .slide-content :is(h1, .slide-line) + :is(h1, .slide-line) {
+  margin-top: var(--hero-gap);
 }
 
-.mainSlider .slide-content .slide-line--sub {
-  position: relative;
-  margin: 0;
-  text-transform: none;
-}
-
-.mainSlider .slide-content .slide-line--sub:not(:first-child) {
-  margin-top: 20px;
-}
-
-.mainSlider .slide-content .slide-line--sub span {
+.mainSlider .slide-content :is(h1, .slide-line) > span {
   display: inline-block;
   position: relative;
-  padding: 0 0.5em;
-  font-size: 32px;
-  line-height: 1.9em;
+  padding: 0.08em var(--hero-pad);
+  font-size: var(--hero-title);
   font-weight: 400;
+  line-height: 1.2;
   color: #fff;
 }
 
-.mainSlider .slide-content .slide-line--sub span:before {
+.mainSlider .slide-content .slide-line--sub > span {
+  font-size: var(--hero-sub);
+}
+
+.mainSlider .slide-content :is(h1, .slide-line) > span::before {
   content: "";
   position: absolute;
   z-index: -1;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0;
   background: rgba(0, 0, 0, 0.7);
+  transform-origin: left center;
+}
+
+/* Gradient lives on the inner text so the outer box can animate on its own. */
+.mainSlider .slide-content .h-gradient > span {
+  background: none;
+  -webkit-text-fill-color: currentcolor;
+}
+
+.mainSlider .slide-content .slide-line-text {
+  display: inline-block;
+}
+
+.mainSlider .slide.is-active .slide-content :is(h1, .slide-line) > span::before {
+  animation: eva-hero-box 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  animation-delay: calc(var(--line, 0) * 150ms);
+}
+
+.mainSlider .slide.is-active .slide-content .slide-line-text {
+  animation: eva-hero-text 0.45s ease-out both;
+  animation-delay: calc(var(--line, 0) * 150ms + 250ms);
+}
+
+@keyframes eva-hero-box {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes eva-hero-text {
+  from {
+    opacity: 0;
+    transform: translateY(0.35em);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 @media (max-width: 1679px) {
-  .mainSlider .slide-content h1 span,
-  .mainSlider .slide-content .slide-line--title span {
-    font-size: 75px;
-  }
-  .mainSlider .slide-content .slide-line--sub span {
-    font-size: 30px;
+  .mainSlider .slide-content {
+    --hero-title: 75px;
+    --hero-sub: 30px;
   }
 }
 
 @media (max-width: 1199px) {
-  .mainSlider .slide-content h1 span,
-  .mainSlider .slide-content .slide-line--title span {
-    font-size: 70px;
-  }
-  .mainSlider .slide-content .slide-line--sub span {
-    font-size: 28px;
+  .mainSlider .slide-content {
+    --hero-title: 70px;
+    --hero-sub: 28px;
   }
 }
 
 @media (max-width: 1024px) {
-  .mainSlider .slide-content h1 span,
-  .mainSlider .slide-content .slide-line--title span {
-    font-size: 46px;
-  }
-
-  .mainSlider .slide-content .slide-line--sub span {
-    font-size: 22px;
-    line-height: 1.5em;
-  }
-
   .mainSlider .slide-content {
+    --hero-title: 46px;
+    --hero-sub: 22px;
+    --hero-pad: 14px;
+    --hero-gap: 10px;
     padding-left: 24px;
     padding-right: 24px;
   }
 }
 
 @media (max-width: 991px) {
-  .mainSlider .slide-content h1 span,
-  .mainSlider .slide-content .slide-line--title span {
-    font-size: 42px;
+  .mainSlider .slide-content {
+    --hero-title: 42px;
+    --hero-sub: 20px;
   }
 }
 
 @media (max-width: 767px) {
-  .mainSlider .slide-content h1 span,
-  .mainSlider .slide-content .slide-line--title span {
-    font-size: 36px;
-  }
-
-  .mainSlider .slide-content .slide-line--sub span {
-    font-size: 18px;
-  }
-
-  .mainSlider .slide-content .slide-line--title:not(:first-child),
-  .mainSlider .slide-content h1 + .slide-line--title {
-    margin-top: 10px;
-  }
-
   .mainSlider .slide-content {
+    --hero-title: 36px;
+    --hero-sub: 18px;
+    --hero-pad: 12px;
+    --hero-gap: 8px;
     padding-left: 16px;
     padding-right: 16px;
   }
@@ -408,13 +377,16 @@ textarea:focus-visible {
 }
 
 @media (max-width: 479px) {
-  .mainSlider .slide-content h1 span,
-  .mainSlider .slide-content .slide-line--title span {
-    font-size: 30px;
+  .mainSlider .slide-content {
+    --hero-title: 30px;
+    --hero-sub: 16px;
   }
+}
 
-  .mainSlider .slide-content .slide-line--sub span {
-    font-size: 16px;
+@media (prefers-reduced-motion: reduce) {
+  .mainSlider .slide.is-active .slide-content :is(h1, .slide-line) > span::before,
+  .mainSlider .slide.is-active .slide-content .slide-line-text {
+    animation: none;
   }
 }
 
@@ -1545,48 +1517,103 @@ body .block.block--full.no-pad-gutter > .container.container--bleed {
   }
 }
 
-/* ---- What We Do: 2-up phone / 3-up tablet / 4-up desktop ---- */
-.what-we-do-row > [class*="col-"] {
-  margin-bottom: 28px;
+/* ---- What We Do: linked service cards (4-up desktop, 2-up tablet/phone) ---- */
+.eva-wwd-intro {
+  max-width: 760px;
+  margin-right: auto;
+  margin-left: auto;
 }
 
-@media (min-width: 1200px) {
-  .what-we-do-row > [class*="col-"] {
-    margin-bottom: 48px;
-  }
+.eva-wwd-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 24px;
+  margin: 48px 0 0;
+  padding: 0;
+  list-style: none;
 }
 
-@media (min-width: 768px) and (max-width: 1199px) {
-  .what-we-do-row > [class*="col-"] {
-    margin-bottom: 28px;
-  }
+.eva-wwd-grid > li {
+  display: flex;
 }
 
-@media (max-width: 1199px) {
-  .what-we-do-row > .col-xs-6 {
-    margin-bottom: 28px;
-  }
+.eva-wwd-card {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 28px 24px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  background: rgba(20, 22, 26, 0.72);
+  backdrop-filter: blur(6px);
+  text-align: left;
+  color: #fff;
+  text-decoration: none;
+  transition: transform 0.25s ease, border-color 0.25s ease, background-color 0.25s ease;
+}
 
-  .what-we-do-row .service-icon {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 100px;
-    height: 100px;
-    padding: 0;
-    margin-left: auto;
-    margin-right: auto;
-  }
+.eva-wwd-card:hover,
+.eva-wwd-card:focus-visible {
+  transform: translateY(-4px);
+  border-color: #70b615;
+  background: rgba(24, 28, 22, 0.85);
+  color: #fff;
+  text-decoration: none;
+}
 
-  .what-we-do-row .service-icon i {
-    font-size: 36px;
-    line-height: 1;
-  }
+.eva-wwd-card:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
 
-  .what-we-do-row .heading-as-h4 {
-    font-size: 18px;
-    line-height: 1.3;
-    margin-bottom: 0;
+.eva-wwd-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  background: rgba(112, 182, 21, 0.14);
+  color: #abee2d;
+  transition: box-shadow 0.25s ease, background-color 0.25s ease;
+}
+
+.eva-wwd-icon i {
+  font-size: 28px;
+  line-height: 1;
+}
+
+.eva-wwd-card:hover .eva-wwd-icon,
+.eva-wwd-card:focus-visible .eva-wwd-icon {
+  background: rgba(112, 182, 21, 0.24);
+  box-shadow: 0 0 24px rgba(112, 182, 21, 0.45);
+}
+
+body:not(.page-blog) .block--darkbg .eva-wwd-title,
+.eva-wwd-title {
+  margin: 4px 0 0;
+  padding: 0;
+  font-family: "Raleway", sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.3;
+  text-transform: none;
+  color: #fff;
+}
+
+.eva-wwd-text {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+@media (max-width: 991px) {
+  .eva-wwd-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
   }
 }
 
@@ -1596,42 +1623,44 @@ body .block.block--full.no-pad-gutter > .container.container--bleed {
     padding-right: 20px;
   }
 
-  .what-we-do-row {
-    margin-bottom: 12px !important;
+  .eva-wwd-grid {
+    gap: 12px;
+    margin-top: 32px;
   }
 
-  .what-we-do-row > .col-xs-6 {
-    margin-bottom: 20px;
-    padding-left: 10px;
-    padding-right: 10px;
+  .eva-wwd-card {
+    gap: 8px;
+    padding: 18px 14px;
   }
 
-  .what-we-do-row .service-icon {
-    width: 90px;
-    height: 90px;
+  .eva-wwd-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
   }
 
-  .what-we-do-row .service-icon i {
-    font-size: 32px;
+  .eva-wwd-icon i {
+    font-size: 22px;
   }
 
-  .what-we-do-row .heading-as-h4 {
+  body:not(.page-blog) .block--darkbg .eva-wwd-title,
+  .eva-wwd-title {
     font-size: 15px;
+  }
+
+  .eva-wwd-text {
+    font-size: 13px;
   }
 }
 
-@media (max-width: 479px) {
-  .what-we-do-row .service-icon {
-    width: 80px;
-    height: 80px;
+@media (prefers-reduced-motion: reduce) {
+  .eva-wwd-card {
+    transition: none;
   }
 
-  .what-we-do-row .service-icon i {
-    font-size: 28px;
-  }
-
-  .what-we-do-row .heading-as-h4 {
-    font-size: 13px;
+  .eva-wwd-card:hover,
+  .eva-wwd-card:focus-visible {
+    transform: none;
   }
 }
 
@@ -3085,5 +3114,85 @@ body:not(.page-blog) .block--darkbg .eva-project-dialog-title,
   .eva-hero-slider .slide.is-active .eva-hero-media,
   .service-item-photo img {
     animation: none;
+  }
+}
+
+/* ---- Home: ongoing / recent projects strip ---- */
+.block.eva-home-projects {
+  margin-bottom: 0;
+  padding-top: 72px;
+  padding-bottom: 72px;
+}
+
+.eva-home-projects .title-wrap {
+  margin-bottom: 40px;
+}
+
+.eva-home-projects h2 .fas {
+  font-size: 0.7em;
+  padding-right: 18px;
+  color: #abee2d;
+}
+
+.eva-home-projects-cta {
+  margin-top: 40px;
+  text-align: center;
+}
+
+/* Centred row, so one or two ongoing titles don't hug the left edge. */
+@media (min-width: 768px) {
+  .eva-projects-grid.eva-home-projects-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 40px 24px;
+  }
+
+  .eva-home-projects-grid > .eva-project-card {
+    flex: 0 0 calc((100% - 48px) / 3);
+  }
+}
+
+@media (min-width: 992px) {
+  .eva-home-projects-grid > .eva-project-card {
+    flex-basis: calc((100% - 120px) / 6);
+  }
+}
+
+@media (max-width: 767px) {
+  .block.eva-home-projects {
+    padding-top: 48px;
+    padding-bottom: 48px;
+  }
+
+  .eva-home-projects .title-wrap {
+    margin-bottom: 28px;
+  }
+
+  /* Phones: one swipeable row instead of a tall grid. */
+  .eva-projects-grid.eva-home-projects-grid {
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: 42%;
+    gap: 16px;
+    margin: 0 -20px;
+    padding: 0 20px 8px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding: 0 20px;
+    scrollbar-width: none;
+  }
+
+  .eva-home-projects-grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .eva-home-projects-grid > .eva-project-card {
+    scroll-snap-align: start;
+  }
+
+  .eva-home-projects-cta {
+    margin-top: 28px;
   }
 }

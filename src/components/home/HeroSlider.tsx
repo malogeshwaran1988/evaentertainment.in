@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, type CSSProperties } from "react";
 import ImageEffects from "@@/components/common/ImageEffects";
 import { HERO_SLIDES } from "@@/data/home";
 import { imageLoading } from "@@/lib/image-loading";
@@ -10,29 +10,32 @@ function SlideLine({
   role,
   className,
   text,
+  line,
 }: {
   role: "h1" | "title" | "subtitle";
   className: string;
   text: string;
+  line: number;
 }) {
-  const classes = [className || undefined].filter(Boolean).join(" ");
+  const style = { "--line": line } as CSSProperties;
+  const content = (
+    <span>
+      <span className="slide-line-text">{text}</span>
+    </span>
+  );
 
   if (role === "h1") {
     return (
-      <h1 className={classes || undefined}>
-        <span>{text}</span>
+      <h1 className={className || undefined} style={style}>
+        {content}
       </h1>
     );
   }
 
-  const lineClass =
-    role === "subtitle"
-      ? `slide-line slide-line--sub ${classes}`.trim()
-      : `slide-line slide-line--title ${classes}`.trim();
-
+  const lineClass = `slide-line slide-line--${role === "subtitle" ? "sub" : "title"} ${className}`.trim();
   return (
-    <p className={lineClass}>
-      <span>{text}</span>
+    <p className={lineClass} style={style}>
+      {content}
     </p>
   );
 }
@@ -85,9 +88,10 @@ export default function HeroSlider() {
                 <div className="vert-wrap container">
                   <div className="vert">
                     <div className="container">
-                      {slide.lines.map((line) => (
+                      {slide.lines.map((line, lineIndex) => (
                         <SlideLine
                           key={line.text}
+                          line={lineIndex}
                           role={line.role}
                           className={line.className}
                           text={line.text}

@@ -78,7 +78,7 @@ export default function EquipmentPage() {
               <i className="icon icon-mic-2" aria-hidden="true" />
               {EQUIPMENT_CONTENT.pageTitle}
             </h1>
-            <Breadcrumbs current="Our Equipment" />
+            <Breadcrumbs current="Equipment" />
           </div>
         </div>
       </div>

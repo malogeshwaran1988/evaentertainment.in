@@ -29,9 +29,4 @@ export const SOCIAL_LINKS = [
     href: "https://www.linkedin.com/in/felix-anthony-5b1114173/",
     iconClass: "icon icon-linkedin-logo",
   },
-  {
-    label: "IMDb",
-    href: "https://www.imdb.com/name/nm9896831/",
-    iconClass: "fab fa-imdb",
-  },
 ] as const;

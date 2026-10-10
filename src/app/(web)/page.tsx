@@ -3,6 +3,7 @@ import Script from "next/script";
 import Link from "next/link";
 import InViewFx from "@@/components/common/InViewFx";
 import HeroSlider from "@@/components/home/HeroSlider";
+import HomeProjects from "@@/components/home/HomeProjects";
 import { CONTACT, SITE_NAME, SOCIAL_LINKS } from "@@/constants/constants";
 import {
   HOME_INTRO,
@@ -10,10 +11,12 @@ import {
   SERVICE_CARDS,
   WHAT_WE_DO,
 } from "@@/data/home";
+import { getProjects } from "@@/lib/projects-store";
 
 const EQ_BARS = Array.from({ length: 16 }, (_, i) => i);
 
-export default function HomePage() {
+export default async function HomePage() {
+  const projects = await getProjects();
   const orgSchema = {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
@@ -40,6 +43,7 @@ export default function HomePage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }}
       />
       <HeroSlider />
+      <HomeProjects projects={projects} />
 
       <section className="block block--darkbg block--fullbg block--bgcover inset-125 block-bg-1">
         <div className="container">
@@ -48,20 +52,23 @@ export default function HomePage() {
             What We Do?
           </h2>
           <div className="text-center">
-            <p className="p--lg" style={{ marginBottom: 50 }}>
+            <p className="p--lg eva-wwd-intro">
               {HOME_INTRO}
             </p>
           </div>
-          <div className="row text-center what-we-do-row">
+          <ul className="eva-wwd-grid">
             {WHAT_WE_DO.map((item) => (
-              <div className="col-xs-6 col-sm-4 col-lg-3" key={item.title}>
-                <div className="service-icon">
-                  <i className={item.icon} aria-hidden="true" />
-                </div>
-                <h3 className="heading-as-h4">{item.title}</h3>
-              </div>
+              <li key={item.title}>
+                <Link className="eva-wwd-card" href={item.href}>
+                  <span className="eva-wwd-icon" aria-hidden="true">
+                    <i className={item.icon} />
+                  </span>
+                  <h3 className="eva-wwd-title">{item.title}</h3>
+                  <p className="eva-wwd-text">{item.description}</p>
+                </Link>
+              </li>
             ))}
-          </div>
+          </ul>
         </div>
       </section>
 

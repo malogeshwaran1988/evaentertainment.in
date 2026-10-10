@@ -7,11 +7,11 @@ import {
   PROJECT_YEAR_ONGOING,
   projectLanguageLine,
   projectPosterAlt,
-  projectYearLabel,
   type Project,
   type ProjectLanguage,
 } from "@@/data/projects";
 import { imageLoading } from "@@/lib/image-loading";
+import { PosterPlaceholder, YearBadge } from "@@/components/projects/ProjectPoster";
 
 type Filter = "All" | ProjectLanguage;
 type Direction = "prev" | "next";
@@ -27,30 +27,6 @@ function joinList(items: readonly string[]) {
   return items.length <= 1
     ? items.join("")
     : `${items.slice(0, -1).join(", ")} and ${items[items.length - 1]}`;
-}
-
-function YearBadge({ year }: { year?: string }) {
-  if (!year) return null;
-  return (
-    <span
-      className={
-        year === PROJECT_YEAR_ONGOING
-          ? "eva-project-badge eva-project-badge--ongoing"
-          : "eva-project-badge"
-      }
-    >
-      {projectYearLabel(year)}
-    </span>
-  );
-}
-
-function PosterPlaceholder({ title }: { title: string }) {
-  return (
-    <div className="eva-project-poster-placeholder" aria-hidden="true">
-      <i className="fas fa-film" />
-      <span>{title}</span>
-    </div>
-  );
 }
 
 export default function ProjectsGallery({

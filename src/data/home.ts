@@ -12,14 +12,54 @@ export const HOME_SEO = {
 };
 
 export const WHAT_WE_DO = [
-  { icon: "icon icon-lip-syncdubbing-01", title: "Lip-Sync Dubbing", fa: false },
-  { icon: "icon icon-voiceover", title: "Voice Over", fa: false },
-  { icon: "icon icon-songrecording", title: "Song Recording", fa: false },
-  { icon: "icon icon-folleyrecording", title: "Folley Recording", fa: false },
-  { icon: "icon icon-stocklibrary", title: "Stock Library", fa: false },
-  { icon: "fas fa-podcast", title: "5.1 Mixing & Mastering", fa: true },
-  { icon: "icon icon-translate1", title: "Subtitling", fa: false },
-  { icon: "fas fa-language", title: "Translation", fa: true },
+  {
+    icon: "icon icon-lip-syncdubbing-01",
+    title: "Lip-Sync Dubbing",
+    description: "Natural, fully lip-synced dubbing in any language.",
+    href: "/services#Lip-Sync",
+  },
+  {
+    icon: "icon icon-voiceover",
+    title: "Voice Over",
+    description: "Native male, female and child voices for every format.",
+    href: "/services",
+  },
+  {
+    icon: "icon icon-songrecording",
+    title: "Song Recording",
+    description: "Vocals and instruments in a quiet, private studio.",
+    href: "/services",
+  },
+  {
+    icon: "icon icon-folleyrecording",
+    title: "Folley Recording",
+    description: "Foley and sound effects that bring every scene to life.",
+    href: "/services#Folley",
+  },
+  {
+    icon: "icon icon-stocklibrary",
+    title: "Stock Library",
+    description: "A curated library of stock music for your projects.",
+    href: "/services",
+  },
+  {
+    icon: "fas fa-podcast",
+    title: "5.1 Mixing & Mastering",
+    description: "From mono voice tracks to Dolby E 5.1 broadcast mixes.",
+    href: "/services#mixing",
+  },
+  {
+    icon: "icon icon-translate1",
+    title: "Subtitling",
+    description: "Time-stamped subtitles written by native speakers.",
+    href: "/services#Subtitling",
+  },
+  {
+    icon: "fas fa-language",
+    title: "Translation",
+    description: "Script translation for Indian and international languages.",
+    href: "/services",
+  },
 ] as const;
 
 export const HOME_INTRO =
