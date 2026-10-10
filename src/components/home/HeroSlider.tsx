@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useCallback, useEffect, useState, type CSSProperties } from "react";
+import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
 import ImageEffects from "@@/components/common/ImageEffects";
 import { HERO_SLIDES } from "@@/data/home";
 import { imageLoading } from "@@/lib/image-loading";
@@ -42,7 +42,26 @@ function SlideLine({
 
 export default function HeroSlider() {
   const [index, setIndex] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const sliderRef = useRef<HTMLDivElement>(null);
   const count = HERO_SLIDES.length;
+
+  useEffect(() => {
+    const el = sliderRef.current;
+    if (!el) return;
+    let inView = true;
+    const update = () => setPaused(!inView || document.hidden);
+    const observer = new IntersectionObserver(([entry]) => {
+      inView = entry.isIntersecting;
+      update();
+    });
+    observer.observe(el);
+    document.addEventListener("visibilitychange", update);
+    return () => {
+      observer.disconnect();
+      document.removeEventListener("visibilitychange", update);
+    };
+  }, []);
 
   const goPrev = useCallback(() => {
     setIndex((i) => (i - 1 + count) % count);
@@ -53,19 +72,22 @@ export default function HeroSlider() {
   }, [count]);
 
   useEffect(() => {
+    if (paused) return;
     const id = window.setInterval(() => {
       setIndex((i) => (i + 1) % count);
     }, 6000);
     return () => window.clearInterval(id);
-  }, [count]);
+  }, [count, paused]);
 
   return (
     <div className="block bottom-null block--slider">
       <div className="mainSliderWrapper">
         <div
+          ref={sliderRef}
           id="mainSlider"
           className="mainSlider slick-initialized eva-hero-slider"
           style={{ opacity: 1 }}
+          data-paused={paused || undefined}
         >
           {HERO_SLIDES.map((slide, i) => (
             <div

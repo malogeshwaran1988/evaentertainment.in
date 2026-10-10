@@ -1,11 +1,8 @@
 /** Stylesheets for Glory chrome — vendors actually used by App Router pages. */
 const STYLESHEETS = [
   "/css/vendor/bootstrap.min.css",
-  "/css/vendor/animate.min.css",
   "/css/vendor/slick.css",
   "/fonts/recording/style.css",
-  "https://use.fontawesome.com/releases/v5.4.1/css/all.css",
-  "https://fonts.googleapis.com/css?family=Raleway:300,400,500,600,700,800,900&display=swap",
   "/css/custom.css",
   "/css/style.css",
 ] as const;
@@ -14,25 +11,16 @@ const STYLESHEETS = [
 export default function WebHead() {
   return (
     <>
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link
-        rel="preconnect"
-        href="https://fonts.gstatic.com"
+        rel="preload"
+        href="/fonts/raleway/raleway-latin.woff2"
+        as="font"
+        type="font/woff2"
         crossOrigin="anonymous"
       />
-      {STYLESHEETS.map((href) =>
-        href.includes("fontawesome") ? (
-          <link
-            key={href}
-            rel="stylesheet"
-            href={href}
-            integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz"
-            crossOrigin="anonymous"
-          />
-        ) : (
-          <link key={href} rel="stylesheet" href={href} />
-        ),
-      )}
+      {STYLESHEETS.map((href) => (
+        <link key={href} rel="stylesheet" href={href} />
+      ))}
     </>
   );
 }

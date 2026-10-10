@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import Link from "@@/components/common/NavLink";
 import { usePathname } from "next/navigation";
 import { Routes } from "@@/constants/routes";
 

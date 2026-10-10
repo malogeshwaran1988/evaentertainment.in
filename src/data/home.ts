@@ -43,7 +43,7 @@ export const WHAT_WE_DO = [
     href: "/services",
   },
   {
-    icon: "fas fa-podcast",
+    svg: "podcast",
     title: "5.1 Mixing & Mastering",
     description: "From mono voice tracks to Dolby E 5.1 broadcast mixes.",
     href: "/services#mixing",
@@ -55,7 +55,7 @@ export const WHAT_WE_DO = [
     href: "/services#Subtitling",
   },
   {
-    icon: "fas fa-language",
+    svg: "language",
     title: "Translation",
     description: "Script translation for Indian and international languages.",
     href: "/services",

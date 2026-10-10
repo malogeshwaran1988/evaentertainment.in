@@ -1,6 +1,7 @@
 import type { CSSProperties } from "react";
 import Script from "next/script";
-import Link from "next/link";
+import Link from "@@/components/common/NavLink";
+import { SvgIcon } from "@@/components/common/Icons";
 import InViewFx from "@@/components/common/InViewFx";
 import HeroSlider from "@@/components/home/HeroSlider";
 import HomeProjects from "@@/components/home/HomeProjects";
@@ -61,7 +62,11 @@ export default async function HomePage() {
               <li key={item.title}>
                 <Link className="eva-wwd-card" href={item.href}>
                   <span className="eva-wwd-icon" aria-hidden="true">
-                    <i className={item.icon} />
+                    {"svg" in item ? (
+                      <SvgIcon name={item.svg} />
+                    ) : (
+                      <i className={item.icon} />
+                    )}
                   </span>
                   <h3 className="eva-wwd-title">{item.title}</h3>
                   <p className="eva-wwd-text">{item.description}</p>

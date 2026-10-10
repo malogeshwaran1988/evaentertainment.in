@@ -1,5 +1,35 @@
 @tailwind utilities;
 
+/* Self-hosted Raleway (variable 100-900, OFL). The latin file is preloaded in WebHead. */
+@font-face {
+  font-family: "Raleway";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/fonts/raleway/raleway-latin-ext.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: "Raleway";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/fonts/raleway/raleway-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* Used by the sticky header in public/css/custom.css (formerly from animate.css). */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
 /* Single keyboard focus ring — suppress browser default double-ring */
 a:focus,
 button:focus,
@@ -22,6 +52,22 @@ textarea:focus-visible {
 .header a:focus-visible,
 .header button:focus-visible {
   outline-color: #fff;
+}
+
+/*
+ * custom.css keys these off body.home-page, which BodyClass only adds after hydration;
+ * the server-rendered <main class="home-page"> applies them from the first paint (no layout shift).
+ */
+.page-main.home-page:before,
+.page-main.home-page:after {
+  content: "";
+  display: table;
+}
+
+@media (max-width: 1024px) {
+  .page-main.home-page > .block:first-child {
+    padding-top: 75px;
+  }
 }
 
 /*
@@ -1547,7 +1593,6 @@ body .block.block--full.no-pad-gutter > .container.container--bleed {
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 12px;
   background: rgba(20, 22, 26, 0.72);
-  backdrop-filter: blur(6px);
   text-align: left;
   color: #fff;
   text-decoration: none;
@@ -1580,7 +1625,7 @@ body .block.block--full.no-pad-gutter > .container.container--bleed {
   transition: box-shadow 0.25s ease, background-color 0.25s ease;
 }
 
-.eva-wwd-icon i {
+.eva-wwd-icon :is(i, svg) {
   font-size: 28px;
   line-height: 1;
 }
@@ -1639,7 +1684,7 @@ body:not(.page-blog) .block--darkbg .eva-wwd-title,
     border-radius: 12px;
   }
 
-  .eva-wwd-icon i {
+  .eva-wwd-icon :is(i, svg) {
     font-size: 22px;
   }
 
@@ -2106,14 +2151,23 @@ a.eva-contact-card-meta:hover {
   }
 }
 
+/* ---- Inline SVG icons (same metrics as the Font Awesome glyphs they replace) ---- */
+.eva-svg-icon {
+  display: inline-block;
+  width: auto;
+  height: 1em;
+  overflow: visible;
+  vertical-align: -0.125em;
+}
+
 /* ---- Our Projects: language filters + poster grid ---- */
 .block.eva-projects-hero {
   margin-bottom: 0;
 }
 
-.eva-projects-hero h1 .fas {
+.eva-projects-hero h1 .eva-svg-icon {
   font-size: 0.7em;
-  padding-right: 18px;
+  margin-right: 18px;
   color: #abee2d;
 }
 
@@ -2206,7 +2260,7 @@ a.eva-contact-card-meta:hover {
   color: rgba(255, 255, 255, 0.85);
 }
 
-.eva-project-poster-placeholder i {
+.eva-project-poster-placeholder svg {
   font-size: 32px;
   color: #70b615;
 }
@@ -2925,7 +2979,10 @@ body:not(.page-blog) .block--darkbg .eva-project-dialog-title,
 /* Effects outside the viewport stay paused. */
 .eva-fx-lazy:not([data-inview]) .eva-fx,
 .eva-fx-lazy:not([data-inview]) .eva-fx *,
-.eva-fx-lazy:not([data-inview]) img {
+.eva-fx-lazy:not([data-inview]) img,
+.eva-hero-slider[data-paused] .eva-hero-media,
+.eva-hero-slider[data-paused] .eva-fx,
+.eva-hero-slider[data-paused] .eva-fx * {
   animation-play-state: paused;
 }
 
@@ -3128,9 +3185,9 @@ body:not(.page-blog) .block--darkbg .eva-project-dialog-title,
   margin-bottom: 40px;
 }
 
-.eva-home-projects h2 .fas {
+.eva-home-projects h2 .eva-svg-icon {
   font-size: 0.7em;
-  padding-right: 18px;
+  margin-right: 18px;
   color: #abee2d;
 }
 

@@ -1,3 +1,4 @@
+import { SvgIcon } from "@@/components/common/Icons";
 import { PROJECT_YEAR_ONGOING, projectYearLabel } from "@@/data/projects";
 
 export function YearBadge({ year }: { year?: string }) {
@@ -18,7 +19,7 @@ export function YearBadge({ year }: { year?: string }) {
 export function PosterPlaceholder({ title }: { title: string }) {
   return (
     <div className="eva-project-poster-placeholder" aria-hidden="true">
-      <i className="fas fa-film" />
+      <SvgIcon name="film" />
       <span>{title}</span>
     </div>
   );

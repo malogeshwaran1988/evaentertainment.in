@@ -1,5 +1,6 @@
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@@/components/common/NavLink";
+import { SvgIcon } from "@@/components/common/Icons";
 import { PosterPlaceholder, YearBadge } from "@@/components/projects/ProjectPoster";
 import { Routes } from "@@/constants/routes";
 import {
@@ -25,7 +26,7 @@ export default function HomeProjects({ projects }: { projects: Project[] }) {
       <div className="container">
         <div className="title-wrap text-center">
           <h2 className="h--lg" id="eva-home-projects-title">
-            <i className="fas fa-film" aria-hidden="true" />
+            <SvgIcon name="film" />
             {heading}
           </h2>
           <p className="p--lg">

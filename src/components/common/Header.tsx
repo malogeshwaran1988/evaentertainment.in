@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@@/components/common/NavLink";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { LOGO_ALT } from "@@/constants/constants";

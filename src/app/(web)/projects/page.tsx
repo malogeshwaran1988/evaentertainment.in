@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import { connection } from "next/server";
 import Breadcrumbs from "@@/components/common/Breadcrumbs";
+import { SvgIcon } from "@@/components/common/Icons";
 import ProjectsGallery from "@@/components/projects/ProjectsGallery";
 import { getProjects } from "@@/lib/projects-store";
 import {
@@ -90,7 +91,7 @@ export default async function ProjectsPage() {
         <div className="container">
           <div className="text-center">
             <h1>
-              <i className="fas fa-film" aria-hidden="true" />
+              <SvgIcon name="film" />
               Our Projects
             </h1>
             <Breadcrumbs current="Our Projects" />

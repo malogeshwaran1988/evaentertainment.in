@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@@/components/common/NavLink";
 import { Routes } from "@@/constants/routes";
 
 export default function NotFoundContent() {
