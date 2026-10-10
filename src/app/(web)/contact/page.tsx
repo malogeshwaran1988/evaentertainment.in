@@ -2,10 +2,11 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import Breadcrumbs from "@@/components/common/Breadcrumbs";
 import ContactForm from "@@/components/contact/ContactForm";
-import { CONTACT, DEFAULT_OG_IMAGE_ALT, SITE_NAME } from "@@/constants/constants";
+import { CONTACT, SITE_NAME } from "@@/constants/constants";
 import {
   CONTACT_INTRO,
   CONTACT_OG_IMAGE,
+  CONTACT_OG_IMAGE_ALT,
   CONTACT_PAGE_URL,
   CONTACT_SEO,
   MAP_EMBEDS,
@@ -36,7 +37,7 @@ export const metadata: Metadata = {
         url: CONTACT_OG_IMAGE,
         width: 1200,
         height: 630,
-        alt: DEFAULT_OG_IMAGE_ALT,
+        alt: CONTACT_OG_IMAGE_ALT,
       },
     ],
     locale: "en_US",
@@ -46,7 +47,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: CONTACT_SEO.title,
     description: CONTACT_SEO.description,
-    images: [CONTACT_OG_IMAGE],
+    images: [{ url: CONTACT_OG_IMAGE, alt: CONTACT_OG_IMAGE_ALT }],
   },
 };
 

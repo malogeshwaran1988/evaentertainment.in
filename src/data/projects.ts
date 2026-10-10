@@ -1,7 +1,8 @@
-import { APP_BASE_URL, DEFAULT_OG_IMAGE } from "@@/constants/constants";
+import { APP_BASE_URL } from "@@/constants/constants";
 
 export const PROJECTS_PAGE_URL = `${APP_BASE_URL}/projects`;
-export const PROJECTS_OG_IMAGE = DEFAULT_OG_IMAGE;
+export const PROJECTS_OG_IMAGE = "/images/og/projects.jpg";
+export const PROJECTS_OG_IMAGE_ALT = "Editing workstation with control surfaces for dubbing projects";
 
 export const PROJECTS_SEO = {
   title: "Our Projects | Movie Dubbing Portfolio",

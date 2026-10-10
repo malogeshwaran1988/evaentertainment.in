@@ -1,7 +1,8 @@
-import { APP_BASE_URL, DEFAULT_OG_IMAGE } from "@@/constants/constants";
+import { APP_BASE_URL } from "@@/constants/constants";
 
 export const ABOUT_PAGE_URL = `${APP_BASE_URL}/about`;
-export const ABOUT_OG_IMAGE = DEFAULT_OG_IMAGE;
+export const ABOUT_OG_IMAGE = "/images/og/about.jpg";
+export const ABOUT_OG_IMAGE_ALT = "EVA Entertainment recording and mixing control room";
 
 export const ABOUT_SEO = {
   title: "About Us",
@@ -15,7 +16,7 @@ export const ABOUT_CONTENT = {
   sectionIntro:
     "Based in India, we are a leading provider of lip-sync dubbing, voice-over, Folley Recording, Stock Library, subtitling & multimedia localization services in any international languages.",
   missionTitle: "Our Mission at EVA ENTERAINMENT",
-  missionImage: "/images/about/about-1.jpg",
+  missionImage: "/images/about/about-1.avif",
   missionImageAlt: "Production studio with keyboards and monitors",
   missionParagraphs: [
     "EVA Entertainment is been serving the industries for the past years' experiencing, delivering high-quality localization services to our satisfied clients.",

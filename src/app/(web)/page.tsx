@@ -1,5 +1,7 @@
+import type { CSSProperties } from "react";
 import Script from "next/script";
 import Link from "next/link";
+import InViewFx from "@@/components/common/InViewFx";
 import HeroSlider from "@@/components/home/HeroSlider";
 import { CONTACT, SITE_NAME, SOCIAL_LINKS } from "@@/constants/constants";
 import {
@@ -8,6 +10,8 @@ import {
   SERVICE_CARDS,
   WHAT_WE_DO,
 } from "@@/data/home";
+
+const EQ_BARS = Array.from({ length: 16 }, (_, i) => i);
 
 export default function HomePage() {
   const orgSchema = {
@@ -84,7 +88,7 @@ export default function HomePage() {
                     className="service-item"
                     href={card.href}
                   >
-                    <div className="service-item-photo">
+                    <InViewFx className="service-item-photo eva-fx-lazy">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={card.image}
@@ -92,7 +96,12 @@ export default function HomePage() {
                         loading="lazy"
                         decoding="async"
                       />
-                    </div>
+                      <span className="eva-eq" aria-hidden="true">
+                        {EQ_BARS.map((i) => (
+                          <span key={i} style={{ "--i": i } as CSSProperties} />
+                        ))}
+                      </span>
+                    </InViewFx>
                     <div className="service-item-caption">
                       <div className="clearfix">
                         <span className="service-item-price">{card.eyebrow}</span>

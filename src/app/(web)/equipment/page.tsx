@@ -4,10 +4,11 @@ import Breadcrumbs from "@@/components/common/Breadcrumbs";
 import {
   EQUIPMENT_CONTENT,
   EQUIPMENT_OG_IMAGE,
+  EQUIPMENT_OG_IMAGE_ALT,
   EQUIPMENT_PAGE_URL,
   EQUIPMENT_SEO,
 } from "@@/data/equipment";
-import { DEFAULT_OG_IMAGE_ALT, SITE_NAME } from "@@/constants/constants";
+import { SITE_NAME } from "@@/constants/constants";
 
 export const metadata: Metadata = {
   title: { absolute: EQUIPMENT_SEO.title },
@@ -34,7 +35,7 @@ export const metadata: Metadata = {
         url: EQUIPMENT_OG_IMAGE,
         width: 1200,
         height: 630,
-        alt: DEFAULT_OG_IMAGE_ALT,
+        alt: EQUIPMENT_OG_IMAGE_ALT,
       },
     ],
     locale: "en_US",
@@ -44,7 +45,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: EQUIPMENT_SEO.title,
     description: EQUIPMENT_SEO.description,
-    images: [EQUIPMENT_OG_IMAGE],
+    images: [{ url: EQUIPMENT_OG_IMAGE, alt: EQUIPMENT_OG_IMAGE_ALT }],
   },
 };
 
@@ -62,7 +63,7 @@ export default function EquipmentPage() {
       <link
         rel="preload"
         as="image"
-        href="/images/equipment/equipment-06.jpg"
+        href="/images/equipment/equipment-06.avif"
         fetchPriority="high"
       />
       <Script

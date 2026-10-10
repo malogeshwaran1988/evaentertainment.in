@@ -2169,7 +2169,7 @@ button.active,
   }
 }
 .block--title {
-  background: url('../images/common/header-bg.jpg') no-repeat center center #1f1f1f;
+  background: url('../images/common/header-bg.avif') no-repeat center center #1f1f1f;
   background-size: cover;
   padding-top: 50px;
   padding-bottom: 50px;
@@ -2179,7 +2179,7 @@ button.active,
   margin-bottom: 10px;
 }
 .block-bg-1 {
-  background: url('../images/home/block-bg-1.jpg') #1f1f1f;
+  background: url('../images/home/block-bg-1.avif') #1f1f1f;
 }
 .block-bg-2 {
   background: #181818;
@@ -2793,7 +2793,7 @@ body.fixed .darkOverlay {
 .footer {
   clear: both;
   position: relative;
-  background: url('../images/common/footer-bg.jpg') no-repeat center center;
+  background: url('../images/common/footer-bg.avif') no-repeat center center;
   background-size: cover;
   color: #fff;
   padding: 55px 0 40px;

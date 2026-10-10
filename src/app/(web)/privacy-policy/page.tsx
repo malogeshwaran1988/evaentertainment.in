@@ -2,10 +2,11 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import Breadcrumbs from "@@/components/common/Breadcrumbs";
 import LegalDoc from "@@/components/common/LegalDoc";
-import { APP_BASE_URL, DEFAULT_OG_IMAGE_ALT, SITE_NAME } from "@@/constants/constants";
+import { APP_BASE_URL, SITE_NAME } from "@@/constants/constants";
 import {
   PRIVACY_CONTENT,
   PRIVACY_OG_IMAGE,
+  PRIVACY_OG_IMAGE_ALT,
   PRIVACY_PAGE_URL,
   PRIVACY_SEO,
 } from "@@/data/privacy";
@@ -35,7 +36,7 @@ export const metadata: Metadata = {
         url: PRIVACY_OG_IMAGE,
         width: 1200,
         height: 630,
-        alt: DEFAULT_OG_IMAGE_ALT,
+        alt: PRIVACY_OG_IMAGE_ALT,
       },
     ],
     locale: "en_US",
@@ -45,7 +46,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: PRIVACY_SEO.title,
     description: PRIVACY_SEO.description,
-    images: [PRIVACY_OG_IMAGE],
+    images: [{ url: PRIVACY_OG_IMAGE, alt: PRIVACY_OG_IMAGE_ALT }],
   },
 };
 

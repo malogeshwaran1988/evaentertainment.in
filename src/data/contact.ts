@@ -1,7 +1,8 @@
-import { APP_BASE_URL, DEFAULT_OG_IMAGE } from "@@/constants/constants";
+import { APP_BASE_URL } from "@@/constants/constants";
 
 export const CONTACT_PAGE_URL = `${APP_BASE_URL}/contact`;
-export const CONTACT_OG_IMAGE = DEFAULT_OG_IMAGE;
+export const CONTACT_OG_IMAGE = "/images/og/contact.jpg";
+export const CONTACT_OG_IMAGE_ALT = "Microphone preamps in EVA Entertainment's studio rack";
 
 export const CONTACT_SEO = {
   title: "Contact | Recording Studio Andheri Mumbai",

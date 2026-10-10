@@ -1,7 +1,8 @@
-import { APP_BASE_URL, DEFAULT_OG_IMAGE } from "@@/constants/constants";
+import { APP_BASE_URL } from "@@/constants/constants";
 
 export const EQUIPMENT_PAGE_URL = `${APP_BASE_URL}/equipment`;
-export const EQUIPMENT_OG_IMAGE = DEFAULT_OG_IMAGE;
+export const EQUIPMENT_OG_IMAGE = "/images/og/equipment.jpg";
+export const EQUIPMENT_OG_IMAGE_ALT = "Studio monitors, MIDI keyboard and workstation at EVA Entertainment";
 
 export const EQUIPMENT_SEO = {
   title: "Our Equipment | Pro Tools Recording Studio",

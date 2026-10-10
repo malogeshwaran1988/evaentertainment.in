@@ -2,14 +2,17 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Script from "next/script";
 import Breadcrumbs from "@@/components/common/Breadcrumbs";
+import ImageEffects from "@@/components/common/ImageEffects";
+import InViewFx from "@@/components/common/InViewFx";
 import {
   FOLLEY_EXTRA_PARAGRAPH,
   SERVICE_BLOCKS,
   SERVICES_OG_IMAGE,
+  SERVICES_OG_IMAGE_ALT,
   SERVICES_PAGE_URL,
   SERVICES_SEO,
 } from "@@/data/services";
-import { DEFAULT_OG_IMAGE_ALT, SITE_NAME } from "@@/constants/constants";
+import { SITE_NAME } from "@@/constants/constants";
 import { imageLoading } from "@@/lib/image-loading";
 
 export const metadata: Metadata = {
@@ -37,7 +40,7 @@ export const metadata: Metadata = {
         url: SERVICES_OG_IMAGE,
         width: 1200,
         height: 630,
-        alt: DEFAULT_OG_IMAGE_ALT,
+        alt: SERVICES_OG_IMAGE_ALT,
       },
     ],
     locale: "en_US",
@@ -47,7 +50,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: SERVICES_SEO.title,
     description: SERVICES_SEO.description,
-    images: [SERVICES_OG_IMAGE],
+    images: [{ url: SERVICES_OG_IMAGE, alt: SERVICES_OG_IMAGE_ALT }],
   },
 };
 
@@ -107,7 +110,9 @@ export default function ServicesPage() {
               <div
                 className={`row row--half${block.dark ? " bg-grey-dark" : ""}`}
               >
-                <div className={imageOnLeft ? "half-bg-left" : "half-bg-right"}>
+                <InViewFx
+                  className={`${imageOnLeft ? "half-bg-left" : "half-bg-right"} eva-fx-host eva-fx-lazy`}
+                >
                   <Image
                     src={block.image}
                     alt={block.alt}
@@ -116,7 +121,8 @@ export default function ServicesPage() {
                     sizes="(min-width: 768px) 50vw, 100vw"
                     className="eva-half-bg-img"
                   />
-                </div>
+                  <ImageEffects fx={block.fx} anchor="top-left" />
+                </InViewFx>
                 <div
                   className={`col-sm-6${imageOnLeft ? " pull-right" : ""}`}
                 >

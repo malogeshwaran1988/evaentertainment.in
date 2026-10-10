@@ -9,10 +9,9 @@ import ClarityAnalytics from "@@/components/common/ClarityAnalytics";
 import WebHead from "@@/components/common/WebHead";
 import {
   APP_BASE_URL,
-  DEFAULT_OG_IMAGE_ALT,
   SITE_NAME,
 } from "@@/constants/constants";
-import { HOME_OG_IMAGE, HOME_PAGE_URL, HOME_SEO } from "@@/data/home";
+import { HOME_OG_IMAGE, HOME_OG_IMAGE_ALT, HOME_PAGE_URL, HOME_SEO } from "@@/data/home";
 
 export const metadata: Metadata = {
   metadataBase: new URL(APP_BASE_URL),
@@ -47,7 +46,7 @@ export const metadata: Metadata = {
         url: HOME_OG_IMAGE,
         width: 1200,
         height: 630,
-        alt: DEFAULT_OG_IMAGE_ALT,
+        alt: HOME_OG_IMAGE_ALT,
       },
     ],
   },
@@ -55,7 +54,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: HOME_SEO.title,
     description: HOME_SEO.description,
-    images: [HOME_OG_IMAGE],
+    images: [{ url: HOME_OG_IMAGE, alt: HOME_OG_IMAGE_ALT }],
   },
 };
 

@@ -1,7 +1,8 @@
-import { APP_BASE_URL, DEFAULT_OG_IMAGE } from "@@/constants/constants";
+import { APP_BASE_URL } from "@@/constants/constants";
 
 export const BOOKING_PAGE_URL = `${APP_BASE_URL}/book`;
-export const BOOKING_OG_IMAGE = DEFAULT_OG_IMAGE;
+export const BOOKING_OG_IMAGE = "/images/og/book.jpg";
+export const BOOKING_OG_IMAGE_ALT = "Mixing console and monitors in a recording studio control room";
 
 export const BOOKING_SEO = {
   title: "Book a Session | Recording Studio Mumbai",

@@ -2,10 +2,11 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import Breadcrumbs from "@@/components/common/Breadcrumbs";
 import LegalDoc from "@@/components/common/LegalDoc";
-import { APP_BASE_URL, DEFAULT_OG_IMAGE_ALT, SITE_NAME } from "@@/constants/constants";
+import { APP_BASE_URL, SITE_NAME } from "@@/constants/constants";
 import {
   TERMS_CONTENT,
   TERMS_OG_IMAGE,
+  TERMS_OG_IMAGE_ALT,
   TERMS_PAGE_URL,
   TERMS_SEO,
 } from "@@/data/terms";
@@ -35,7 +36,7 @@ export const metadata: Metadata = {
         url: TERMS_OG_IMAGE,
         width: 1200,
         height: 630,
-        alt: DEFAULT_OG_IMAGE_ALT,
+        alt: TERMS_OG_IMAGE_ALT,
       },
     ],
     locale: "en_US",
@@ -45,7 +46,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: TERMS_SEO.title,
     description: TERMS_SEO.description,
-    images: [TERMS_OG_IMAGE],
+    images: [{ url: TERMS_OG_IMAGE, alt: TERMS_OG_IMAGE_ALT }],
   },
 };
 

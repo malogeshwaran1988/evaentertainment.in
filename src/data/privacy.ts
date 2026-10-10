@@ -1,8 +1,9 @@
-import { APP_BASE_URL, CONTACT, DEFAULT_OG_IMAGE, SITE_NAME } from "@@/constants/constants";
+import { APP_BASE_URL, CONTACT, DEFAULT_OG_IMAGE, SITE_NAME, DEFAULT_OG_IMAGE_ALT } from "@@/constants/constants";
 import type { LegalSection } from "@@/data/legal";
 
 export const PRIVACY_PAGE_URL = `${APP_BASE_URL}/privacy-policy`;
 export const PRIVACY_OG_IMAGE = DEFAULT_OG_IMAGE;
+export const PRIVACY_OG_IMAGE_ALT = DEFAULT_OG_IMAGE_ALT;
 
 export const PRIVACY_SEO = {
   title: "Privacy Policy",

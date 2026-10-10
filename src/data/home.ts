@@ -1,7 +1,9 @@
 import { APP_BASE_URL, DEFAULT_OG_IMAGE } from "@@/constants/constants";
+import { HERO_FX } from "@@/data/image-fx";
 
 export const HOME_PAGE_URL = `${APP_BASE_URL}/`;
 export const HOME_OG_IMAGE = DEFAULT_OG_IMAGE;
+export const HOME_OG_IMAGE_ALT = "Singer recording vocals at a studio microphone at EVA Entertainment";
 
 export const HOME_SEO = {
   title: "EVA Entertainment | Content Localization & Recording Studio Mumbai",
@@ -26,7 +28,7 @@ export const HOME_INTRO =
 export const SERVICE_CARDS = [
   {
     href: "/services#Lip-Sync",
-    image: "/images/home/services-grid-1.jpg",
+    image: "/images/home/services-grid-1.avif",
     alt: "Voice artist dubbing at a studio microphone",
     eyebrow: "Offering",
     title: "Language Dubbing",
@@ -35,7 +37,7 @@ export const SERVICE_CARDS = [
   },
   {
     href: "/services#mixing",
-    image: "/images/home/services-grid-2.jpg",
+    image: "/images/home/services-grid-2.avif",
     alt: "Sound engineer at a 5.1 mixing console",
     eyebrow: "Digital",
     title: "5.1 Mixing",
@@ -43,7 +45,7 @@ export const SERVICE_CARDS = [
   },
   {
     href: "/services#Folley",
-    image: "/images/home/services-grid-3.jpg",
+    image: "/images/home/services-grid-3.avif",
     alt: "Mixing console faders for Foley recording",
     eyebrow: "Royal",
     title: "Folley Recording",
@@ -51,7 +53,7 @@ export const SERVICE_CARDS = [
   },
   {
     href: "/services",
-    image: "/images/home/services-grid-4.jpg",
+    image: "/images/home/services-grid-4.avif",
     alt: "Studio headphones resting on piano keys",
     eyebrow: "Voice",
     title: "Translation",
@@ -60,7 +62,7 @@ export const SERVICE_CARDS = [
   },
   {
     href: "/services",
-    image: "/images/home/services-grid-5.jpg",
+    image: "/images/home/services-grid-5.avif",
     alt: "Producer browsing a stock music library",
     eyebrow: "Royal",
     title: "Stock Library",
@@ -68,7 +70,7 @@ export const SERVICE_CARDS = [
   },
   {
     href: "/services#Subtitling",
-    image: "/images/home/services-grid-6.jpg",
+    image: "/images/home/services-grid-6.avif",
     alt: "Laptop running subtitle editing software",
     eyebrow: "Text Services",
     title: "Subtitling",
@@ -79,8 +81,9 @@ export const SERVICE_CARDS = [
 
 export const HERO_SLIDES = [
   {
-    image: "/images/home/slide-1.jpg",
+    image: "/images/home/slide-1.avif",
     alt: "Female vocalist recording a voice-over",
+    fx: HERO_FX.singer,
     lines: [
       {
         role: "h1" as const,
@@ -95,8 +98,9 @@ export const HERO_SLIDES = [
     ],
   },
   {
-    image: "/images/home/slide-2.jpg",
+    image: "/images/home/slide-2.avif",
     alt: "Recording studio control room with mixing console",
+    fx: HERO_FX.console,
     lines: [
       {
         role: "subtitle" as const,

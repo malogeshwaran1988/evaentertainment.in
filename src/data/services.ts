@@ -1,7 +1,9 @@
-import { APP_BASE_URL, DEFAULT_OG_IMAGE } from "@@/constants/constants";
+import { APP_BASE_URL } from "@@/constants/constants";
+import { SERVICE_FX, type ImageFx } from "@@/data/image-fx";
 
 export const SERVICES_PAGE_URL = `${APP_BASE_URL}/services`;
-export const SERVICES_OG_IMAGE = DEFAULT_OG_IMAGE;
+export const SERVICES_OG_IMAGE = "/images/og/services.jpg";
+export const SERVICES_OG_IMAGE_ALT = "Condenser microphones in EVA Entertainment's dubbing booth";
 
 export const SERVICES_SEO = {
   title: "Services | Lip-Sync Dubbing, Voice Over & Subtitling",
@@ -14,6 +16,7 @@ export type ServiceBlock = {
   title: string;
   image: string;
   alt: string;
+  fx: ImageFx;
   dark?: boolean;
   paragraphs: string[];
   extraHeading?: string;
@@ -23,7 +26,8 @@ export const SERVICE_BLOCKS: ServiceBlock[] = [
   {
     id: "Lip-Sync",
     title: "Lip-Sync Dubbing",
-    image: "/images/services/equipment-01.jpg",
+    image: "/images/services/equipment-01.avif",
+    fx: SERVICE_FX.microphones,
     alt: "Condenser microphones in a dubbing booth",
     paragraphs: [
       "We offer to dub in various languages for movies, Fiction & Non-Fictions, ad films, documentaries, E-learning etc. Normally, a professional dubbing team consists of Sound Eng, Dubbing Artists, Dubbing Directors, Scriptwriter, Artist coordinator, and Translator. The main idea behind Dubbing is to ensure that the voice behind the video is in synchronization with the display.",
@@ -33,7 +37,8 @@ export const SERVICE_BLOCKS: ServiceBlock[] = [
   },
   {
     title: "Voice Over",
-    image: "/images/services/equipment-02.jpg",
+    image: "/images/services/equipment-02.avif",
+    fx: SERVICE_FX.preamps,
     alt: "Microphone preamps for voice-over recording",
     dark: true,
     paragraphs: [
@@ -45,7 +50,8 @@ export const SERVICE_BLOCKS: ServiceBlock[] = [
   {
     id: "Folley",
     title: "Folley Recording",
-    image: "/images/services/equipment-03.jpg",
+    image: "/images/services/equipment-03.avif",
+    fx: SERVICE_FX.workstation,
     alt: "Foley and sound design workstation",
     paragraphs: [
       "Sound design is commonly known as foley and sound effects. It is a process of specifying, acquiring, manipulating or generating audio elements. It employs a variety of disciplines including filmmaking, television, theatre, sound recording, live performance, sound art, and post-production.",
@@ -56,7 +62,8 @@ export const SERVICE_BLOCKS: ServiceBlock[] = [
   {
     id: "mixing",
     title: "5.1 Mixing",
-    image: "/images/services/equipment-04.jpg",
+    image: "/images/services/equipment-04.avif",
+    fx: SERVICE_FX.cables,
     alt: "Studio patch cables for 5.1 mixing",
     dark: true,
     paragraphs: [
@@ -67,7 +74,8 @@ export const SERVICE_BLOCKS: ServiceBlock[] = [
   {
     id: "Subtitling",
     title: "Subtitling",
-    image: "/images/services/equipment-05.jpg",
+    image: "/images/services/equipment-05.avif",
+    fx: SERVICE_FX.subtitles,
     alt: "Subtitled video beside a subtitle file",
     paragraphs: [
       "We offer International language subtitles for your English/Other language movies in the language of your requirement. If you require our services for subtitling projects with time stamping, we can provide you with a range of text services for corporate videos, movies, DVDs, games, advertisements and other media. So in case you are a professional/amateur filmmaker and require subtitling to be done for your movies/advertisement, you are welcome to contact us. By this way, you can increase potential viewers for your films.",

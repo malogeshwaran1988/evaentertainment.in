@@ -4,10 +4,11 @@ import Breadcrumbs from "@@/components/common/Breadcrumbs";
 import {
   ABOUT_CONTENT,
   ABOUT_OG_IMAGE,
+  ABOUT_OG_IMAGE_ALT,
   ABOUT_PAGE_URL,
   ABOUT_SEO,
 } from "@@/data/about";
-import { DEFAULT_OG_IMAGE_ALT, SITE_NAME } from "@@/constants/constants";
+import { SITE_NAME } from "@@/constants/constants";
 
 export const metadata: Metadata = {
   title: { absolute: ABOUT_SEO.title },
@@ -34,7 +35,7 @@ export const metadata: Metadata = {
         url: ABOUT_OG_IMAGE,
         width: 1200,
         height: 630,
-        alt: DEFAULT_OG_IMAGE_ALT,
+        alt: ABOUT_OG_IMAGE_ALT,
       },
     ],
     locale: "en_US",
@@ -44,7 +45,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: ABOUT_SEO.title,
     description: ABOUT_SEO.description,
-    images: [ABOUT_OG_IMAGE],
+    images: [{ url: ABOUT_OG_IMAGE, alt: ABOUT_OG_IMAGE_ALT }],
   },
 };
 

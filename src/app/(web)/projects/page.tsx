@@ -8,6 +8,7 @@ import {
   PROJECT_LANGUAGES,
   PROJECT_YEAR_ONGOING,
   PROJECTS_OG_IMAGE,
+  PROJECTS_OG_IMAGE_ALT,
   PROJECTS_PAGE_URL,
   PROJECTS_SEO,
 } from "@@/data/projects";
@@ -38,7 +39,7 @@ export const metadata: Metadata = {
         url: PROJECTS_OG_IMAGE,
         width: 1200,
         height: 630,
-        alt: PROJECTS_SEO.title,
+        alt: PROJECTS_OG_IMAGE_ALT,
       },
     ],
     locale: "en_US",
@@ -48,7 +49,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: PROJECTS_SEO.title,
     description: PROJECTS_SEO.description,
-    images: [PROJECTS_OG_IMAGE],
+    images: [{ url: PROJECTS_OG_IMAGE, alt: PROJECTS_OG_IMAGE_ALT }],
   },
 };
 

@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
+import ImageEffects from "@@/components/common/ImageEffects";
 import { HERO_SLIDES } from "@@/data/home";
 import { imageLoading } from "@@/lib/image-loading";
 
@@ -69,7 +70,7 @@ export default function HeroSlider() {
               className={`slide${i === index ? " is-active" : ""}`}
               aria-hidden={i !== index}
             >
-              <div className="img--holder eva-hero-media">
+              <div className="img--holder eva-hero-media eva-fx-host">
                 <Image
                   src={slide.image}
                   alt={slide.alt}
@@ -78,6 +79,7 @@ export default function HeroSlider() {
                   sizes="100vw"
                   className="eva-hero-media-img"
                 />
+                <ImageEffects fx={slide.fx} />
               </div>
               <div className="slide-content left">
                 <div className="vert-wrap container">

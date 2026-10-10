@@ -4,10 +4,11 @@ import Breadcrumbs from "@@/components/common/Breadcrumbs";
 import BookingForm from "@@/components/booking/BookingForm";
 import {
   BOOKING_OG_IMAGE,
+  BOOKING_OG_IMAGE_ALT,
   BOOKING_PAGE_URL,
   BOOKING_SEO,
 } from "@@/data/booking";
-import { APP_BASE_URL, DEFAULT_OG_IMAGE_ALT, SITE_NAME } from "@@/constants/constants";
+import { APP_BASE_URL, SITE_NAME } from "@@/constants/constants";
 
 export const metadata: Metadata = {
   title: { absolute: BOOKING_SEO.title },
@@ -34,7 +35,7 @@ export const metadata: Metadata = {
         url: BOOKING_OG_IMAGE,
         width: 1200,
         height: 630,
-        alt: DEFAULT_OG_IMAGE_ALT,
+        alt: BOOKING_OG_IMAGE_ALT,
       },
     ],
     locale: "en_US",
@@ -44,7 +45,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: BOOKING_SEO.title,
     description: BOOKING_SEO.description,
-    images: [BOOKING_OG_IMAGE],
+    images: [{ url: BOOKING_OG_IMAGE, alt: BOOKING_OG_IMAGE_ALT }],
   },
 };
 

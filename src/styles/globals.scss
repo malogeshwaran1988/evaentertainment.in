@@ -2717,3 +2717,373 @@ body:not(.page-blog) .block--darkbg .eva-project-dialog-title,
 }
 
 
+/* ---- Image effects: decorative animation layers over photos (see src/data/image-fx.ts) ---- */
+.eva-fx-host {
+  container-type: size;
+}
+
+/* Same box as the object-fit: cover image, so item percentages land on the photo. */
+.eva-fx-stage {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 1;
+  width: max(100cqw, 100cqh * var(--fx-ratio));
+  aspect-ratio: var(--fx-ratio);
+  translate: -50% -50%;
+  container-type: inline-size;
+  pointer-events: none;
+}
+
+@media (min-width: 768px) {
+  .eva-fx-stage--top-left {
+    top: 0;
+    left: 0;
+    translate: none;
+  }
+}
+
+.eva-fx {
+  position: absolute;
+  display: block;
+}
+
+.eva-fx--waves,
+.eva-fx--glow,
+.eva-fx--pulse,
+.eva-fx--twinkle,
+.eva-fx--bokeh {
+  width: calc(var(--s) * 1cqw);
+  aspect-ratio: 1;
+  translate: -50% -50%;
+}
+
+.eva-fx--waves span {
+  position: absolute;
+  inset: 0;
+  border: 0.25cqw solid rgba(255, 255, 255, 0.7);
+  border-radius: 50%;
+  opacity: 0;
+  animation: eva-fx-wave 2.4s ease-out infinite;
+  animation-delay: calc(var(--i) * 0.8s + var(--d, 0s));
+}
+
+.eva-fx--left span {
+  border-color: transparent;
+  border-left-color: rgba(255, 255, 255, 0.75);
+}
+
+.eva-fx--right span {
+  border-color: transparent;
+  border-right-color: rgba(255, 255, 255, 0.75);
+}
+
+.eva-fx--glow {
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(var(--c, 255, 255, 255), 0.6) 0, rgba(var(--c, 255, 255, 255), 0) 70%);
+  mix-blend-mode: screen;
+  animation: eva-fx-glow 1.8s ease-in-out var(--d, 0s) infinite alternate;
+}
+
+.eva-fx--pulse {
+  border: 0.2cqw solid rgba(255, 255, 255, 0.45);
+  border-radius: 50%;
+  opacity: 0;
+  animation: eva-fx-pulse 1s ease-out var(--d, 0s) infinite;
+}
+
+.eva-fx--twinkle {
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(var(--c, 255, 255, 255), 0.95) 0, rgba(var(--c, 255, 255, 255), 0) 65%);
+  mix-blend-mode: screen;
+  animation: eva-fx-twinkle 3s ease-in-out var(--d, 0s) infinite;
+}
+
+.eva-fx--bokeh {
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(var(--c, 255, 255, 255), 0.45) 0, rgba(var(--c, 255, 255, 255), 0) 70%);
+  mix-blend-mode: screen;
+  animation: eva-fx-drift 7s ease-in-out var(--d, 0s) infinite alternate;
+}
+
+.eva-fx--meter {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.12cqw;
+  width: calc(var(--w) * 1cqw);
+  height: calc(var(--h) * 1cqw);
+  rotate: var(--r, 0deg);
+  transform-origin: left center;
+}
+
+.eva-fx--meter span,
+.eva-eq span {
+  flex: 1;
+  height: 100%;
+  transform-origin: bottom;
+  animation: eva-fx-vu 0.7s ease-in-out infinite alternate;
+  animation-delay: calc(var(--i) * -0.13s);
+}
+
+.eva-fx--meter span {
+  background: linear-gradient(to top, #3cff5a, #d9ff3a 70%, #ff5a3a);
+  opacity: 0.85;
+}
+
+.eva-fx--meter span:nth-child(3n),
+.eva-eq span:nth-child(3n) {
+  animation-duration: 0.55s;
+}
+
+.eva-fx--meter span:nth-child(3n + 1),
+.eva-eq span:nth-child(3n + 1) {
+  animation-duration: 0.85s;
+}
+
+.eva-fx--playhead,
+.eva-fx--caption {
+  overflow: hidden;
+  width: calc(var(--w) * 1cqw);
+  height: calc(var(--h) * 1cqw);
+}
+
+.eva-fx--playhead span {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, rgba(120, 200, 255, 0) 70%, rgba(120, 200, 255, 0.2));
+  box-shadow: inset -0.2cqw 0 0 rgba(255, 255, 255, 0.9);
+  animation: eva-fx-sweep 4s linear infinite;
+}
+
+.eva-fx--caption span {
+  position: absolute;
+  inset: 0;
+  background: #000;
+  animation: eva-fx-caption 5s infinite;
+}
+
+.eva-fx--cursor {
+  width: 0.25cqw;
+  height: calc(var(--h) * 1cqw);
+  translate: 0 -50%;
+  background: #222;
+  animation: eva-fx-blink 1s steps(2, jump-none) infinite;
+}
+
+.eva-fx--waveline {
+  left: 0;
+  overflow: hidden;
+  width: 100%;
+  height: 3cqw;
+  translate: 0 -50%;
+  opacity: 0.6;
+}
+
+.eva-fx--waveline svg {
+  display: block;
+  width: 200%;
+  height: 100%;
+  animation: eva-fx-scroll 6s linear infinite;
+}
+
+.eva-fx--waveline path {
+  fill: none;
+  stroke: #70b615;
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;
+}
+
+/* Effects outside the viewport stay paused. */
+.eva-fx-lazy:not([data-inview]) .eva-fx,
+.eva-fx-lazy:not([data-inview]) .eva-fx *,
+.eva-fx-lazy:not([data-inview]) img {
+  animation-play-state: paused;
+}
+
+/* Hero: slow push-in on the active slide so the photo doesn't feel flat. */
+.eva-hero-slider .slide.is-active .eva-hero-media {
+  animation: eva-fx-zoom 7s ease-out both;
+}
+
+/* Home service cards: slow drift, plus an equaliser on hover/focus. */
+.service-item-photo {
+  position: relative;
+}
+
+.service-item-photo img {
+  animation: eva-fx-drift-img 14s ease-in-out infinite alternate;
+}
+
+.eva-eq {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 26px;
+  padding: 0 12px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.eva-eq span {
+  background: #70b615;
+  animation-play-state: paused;
+}
+
+.service-item:hover .eva-eq,
+.service-item:focus-visible .eva-eq {
+  opacity: 0.7;
+}
+
+.service-item:hover .eva-eq span,
+.service-item:focus-visible .eva-eq span {
+  animation-play-state: running;
+}
+
+@keyframes eva-fx-wave {
+  0% {
+    opacity: 0;
+    transform: scale(0.15);
+  }
+  20% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1);
+  }
+}
+
+@keyframes eva-fx-glow {
+  from {
+    opacity: 0.3;
+    transform: scale(0.85);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+}
+
+@keyframes eva-fx-pulse {
+  0% {
+    opacity: 0.7;
+    transform: scale(0.8);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.35);
+  }
+}
+
+@keyframes eva-fx-twinkle {
+  0%,
+  100% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes eva-fx-drift {
+  from {
+    opacity: 0.4;
+    transform: translate(-8%, 6%) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translate(8%, -6%) scale(1.1);
+  }
+}
+
+@keyframes eva-fx-vu {
+  0% {
+    transform: scaleY(0.2);
+  }
+  40% {
+    transform: scaleY(0.9);
+  }
+  70% {
+    transform: scaleY(0.45);
+  }
+  100% {
+    transform: scaleY(0.75);
+  }
+}
+
+@keyframes eva-fx-sweep {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes eva-fx-caption {
+  0% {
+    transform: translateX(0);
+    animation-timing-function: steps(7, end);
+  }
+  55%,
+  95% {
+    transform: translateX(100%);
+    animation-timing-function: step-end;
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes eva-fx-blink {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes eva-fx-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes eva-fx-zoom {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.06);
+  }
+}
+
+@keyframes eva-fx-drift-img {
+  from {
+    scale: 1;
+  }
+  to {
+    scale: 1.06;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .eva-fx-stage,
+  .eva-eq {
+    display: none;
+  }
+
+  .eva-hero-slider .slide.is-active .eva-hero-media,
+  .service-item-photo img {
+    animation: none;
+  }
+}
