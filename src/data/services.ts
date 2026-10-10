@@ -1,20 +1,7 @@
 import { APP_BASE_URL } from "@@/constants/constants";
-import { Routes, serviceHref, type ServiceSlug } from "@@/constants/routes";
+import { serviceHref, type ServiceSlug } from "@@/constants/routes";
 import type { SvgIconName } from "@@/components/common/Icons";
 import { HERO_FX, SERVICE_FX, type ImageFx } from "@@/data/image-fx";
-
-export const SERVICES_PAGE_URL = `${APP_BASE_URL}${Routes.SERVICES}`;
-export const SERVICES_OG_IMAGE = "/images/og/services.jpg";
-export const SERVICES_OG_IMAGE_ALT = "Condenser microphones in EVA Entertainment's dubbing booth";
-
-export const SERVICES_SEO = {
-  title: "Dubbing, Voice Over & Audio Post Services in Mumbai | EVA",
-  description:
-    "EVA Entertainment's studio services in Andheri, Mumbai: lip-sync dubbing, voice-over, Foley, 5.1 mixing, subtitling, song recording, translation and stock music.",
-};
-
-export const SERVICES_INTRO =
-  "Everything your film, series, ad or e-learning course needs to reach a new audience, recorded and finished under one roof in Andheri (W), Mumbai. Pick a service to see how we work.";
 
 type ServiceIcon = { icon: string; svg?: never } | { svg: SvgIconName; icon?: never };
 
@@ -335,3 +322,8 @@ export const SERVICES: Service[] = [
 export const getService = (slug: string) => SERVICES.find((s) => s.slug === slug);
 
 export const servicePageUrl = (slug: ServiceSlug) => `${APP_BASE_URL}${serviceHref(slug)}`;
+
+export const SERVICE_NAMES = Object.fromEntries(SERVICES.map((s) => [s.slug, s.name])) as Record<
+  ServiceSlug,
+  string
+>;

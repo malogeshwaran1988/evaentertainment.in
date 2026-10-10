@@ -1,7 +1,7 @@
 import Link from "@@/components/common/NavLink";
 import PageHero from "@@/components/common/PageHero";
 import { DEFAULT_OG_IMAGE, DEFAULT_OG_IMAGE_ALT } from "@@/constants/constants";
-import { Routes } from "@@/constants/routes";
+import { Routes, WHAT_WE_DO_HREF } from "@@/constants/routes";
 import { buildPageMetadata, absoluteUrl } from "@@/lib/seo";
 
 export const metadata = buildPageMetadata({
@@ -29,7 +29,7 @@ export default function ThankYouPage() {
             <Link href={Routes.HOME} className="btn btn--border">
               <span>Back to Home</span>
             </Link>
-            <Link href={Routes.SERVICES} className="btn">
+            <Link href={WHAT_WE_DO_HREF} className="btn">
               <span>Explore our services</span>
             </Link>
           </div>

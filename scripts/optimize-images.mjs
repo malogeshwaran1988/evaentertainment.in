@@ -15,7 +15,6 @@ const SOURCE_EXT = new Set([".jpg", ".jpeg", ".png", ".webp"]);
 const OG_IMAGES = {
   home: "home/slide-1",
   about: "about/about-1",
-  services: "services/equipment-01",
   projects: "services/equipment-03",
   equipment: "equipment/equipment-06",
   contact: "services/equipment-02",

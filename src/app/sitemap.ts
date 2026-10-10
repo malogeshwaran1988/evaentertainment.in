@@ -9,7 +9,6 @@ type Entry = [path: string, changeFrequency: "weekly" | "monthly" | "yearly", pr
 /** Thank You is noindex and old URLs redirect, so neither is listed. */
 const ENTRIES: Entry[] = [
   [Routes.HOME, "weekly", 1],
-  [Routes.SERVICES, "monthly", 0.9],
   ...SERVICE_SLUGS.map((slug): Entry => [serviceHref(slug), "monthly", 0.9]),
   [Routes.PROJECTS, "weekly", 0.8],
   [Routes.ABOUT, "monthly", 0.8],

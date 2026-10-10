@@ -8,7 +8,7 @@ import ServiceFaq from "@@/components/services/ServiceFaq";
 import ServiceHighlights from "@@/components/services/ServiceHighlights";
 import ServiceIntro from "@@/components/services/ServiceIntro";
 import { APP_BASE_URL, CONTACT, POSTAL_ADDRESS, SITE_NAME } from "@@/constants/constants";
-import { Routes, serviceHref } from "@@/constants/routes";
+import { serviceHref } from "@@/constants/routes";
 import { SERVICES, getService, servicePageUrl } from "@@/data/services";
 import { buildPageMetadata } from "@@/lib/seo";
 
@@ -70,10 +70,7 @@ export default async function ServicePage({ params }: PageProps<"/[service]">) {
         svg={service.svg ? <SvgIcon name={service.svg} /> : undefined}
         title={service.h1}
         subtitle={service.subtitle}
-        trail={[
-          { label: "Services", href: Routes.SERVICES },
-          { label: service.name, href: serviceHref(service.slug) },
-        ]}
+        trail={[{ label: service.name, href: serviceHref(service.slug) }]}
       />
       <ServiceIntro service={service} />
       <ServiceHighlights service={service} />

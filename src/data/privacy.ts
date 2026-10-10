@@ -137,7 +137,7 @@ export const PRIVACY_CONTENT = {
       blocks: [
         {
           type: "p",
-          text: "Our website may use essential cookies or similar storage needed for security, session continuity, and basic site function. We also use Microsoft Clarity for website analytics, which sets first-party and third-party cookies (such as _clck and _clsk) to measure how visitors use the site and to link page views within a visit. You can block or delete these cookies in your browser settings; the website will continue to work without them. We do not sell personal data and do not use advertising trackers. If we introduce marketing cookies in the future, we will update this Policy and, where required, seek appropriate consent.",
+          text: "Our website may use essential cookies or similar storage needed for security, session continuity, and basic site function. We also use Microsoft Clarity for website analytics, which sets first-party and third-party cookies (such as _clck and _clsk) to measure how visitors use the site and to link page views within a visit. Clarity only runs after you choose \"Accept all\" in the cookie banner. If you choose \"Reject\", analytics cookies are not set. You can change your choice at any time with \"Cookie settings\" at the bottom of every page, and you can also block or delete cookies in your browser settings; the website will continue to work without them. We do not sell personal data and do not use advertising trackers. If we introduce marketing cookies in the future, we will update this Policy and, where required, seek appropriate consent.",
         },
       ],
     },

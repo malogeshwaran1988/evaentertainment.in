@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "@@/components/common/NavLink";
+import CookieSettingsButton from "@@/components/common/CookieSettingsButton";
 import {
   CONTACT,
   LOGO_ALT,
@@ -9,10 +10,11 @@ import {
 import { NAV_ITEMS, Routes, serviceHref } from "@@/constants/routes";
 import { SERVICES } from "@@/data/services";
 
+/** The Services column already lists every service page. */
 const FOOTER_LINKS = [
-  ...NAV_ITEMS,
+  ...NAV_ITEMS.filter((item) => !item.children),
   { label: "CONTACT", href: Routes.CONTACT },
-] as const;
+];
 
 export default function Footer() {
   const year = new Date().getFullYear();
@@ -117,6 +119,7 @@ export default function Footer() {
           <nav className="eva-footer-legal" aria-label="Legal">
             <Link href={Routes.PRIVACY}>Privacy Policy</Link>
             <Link href={Routes.TERMS}>Terms of Service</Link>
+            <CookieSettingsButton />
           </nav>
         </div>
       </div>

@@ -36,7 +36,10 @@ export default async function HomePage() {
       <HeroSlider />
       <HomeProjects projects={projects} />
 
-      <section className="block block--darkbg block--fullbg block--bgcover inset-125 block-bg-1">
+      <section
+        id="what-we-do"
+        className="block block--darkbg block--fullbg block--bgcover inset-125 block-bg-1 eva-what-we-do"
+      >
         <div className="container">
           <h2 className="h--lg text-center">
             <i className="icon icon-mic" aria-hidden="true" />

@@ -6,11 +6,13 @@ import BookingCta from "@@/components/common/BookingCta";
 import GoToTopButton from "@@/components/common/GoToTopButton";
 import BodyClass from "@@/components/common/BodyClass";
 import ClarityAnalytics from "@@/components/common/ClarityAnalytics";
+import CookieConsent from "@@/components/common/CookieConsent";
 import WebHead from "@@/components/common/WebHead";
 import {
   APP_BASE_URL,
   SITE_NAME,
 } from "@@/constants/constants";
+import { SERVICE_NAMES } from "@@/data/services";
 import { HOME_OG_IMAGE, HOME_OG_IMAGE_ALT, HOME_PAGE_URL, HOME_SEO } from "@@/data/home";
 
 export const metadata: Metadata = {
@@ -70,12 +72,13 @@ export default function WebLayout({
       <body className="is-loaded">
         <div className="flex min-h-screen flex-col">
           <BodyClass />
-          <Header />
+          <Header serviceNames={SERVICE_NAMES} />
           <div className="flex-1">{children}</div>
           <BookingCta />
           <GoToTopButton />
           <Footer />
         </div>
+        <CookieConsent />
         <ClarityAnalytics />
       </body>
     </html>

@@ -1804,9 +1804,29 @@ body:not(.page-blog) .block--darkbg .eva-wwd-title,
   flex-shrink: 0;
 }
 
-.eva-contact-card--link:hover {
+.eva-contact-card--link:hover,
+.eva-contact-card--link:focus {
   border-color: rgba(112, 182, 21, 0.4);
   background: #fff;
+  text-decoration: none;
+}
+
+.eva-contact-card--link:focus-visible {
+  outline: 2px solid #70b615;
+  outline-offset: 2px;
+}
+
+.eva-contact-card--link:hover .eva-contact-card-value,
+.eva-contact-card--link:focus-visible .eva-contact-card-value,
+a.eva-contact-card-value:hover,
+a.eva-contact-card-value:focus-visible {
+  color: #4e8a0b;
+  text-decoration: underline;
+}
+
+.eva-contact-whatsapp:hover,
+.eva-contact-whatsapp:focus {
+  text-decoration: none;
 }
 
 .eva-contact-icon {
@@ -3484,4 +3504,310 @@ body:not(.page-blog) .block--darkbg h3.eva-service-ideal-title,
 
 .eva-thank-you-actions {
   justify-content: center;
+}
+
+/* ---- Header: SERVICES dropdown ---- */
+#what-we-do {
+  scroll-margin-top: 90px;
+}
+
+.eva-nav-has-sub {
+  position: relative;
+}
+
+.eva-header-bar .header-menu .menu .eva-nav-sub-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 44px;
+  margin: 0 0 0 -2px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.92);
+  cursor: pointer;
+}
+
+.eva-nav-sub-toggle > span {
+  width: 7px;
+  height: 7px;
+  margin-top: -4px;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(45deg);
+  transition: transform 0.2s ease;
+}
+
+.eva-nav-has-sub.is-sub-open .eva-nav-sub-toggle > span {
+  margin-top: 3px;
+  transform: rotate(-135deg);
+}
+
+.eva-header-bar .header-menu .menu .eva-nav-sub-toggle:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+.eva-header-bar .header-menu .menu .eva-nav-sub {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.eva-header-bar .header-menu .menu .eva-nav-sub > li > a {
+  text-decoration: none !important;
+  text-transform: none;
+}
+
+/* Tablet and desktop: floating panel under SERVICES */
+@media (min-width: 768px) {
+  .eva-header-bar .header-menu .menu > li.eva-nav-has-sub {
+    display: inline-flex !important;
+    align-items: center;
+  }
+
+  .eva-header-bar .header-menu .menu .eva-nav-sub {
+    display: block !important;
+    width: auto;
+    max-height: none !important;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    z-index: 100003;
+    min-width: 250px;
+    padding: 8px !important;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 10px;
+    background: rgba(20, 22, 26, 0.98);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+    opacity: 0;
+    visibility: hidden;
+    transform: translate(-50%, 6px);
+    transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s;
+  }
+
+  /* Invisible bridge so the pointer can travel from SERVICES to the panel. */
+  .eva-header-bar .header-menu .menu .eva-nav-sub::before {
+    content: "";
+    position: absolute;
+    top: -12px;
+    left: 0;
+    right: 0;
+    height: 12px;
+  }
+
+  .eva-nav-has-sub:hover > .eva-nav-sub,
+  .eva-nav-has-sub:focus-within:not(.is-sub-dismissed) > .eva-nav-sub,
+  .eva-nav-has-sub.is-sub-open > .eva-nav-sub {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: translate(-50%, 0) !important;
+  }
+
+  .eva-header-bar .header-menu .menu .eva-nav-sub > li {
+    display: block !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+  }
+
+  .eva-header-bar .header-menu .menu .eva-nav-sub > li > a {
+    display: flex !important;
+    align-items: center;
+    min-height: 40px;
+    padding: 8px 14px !important;
+    border: 0 !important;
+    border-radius: 6px;
+    color: rgba(255, 255, 255, 0.88) !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    letter-spacing: 0;
+    white-space: nowrap;
+  }
+
+  .eva-header-bar .header-menu .menu .eva-nav-sub > li > a:hover,
+  .eva-header-bar .header-menu .menu .eva-nav-sub > li > a:focus-visible,
+  .eva-header-bar .header-menu .menu .eva-nav-sub > li > a[aria-current="page"] {
+    background: rgba(112, 182, 21, 0.16);
+    color: #fff !important;
+  }
+
+  .eva-header-bar .header-menu .menu .eva-nav-sub > li > a:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: -2px;
+  }
+}
+
+/* Small desktops: narrower side columns so the menu (with the chevron) stays on one line */
+@media (min-width: 1025px) and (max-width: 1199px) {
+  .eva-header-bar > .logo,
+  .header-actions {
+    flex-basis: 200px;
+    width: 200px;
+    min-width: 200px;
+  }
+}
+
+/* Phone drawer: inline list that the chevron expands */
+@media (max-width: 767px) {
+  .eva-header-bar .header-menu .menu > li.eva-nav-has-sub {
+    display: flex !important;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .eva-header-bar .header-menu .menu > li.eva-nav-has-sub > a {
+    flex: 1 1 auto;
+  }
+
+  .eva-header-bar .header-menu .menu .eva-nav-sub-toggle {
+    width: 56px;
+    height: 48px;
+    margin: 0;
+  }
+
+  .eva-header-bar .header-menu .menu .eva-nav-sub {
+    display: none;
+    flex: 0 0 100%;
+    padding: 0 0 8px !important;
+  }
+
+  .eva-nav-has-sub.is-sub-open > .eva-nav-sub {
+    display: block !important;
+  }
+
+  .eva-header-bar .header-menu .menu .eva-nav-sub > li {
+    border: 0 !important;
+  }
+
+  .eva-header-bar .header-menu .menu .eva-nav-sub > li > a {
+    min-height: 44px;
+    padding: 10px 24px 10px 40px !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    color: rgba(255, 255, 255, 0.85) !important;
+  }
+
+  .eva-header-bar .header-menu .menu .eva-nav-sub > li > a[aria-current="page"] {
+    color: #abee2d !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .eva-header-bar .header-menu .menu .eva-nav-sub,
+  .eva-nav-sub-toggle > span {
+    transition: none;
+  }
+}
+
+/* ---- Cookie consent bar ---- */
+.eva-cookie-bar {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 100010;
+  padding: 16px 20px;
+  border-top: 2px solid #70b615;
+  background: rgba(19, 22, 29, 0.98);
+  box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.35);
+  color: rgba(255, 255, 255, 0.88);
+  animation: fadeIn 0.3s ease;
+}
+
+.eva-cookie-bar-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px 32px;
+  max-width: 1170px;
+  margin: 0 auto;
+}
+
+.eva-cookie-text {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.88);
+
+  strong {
+    color: #fff;
+  }
+
+  a {
+    color: #abee2d;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  a:hover,
+  a:focus-visible {
+    color: #fff;
+  }
+}
+
+.eva-cookie-actions {
+  display: flex;
+  flex-shrink: 0;
+  gap: 12px;
+}
+
+.eva-cookie-actions .btn {
+  min-height: 44px;
+  margin: 0;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.eva-cookie-actions .btn--border,
+.eva-cookie-actions .btn--border:focus {
+  color: #fff;
+}
+
+.eva-cookie-actions .btn:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
+
+.eva-footer-cookie-btn {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #13161d;
+  font: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  cursor: pointer;
+}
+
+.eva-footer-cookie-btn:hover,
+.eva-footer-cookie-btn:focus-visible {
+  color: #c8102e;
+}
+
+@media (max-width: 767px) {
+  .eva-cookie-bar {
+    padding: 14px 16px calc(14px + env(safe-area-inset-bottom));
+  }
+
+  .eva-cookie-bar-inner {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .eva-cookie-text {
+    font-size: 13px;
+  }
+
+  .eva-cookie-actions .btn {
+    flex: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .eva-cookie-bar {
+    animation: none;
+  }
 }
