@@ -7,7 +7,7 @@ import {
   PROJECT_YEAR_ONGOING,
   projectLanguageLine,
   projectPosterAlt,
-  type Project,
+  type PublicProject,
   type ProjectLanguage,
 } from "@@/data/projects";
 import { imageLoading } from "@@/lib/image-loading";
@@ -19,7 +19,7 @@ type Direction = "prev" | "next";
 const SWIPE_MIN_PX = 50;
 
 type ProjectsGalleryProps = {
-  projects: Project[];
+  projects: PublicProject[];
   languages: readonly ProjectLanguage[];
 };
 

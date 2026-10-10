@@ -84,5 +84,24 @@ async function convertToAvif() {
   }
 }
 
+/** Pre-blurred, darkened section backgrounds, so the browser never runs a live blur filter. */
+const BLURRED_BACKGROUNDS = {
+  "home/projects-bg": "services/equipment-04",
+};
+
+async function buildBlurredBackgrounds() {
+  for (const [name, base] of Object.entries(BLURRED_BACKGROUNDS)) {
+    const buffer = await sharp(findSource(base))
+      .resize({ width: 1600 })
+      .blur(14)
+      .modulate({ brightness: 0.6, saturation: 0.85 })
+      .avif({ quality: 40, effort: 6 })
+      .toBuffer();
+    await writeFile(path.join(ROOT, `${name}.avif`), buffer);
+    console.log(`${name}.avif`.padEnd(36), `${Math.round(buffer.length / 1024)} KB`);
+  }
+}
+
 await buildSocialImages();
 await convertToAvif();
+await buildBlurredBackgrounds();

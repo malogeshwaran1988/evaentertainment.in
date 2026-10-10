@@ -50,6 +50,12 @@ export type Project = {
   updatedAt: string;
 };
 
+/** What the website and `GET /api/projects` expose: no internal timestamps. */
+export type PublicProject = Omit<Project, "createdAt" | "updatedAt"> & {
+  /** "Ongoing" or the release year; absent for older projects. */
+  yearLabel?: string;
+};
+
 export type ProjectInput = Pick<
   Project,
   "title" | "from" | "to" | "category" | "poster" | "posterAlt" | "year"

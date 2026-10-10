@@ -4,7 +4,7 @@ import Link from "@@/components/common/NavLink";
 import { SvgIcon } from "@@/components/common/Icons";
 import InViewFx from "@@/components/common/InViewFx";
 import HeroSlider from "@@/components/home/HeroSlider";
-import HomeProjects from "@@/components/home/HomeProjects";
+import HomeProjects, { HOME_PROJECTS_LIMIT } from "@@/components/home/HomeProjects";
 import { CONTACT, SITE_NAME, SOCIAL_LINKS } from "@@/constants/constants";
 import {
   HOME_INTRO,
@@ -12,12 +12,12 @@ import {
   SERVICE_CARDS,
   WHAT_WE_DO,
 } from "@@/data/home";
-import { getProjects } from "@@/lib/projects-store";
+import { getPublicProjects } from "@@/lib/projects-public";
 
 const EQ_BARS = Array.from({ length: 16 }, (_, i) => i);
 
 export default async function HomePage() {
-  const projects = await getProjects();
+  const { projects } = await getPublicProjects({ limit: HOME_PROJECTS_LIMIT });
   const orgSchema = {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",

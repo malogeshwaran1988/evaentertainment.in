@@ -3176,9 +3176,53 @@ body:not(.page-blog) .block--darkbg .eva-project-dialog-title,
 
 /* ---- Home: ongoing / recent projects strip ---- */
 .block.eva-home-projects {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
   margin-bottom: 0;
   padding-top: 72px;
   padding-bottom: 72px;
+  background: #121418;
+  border-top: 1px solid rgba(112, 182, 21, 0.35);
+  border-bottom: 1px solid rgba(112, 182, 21, 0.35);
+}
+
+/* Layers, back to front: blurred studio photo, dark overlay for text contrast, green glow. */
+.page-main .eva-home-projects-bg {
+  position: absolute;
+  inset: 0;
+  z-index: -3;
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  object-fit: cover;
+}
+
+.block.eva-home-projects::before,
+.block.eva-home-projects::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.block.eva-home-projects::before {
+  z-index: -2;
+  background: linear-gradient(
+    180deg,
+    rgba(10, 11, 14, 0.82) 0%,
+    rgba(10, 11, 14, 0.55) 45%,
+    rgba(10, 11, 14, 0.85) 100%
+  );
+}
+
+.block.eva-home-projects::after {
+  z-index: -1;
+  background: radial-gradient(
+    ellipse 60% 45% at 50% 62%,
+    rgba(112, 182, 21, 0.18),
+    transparent 70%
+  );
 }
 
 .eva-home-projects .title-wrap {

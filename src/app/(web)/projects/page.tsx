@@ -4,7 +4,7 @@ import { connection } from "next/server";
 import Breadcrumbs from "@@/components/common/Breadcrumbs";
 import { SvgIcon } from "@@/components/common/Icons";
 import ProjectsGallery from "@@/components/projects/ProjectsGallery";
-import { getProjects } from "@@/lib/projects-store";
+import { getPublicProjects } from "@@/lib/projects-public";
 import {
   PROJECT_LANGUAGES,
   PROJECT_YEAR_ONGOING,
@@ -57,7 +57,7 @@ export const metadata: Metadata = {
 export default async function ProjectsPage() {
   // Read at request time: projects.json lives on the server and changes from the admin panel.
   await connection();
-  const projects = await getProjects();
+  const { projects } = await getPublicProjects();
   const schema = {
     "@context": "https://schema.org",
     "@type": "CollectionPage",

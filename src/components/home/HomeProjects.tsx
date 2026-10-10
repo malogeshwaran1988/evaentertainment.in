@@ -5,38 +5,38 @@ import { PosterPlaceholder, YearBadge } from "@@/components/projects/ProjectPost
 import { Routes } from "@@/constants/routes";
 import {
   POSTER_URL_PREFIX,
-  PROJECT_YEAR_ONGOING,
   projectLanguageLine,
   projectPosterAlt,
-  type Project,
+  type PublicProject,
 } from "@@/data/projects";
 
-const MAX_SHOWN = 6;
+export const HOME_PROJECTS_LIMIT = 6;
 
-/** Home strip: ongoing projects, or the latest ones when nothing is in production. */
-export default function HomeProjects({ projects }: { projects: Project[] }) {
+/** Home strip: ongoing projects first, then the newest by year (order comes from getPublicProjects). */
+export default function HomeProjects({ projects }: { projects: PublicProject[] }) {
   if (projects.length === 0) return null;
-
-  const ongoing = projects.filter((p) => p.year === PROJECT_YEAR_ONGOING);
-  const shown = (ongoing.length > 0 ? ongoing : projects).slice(0, MAX_SHOWN);
-  const heading = ongoing.length > 0 ? "Ongoing Projects" : "Recent Projects";
 
   return (
     <section className="block block--darkbg eva-home-projects" aria-labelledby="eva-home-projects-title">
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        className="eva-home-projects-bg"
+        src="/images/home/projects-bg.avif"
+        alt=""
+        aria-hidden="true"
+        loading="lazy"
+        decoding="async"
+      />
       <div className="container">
         <div className="title-wrap text-center">
           <h2 className="h--lg" id="eva-home-projects-title">
             <SvgIcon name="film" />
-            {heading}
+            Ongoing &amp; Recent Projects
           </h2>
-          <p className="p--lg">
-            {ongoing.length > 0
-              ? "Titles our team is dubbing right now"
-              : "A few of the titles we have dubbed recently"}
-          </p>
+          <p className="p--lg">What we are dubbing now, and titles we have finished recently</p>
         </div>
         <ul className="eva-projects-grid eva-home-projects-grid">
-          {shown.map((project) => (
+          {projects.slice(0, HOME_PROJECTS_LIMIT).map((project) => (
             <li className="eva-project-card" key={project.id}>
               <div className="eva-project-poster">
                 <YearBadge year={project.year} />
