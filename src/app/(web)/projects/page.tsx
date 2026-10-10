@@ -18,11 +18,11 @@ export const metadata: Metadata = {
   description: PROJECTS_SEO.description,
   alternates: { canonical: PROJECTS_PAGE_URL },
   robots: {
-    index: false,
-    follow: false,
+    index: true,
+    follow: true,
     googleBot: {
-      index: false,
-      follow: false,
+      index: true,
+      follow: true,
       "max-video-preview": -1,
       "max-image-preview": "large",
       "max-snippet": -1,
