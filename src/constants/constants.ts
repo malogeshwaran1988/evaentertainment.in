@@ -23,6 +23,15 @@ export const CONTACT = {
   infoEmail: "info@evaentertainment.in",
 } as const;
 
+/** schema.org PostalAddress for JSON-LD. */
+export const POSTAL_ADDRESS = {
+  "@type": "PostalAddress",
+  streetAddress: "No.228, 2nd Floor, Mohid Heights, Near RTO Office, Opp Four Bungalows",
+  addressLocality: "Andheri West, Mumbai",
+  postalCode: "400053",
+  addressCountry: "IN",
+} as const;
+
 export const SOCIAL_LINKS = [
   {
     label: "LinkedIn",

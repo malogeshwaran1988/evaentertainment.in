@@ -20,6 +20,14 @@ const OG_IMAGES = {
   equipment: "equipment/equipment-06",
   contact: "services/equipment-02",
   book: "home/slide-2",
+  "dubbing-studio-mumbai": "services/equipment-01",
+  "voice-over-studio-mumbai": "services/equipment-02",
+  "foley-recording-mumbai": "services/equipment-03",
+  "5-1-mixing-studio-mumbai": "services/equipment-04",
+  "subtitling-services-mumbai": "services/equipment-05",
+  "song-recording-studio-mumbai": "home/slide-2",
+  "translation-services-mumbai": "services/equipment-05",
+  "stock-music-library": "home/services-grid-5",
 };
 
 async function encodeUnder(pipeline, encode, qualities) {

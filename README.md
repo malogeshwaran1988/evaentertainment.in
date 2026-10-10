@@ -19,7 +19,7 @@ Copy `.env.example` to `.env.local` and set SMTP credentials for contact/booking
 ## Admin panel
 
 - Sign in at `/login` with `ADMIN_USERNAME` / `ADMIN_PASSWORD`. `ADMIN_SESSION_SECRET` (32+ random characters) signs the session cookie; changing it logs everyone out.
-- `/admin/projects` lists, adds, edits and deletes projects shown on the public `/projects` page. `/admin/profile` shows the account and a logout button.
+- `/admin/projects` lists, adds, edits and deletes projects shown on the public `/our-projects` page. `/admin/profile` shows the account and a logout button.
 - Project posters are optional: JPG/PNG/WebP/AVIF, max 150 KB, portrait 2:3. Replacing, removing or deleting a project deletes the old poster. Posters are always served at `/images/our-projects/<name>` by the route handler in `src/app/images/our-projects/[file]/route.ts`.
 - Poster files are named after the project (for example "Biker" is saved as `biker.avif`), so two projects can't have the same name; the form shows "A project named … already exists." Renaming a project renames its poster. The stored path carries a `?v=` version so a replaced poster shows up immediately.
 - The project list is seeded with sample projects on first run.
@@ -27,6 +27,15 @@ Copy `.env.example` to `.env.local` and set SMTP credentials for contact/booking
 - **Local development (no `BLOB_READ_WRITE_TOKEN`):** the project list is saved to `projects.json` in `EVA_DATA_DIR` (default `./storage`), and posters to `public/images/our-projects/`. Both are gitignored.
 - **Testing against the real Blob store locally:** put `BLOB_READ_WRITE_TOKEN` (Vercel > Storage > eva-our-project > `.env.local` tab) and `EVA_BLOB_PREFIX=eva-test/` in `.env.local`, so test data goes to `eva-test/` instead of the live `eva/` folder. Remove the token again when done.
 - All admin URLs send `noindex, nofollow` (meta tag and `X-Robots-Tag` header) and are not in the sitemap.
+
+## Public URLs
+
+All paths live in `src/constants/routes.ts`; the sitemap, menu, footer and redirects read from it.
+
+- `/`, `/about-us`, `/services`, `/our-projects`, `/studio-equipment`, `/contact-us`, `/book-studio-session`, `/privacy-policy`, `/terms-conditions` (`/thank-you` is noindex).
+- One page per service, built from `src/data/services.ts` by `src/app/(web)/[service]/page.tsx`: `/dubbing-studio-mumbai`, `/voice-over-studio-mumbai`, `/foley-recording-mumbai`, `/5-1-mixing-studio-mumbai`, `/subtitling-services-mumbai`, `/song-recording-studio-mumbai`, `/translation-services-mumbai`, `/stock-music-library`.
+- Old URLs (`/about`, `/contact`, `/projects`, `/equipment`, `/book`, `/privacy`, `/terms`) permanently redirect to the new ones (`LEGACY_REDIRECTS`). Old `/services#…` anchors are forwarded in the browser to the matching service page.
+- `GET /api/projects` is the public, read-only projects list.
 
 ## Structure
 

@@ -1,4 +1,5 @@
 import { APP_BASE_URL, DEFAULT_OG_IMAGE } from "@@/constants/constants";
+import { serviceHref, type ServiceSlug } from "@@/constants/routes";
 import { HERO_FX } from "@@/data/image-fx";
 
 export const HOME_PAGE_URL = `${APP_BASE_URL}/`;
@@ -11,63 +12,24 @@ export const HOME_SEO = {
     "EVA Entertainment in Andheri, Mumbai offers lip-sync dubbing, voice-over, Foley recording, 5.1 mixing, subtitling, and multimedia localization services.",
 };
 
-export const WHAT_WE_DO = [
-  {
-    icon: "icon icon-lip-syncdubbing-01",
-    title: "Lip-Sync Dubbing",
-    description: "Natural, fully lip-synced dubbing in any language.",
-    href: "/services#Lip-Sync",
-  },
-  {
-    icon: "icon icon-voiceover",
-    title: "Voice Over",
-    description: "Native male, female and child voices for every format.",
-    href: "/services",
-  },
-  {
-    icon: "icon icon-songrecording",
-    title: "Song Recording",
-    description: "Vocals and instruments in a quiet, private studio.",
-    href: "/services",
-  },
-  {
-    icon: "icon icon-folleyrecording",
-    title: "Folley Recording",
-    description: "Foley and sound effects that bring every scene to life.",
-    href: "/services#Folley",
-  },
-  {
-    icon: "icon icon-stocklibrary",
-    title: "Stock Library",
-    description: "A curated library of stock music for your projects.",
-    href: "/services",
-  },
-  {
-    svg: "podcast",
-    title: "5.1 Mixing & Mastering",
-    description: "From mono voice tracks to Dolby E 5.1 broadcast mixes.",
-    href: "/services#mixing",
-  },
-  {
-    icon: "icon icon-translate1",
-    title: "Subtitling",
-    description: "Time-stamped subtitles written by native speakers.",
-    href: "/services#Subtitling",
-  },
-  {
-    svg: "language",
-    title: "Translation",
-    description: "Script translation for Indian and international languages.",
-    href: "/services",
-  },
-] as const;
+/** "What We Do" cards on the home page, in display order. */
+export const WHAT_WE_DO: ServiceSlug[] = [
+  "dubbing-studio-mumbai",
+  "voice-over-studio-mumbai",
+  "song-recording-studio-mumbai",
+  "foley-recording-mumbai",
+  "stock-music-library",
+  "5-1-mixing-studio-mumbai",
+  "subtitling-services-mumbai",
+  "translation-services-mumbai",
+];
 
 export const HOME_INTRO =
   "The EVA Entertainment Recording Studio is the brainchild of Sound who understand that the best art comes from the best environment.";
 
 export const SERVICE_CARDS = [
   {
-    href: "/services#Lip-Sync",
+    href: serviceHref("dubbing-studio-mumbai"),
     image: "/images/home/services-grid-1.avif",
     alt: "Voice artist dubbing at a studio microphone",
     eyebrow: "Offering",
@@ -76,7 +38,7 @@ export const SERVICE_CARDS = [
       "Our studio is the ideal place for Lip-Sync & voice-over dubbing; it's quiet, it's private and has every possible amenity you could desire.",
   },
   {
-    href: "/services#mixing",
+    href: serviceHref("5-1-mixing-studio-mumbai"),
     image: "/images/home/services-grid-2.avif",
     alt: "Sound engineer at a 5.1 mixing console",
     eyebrow: "Digital",
@@ -84,15 +46,15 @@ export const SERVICE_CARDS = [
     description: "",
   },
   {
-    href: "/services#Folley",
+    href: serviceHref("foley-recording-mumbai"),
     image: "/images/home/services-grid-3.avif",
     alt: "Mixing console faders for Foley recording",
     eyebrow: "Royal",
-    title: "Folley Recording",
+    title: "Foley Recording",
     description: "",
   },
   {
-    href: "/services",
+    href: serviceHref("translation-services-mumbai"),
     image: "/images/home/services-grid-4.avif",
     alt: "Studio headphones resting on piano keys",
     eyebrow: "Voice",
@@ -101,7 +63,7 @@ export const SERVICE_CARDS = [
       "facilities deliver audio production, creative sound design and studio direction for...",
   },
   {
-    href: "/services",
+    href: serviceHref("stock-music-library"),
     image: "/images/home/services-grid-5.avif",
     alt: "Producer browsing a stock music library",
     eyebrow: "Royal",
@@ -109,7 +71,7 @@ export const SERVICE_CARDS = [
     description: "Amplify your ideas and explore our curated stock music library.",
   },
   {
-    href: "/services#Subtitling",
+    href: serviceHref("subtitling-services-mumbai"),
     image: "/images/home/services-grid-6.avif",
     alt: "Laptop running subtitle editing software",
     eyebrow: "Text Services",

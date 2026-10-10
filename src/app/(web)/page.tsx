@@ -1,11 +1,11 @@
 import type { CSSProperties } from "react";
-import Script from "next/script";
 import Link from "@@/components/common/NavLink";
-import { SvgIcon } from "@@/components/common/Icons";
 import InViewFx from "@@/components/common/InViewFx";
+import JsonLd from "@@/components/common/JsonLd";
 import HeroSlider from "@@/components/home/HeroSlider";
 import HomeProjects, { HOME_PROJECTS_LIMIT } from "@@/components/home/HomeProjects";
-import { CONTACT, SITE_NAME, SOCIAL_LINKS } from "@@/constants/constants";
+import ServiceCardGrid from "@@/components/services/ServiceCardGrid";
+import { APP_BASE_URL, CONTACT, POSTAL_ADDRESS, SITE_NAME, SOCIAL_LINKS } from "@@/constants/constants";
 import {
   HOME_INTRO,
   HOME_PAGE_URL,
@@ -23,26 +23,16 @@ export default async function HomePage() {
     "@type": "LocalBusiness",
     name: SITE_NAME,
     url: HOME_PAGE_URL,
-    image: "https://evaentertainment.in/images/common/eva-logo.avif",
+    image: `${APP_BASE_URL}/images/common/eva-logo.avif`,
     telephone: CONTACT.whatsappDisplay,
     email: CONTACT.infoEmail,
-    address: {
-      "@type": "PostalAddress",
-      streetAddress: "No.228, 2nd Floor, Mohid Heights, Near RTO Office, Opp Four Bungalows",
-      addressLocality: "Andheri West, Mumbai",
-      postalCode: "400053",
-      addressCountry: "IN",
-    },
+    address: POSTAL_ADDRESS,
     sameAs: SOCIAL_LINKS.map((s) => s.href),
   };
 
   return (
     <main className="page-main home-page">
-      <Script
-        id="home-localbusiness-jsonld"
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }}
-      />
+      <JsonLd id="home-localbusiness-jsonld" data={orgSchema} />
       <HeroSlider />
       <HomeProjects projects={projects} />
 
@@ -57,23 +47,7 @@ export default async function HomePage() {
               {HOME_INTRO}
             </p>
           </div>
-          <ul className="eva-wwd-grid">
-            {WHAT_WE_DO.map((item) => (
-              <li key={item.title}>
-                <Link className="eva-wwd-card" href={item.href}>
-                  <span className="eva-wwd-icon" aria-hidden="true">
-                    {"svg" in item ? (
-                      <SvgIcon name={item.svg} />
-                    ) : (
-                      <i className={item.icon} />
-                    )}
-                  </span>
-                  <h3 className="eva-wwd-title">{item.title}</h3>
-                  <p className="eva-wwd-text">{item.description}</p>
-                </Link>
-              </li>
-            ))}
-          </ul>
+          <ServiceCardGrid slugs={WHAT_WE_DO} />
         </div>
       </section>
 

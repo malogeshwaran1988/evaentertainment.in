@@ -6,7 +6,7 @@ export const TERMS_OG_IMAGE = DEFAULT_OG_IMAGE;
 export const TERMS_OG_IMAGE_ALT = DEFAULT_OG_IMAGE_ALT;
 
 export const TERMS_SEO = {
-  title: "Terms of Service",
+  title: "Terms of Service | EVA Entertainment",
   description:
     "Terms of Service for EVA Entertainment Recording Studio — bookings, studio use, IP, confidentiality, and governing law for clients in India and international projects.",
 };

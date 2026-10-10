@@ -1,79 +1,44 @@
-import type { Metadata } from "next";
-import Image from "next/image";
-import Script from "next/script";
-import Breadcrumbs from "@@/components/common/Breadcrumbs";
-import ImageEffects from "@@/components/common/ImageEffects";
-import InViewFx from "@@/components/common/InViewFx";
+import JsonLd from "@@/components/common/JsonLd";
+import PageHero from "@@/components/common/PageHero";
+import LegacyServiceHash from "@@/components/services/LegacyServiceHash";
+import ServiceCardGrid from "@@/components/services/ServiceCardGrid";
+import { APP_BASE_URL, SITE_NAME } from "@@/constants/constants";
+import { Routes, SERVICE_SLUGS } from "@@/constants/routes";
 import {
-  FOLLEY_EXTRA_PARAGRAPH,
-  SERVICE_BLOCKS,
+  SERVICES,
+  SERVICES_INTRO,
   SERVICES_OG_IMAGE,
   SERVICES_OG_IMAGE_ALT,
   SERVICES_PAGE_URL,
   SERVICES_SEO,
+  servicePageUrl,
 } from "@@/data/services";
-import { SITE_NAME } from "@@/constants/constants";
-import { imageLoading } from "@@/lib/image-loading";
+import { buildPageMetadata } from "@@/lib/seo";
 
-export const metadata: Metadata = {
-  title: { absolute: SERVICES_SEO.title },
-  description: SERVICES_SEO.description,
-  alternates: { canonical: SERVICES_PAGE_URL },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
-  },
-  openGraph: {
-    title: SERVICES_SEO.title,
-    description: SERVICES_SEO.description,
-    url: SERVICES_PAGE_URL,
-    siteName: SITE_NAME,
-    images: [
-      {
-        url: SERVICES_OG_IMAGE,
-        width: 1200,
-        height: 630,
-        alt: SERVICES_OG_IMAGE_ALT,
-      },
-    ],
-    locale: "en_US",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: SERVICES_SEO.title,
-    description: SERVICES_SEO.description,
-    images: [{ url: SERVICES_OG_IMAGE, alt: SERVICES_OG_IMAGE_ALT }],
-  },
-};
+export const metadata = buildPageMetadata({
+  ...SERVICES_SEO,
+  url: SERVICES_PAGE_URL,
+  ogImage: SERVICES_OG_IMAGE,
+  ogImageAlt: SERVICES_OG_IMAGE_ALT,
+});
 
 export default function ServicesPage() {
   const schema = {
     "@context": "https://schema.org",
-    "@type": "Service",
-    name: "EVA Entertainment Localization Services",
+    "@type": "CollectionPage",
+    name: SERVICES_SEO.title,
     description: SERVICES_SEO.description,
     url: SERVICES_PAGE_URL,
-    provider: {
-      "@type": "Organization",
-      name: SITE_NAME,
-      url: "https://evaentertainment.in/",
-    },
-    hasOfferCatalog: {
+    mainEntity: {
       "@type": "OfferCatalog",
       name: "Studio Services",
-      itemListElement: SERVICE_BLOCKS.map((block) => ({
+      itemListElement: SERVICES.map((s) => ({
         "@type": "Offer",
         itemOffered: {
           "@type": "Service",
-          name: block.title,
+          name: s.name,
+          url: servicePageUrl(s.slug),
+          provider: { "@type": "Organization", name: SITE_NAME, url: `${APP_BASE_URL}/` },
         },
       })),
     },
@@ -81,71 +46,23 @@ export default function ServicesPage() {
 
   return (
     <main className="page-main">
-      <Script
-        id="services-jsonld"
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      <LegacyServiceHash />
+      <JsonLd id="services-jsonld" data={schema} />
+      <PageHero
+        icon="icon-audio"
+        title="Our Services"
+        subtitle={SERVICES_INTRO}
+        trail={[{ label: "Services", href: Routes.SERVICES }]}
+        className="bottom-null"
       />
-      <div className="block block--title block--darkbg">
+      <section
+        className="block block--darkbg block--fullbg block--bgcover block-bg-1 eva-services-hub"
+        aria-label="All services"
+      >
         <div className="container">
-          <div className="text-center">
-            <h1>
-              <i className="icon icon-audio" aria-hidden="true" />
-              Services
-            </h1>
-            <Breadcrumbs current="Services" />
-          </div>
+          <ServiceCardGrid slugs={SERVICE_SLUGS} heading="h2" />
         </div>
-      </div>
-
-      {SERVICE_BLOCKS.map((block, i) => {
-        const imageOnLeft = Boolean(block.dark);
-        return (
-          <section
-            key={block.title}
-            id={block.id}
-            className={`block bottom-null${block.dark ? " block--darkbg" : ""}`}
-          >
-            <div className="container">
-              <div
-                className={`row row--half${block.dark ? " bg-grey-dark" : ""}`}
-              >
-                <InViewFx
-                  className={`${imageOnLeft ? "half-bg-left" : "half-bg-right"} eva-fx-host eva-fx-lazy`}
-                >
-                  <Image
-                    src={block.image}
-                    alt={block.alt}
-                    fill
-                    {...imageLoading(i)}
-                    sizes="(min-width: 768px) 50vw, 100vw"
-                    className="eva-half-bg-img"
-                  />
-                  <ImageEffects fx={block.fx} anchor="top-left" />
-                </InViewFx>
-                <div
-                  className={`col-sm-6${imageOnLeft ? " pull-right" : ""}`}
-                >
-                  <h2 className="text-uppercase heading-as-h5">
-                    <span className="theme-color">{block.title}</span>
-                  </h2>
-                  <div className="marker-list">
-                    {block.paragraphs.map((p) => (
-                      <p key={p.slice(0, 48)}>{p}</p>
-                    ))}
-                    {block.extraHeading ? (
-                      <>
-                        <h3 className="heading-as-h4">{block.extraHeading}</h3>
-                        <p>{FOLLEY_EXTRA_PARAGRAPH}</p>
-                      </>
-                    ) : null}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-        );
-      })}
+      </section>
     </main>
   );
 }

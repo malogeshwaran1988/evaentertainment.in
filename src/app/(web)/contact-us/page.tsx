@@ -1,8 +1,10 @@
-import type { Metadata } from "next";
-import Script from "next/script";
-import Breadcrumbs from "@@/components/common/Breadcrumbs";
+import JsonLd from "@@/components/common/JsonLd";
+import PageHero from "@@/components/common/PageHero";
+import { Routes } from "@@/constants/routes";
+import { SERVICES } from "@@/data/services";
+import { buildPageMetadata } from "@@/lib/seo";
 import ContactForm from "@@/components/contact/ContactForm";
-import { CONTACT, SITE_NAME } from "@@/constants/constants";
+import { CONTACT } from "@@/constants/constants";
 import {
   CONTACT_INTRO,
   CONTACT_OG_IMAGE,
@@ -12,44 +14,12 @@ import {
   MAP_EMBEDS,
 } from "@@/data/contact";
 
-export const metadata: Metadata = {
-  title: { absolute: CONTACT_SEO.title },
-  description: CONTACT_SEO.description,
-  alternates: { canonical: CONTACT_PAGE_URL },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
-  },
-  openGraph: {
-    title: CONTACT_SEO.title,
-    description: CONTACT_SEO.description,
-    url: CONTACT_PAGE_URL,
-    siteName: SITE_NAME,
-    images: [
-      {
-        url: CONTACT_OG_IMAGE,
-        width: 1200,
-        height: 630,
-        alt: CONTACT_OG_IMAGE_ALT,
-      },
-    ],
-    locale: "en_US",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: CONTACT_SEO.title,
-    description: CONTACT_SEO.description,
-    images: [{ url: CONTACT_OG_IMAGE, alt: CONTACT_OG_IMAGE_ALT }],
-  },
-};
+export const metadata = buildPageMetadata({
+  ...CONTACT_SEO,
+  url: CONTACT_PAGE_URL,
+  ogImage: CONTACT_OG_IMAGE,
+  ogImageAlt: CONTACT_OG_IMAGE_ALT,
+});
 
 export default function ContactPage() {
   const whatsappHref = `https://wa.me/${CONTACT.whatsapp.replace("+", "")}`;
@@ -61,44 +31,18 @@ export default function ContactPage() {
     name: CONTACT_SEO.title,
     description: CONTACT_SEO.description,
     url: CONTACT_PAGE_URL,
-    breadcrumb: {
-      "@type": "BreadcrumbList",
-      itemListElement: [
-        {
-          "@type": "ListItem",
-          position: 1,
-          name: "Home",
-          item: "https://evaentertainment.in/",
-        },
-        {
-          "@type": "ListItem",
-          position: 2,
-          name: "Contact",
-          item: CONTACT_PAGE_URL,
-        },
-      ],
-    },
   };
 
   return (
     <main className="page-main">
-      <Script
-        id="contact-jsonld"
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      <JsonLd id="contact-jsonld" data={schema} />
+      <PageHero
+        icon="icon-travel"
+        title="Contact Us"
+        subtitle={CONTACT_INTRO}
+        trail={[{ label: "Contact", href: Routes.CONTACT }]}
+        className="bottom-null"
       />
-      <div className="block block--title block--darkbg bottom-null">
-        <div className="container">
-          <div className="text-center">
-            <h1>
-              <i className="icon icon-travel" aria-hidden="true" />
-              Contact Us
-            </h1>
-            <p className="eva-contact-intro">{CONTACT_INTRO}</p>
-            <Breadcrumbs current="Contact" />
-          </div>
-        </div>
-      </div>
 
       <section className="block eva-contact-section" aria-label="Contact details and enquiry form">
         <div className="container">
@@ -214,7 +158,7 @@ export default function ContactPage() {
               <h2 className="eva-contact-group-title">
                 Enquiry <span>Form</span>
               </h2>
-              <ContactForm />
+              <ContactForm services={SERVICES.map((s) => s.name)} />
             </div>
           </div>
         </div>

@@ -1,11 +1,11 @@
 import { APP_BASE_URL } from "@@/constants/constants";
 
-export const PROJECTS_PAGE_URL = `${APP_BASE_URL}/projects`;
+export const PROJECTS_PAGE_URL = `${APP_BASE_URL}/our-projects`;
 export const PROJECTS_OG_IMAGE = "/images/og/projects.jpg";
 export const PROJECTS_OG_IMAGE_ALT = "Editing workstation with control surfaces for dubbing projects";
 
 export const PROJECTS_SEO = {
-  title: "Our Projects | Movie Dubbing Portfolio",
+  title: "Our Projects | Movie Dubbing Portfolio | EVA Entertainment",
   description:
     "Explore EVA Entertainment's movie dubbing portfolio across Tamil, Telugu, Hindi, Malayalam, Kannada and English, delivered from our Mumbai studio.",
 };

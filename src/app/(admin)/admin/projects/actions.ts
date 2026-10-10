@@ -11,6 +11,7 @@ import {
   type Project,
   type ProjectInput,
 } from "@@/data/projects";
+import { Routes } from "@@/constants/routes";
 import { requireAdmin } from "@@/lib/admin-auth";
 import { AdminRoutes } from "@@/lib/admin-session";
 import { deletePoster, isSamePosterFile, renamePoster, savePoster } from "@@/lib/project-posters";
@@ -112,8 +113,8 @@ async function duplicateNameState(
 }
 
 function revalidateProjects() {
-  revalidatePath("/");
-  revalidatePath("/projects");
+  revalidatePath(Routes.HOME);
+  revalidatePath(Routes.PROJECTS);
   revalidatePath(AdminRoutes.PROJECTS);
 }
 

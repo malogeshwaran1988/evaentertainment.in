@@ -3,16 +3,10 @@
 import { FormEvent, useId, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Routes } from "@@/constants/routes";
-import { SERVICE_BLOCKS } from "@@/data/services";
-
-const SERVICE_OPTIONS = [
-  "General Enquiry",
-  ...SERVICE_BLOCKS.map((s) => s.title),
-] as const;
 
 const MESSAGE_MIN = 20;
 
-export default function ContactForm() {
+export default function ContactForm({ services }: { services: string[] }) {
   const router = useRouter();
   const formId = useId();
   const [submitting, setSubmitting] = useState(false);
@@ -156,7 +150,7 @@ export default function ContactForm() {
           <option value="" disabled>
             Select a service
           </option>
-          {SERVICE_OPTIONS.map((opt) => (
+          {["General Enquiry", ...services].map((opt) => (
             <option key={opt} value={opt}>
               {opt}
             </option>

@@ -636,16 +636,6 @@ body .block.block--full.no-pad-gutter > .container.container--bleed {
 }
 
 /* Equipment page has no block--title — pad first block so bg reaches top */
-.page-main.equiment-bg > .block:first-of-type {
-  padding-top: 130px;
-}
-
-@media (max-width: 767px) {
-  .page-main.equiment-bg > .block:first-of-type {
-    padding-top: 110px;
-  }
-}
-
 /* Neutral nav chrome — no mustard/green accents in header */
 .header .header-menu .menu > li > a,
 .eva-header-bar .header-menu .menu > li > a {
@@ -1710,7 +1700,7 @@ body:not(.page-blog) .block--darkbg .eva-wwd-title,
 }
 
 /* ---- Contact page (SinceNew layout, light EVA theme) ---- */
-.eva-contact-intro {
+.eva-page-hero__subtitle {
   max-width: 560px;
   margin: 12px auto 18px;
   color: rgba(255, 255, 255, 0.72);
@@ -2102,7 +2092,7 @@ a.eva-contact-card-meta:hover {
 }
 
 @media (max-width: 767px) {
-  .eva-contact-intro {
+  .eva-page-hero__subtitle {
     font-size: 14px;
     margin-bottom: 14px;
   }
@@ -2165,7 +2155,7 @@ a.eva-contact-card-meta:hover {
   margin-bottom: 0;
 }
 
-.eva-projects-hero h1 .eva-svg-icon {
+.block--title h1 .eva-svg-icon {
   font-size: 0.7em;
   margin-right: 18px;
   color: #abee2d;
@@ -3296,4 +3286,202 @@ body:not(.page-blog) .block--darkbg .eva-project-dialog-title,
   .eva-home-projects-cta {
     margin-top: 28px;
   }
+}
+
+/* ---- Service pages (/[service]) ---- */
+.eva-service-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin: 8px 0 40px;
+}
+
+.eva-service-actions .btn {
+  margin: 0;
+}
+
+.eva-service-actions .btn [class*="icon"] {
+  margin-right: 10px;
+}
+
+.block.eva-service-highlights,
+.block.eva-related-services {
+  padding-top: 80px;
+  padding-bottom: 80px;
+}
+
+.eva-service-points {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.eva-service-point {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 28px 24px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 3px solid #70b615;
+  border-radius: 12px;
+  background: rgba(20, 22, 26, 0.72);
+}
+
+body:not(.page-blog) .block--darkbg h3.eva-service-ideal-title,
+.eva-service-ideal-title {
+  margin: 56px 0 20px;
+  font-size: 22px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.eva-service-tags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.eva-service-tags li {
+  padding: 8px 18px;
+  border: 1px solid rgba(112, 182, 21, 0.5);
+  border-radius: 999px;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 15px;
+  line-height: 1.4;
+}
+
+.eva-faq-list {
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+.eva-faq-item {
+  border-bottom: 1px solid #e3e3e3;
+}
+
+.eva-faq-item summary {
+  position: relative;
+  padding: 20px 40px 20px 0;
+  font-size: 19px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: #13161d;
+  cursor: pointer;
+  list-style: none;
+}
+
+.eva-faq-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.eva-faq-item summary::after {
+  content: "+";
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  transform: translateY(-50%);
+  font-size: 26px;
+  font-weight: 400;
+  color: #70b615;
+}
+
+.eva-faq-item[open] summary::after {
+  content: "\2212";
+}
+
+.eva-faq-item summary:hover,
+.eva-faq-item summary:focus-visible {
+  color: #4e8a0b;
+}
+
+.eva-faq-item summary:focus-visible {
+  outline: 2px solid #70b615;
+  outline-offset: 2px;
+}
+
+.eva-faq-item p {
+  margin: 0 0 20px;
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+.eva-related-all {
+  margin: 36px 0 0;
+}
+
+/* ---- Services hub (/services) ---- */
+.block.eva-services-hub {
+  padding-top: 80px;
+  padding-bottom: 80px;
+}
+
+.eva-services-hub .eva-wwd-grid {
+  margin-top: 0;
+}
+
+@media (min-width: 992px) {
+  .eva-related-services .eva-wwd-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 991px) {
+  .eva-service-points {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
+
+@media (max-width: 767px) {
+  .block.eva-service-highlights,
+  .block.eva-related-services,
+  .block.eva-services-hub {
+    padding-top: 56px;
+    padding-bottom: 56px;
+  }
+
+  .eva-service-actions {
+    margin-bottom: 32px;
+  }
+
+  .eva-service-point {
+    padding: 20px 18px;
+  }
+
+  body:not(.page-blog) .block--darkbg h3.eva-service-ideal-title,
+  .eva-service-ideal-title {
+    margin-top: 40px;
+    font-size: 19px;
+  }
+
+  .eva-service-tags li {
+    font-size: 14px;
+    padding: 6px 14px;
+  }
+
+  .eva-faq-item summary {
+    font-size: 17px;
+    padding: 16px 36px 16px 0;
+  }
+
+  .eva-faq-item p {
+    font-size: 15px;
+  }
+}
+
+.block.eva-equipment-section {
+  margin-bottom: 0;
+  padding-top: 80px;
+  padding-bottom: 80px;
+}
+
+.eva-thank-you-actions {
+  justify-content: center;
 }

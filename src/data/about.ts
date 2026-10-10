@@ -1,11 +1,11 @@
 import { APP_BASE_URL } from "@@/constants/constants";
 
-export const ABOUT_PAGE_URL = `${APP_BASE_URL}/about`;
+export const ABOUT_PAGE_URL = `${APP_BASE_URL}/about-us`;
 export const ABOUT_OG_IMAGE = "/images/og/about.jpg";
 export const ABOUT_OG_IMAGE_ALT = "EVA Entertainment recording and mixing control room";
 
 export const ABOUT_SEO = {
-  title: "About Us",
+  title: "About Us | EVA Entertainment Dubbing Studio, Mumbai",
   description:
     "Learn about EVA Entertainment — India's lip-sync dubbing, voice-over, Foley, subtitling, and multimedia localization studio based in Andheri, Mumbai.",
 };
@@ -15,7 +15,7 @@ export const ABOUT_CONTENT = {
   sectionTitle: "Voice-Over & Multimedia Localization Services",
   sectionIntro:
     "Based in India, we are a leading provider of lip-sync dubbing, voice-over, Folley Recording, Stock Library, subtitling & multimedia localization services in any international languages.",
-  missionTitle: "Our Mission at EVA ENTERAINMENT",
+  missionTitle: "Our Mission at EVA ENTERTAINMENT",
   missionImage: "/images/about/about-1.avif",
   missionImageAlt: "Production studio with keyboards and monitors",
   missionParagraphs: [

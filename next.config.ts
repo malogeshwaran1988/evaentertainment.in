@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { LEGACY_REDIRECTS } from "./src/constants/routes";
 
 const nextConfig: NextConfig = {
   experimental: {
@@ -18,16 +19,11 @@ const nextConfig: NextConfig = {
         destination: "https://evaentertainment.in/:path*",
         permanent: true,
       },
-      {
-        source: "/privacy",
-        destination: "/privacy-policy",
+      ...LEGACY_REDIRECTS.map(({ from, to }) => ({
+        source: from,
+        destination: to,
         permanent: true,
-      },
-      {
-        source: "/terms",
-        destination: "/terms-conditions",
-        permanent: true,
-      },
+      })),
     ];
   },
 
