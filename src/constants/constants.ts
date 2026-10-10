@@ -1,6 +1,6 @@
 export const APP_BASE_URL = "https://evaentertainment.in";
 export const SITE_NAME = "EVA Entertainment";
-export const DEFAULT_OG_IMAGE = "/images/home/slide-1.jpg";
+export const DEFAULT_OG_IMAGE = "/images/og/home.jpg";
 export const DEFAULT_OG_IMAGE_ALT = "EVA Entertainment dubbing and recording studio";
 export const LOGO_ALT = "EVA Entertainment logo";
 
@@ -23,15 +23,19 @@ export const CONTACT = {
   infoEmail: "info@evaentertainment.in",
 } as const;
 
+/** schema.org PostalAddress for JSON-LD. */
+export const POSTAL_ADDRESS = {
+  "@type": "PostalAddress",
+  streetAddress: "No.228, 2nd Floor, Mohid Heights, Near RTO Office, Opp Four Bungalows",
+  addressLocality: "Andheri West, Mumbai",
+  postalCode: "400053",
+  addressCountry: "IN",
+} as const;
+
 export const SOCIAL_LINKS = [
   {
     label: "LinkedIn",
     href: "https://www.linkedin.com/in/felix-anthony-5b1114173/",
     iconClass: "icon icon-linkedin-logo",
-  },
-  {
-    label: "IMDb",
-    href: "https://www.imdb.com/name/nm9896831/",
-    iconClass: "fab fa-imdb",
   },
 ] as const;

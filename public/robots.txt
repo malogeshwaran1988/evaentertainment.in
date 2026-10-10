@@ -5,9 +5,12 @@ Disallow: /cgi-bin/
 Disallow: /__nextjs_original-stack-frame
 Disallow: /_error
 Disallow: /_next/data/
+Disallow: /thank-you
 
 User-agent: Googlebot
 Allow: /
+Disallow: /api/
+Disallow: /thank-you
 
 User-agent: Google-InspectionTool
 Allow: /

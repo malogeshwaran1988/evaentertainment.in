@@ -1,17 +1,18 @@
-import { APP_BASE_URL, DEFAULT_OG_IMAGE } from "@@/constants/constants";
+import { APP_BASE_URL } from "@@/constants/constants";
 
-export const EQUIPMENT_PAGE_URL = `${APP_BASE_URL}/equipment`;
-export const EQUIPMENT_OG_IMAGE = DEFAULT_OG_IMAGE;
+export const EQUIPMENT_PAGE_URL = `${APP_BASE_URL}/studio-equipment`;
+export const EQUIPMENT_OG_IMAGE = "/images/og/equipment.jpg";
+export const EQUIPMENT_OG_IMAGE_ALT = "Studio monitors, MIDI keyboard and workstation at EVA Entertainment";
 
 export const EQUIPMENT_SEO = {
-  title: "Our Equipment | Pro Tools Recording Studio",
+  title: "Studio Equipment | Pro Tools Recording Studio Mumbai | EVA",
   description:
     "EVA Entertainment studios use Pro Tools, Rode & Neumann microphones, Genelec & Yamaha speakers, and multi-track digital recording for dubbing and production.",
 };
 
 export const EQUIPMENT_CONTENT = {
-  pageTitle: "Our Equipment",
-  heading: "Our Equipment at EVA ENTERAINMENT",
+  pageTitle: "Studio Equipment",
+  heading: "Equipment at EVA Entertainment",
   paragraphs: [
     "We use Protools, extra Plug-ins, Numan & Rode microphones, Genelec & Yamaha speakers etc.",
     "The studio is designed to allow flexibility to accommodate the demands of various audio recording situations.",

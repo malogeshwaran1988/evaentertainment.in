@@ -46,6 +46,9 @@ Apply Laws of UX and WCAG 2.2 AA without changing brand look:
 - Every other image is lazy (`next/image` default; plain `<img>` needs `loading="lazy"`).
 - Never use the deprecated `priority` prop, and don't combine `preload` with `loading` / `fetchPriority`.
 - Prefer `next/image` `fill` over CSS `background-image` so it can lazy-load. A CSS background that is the main image gets one `<link rel="preload" as="image" fetchPriority="high">`.
+- Site images are AVIF under 150 KB: drop the JPG/PNG into `public/images/` and run `npm run images`.
+- Social previews stay JPG (platforms don't read AVIF): each page has its own 1200x630 `public/images/og/<page>.jpg` with an `*_OG_IMAGE_ALT`, built by the same script.
+- Decorative photo animations: `ImageEffects` + positions in `src/data/image-fx.ts`; keep them `aria-hidden` and off under reduced motion.
 
 ## Checklist
 

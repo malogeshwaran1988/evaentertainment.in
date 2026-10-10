@@ -1,7 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
+import ImageEffects from "@@/components/common/ImageEffects";
 import { HERO_SLIDES } from "@@/data/home";
 import { imageLoading } from "@@/lib/image-loading";
 
@@ -9,36 +10,58 @@ function SlideLine({
   role,
   className,
   text,
+  line,
 }: {
   role: "h1" | "title" | "subtitle";
   className: string;
   text: string;
+  line: number;
 }) {
-  const classes = [className || undefined].filter(Boolean).join(" ");
+  const style = { "--line": line } as CSSProperties;
+  const content = (
+    <span>
+      <span className="slide-line-text">{text}</span>
+    </span>
+  );
 
   if (role === "h1") {
     return (
-      <h1 className={classes || undefined}>
-        <span>{text}</span>
+      <h1 className={className || undefined} style={style}>
+        {content}
       </h1>
     );
   }
 
-  const lineClass =
-    role === "subtitle"
-      ? `slide-line slide-line--sub ${classes}`.trim()
-      : `slide-line slide-line--title ${classes}`.trim();
-
+  const lineClass = `slide-line slide-line--${role === "subtitle" ? "sub" : "title"} ${className}`.trim();
   return (
-    <p className={lineClass}>
-      <span>{text}</span>
+    <p className={lineClass} style={style}>
+      {content}
     </p>
   );
 }
 
 export default function HeroSlider() {
   const [index, setIndex] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const sliderRef = useRef<HTMLDivElement>(null);
   const count = HERO_SLIDES.length;
+
+  useEffect(() => {
+    const el = sliderRef.current;
+    if (!el) return;
+    let inView = true;
+    const update = () => setPaused(!inView || document.hidden);
+    const observer = new IntersectionObserver(([entry]) => {
+      inView = entry.isIntersecting;
+      update();
+    });
+    observer.observe(el);
+    document.addEventListener("visibilitychange", update);
+    return () => {
+      observer.disconnect();
+      document.removeEventListener("visibilitychange", update);
+    };
+  }, []);
 
   const goPrev = useCallback(() => {
     setIndex((i) => (i - 1 + count) % count);
@@ -49,19 +72,22 @@ export default function HeroSlider() {
   }, [count]);
 
   useEffect(() => {
+    if (paused) return;
     const id = window.setInterval(() => {
       setIndex((i) => (i + 1) % count);
     }, 6000);
     return () => window.clearInterval(id);
-  }, [count]);
+  }, [count, paused]);
 
   return (
     <div className="block bottom-null block--slider">
       <div className="mainSliderWrapper">
         <div
+          ref={sliderRef}
           id="mainSlider"
           className="mainSlider slick-initialized eva-hero-slider"
           style={{ opacity: 1 }}
+          data-paused={paused || undefined}
         >
           {HERO_SLIDES.map((slide, i) => (
             <div
@@ -69,7 +95,7 @@ export default function HeroSlider() {
               className={`slide${i === index ? " is-active" : ""}`}
               aria-hidden={i !== index}
             >
-              <div className="img--holder eva-hero-media">
+              <div className="img--holder eva-hero-media eva-fx-host">
                 <Image
                   src={slide.image}
                   alt={slide.alt}
@@ -78,14 +104,16 @@ export default function HeroSlider() {
                   sizes="100vw"
                   className="eva-hero-media-img"
                 />
+                <ImageEffects fx={slide.fx} />
               </div>
               <div className="slide-content left">
                 <div className="vert-wrap container">
                   <div className="vert">
                     <div className="container">
-                      {slide.lines.map((line) => (
+                      {slide.lines.map((line, lineIndex) => (
                         <SlideLine
                           key={line.text}
+                          line={lineIndex}
                           role={line.role}
                           className={line.className}
                           text={line.text}

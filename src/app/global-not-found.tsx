@@ -6,6 +6,7 @@ import BodyClass from "@@/components/common/BodyClass";
 import NotFoundContent from "@@/components/common/NotFoundContent";
 import WebHead from "@@/components/common/WebHead";
 import { APP_BASE_URL } from "@@/constants/constants";
+import { SERVICE_NAMES } from "@@/data/services";
 
 export const metadata: Metadata = {
   metadataBase: new URL(APP_BASE_URL),
@@ -27,7 +28,7 @@ export default function GlobalNotFound() {
       <body className="is-loaded">
         <div className="flex min-h-screen flex-col">
           <BodyClass />
-          <Header />
+          <Header serviceNames={SERVICE_NAMES} />
           <div className="flex-1">
             <NotFoundContent />
           </div>

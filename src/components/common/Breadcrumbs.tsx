@@ -1,19 +1,27 @@
-import Link from "next/link";
+import Link from "@@/components/common/NavLink";
 import { Routes } from "@@/constants/routes";
 
-type BreadcrumbsProps = {
-  current: string;
-};
+export type Crumb = { label: string; href?: string };
 
-/** Glory-style page breadcrumbs: Home › current (current is not a link). */
-export default function Breadcrumbs({ current }: BreadcrumbsProps) {
+/** Home is always first; the last crumb is the current page (no link). */
+export default function Breadcrumbs({ trail }: { trail: Crumb[] }) {
   return (
     <nav aria-label="Breadcrumb">
       <ul className="breadcrumbs">
         <li>
           <Link href={Routes.HOME}>Home</Link>
         </li>
-        <li aria-current="page">{current}</li>
+        {trail.map((crumb, i) =>
+          i === trail.length - 1 || !crumb.href ? (
+            <li key={crumb.label} aria-current={i === trail.length - 1 ? "page" : undefined}>
+              {crumb.label}
+            </li>
+          ) : (
+            <li key={crumb.label}>
+              <Link href={crumb.href}>{crumb.label}</Link>
+            </li>
+          ),
+        )}
       </ul>
     </nav>
   );

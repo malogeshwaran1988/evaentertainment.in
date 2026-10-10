@@ -1,10 +1,10 @@
 "use client";
 
-import Link from "next/link";
+import Link from "@@/components/common/NavLink";
 import { usePathname } from "next/navigation";
 import { Routes } from "@@/constants/routes";
 
-/** Sitewide booking CTA (“Need a Quality Sound?”) — links to /book. */
+/** Sitewide booking CTA (“Need a Quality Sound?”) — links to the booking page. */
 export default function BookingCta() {
   const pathname = usePathname();
   if (pathname === Routes.BOOK) return null;

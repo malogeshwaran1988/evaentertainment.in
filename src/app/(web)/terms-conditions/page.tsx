@@ -1,53 +1,22 @@
-import type { Metadata } from "next";
-import Script from "next/script";
-import Breadcrumbs from "@@/components/common/Breadcrumbs";
+import JsonLd from "@@/components/common/JsonLd";
+import PageHero from "@@/components/common/PageHero";
+import { Routes } from "@@/constants/routes";
+import { buildPageMetadata } from "@@/lib/seo";
 import LegalDoc from "@@/components/common/LegalDoc";
-import { APP_BASE_URL, DEFAULT_OG_IMAGE_ALT, SITE_NAME } from "@@/constants/constants";
 import {
   TERMS_CONTENT,
   TERMS_OG_IMAGE,
+  TERMS_OG_IMAGE_ALT,
   TERMS_PAGE_URL,
   TERMS_SEO,
 } from "@@/data/terms";
 
-export const metadata: Metadata = {
-  title: { absolute: TERMS_SEO.title },
-  description: TERMS_SEO.description,
-  alternates: { canonical: TERMS_PAGE_URL },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
-  },
-  openGraph: {
-    title: TERMS_SEO.title,
-    description: TERMS_SEO.description,
-    url: TERMS_PAGE_URL,
-    siteName: SITE_NAME,
-    images: [
-      {
-        url: TERMS_OG_IMAGE,
-        width: 1200,
-        height: 630,
-        alt: DEFAULT_OG_IMAGE_ALT,
-      },
-    ],
-    locale: "en_US",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: TERMS_SEO.title,
-    description: TERMS_SEO.description,
-    images: [TERMS_OG_IMAGE],
-  },
-};
+export const metadata = buildPageMetadata({
+  ...TERMS_SEO,
+  url: TERMS_PAGE_URL,
+  ogImage: TERMS_OG_IMAGE,
+  ogImageAlt: TERMS_OG_IMAGE_ALT,
+});
 
 export default function TermsPage() {
   const schema = {
@@ -57,40 +26,16 @@ export default function TermsPage() {
     description: TERMS_SEO.description,
     url: TERMS_PAGE_URL,
     dateModified: "2026-09-23",
-    breadcrumb: {
-      "@type": "BreadcrumbList",
-      itemListElement: [
-        {
-          "@type": "ListItem",
-          position: 1,
-          name: "Home",
-          item: `${APP_BASE_URL}/`,
-        },
-        {
-          "@type": "ListItem",
-          position: 2,
-          name: "Terms of Service",
-          item: TERMS_PAGE_URL,
-        },
-      ],
-    },
   };
 
   return (
     <main className="page-main">
-      <Script
-        id="terms-jsonld"
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      <JsonLd id="terms-jsonld" data={schema} />
+      <PageHero
+        icon="icon-folded-newspaper"
+        title={TERMS_CONTENT.pageTitle}
+        trail={[{ label: "Terms of Service", href: Routes.TERMS }]}
       />
-      <div className="block block--title block--darkbg">
-        <div className="container">
-          <div className="text-center">
-            <h1>{TERMS_CONTENT.pageTitle}</h1>
-            <Breadcrumbs current="Terms of Service" />
-          </div>
-        </div>
-      </div>
 
       <section className="block">
         <div className="container">

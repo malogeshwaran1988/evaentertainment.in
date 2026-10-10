@@ -1,63 +1,56 @@
-import Script from "next/script";
-import Link from "next/link";
+import type { CSSProperties } from "react";
+import Link from "@@/components/common/NavLink";
+import InViewFx from "@@/components/common/InViewFx";
+import JsonLd from "@@/components/common/JsonLd";
 import HeroSlider from "@@/components/home/HeroSlider";
-import { CONTACT, SITE_NAME, SOCIAL_LINKS } from "@@/constants/constants";
+import HomeProjects, { HOME_PROJECTS_LIMIT } from "@@/components/home/HomeProjects";
+import ServiceCardGrid from "@@/components/services/ServiceCardGrid";
+import { APP_BASE_URL, CONTACT, POSTAL_ADDRESS, SITE_NAME, SOCIAL_LINKS } from "@@/constants/constants";
 import {
   HOME_INTRO,
   HOME_PAGE_URL,
   SERVICE_CARDS,
   WHAT_WE_DO,
 } from "@@/data/home";
+import { getPublicProjects } from "@@/lib/projects-public";
 
-export default function HomePage() {
+const EQ_BARS = Array.from({ length: 16 }, (_, i) => i);
+
+export default async function HomePage() {
+  const { projects } = await getPublicProjects({ limit: HOME_PROJECTS_LIMIT });
   const orgSchema = {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
     name: SITE_NAME,
     url: HOME_PAGE_URL,
-    image: "https://evaentertainment.in/images/common/eva-logo.avif",
+    image: `${APP_BASE_URL}/images/common/eva-logo.avif`,
     telephone: CONTACT.whatsappDisplay,
     email: CONTACT.infoEmail,
-    address: {
-      "@type": "PostalAddress",
-      streetAddress: "No.228, 2nd Floor, Mohid Heights, Near RTO Office, Opp Four Bungalows",
-      addressLocality: "Andheri West, Mumbai",
-      postalCode: "400053",
-      addressCountry: "IN",
-    },
+    address: POSTAL_ADDRESS,
     sameAs: SOCIAL_LINKS.map((s) => s.href),
   };
 
   return (
     <main className="page-main home-page">
-      <Script
-        id="home-localbusiness-jsonld"
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }}
-      />
+      <JsonLd id="home-localbusiness-jsonld" data={orgSchema} />
       <HeroSlider />
+      <HomeProjects projects={projects} />
 
-      <section className="block block--darkbg block--fullbg block--bgcover inset-125 block-bg-1">
+      <section
+        id="what-we-do"
+        className="block block--darkbg block--fullbg block--bgcover inset-125 block-bg-1 eva-what-we-do"
+      >
         <div className="container">
           <h2 className="h--lg text-center">
             <i className="icon icon-mic" aria-hidden="true" />
             What We Do?
           </h2>
           <div className="text-center">
-            <p className="p--lg" style={{ marginBottom: 50 }}>
+            <p className="p--lg eva-wwd-intro">
               {HOME_INTRO}
             </p>
           </div>
-          <div className="row text-center what-we-do-row">
-            {WHAT_WE_DO.map((item) => (
-              <div className="col-xs-6 col-sm-4 col-lg-3" key={item.title}>
-                <div className="service-icon">
-                  <i className={item.icon} aria-hidden="true" />
-                </div>
-                <h3 className="heading-as-h4">{item.title}</h3>
-              </div>
-            ))}
-          </div>
+          <ServiceCardGrid slugs={WHAT_WE_DO} />
         </div>
       </section>
 
@@ -84,7 +77,7 @@ export default function HomePage() {
                     className="service-item"
                     href={card.href}
                   >
-                    <div className="service-item-photo">
+                    <InViewFx className="service-item-photo eva-fx-lazy">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={card.image}
@@ -92,7 +85,12 @@ export default function HomePage() {
                         loading="lazy"
                         decoding="async"
                       />
-                    </div>
+                      <span className="eva-eq" aria-hidden="true">
+                        {EQ_BARS.map((i) => (
+                          <span key={i} style={{ "--i": i } as CSSProperties} />
+                        ))}
+                      </span>
+                    </InViewFx>
                     <div className="service-item-caption">
                       <div className="clearfix">
                         <span className="service-item-price">{card.eyebrow}</span>

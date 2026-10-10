@@ -1,22 +1,20 @@
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@@/components/common/NavLink";
+import CookieSettingsButton from "@@/components/common/CookieSettingsButton";
 import {
   CONTACT,
   LOGO_ALT,
   SITE_NAME,
   SOCIAL_LINKS,
 } from "@@/constants/constants";
-import { NAV_ITEMS, Routes } from "@@/constants/routes";
-import { SERVICE_BLOCKS } from "@@/data/services";
+import { NAV_ITEMS, Routes, serviceHref } from "@@/constants/routes";
+import { SERVICES } from "@@/data/services";
 
+/** The Services column already lists every service page. */
 const FOOTER_LINKS = [
-  ...NAV_ITEMS,
+  ...NAV_ITEMS.filter((item) => !item.children),
   { label: "CONTACT", href: Routes.CONTACT },
-] as const;
-
-function serviceHref(block: (typeof SERVICE_BLOCKS)[number]) {
-  return block.id ? `${Routes.SERVICES}#${block.id}` : Routes.SERVICES;
-}
+];
 
 export default function Footer() {
   const year = new Date().getFullYear();
@@ -65,9 +63,9 @@ export default function Footer() {
           <div>
             <p className="eva-footer-title">Services</p>
             <ul className="eva-footer-links">
-              {SERVICE_BLOCKS.map((block) => (
-                <li key={block.title}>
-                  <Link href={serviceHref(block)}>{block.title}</Link>
+              {SERVICES.map((service) => (
+                <li key={service.slug}>
+                  <Link href={serviceHref(service.slug)}>{service.name}</Link>
                 </li>
               ))}
             </ul>
@@ -121,6 +119,7 @@ export default function Footer() {
           <nav className="eva-footer-legal" aria-label="Legal">
             <Link href={Routes.PRIVACY}>Privacy Policy</Link>
             <Link href={Routes.TERMS}>Terms of Service</Link>
+            <CookieSettingsButton />
           </nav>
         </div>
       </div>

@@ -1,5 +1,5 @@
-import Link from "next/link";
-import { Routes } from "@@/constants/routes";
+import Link from "@@/components/common/NavLink";
+import { Routes, WHAT_WE_DO_HREF } from "@@/constants/routes";
 
 export default function NotFoundContent() {
   return (
@@ -24,7 +24,7 @@ export default function NotFoundContent() {
               <Link href={Routes.HOME} className="btn">
                 <span>Back to Home</span>
               </Link>
-              <Link href={Routes.SERVICES} className="btn btn--border">
+              <Link href={WHAT_WE_DO_HREF} className="btn btn--border">
                 <span>Our Services</span>
               </Link>
               <Link href={Routes.CONTACT} className="btn btn--border">

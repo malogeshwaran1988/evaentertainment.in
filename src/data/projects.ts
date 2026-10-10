@@ -1,10 +1,11 @@
-import { APP_BASE_URL, DEFAULT_OG_IMAGE } from "@@/constants/constants";
+import { APP_BASE_URL } from "@@/constants/constants";
 
-export const PROJECTS_PAGE_URL = `${APP_BASE_URL}/projects`;
-export const PROJECTS_OG_IMAGE = DEFAULT_OG_IMAGE;
+export const PROJECTS_PAGE_URL = `${APP_BASE_URL}/our-projects`;
+export const PROJECTS_OG_IMAGE = "/images/og/projects.jpg";
+export const PROJECTS_OG_IMAGE_ALT = "Editing workstation with control surfaces for dubbing projects";
 
 export const PROJECTS_SEO = {
-  title: "Our Projects | Movie Dubbing Portfolio",
+  title: "Our Projects | Movie Dubbing Portfolio | EVA Entertainment",
   description:
     "Explore EVA Entertainment's movie dubbing portfolio across Tamil, Telugu, Hindi, Malayalam, Kannada and English, delivered from our Mumbai studio.",
 };
@@ -47,6 +48,12 @@ export type Project = {
   year?: string;
   createdAt: string;
   updatedAt: string;
+};
+
+/** What the website and `GET /api/projects` expose: no internal timestamps. */
+export type PublicProject = Omit<Project, "createdAt" | "updatedAt"> & {
+  /** "Ongoing" or the release year; absent for older projects. */
+  yearLabel?: string;
 };
 
 export type ProjectInput = Pick<

@@ -1,24 +1,27 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@@/components/common/NavLink";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { LOGO_ALT } from "@@/constants/constants";
-import { NAV_ITEMS, Routes } from "@@/constants/routes";
+import { NAV_ITEMS, Routes, serviceHref, type NavItem, type ServiceSlug } from "@@/constants/routes";
 
 const SCROLL_TOP_THRESHOLD = 80;
 
 /** Site chrome header — mounted once via `(web)/layout` for all public pages. */
-export function Header() {
+export function Header({ serviceNames }: { serviceNames: Record<ServiceSlug, string> }) {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [subOpen, setSubOpen] = useState(false);
+  const [subDismissed, setSubDismissed] = useState(false);
   const [isSticky, setIsSticky] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
   const lastScrollY = useRef(0);
 
   useEffect(() => {
     setMenuOpen(false);
+    setSubOpen(false);
   }, [pathname]);
 
   useEffect(() => {
@@ -66,9 +69,10 @@ export function Header() {
     return () => document.body.classList.remove("hdr-sticky");
   }, [isSticky]);
 
-  const isActive = (href: string) => {
-    if (href === Routes.HOME) return pathname === "/";
-    return pathname === href || pathname.startsWith(`${href}/`);
+  const isActive = (item: NavItem) => {
+    if (item.children) return item.children.some((slug) => pathname === serviceHref(slug));
+    if (item.href === Routes.HOME) return pathname === "/";
+    return pathname === item.href || pathname.startsWith(`${item.href}/`);
   };
 
   const contactCurrent =
@@ -108,14 +112,65 @@ export function Header() {
             aria-label="Primary"
           >
             <ul className="menu">
-              {NAV_ITEMS.map((item) => (
-                <li
-                  key={item.href}
-                  className={isActive(item.href) ? "active" : undefined}
-                >
-                  <Link href={item.href}>{item.label}</Link>
-                </li>
-              ))}
+              {NAV_ITEMS.map((item) =>
+                item.children ? (
+                  <li
+                    key={item.href}
+                    className={[
+                      "eva-nav-has-sub",
+                      isActive(item) ? "active" : "",
+                      subOpen ? "is-sub-open" : "",
+                      subDismissed ? "is-sub-dismissed" : "",
+                    ]
+                      .filter(Boolean)
+                      .join(" ")}
+                    onMouseEnter={() => setSubDismissed(false)}
+                    onBlur={(e) => {
+                      if (!e.currentTarget.contains(e.relatedTarget as Node | null)) {
+                        setSubOpen(false);
+                        setSubDismissed(false);
+                      }
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key !== "Escape") return;
+                      setSubOpen(false);
+                      setSubDismissed(true);
+                      e.currentTarget.querySelector<HTMLButtonElement>(".eva-nav-sub-toggle")?.focus();
+                    }}
+                  >
+                    <Link href={item.href}>{item.label}</Link>
+                    <button
+                      type="button"
+                      className="eva-nav-sub-toggle"
+                      aria-expanded={subOpen}
+                      aria-controls="nav-services-menu"
+                      aria-label={`${subOpen ? "Hide" : "Show"} ${item.label.toLowerCase()} pages`}
+                      onClick={() => {
+                        setSubOpen((v) => !v);
+                        setSubDismissed(false);
+                      }}
+                    >
+                      <span aria-hidden="true" />
+                    </button>
+                    <ul id="nav-services-menu" className="eva-nav-sub">
+                      {item.children.map((slug) => {
+                        const href = serviceHref(slug);
+                        return (
+                          <li key={slug}>
+                            <Link href={href} aria-current={pathname === href ? "page" : undefined}>
+                              {serviceNames[slug]}
+                            </Link>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </li>
+                ) : (
+                  <li key={item.href} className={isActive(item) ? "active" : undefined}>
+                    <Link href={item.href}>{item.label}</Link>
+                  </li>
+                ),
+              )}
               <li className="header-menu-contact-item">
                 <Link
                   href={Routes.CONTACT}
