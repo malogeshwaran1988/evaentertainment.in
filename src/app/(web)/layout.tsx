@@ -8,6 +8,7 @@ import BodyClass from "@@/components/common/BodyClass";
 import ClarityAnalytics from "@@/components/common/ClarityAnalytics";
 import CookieConsent from "@@/components/common/CookieConsent";
 import WebHead from "@@/components/common/WebHead";
+import { GtmHead, GtmNoscript } from "@@/components/common/GoogleTagManager";
 import {
   APP_BASE_URL,
   SITE_NAME,
@@ -67,9 +68,11 @@ export default function WebLayout({
   return (
     <html lang="en">
       <head>
+        <GtmHead />
         <WebHead />
       </head>
       <body className="is-loaded">
+        <GtmNoscript />
         <div className="flex min-h-screen flex-col">
           <BodyClass />
           <Header serviceNames={SERVICE_NAMES} />

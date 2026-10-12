@@ -5,6 +5,7 @@ import Footer from "@@/components/common/Footer";
 import BodyClass from "@@/components/common/BodyClass";
 import NotFoundContent from "@@/components/common/NotFoundContent";
 import WebHead from "@@/components/common/WebHead";
+import { GtmHead, GtmNoscript } from "@@/components/common/GoogleTagManager";
 import { APP_BASE_URL } from "@@/constants/constants";
 import { SERVICE_NAMES } from "@@/data/services";
 
@@ -23,9 +24,11 @@ export default function GlobalNotFound() {
   return (
     <html lang="en">
       <head>
+        <GtmHead />
         <WebHead />
       </head>
       <body className="is-loaded">
+        <GtmNoscript />
         <div className="flex min-h-screen flex-col">
           <BodyClass />
           <Header serviceNames={SERVICE_NAMES} />
