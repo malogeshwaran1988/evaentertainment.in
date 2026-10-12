@@ -8,6 +8,9 @@ export const LOGO_ALT = "EVA Entertainment logo";
 export const CLARITY_PROJECT_ID =
   process.env.NEXT_PUBLIC_CLARITY_PROJECT_ID || "yoam4umvyi";
 
+/** Google Tag Manager container ID (public; it appears in the script URL). Env var overrides it. */
+export const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID || "GTM-WRZW2JSM";
+
 export const CONTACT = {
   addressLines: [
     "No.228, 2nd Floor,",
