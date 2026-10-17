@@ -104,8 +104,11 @@ async function writePosterFile(name: string, bytes: Buffer, ext: PosterExt) {
 
 export type PosterResult = { ok: true; path: string } | { ok: false; error: string };
 
-/** Saves as "<project name>.<ext>", replacing any file already under that name. */
-export async function savePoster(file: File, title: string): Promise<PosterResult> {
+/**
+ * Saves as "<slug(nameSource)>.<ext>", replacing any file already under that name.
+ * `nameSource` is normally the ALT text, or the project title when ALT is blank.
+ */
+export async function savePoster(file: File, nameSource: string): Promise<PosterResult> {
   if (file.size > POSTER_MAX_BYTES) {
     return {
       ok: false,
@@ -117,20 +120,20 @@ export async function savePoster(file: File, title: string): Promise<PosterResul
   if (!ext) {
     return { ok: false, error: "Poster must be a JPG, PNG, WebP or AVIF image." };
   }
-  const name = `${posterBaseName(title)}.${ext}`;
+  const name = `${posterBaseName(nameSource)}.${ext}`;
   await writePosterFile(name, bytes, ext);
   return { ok: true, path: posterUrl(name) };
 }
 
 /**
- * Copies an uploaded poster to the file name for `title` and returns its new path, or the
+ * Copies an uploaded poster to the slug for `nameSource` and returns its new path, or the
  * same path when nothing needs to move. The old file is left for the caller to delete.
  */
-export async function renamePoster(posterPath: string, title: string): Promise<string> {
+export async function renamePoster(posterPath: string, nameSource: string): Promise<string> {
   const name = posterFileName(posterPath);
   if (!name) return posterPath;
   const ext = name.slice(name.lastIndexOf(".") + 1) as PosterExt;
-  const target = `${posterBaseName(title)}.${ext}`;
+  const target = `${posterBaseName(nameSource)}.${ext}`;
   if (target === name) return posterPath;
   const poster = await readPoster(name);
   if (!poster) return posterPath;

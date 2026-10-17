@@ -99,7 +99,7 @@ async function deletePosterQuietly(poster: string | undefined) {
   }
 }
 
-/** Posters are named after the project, so two projects can't share a name. */
+/** Project titles must stay unique (display name and default poster slug). */
 async function duplicateNameState(
   title: string,
   exceptId?: string,
@@ -111,6 +111,11 @@ async function duplicateNameState(
   if (!clash) return null;
   const message = `A project named “${clash.title}” already exists.`;
   return { fieldErrors: { title: message }, message };
+}
+
+/** Poster file slug comes from ALT when set, otherwise the project title. */
+function posterNameSource(data: ProjectInput) {
+  return data.posterAlt?.trim() || data.title;
 }
 
 function revalidateProjects() {
@@ -134,7 +139,7 @@ export async function createProjectAction(
 
     const file = posterFile(formData);
     if (file) {
-      const saved = await savePoster(file, data.title);
+      const saved = await savePoster(file, posterNameSource(data));
       if (!saved.ok) return { fieldErrors: { poster: saved.error }, message: saved.error };
       poster = saved.path;
     }
@@ -175,14 +180,15 @@ export async function updateProjectAction(
 
     let poster = existing.poster;
     const file = posterFile(formData);
+    const nameSource = posterNameSource(data);
     if (file) {
-      const saved = await savePoster(file, data.title);
+      const saved = await savePoster(file, nameSource);
       if (!saved.ok) return { fieldErrors: { poster: saved.error }, message: saved.error };
       poster = uploaded = saved.path;
     } else if (formData.get("removePoster") === "on") {
       poster = undefined;
     } else if (poster) {
-      const renamed = await renamePoster(poster, data.title);
+      const renamed = await renamePoster(poster, nameSource);
       if (renamed !== poster) poster = uploaded = renamed;
     }
 

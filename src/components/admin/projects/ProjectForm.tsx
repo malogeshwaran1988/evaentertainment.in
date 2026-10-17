@@ -224,7 +224,8 @@ export default function ProjectForm({ action, initial, submitLabel }: ProjectFor
           />
           <p id="posterAlt-hint" className="text-sm text-muted-foreground">
             Describes the poster for screen readers and search engines, e.g. “Sardar 2 movie
-            poster”. Leave blank to use “{title.trim() || "Project Name"} poster”.
+            poster”. The uploaded file is named from this text (no spaces). Leave blank to use
+            “{title.trim() || "Project Name"} poster” and name the file from the project title.
           </p>
           <FieldError id="posterAlt-error" message={errors.posterAlt} />
         </div>
