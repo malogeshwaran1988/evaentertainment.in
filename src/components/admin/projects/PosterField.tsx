@@ -118,7 +118,6 @@ export default function PosterField({
             type="file"
             accept={POSTER_SOURCE_ACCEPT}
             className="sr-only"
-            disabled={converting}
             onChange={handleChange}
             aria-invalid={error ? true : undefined}
             aria-describedby={error ? "poster-error poster-hint" : "poster-hint"}
@@ -129,11 +128,10 @@ export default function PosterField({
               type="button"
               variant="outline"
               size="sm"
-              disabled={converting}
               onClick={() => inputRef.current?.click()}
             >
-              {converting ? <Loader2 className="animate-spin" /> : <Upload />}
-              {converting ? "Converting…" : previewSrc ? "Replace image" : "Choose image"}
+              <Upload />
+              {previewSrc || converting ? "Replace image" : "Choose image"}
             </Button>
 
             {picked ? (
@@ -141,7 +139,6 @@ export default function PosterField({
                 type="button"
                 variant="ghost"
                 size="sm"
-                disabled={converting}
                 onClick={() => {
                   convertGen.current += 1;
                   setConverting(false);
@@ -157,35 +154,30 @@ export default function PosterField({
                 variant="ghost"
                 size="sm"
                 className="text-destructive hover:text-destructive"
-                disabled={converting}
                 onClick={() => onRemovedChange(true)}
               >
                 <Trash2 />
                 Remove poster
               </Button>
             ) : current && removed ? (
-              <Button
-                type="button"
-                variant="ghost"
-                size="sm"
-                disabled={converting}
-                onClick={() => onRemovedChange(false)}
-              >
+              <Button type="button" variant="ghost" size="sm" onClick={() => onRemovedChange(false)}>
                 <Undo2 />
                 Undo remove
               </Button>
             ) : null}
           </div>
 
-          {picked ? (
+          {converting ? (
+            <p className="text-sm text-muted-foreground" aria-live="polite">
+              Converting to AVIF… You can choose another image anytime.
+            </p>
+          ) : picked ? (
             <p className="truncate text-sm" title={picked.file.name}>
               {picked.file.name}{" "}
               <span className="text-muted-foreground">
                 ({Math.ceil(picked.file.size / 1024)} KB AVIF)
               </span>
             </p>
-          ) : converting ? (
-            <p className="text-sm text-muted-foreground">Converting to AVIF…</p>
           ) : removed ? (
             <p className="text-sm text-muted-foreground">The poster will be removed when you save.</p>
           ) : null}
