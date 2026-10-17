@@ -8,6 +8,8 @@ export const Routes = {
   THANK_YOU: "/thank-you",
   PRIVACY: "/privacy-policy",
   TERMS: "/terms-conditions",
+  /** Per-project detail: `/projects/<slug>`. */
+  project: (slug: string) => `/projects/${slug}` as const,
 } as const;
 
 export type AppRoute = (typeof Routes)[keyof typeof Routes];

@@ -2428,6 +2428,48 @@ body:not(.page-blog) .block--darkbg .eva-project-title,
   color: rgba(255, 255, 255, 0.72);
 }
 
+.eva-project-brand-caption {
+  margin-top: 2px;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.eva-project-detail {
+  padding-top: 40px;
+  padding-bottom: 60px;
+}
+
+.eva-project-detail-poster {
+  position: relative;
+  aspect-ratio: 2 / 3;
+  overflow: hidden;
+  background: #13161d;
+  margin-bottom: 24px;
+}
+
+.eva-project-detail-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.eva-project-detail-line {
+  margin: 12px 0 8px;
+}
+
+.eva-project-detail-brand {
+  margin: 0 0 28px;
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.eva-project-detail-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
 .eva-projects-empty {
   margin: 0;
   text-align: center;

@@ -38,13 +38,15 @@ export const POSTER_URL_PREFIX = "/images/our-projects/";
 
 export type Project = {
   id: string;
+  /** Public URL segment under /projects/[slug]. */
+  slug: string;
   title: string;
   from: ProjectLanguage;
   to: ProjectLanguage[];
   category: string;
   /** Seeded: a /public path. Uploaded: "/images/our-projects/<name>?v=<version>". */
   poster?: string;
-  /** Alt text for the poster; the website falls back to "<title> poster". */
+  /** Typed ALT only; public pages render SEO ALT via projectSeoAlt. */
   posterAlt?: string;
   /** "ongoing" (still being dubbed) or a release year like "2025". Older projects have none. */
   year?: string;
@@ -96,10 +98,6 @@ export function projectNameKey(title: string) {
     .replace(/\p{M}/gu, "")
     .toLowerCase()
     .replace(/[^\p{L}\p{N}]+/gu, "");
-}
-
-export function projectPosterAlt(project: Pick<Project, "title" | "posterAlt">) {
-  return project.posterAlt || `${project.title} poster`;
 }
 
 export function projectLanguageLine(project: Pick<Project, "from" | "to">) {

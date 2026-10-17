@@ -5,6 +5,7 @@ import path from "node:path";
 import { compareProjects, type Project, type ProjectInput } from "@@/data/projects";
 import { PROJECTS_SEED } from "@@/data/projects-seed";
 import { BlobPreconditionFailedError, readBlobVersioned, USE_BLOB, writeBlob } from "@@/lib/blob";
+import { projectPageSlugBase, uniqueProjectSlug, uniqueSlug } from "@@/lib/project-seo";
 
 const DATA_DIR = path.resolve(
   /*turbopackIgnore: true*/ process.env.EVA_DATA_DIR || "storage",
@@ -26,6 +27,23 @@ function parseProjects(raw: string): Project[] {
   return Array.isArray(parsed) ? (parsed as Project[]) : [];
 }
 
+/** Ensure every project has a unique public slug; returns whether anything changed. */
+export function ensureProjectSlugs(projects: Project[]): { projects: Project[]; changed: boolean } {
+  let changed = false;
+  const next: Project[] = [];
+  const taken = new Set<string>();
+  for (const project of projects) {
+    const desired =
+      project.slug?.trim() ||
+      projectPageSlugBase({ title: project.title, to: project.to });
+    const slug = uniqueSlug(desired, taken);
+    taken.add(slug);
+    if (slug !== project.slug) changed = true;
+    next.push({ ...project, slug });
+  }
+  return { projects: next, changed };
+}
+
 /** Returns the new Blob ETag (undefined on disk). */
 async function writeAll(projects: Project[], etag?: string): Promise<string | undefined> {
   if (USE_BLOB) {
@@ -44,10 +62,14 @@ async function writeAll(projects: Project[], etag?: string): Promise<string | un
 function seedProjects(): Project[] {
   // Seed order is newest first, so give earlier entries later timestamps.
   const base = Date.now();
-  return PROJECTS_SEED.map((p, i) => {
+  const seeded: Project[] = [];
+  for (let i = 0; i < PROJECTS_SEED.length; i++) {
+    const p = PROJECTS_SEED[i];
     const at = new Date(base - i * 1000).toISOString();
-    return { ...p, id: randomUUID(), createdAt: at, updatedAt: at };
-  });
+    const slug = uniqueProjectSlug({ title: p.title, to: p.to }, seeded);
+    seeded.push({ ...p, id: randomUUID(), slug, createdAt: at, updatedAt: at });
+  }
+  return seeded;
 }
 
 async function fetchBlobSnapshot(): Promise<Snapshot | null> {
@@ -83,14 +105,24 @@ async function readSnapshot(): Promise<Snapshot> {
 }
 
 async function readAll(): Promise<Project[]> {
-  return (await readSnapshot()).projects;
+  const { projects, etag } = await readSnapshot();
+  const { projects: normalized, changed } = ensureProjectSlugs(projects);
+  if (changed) {
+    try {
+      await writeAll(normalized, etag);
+    } catch {
+      // Another writer may have won; next read will retry.
+    }
+  }
+  return normalized;
 }
 
 function mutate<T>(fn: (projects: Project[]) => { next: Project[]; result: T }) {
   const run = writeQueue.then(async () => {
     for (let attempt = 1; ; attempt++) {
       const { projects, etag } = await readSnapshot();
-      const { next, result } = fn(projects);
+      const { projects: normalized } = ensureProjectSlugs(projects);
+      const { next, result } = fn(normalized);
       try {
         await writeAll(next, etag);
         return result;
@@ -114,7 +146,11 @@ export async function getProject(id: string) {
   return (await readAll()).find((p) => p.id === id) ?? null;
 }
 
-export function createProject(input: ProjectInput) {
+export async function getProjectBySlug(slug: string) {
+  return (await readAll()).find((p) => p.slug === slug) ?? null;
+}
+
+export function createProject(input: ProjectInput & { slug: string }) {
   return mutate((projects) => {
     const now = new Date().toISOString();
     const project: Project = { ...input, id: randomUUID(), createdAt: now, updatedAt: now };
@@ -125,7 +161,7 @@ export function createProject(input: ProjectInput) {
 }
 
 /** `input.poster` and `input.posterAlt` are final values: pass `undefined` to clear them. */
-export function updateProject(id: string, input: ProjectInput) {
+export function updateProject(id: string, input: ProjectInput & { slug: string }) {
   return mutate((projects) => {
     const index = projects.findIndex((p) => p.id === id);
     if (index === -1) return { next: projects, result: null };

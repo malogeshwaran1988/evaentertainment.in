@@ -10,9 +10,20 @@ import { getProjects } from "@@/lib/projects-store";
 export const PUBLIC_PROJECT_STATUSES = ["ongoing", "released"] as const;
 export type PublicProjectStatus = (typeof PUBLIC_PROJECT_STATUSES)[number];
 
-function toPublic({ id, title, from, to, category, poster, posterAlt, year }: Project): PublicProject {
+function toPublic({
+  id,
+  slug,
+  title,
+  from,
+  to,
+  category,
+  poster,
+  posterAlt,
+  year,
+}: Project): PublicProject {
   return {
     id,
+    slug,
     title,
     from,
     to,

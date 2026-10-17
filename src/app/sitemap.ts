@@ -1,5 +1,8 @@
 import type { MetadataRoute } from "next";
+import { connection } from "next/server";
 import { Routes, SERVICE_SLUGS, serviceHref } from "@@/constants/routes";
+import { getProjects } from "@@/lib/projects-store";
+import { projectHref } from "@@/lib/project-seo";
 import { absoluteUrl } from "@@/lib/seo";
 
 const lastModified = new Date("2026-10-11");
@@ -19,11 +22,24 @@ const ENTRIES: Entry[] = [
   [Routes.TERMS, "yearly", 0.3],
 ];
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  return ENTRIES.map(([path, changeFrequency, priority]) => ({
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  // Projects change from the admin panel without a redeploy.
+  await connection();
+
+  const staticEntries = ENTRIES.map(([path, changeFrequency, priority]) => ({
     url: absoluteUrl(path),
     lastModified,
     changeFrequency,
     priority,
   }));
+
+  const projects = await getProjects();
+  const projectEntries: MetadataRoute.Sitemap = projects.map((project) => ({
+    url: absoluteUrl(projectHref(project.slug)),
+    lastModified: new Date(project.updatedAt || project.createdAt),
+    changeFrequency: "monthly" as const,
+    priority: 0.7,
+  }));
+
+  return [...staticEntries, ...projectEntries];
 }
