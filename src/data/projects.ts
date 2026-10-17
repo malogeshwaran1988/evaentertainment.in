@@ -28,7 +28,9 @@ export const PROJECT_CATEGORIES = [
   "Subtitling",
 ] as const;
 
+/** Server safety cap. The admin UI converts posters client-side to AVIF under 149 KB first. */
 export const POSTER_MAX_BYTES = 150 * 1024;
+/** Types savePoster still accepts (sniffed by magic bytes). New uploads from the form are AVIF. */
 export const POSTER_TYPES = ["image/jpeg", "image/png", "image/webp", "image/avif"] as const;
 export const POSTER_ACCEPT = POSTER_TYPES.join(",");
 /** Public URL prefix for admin-uploaded posters, served by the /images/our-projects route. */

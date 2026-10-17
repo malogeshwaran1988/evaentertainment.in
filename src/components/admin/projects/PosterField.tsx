@@ -1,10 +1,17 @@
 "use client";
 
-import { useRef } from "react";
-import { ImageIcon, Trash2, Undo2, Upload } from "lucide-react";
+import { useRef, useState } from "react";
+import { ImageIcon, Loader2, Trash2, Undo2, Upload } from "lucide-react";
 import { Button } from "@@/components/ui/button";
 import { Label } from "@@/components/ui/label";
-import { POSTER_ACCEPT, POSTER_MAX_BYTES, POSTER_TYPES } from "@@/data/projects";
+import { POSTER_MAX_BYTES } from "@@/data/projects";
+import {
+  POSTER_AVIF_MAX_KB,
+  POSTER_AVIF_MIN_KB,
+  POSTER_SOURCE_ACCEPT,
+  convertPosterToAvif,
+  validatePosterSource,
+} from "@@/lib/admin/poster-to-avif";
 import { cn } from "@@/lib/utils";
 
 export type PickedPoster = { file: File; url: string };
@@ -19,7 +26,7 @@ type PosterFieldProps = {
   onRemovedChange: (removed: boolean) => void;
 };
 
-const MAX_KB = POSTER_MAX_BYTES / 1024;
+const SERVER_MAX_KB = POSTER_MAX_BYTES / 1024;
 
 export default function PosterField({
   current,
@@ -31,24 +38,43 @@ export default function PosterField({
   onRemovedChange,
 }: PosterFieldProps) {
   const inputRef = useRef<HTMLInputElement>(null);
+  const convertGen = useRef(0);
+  const [converting, setConverting] = useState(false);
   const previewSrc = picked?.url ?? (removed ? undefined : current);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] ?? null;
     e.target.value = "";
     if (!file) return;
-    if (!(POSTER_TYPES as readonly string[]).includes(file.type)) {
-      onClientError("Choose a JPG, PNG, WebP or AVIF image.");
+
+    const validationError = validatePosterSource(file);
+    if (validationError) {
+      onClientError(validationError);
       return;
     }
-    if (file.size > POSTER_MAX_BYTES) {
-      onClientError(
-        `This image is ${Math.ceil(file.size / 1024)} KB. The maximum is ${MAX_KB} KB — please compress it and try again.`,
-      );
-      return;
-    }
+
+    const gen = ++convertGen.current;
+    setConverting(true);
     onClientError(undefined);
-    onPick(file);
+
+    try {
+      const result = await convertPosterToAvif(file);
+      if (gen !== convertGen.current) return;
+      if (result.bytes > POSTER_MAX_BYTES) {
+        onClientError(
+          `Converted poster is ${Math.ceil(result.bytes / 1024)} KB. The maximum is ${SERVER_MAX_KB} KB.`,
+        );
+        return;
+      }
+      onPick(result.file);
+    } catch (err) {
+      if (gen !== convertGen.current) return;
+      onClientError(
+        err instanceof Error ? err.message : "Could not convert this image to AVIF.",
+      );
+    } finally {
+      if (gen === convertGen.current) setConverting(false);
+    }
   };
 
   return (
@@ -68,19 +94,31 @@ export default function PosterField({
           ) : (
             <ImageIcon className="size-8 text-muted-foreground" aria-hidden />
           )}
+          {converting ? (
+            <div
+              className="absolute inset-0 flex items-center justify-center bg-background/70"
+              aria-live="polite"
+              aria-busy="true"
+            >
+              <Loader2 className="size-6 animate-spin text-muted-foreground" aria-hidden />
+              <span className="sr-only">Converting to AVIF</span>
+            </div>
+          ) : null}
         </div>
 
         <div className="min-w-0 space-y-3">
           <p id="poster-hint" className="text-sm text-muted-foreground">
-            JPG, PNG, WebP or AVIF, max {MAX_KB} KB. Portrait 2:3, e.g. 600 × 900 px.
+            JPG, PNG, WebP, GIF or BMP — converted to AVIF under {POSTER_AVIF_MAX_KB} KB
+            (aim ~{POSTER_AVIF_MIN_KB}–{POSTER_AVIF_MAX_KB} KB). Portrait 2:3, e.g. 600 × 900 px.
           </p>
 
           <input
             ref={inputRef}
             id="poster"
             type="file"
-            accept={POSTER_ACCEPT}
+            accept={POSTER_SOURCE_ACCEPT}
             className="sr-only"
+            disabled={converting}
             onChange={handleChange}
             aria-invalid={error ? true : undefined}
             aria-describedby={error ? "poster-error poster-hint" : "poster-hint"}
@@ -91,14 +129,25 @@ export default function PosterField({
               type="button"
               variant="outline"
               size="sm"
+              disabled={converting}
               onClick={() => inputRef.current?.click()}
             >
-              <Upload />
-              {previewSrc ? "Replace image" : "Choose image"}
+              {converting ? <Loader2 className="animate-spin" /> : <Upload />}
+              {converting ? "Converting…" : previewSrc ? "Replace image" : "Choose image"}
             </Button>
 
             {picked ? (
-              <Button type="button" variant="ghost" size="sm" onClick={() => onPick(null)}>
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                disabled={converting}
+                onClick={() => {
+                  convertGen.current += 1;
+                  setConverting(false);
+                  onPick(null);
+                }}
+              >
                 <Undo2 />
                 {current && !removed ? "Keep current poster" : "Clear selection"}
               </Button>
@@ -108,13 +157,20 @@ export default function PosterField({
                 variant="ghost"
                 size="sm"
                 className="text-destructive hover:text-destructive"
+                disabled={converting}
                 onClick={() => onRemovedChange(true)}
               >
                 <Trash2 />
                 Remove poster
               </Button>
             ) : current && removed ? (
-              <Button type="button" variant="ghost" size="sm" onClick={() => onRemovedChange(false)}>
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                disabled={converting}
+                onClick={() => onRemovedChange(false)}
+              >
                 <Undo2 />
                 Undo remove
               </Button>
@@ -125,9 +181,11 @@ export default function PosterField({
             <p className="truncate text-sm" title={picked.file.name}>
               {picked.file.name}{" "}
               <span className="text-muted-foreground">
-                ({Math.ceil(picked.file.size / 1024)} KB)
+                ({Math.ceil(picked.file.size / 1024)} KB AVIF)
               </span>
             </p>
+          ) : converting ? (
+            <p className="text-sm text-muted-foreground">Converting to AVIF…</p>
           ) : removed ? (
             <p className="text-sm text-muted-foreground">The poster will be removed when you save.</p>
           ) : null}
