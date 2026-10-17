@@ -10,7 +10,8 @@ export const POSTER_AVIF_MAX_BYTES = POSTER_AVIF_MAX_KB * 1024;
 export const POSTER_AVIF_MIN_BYTES = POSTER_AVIF_MIN_KB * 1024;
 
 export const POSTER_SOURCE_MAX_BYTES = 25 * 1024 * 1024;
-export const POSTER_SOURCE_MAX_DIMENSION = 8192;
+/** Long-side cap before AVIF encode; larger sources are downscaled automatically. */
+export const POSTER_SOURCE_MAX_DIMENSION = 2400;
 
 /** Stop filling once output reaches the preferred min share of the max. */
 const TARGET_FILL_RATIO = POSTER_AVIF_MIN_KB / POSTER_AVIF_MAX_KB;
@@ -69,17 +70,22 @@ export function toAvifFilename(filename: string): string {
 }
 
 async function loadBitmap(file: File): Promise<ImageBitmap> {
-  const bitmap = await createImageBitmap(file);
-  if (
-    bitmap.width > POSTER_SOURCE_MAX_DIMENSION ||
-    bitmap.height > POSTER_SOURCE_MAX_DIMENSION
-  ) {
-    bitmap.close();
-    throw new Error(
-      `Image is too large (max ${POSTER_SOURCE_MAX_DIMENSION}×${POSTER_SOURCE_MAX_DIMENSION}px).`,
-    );
+  const full = await createImageBitmap(file);
+  const longSide = Math.max(full.width, full.height);
+  if (longSide <= POSTER_SOURCE_MAX_DIMENSION) {
+    return full;
   }
-  return bitmap;
+
+  const scale = POSTER_SOURCE_MAX_DIMENSION / longSide;
+  const resizeWidth = Math.max(1, Math.round(full.width * scale));
+  const resizeHeight = Math.max(1, Math.round(full.height * scale));
+  full.close();
+
+  return createImageBitmap(file, {
+    resizeWidth,
+    resizeHeight,
+    resizeQuality: "high",
+  });
 }
 
 function bitmapToImageData(
