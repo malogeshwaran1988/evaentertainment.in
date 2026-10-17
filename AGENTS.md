@@ -18,7 +18,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 - Every admin page must stay noindex/nofollow and call `requireAdmin()`; every admin server action must call `requireAdmin()` too (the proxy is not a security boundary).
 - Projects and posters go through `src/lib/projects-store.ts` and `src/lib/project-posters.ts` (150 KB cap, magic-byte type check).
   - When `BLOB_READ_WRITE_TOKEN` is set (Vercel), both are stored in the private Blob store under `eva/` via `src/lib/blob.ts`. Local tests with the real token must set `EVA_BLOB_PREFIX=eva-test/`.
- - Posters are named after the project (`biker.avif`, no random suffix) with a `?v=` version in the stored path; project names must be unique.
+ - Posters are named from ALT when set, otherwise the project title (`sardar-2-movie-poster.avif`, no random suffix) with a `?v=` version in the stored path; project names must be unique.
   - Otherwise (local dev), they're stored in `${EVA_DATA_DIR:-./storage}/projects.json` and `public/images/our-projects/`.
   - Never write to the app's own files on Vercel; they're read-only.
 - Posters are always referenced as `/images/our-projects/<name>` and served by the route handler. Render them unoptimized/`<img>`.
