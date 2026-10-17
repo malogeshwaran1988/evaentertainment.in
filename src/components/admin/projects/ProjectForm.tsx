@@ -2,7 +2,13 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { startTransition, useActionState, useEffect, useRef, useState } from "react";
+import {
+  startTransition,
+  useActionState,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import type { ProjectFormState } from "@@/app/(admin)/admin/projects/actions";
@@ -25,7 +31,12 @@ import {
   type ProjectInput,
   type ProjectLanguage,
 } from "@@/data/projects";
+import {
+  loadPosterFromUrl,
+  type PosterBusyStep,
+} from "@@/lib/admin/poster-from-url-client";
 import { AdminRoutes } from "@@/lib/admin-session";
+import { cn } from "@@/lib/utils";
 import PosterField, { type PickedPoster } from "./PosterField";
 import ProjectCardPreview from "./ProjectCardPreview";
 
@@ -33,6 +44,18 @@ type ProjectFormProps = {
   action: (state: ProjectFormState, formData: FormData) => Promise<ProjectFormState>;
   initial?: ProjectInput;
   submitLabel: string;
+};
+
+const STEP_LABEL: Record<PosterBusyStep, string> = {
+  fetching: "Fetching image…",
+  converting: "Converting to AVIF…",
+  saving: "Saving project…",
+};
+
+const STEP_PROGRESS: Record<PosterBusyStep, number> = {
+  fetching: 28,
+  converting: 62,
+  saving: 88,
 };
 
 function FieldError({ id, message }: { id: string; message?: string }) {
@@ -57,12 +80,17 @@ export default function ProjectForm({ action, initial, submitLabel }: ProjectFor
   const [picked, setPicked] = useState<PickedPoster | null>(null);
   const [removePoster, setRemovePoster] = useState(false);
   const [posterClientError, setPosterClientError] = useState<string>();
+  const [imageUrl, setImageUrl] = useState("");
+  const [busyStep, setBusyStep] = useState<PosterBusyStep | null>(null);
   // Hides a server-side poster error once a different file has been picked.
   const [pickedAfter, setPickedAfter] = useState<ProjectFormState | null>(null);
   const pickedUrl = useRef<string | null>(null);
   const errors = state.fieldErrors ?? {};
   const posterError =
     posterClientError ?? (pickedAfter === state ? undefined : errors.poster);
+
+  const overlayBusy = busyStep !== null || pending;
+  const activeStep: PosterBusyStep | null = busyStep ?? (pending ? "saving" : null);
 
   useEffect(
     () => () => {
@@ -71,21 +99,75 @@ export default function ProjectForm({ action, initial, submitLabel }: ProjectFor
     [],
   );
 
+  useEffect(() => {
+    if (!overlayBusy) return;
+    const onBeforeUnload = (e: BeforeUnloadEvent) => {
+      e.preventDefault();
+      e.returnValue = "";
+    };
+    window.addEventListener("beforeunload", onBeforeUnload);
+    return () => window.removeEventListener("beforeunload", onBeforeUnload);
+  }, [overlayBusy]);
+
+  useEffect(() => {
+    if (!pending && busyStep === "saving") {
+      setBusyStep(null);
+    }
+  }, [pending, busyStep]);
+
   const pickPoster = (file: File | null) => {
     if (pickedUrl.current) URL.revokeObjectURL(pickedUrl.current);
     const next = file ? { file, url: URL.createObjectURL(file) } : null;
     pickedUrl.current = next?.url ?? null;
     setPicked(next);
     setPickedAfter(state);
+    if (file) {
+      setRemovePoster(false);
+      setPosterClientError(undefined);
+    }
+  };
+
+  const runLoadFromUrl = async (): Promise<File | null> => {
+    const url = imageUrl.trim();
+    if (!url) {
+      setPosterClientError("Paste an image URL first.");
+      return null;
+    }
+    setPosterClientError(undefined);
+    try {
+      const file = await loadPosterFromUrl(url, setBusyStep);
+      pickPoster(file);
+      setImageUrl("");
+      return file;
+    } catch (err) {
+      setPosterClientError(
+        err instanceof Error ? err.message : "Could not load that image URL.",
+      );
+      return null;
+    } finally {
+      setBusyStep(null);
+    }
   };
 
   // Submitting via `<form action>` resets the form afterwards, which also clears the Radix
   // Select/Checkbox state, so the action is dispatched manually to keep entries after an error.
-  const submit = (e: React.FormEvent<HTMLFormElement>) => {
+  const submit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    if (picked) formData.set("poster", picked.file);
+    if (overlayBusy) return;
+
+    const formEl = e.currentTarget;
+    const formData = new FormData(formEl);
+
+    let posterFile = picked?.file ?? null;
+    if (!posterFile && imageUrl.trim()) {
+      posterFile = await runLoadFromUrl();
+      if (!posterFile) return;
+    }
+
+    if (posterFile) formData.set("poster", posterFile);
     else if (removePoster) formData.set("removePoster", "on");
+
+    setBusyStep("saving");
     startTransition(() => formAction(formData));
   };
 
@@ -95,6 +177,7 @@ export default function ProjectForm({ action, initial, submitLabel }: ProjectFor
       router.push(AdminRoutes.PROJECTS);
     } else if (state.message) {
       toast.error(state.message);
+      setBusyStep(null);
     }
   }, [state, router]);
 
@@ -102,17 +185,27 @@ export default function ProjectForm({ action, initial, submitLabel }: ProjectFor
     setTo((prev) => (checked ? [...prev, lang] : prev.filter((l) => l !== lang)));
 
   return (
-    <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_248px]">
+    <div className="relative grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_248px]">
       <form
         onSubmit={submit}
-        className="min-w-0 space-y-6 rounded-xl border bg-surface p-4 shadow-card sm:p-6"
+        className="relative min-w-0 space-y-6 rounded-xl border bg-surface p-4 shadow-card sm:p-6"
         noValidate
+        aria-busy={overlayBusy || undefined}
       >
         <PosterField
           current={initial?.poster}
           picked={picked}
           removed={removePoster}
           error={posterError}
+          imageUrl={imageUrl}
+          onImageUrlChange={(url) => {
+            setImageUrl(url);
+            setPosterClientError(undefined);
+          }}
+          onLoadFromUrl={() => {
+            void runLoadFromUrl();
+          }}
+          urlBusy={busyStep === "fetching" || busyStep === "converting"}
           onPick={pickPoster}
           onClientError={setPosterClientError}
           onRemovedChange={setRemovePoster}
@@ -260,14 +353,60 @@ export default function ProjectForm({ action, initial, submitLabel }: ProjectFor
         </fieldset>
 
         <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
-          <Button variant="outline" asChild>
-            <Link href={AdminRoutes.PROJECTS}>Cancel</Link>
+          <Button variant="outline" asChild disabled={overlayBusy}>
+            <Link href={AdminRoutes.PROJECTS} onClick={(e) => overlayBusy && e.preventDefault()}>
+              Cancel
+            </Link>
           </Button>
-          <Button type="submit" disabled={pending}>
-            {pending ? <Loader2 className="animate-spin" /> : null}
+          <Button type="submit" disabled={overlayBusy}>
+            {overlayBusy ? <Loader2 className="animate-spin" /> : null}
             {submitLabel}
           </Button>
         </div>
+
+        {overlayBusy && activeStep ? (
+          <div
+            className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-4 rounded-xl bg-background/80 p-6 backdrop-blur-sm"
+            role="status"
+            aria-live="polite"
+            aria-label={STEP_LABEL[activeStep]}
+          >
+            <Loader2 className="size-10 animate-spin text-primary" aria-hidden />
+            <div className="w-full max-w-xs space-y-2 text-center">
+              <p className="text-sm font-medium">{STEP_LABEL[activeStep]}</p>
+              <p className="text-xs text-muted-foreground">
+                Please wait — do not refresh or close this page.
+              </p>
+              <div
+                className="h-2 overflow-hidden rounded-full bg-muted"
+                role="progressbar"
+                aria-valuemin={0}
+                aria-valuemax={100}
+                aria-valuenow={STEP_PROGRESS[activeStep]}
+              >
+                <div
+                  className={cn(
+                    "h-full rounded-full bg-primary transition-[width] duration-500 ease-out",
+                  )}
+                  style={{ width: `${STEP_PROGRESS[activeStep]}%` }}
+                />
+              </div>
+              <ol className="flex justify-between gap-1 pt-1 text-[10px] uppercase tracking-wide text-muted-foreground">
+                {(["fetching", "converting", "saving"] as const).map((step) => (
+                  <li
+                    key={step}
+                    className={cn(
+                      activeStep === step && "font-semibold text-foreground",
+                      STEP_PROGRESS[activeStep] > STEP_PROGRESS[step] && "text-foreground/70",
+                    )}
+                  >
+                    {step === "fetching" ? "Fetch" : step === "converting" ? "Convert" : "Save"}
+                  </li>
+                ))}
+              </ol>
+            </div>
+          </div>
+        ) : null}
       </form>
 
       <aside aria-labelledby="preview-heading" className="space-y-3 lg:sticky lg:top-6">
