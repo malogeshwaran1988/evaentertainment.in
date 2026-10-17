@@ -14,6 +14,7 @@ import {
 import { Routes } from "@@/constants/routes";
 import { requireAdmin } from "@@/lib/admin-auth";
 import { AdminRoutes } from "@@/lib/admin-session";
+import { fetchPosterImageFromUrl } from "@@/lib/admin/fetch-poster-url";
 import { deletePoster, isSamePosterFile, renamePoster, savePoster } from "@@/lib/project-posters";
 import * as store from "@@/lib/projects-store";
 
@@ -218,4 +219,14 @@ export async function deleteProjectAction(id: string): Promise<ProjectFormState>
   await deletePosterQuietly(removed.poster);
   revalidateProjects();
   return { ok: true, message: "Project deleted." };
+}
+
+export type FetchPosterFromUrlResult =
+  | { ok: true; base64: string; mime: string; filename: string; bytes: number }
+  | { ok: false; error: string };
+
+/** Downloads a remote image for the admin poster field (CORS-safe). */
+export async function fetchPosterFromUrlAction(url: string): Promise<FetchPosterFromUrlResult> {
+  await requireAdmin();
+  return fetchPosterImageFromUrl(url);
 }
