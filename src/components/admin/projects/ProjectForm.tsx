@@ -36,6 +36,12 @@ import {
   type PosterBusyStep,
 } from "@@/lib/admin/poster-from-url-client";
 import { AdminRoutes } from "@@/lib/admin-session";
+import {
+  posterFileBaseName,
+  projectPageSlugBase,
+  projectSeoAlt,
+  projectSeoTitle,
+} from "@@/lib/project-seo";
 import { cn } from "@@/lib/utils";
 import PosterField, { type PickedPoster } from "./PosterField";
 import ProjectCardPreview from "./ProjectCardPreview";
@@ -184,6 +190,29 @@ export default function ProjectForm({ action, initial, submitLabel }: ProjectFor
   const toggleTarget = (lang: ProjectLanguage, checked: boolean) =>
     setTo((prev) => (checked ? [...prev, lang] : prev.filter((l) => l !== lang)));
 
+  const orderedTo = PROJECT_LANGUAGES.filter((l) => to.includes(l));
+  const previewTitle = title.trim() || "Project Name";
+  const seoPreviewReady = Boolean(from && orderedTo.length);
+  const seoPreviewProject = seoPreviewReady
+    ? {
+        title: previewTitle,
+        posterAlt: posterAlt.trim() || undefined,
+        from: from as ProjectLanguage,
+        to: orderedTo,
+        year: year || undefined,
+      }
+    : null;
+  const generatedFilename = seoPreviewProject
+    ? `${posterFileBaseName(seoPreviewProject)}.avif`
+    : null;
+  const generatedAlt = seoPreviewProject ? projectSeoAlt(seoPreviewProject) : null;
+  const generatedPageTitle = seoPreviewProject
+    ? projectSeoTitle(seoPreviewProject)
+    : null;
+  const generatedPageSlug = seoPreviewProject
+    ? projectPageSlugBase(seoPreviewProject)
+    : null;
+
   return (
     <div className="relative grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_248px]">
       <form
@@ -223,10 +252,46 @@ export default function ProjectForm({ action, initial, submitLabel }: ProjectFor
             aria-describedby={errors.posterAlt ? "posterAlt-error posterAlt-hint" : "posterAlt-hint"}
           />
           <p id="posterAlt-hint" className="text-sm text-muted-foreground">
-            Describes the poster for screen readers and search engines, e.g. “Sardar 2 movie
-            poster”. Leave blank to use “{title.trim() || "Project Name"} poster”.
+            Typed ALT only (stored as-is). Public pages append the dubbing SEO suffix. Leave blank
+            to start from “{previewTitle} movie poster”.
           </p>
           <FieldError id="posterAlt-error" message={errors.posterAlt} />
+          <div
+            className="space-y-2 rounded-lg border border-dashed bg-muted/40 p-3 text-sm"
+            aria-live="polite"
+          >
+            <p className="font-medium leading-none">SEO preview</p>
+            {seoPreviewProject && generatedFilename && generatedAlt && generatedPageTitle ? (
+              <dl className="space-y-2 text-muted-foreground">
+                <div>
+                  <dt className="text-xs uppercase tracking-wide">Filename</dt>
+                  <dd className="break-all font-mono text-xs text-foreground">
+                    {generatedFilename}
+                  </dd>
+                </div>
+                <div>
+                  <dt className="text-xs uppercase tracking-wide">Final ALT</dt>
+                  <dd className="text-foreground">{generatedAlt}</dd>
+                </div>
+                <div>
+                  <dt className="text-xs uppercase tracking-wide">Page title</dt>
+                  <dd className="text-foreground">{generatedPageTitle}</dd>
+                </div>
+                {generatedPageSlug ? (
+                  <div>
+                    <dt className="text-xs uppercase tracking-wide">Page URL</dt>
+                    <dd className="break-all font-mono text-xs text-foreground">
+                      /projects/{generatedPageSlug}
+                    </dd>
+                  </div>
+                ) : null}
+              </dl>
+            ) : (
+              <p className="text-muted-foreground">
+                Choose a source language and at least one target to preview SEO fields.
+              </p>
+            )}
+          </div>
         </div>
 
         <div className="space-y-2">
@@ -421,7 +486,7 @@ export default function ProjectForm({ action, initial, submitLabel }: ProjectFor
         <ProjectCardPreview
           title={title}
           from={from}
-          to={PROJECT_LANGUAGES.filter((l) => to.includes(l))}
+          to={orderedTo}
           category={category}
           year={year}
           poster={picked?.url ?? (removePoster ? undefined : initial?.poster)}

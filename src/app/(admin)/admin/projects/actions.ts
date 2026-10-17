@@ -16,6 +16,7 @@ import { requireAdmin } from "@@/lib/admin-auth";
 import { AdminRoutes } from "@@/lib/admin-session";
 import { fetchPosterImageFromUrl } from "@@/lib/admin/fetch-poster-url";
 import { deletePoster, isSamePosterFile, renamePoster, savePoster } from "@@/lib/project-posters";
+import { uniqueProjectSlug } from "@@/lib/project-seo";
 import * as store from "@@/lib/projects-store";
 
 export type ProjectFormState = {
@@ -99,7 +100,7 @@ async function deletePosterQuietly(poster: string | undefined) {
   }
 }
 
-/** Posters are named after the project, so two projects can't share a name. */
+/** Project titles must stay unique (display name and default poster slug). */
 async function duplicateNameState(
   title: string,
   exceptId?: string,
@@ -113,10 +114,19 @@ async function duplicateNameState(
   return { fieldErrors: { title: message }, message };
 }
 
-function revalidateProjects() {
+function posterNameCtx(data: ProjectInput) {
+  return {
+    title: data.title,
+    posterAlt: data.posterAlt,
+    to: data.to,
+  };
+}
+
+function revalidateProjects(slug?: string) {
   revalidatePath(Routes.HOME);
   revalidatePath(Routes.PROJECTS);
   revalidatePath(AdminRoutes.PROJECTS);
+  if (slug) revalidatePath(Routes.project(slug));
 }
 
 export async function createProjectAction(
@@ -132,19 +142,22 @@ export async function createProjectAction(
     const duplicate = await duplicateNameState(data.title);
     if (duplicate) return duplicate;
 
+    const projects = await store.getProjects();
+    const slug = uniqueProjectSlug({ title: data.title, to: data.to }, projects);
     const file = posterFile(formData);
     if (file) {
-      const saved = await savePoster(file, data.title);
+      const saved = await savePoster(file, posterNameCtx(data), { projects });
       if (!saved.ok) return { fieldErrors: { poster: saved.error }, message: saved.error };
       poster = saved.path;
     }
 
     const project = await store.createProject({
       ...data,
+      slug,
       poster,
       posterAlt: poster ? data.posterAlt : undefined,
     });
-    revalidateProjects();
+    revalidateProjects(project.slug);
     return { ok: true, message: `“${project.title}” added.` };
   } catch (err) {
     console.error("Failed to create project", err);
@@ -173,21 +186,30 @@ export async function updateProjectAction(
     const duplicate = await duplicateNameState(data.title, id);
     if (duplicate) return duplicate;
 
+    const projects = await store.getProjects();
+    const slug = uniqueProjectSlug(
+      { title: data.title, to: data.to },
+      projects,
+      id,
+    );
     let poster = existing.poster;
     const file = posterFile(formData);
+    const ctx = posterNameCtx(data);
+    const posterOpts = { projects, excludeProjectId: id };
     if (file) {
-      const saved = await savePoster(file, data.title);
+      const saved = await savePoster(file, ctx, posterOpts);
       if (!saved.ok) return { fieldErrors: { poster: saved.error }, message: saved.error };
       poster = uploaded = saved.path;
     } else if (formData.get("removePoster") === "on") {
       poster = undefined;
     } else if (poster) {
-      const renamed = await renamePoster(poster, data.title);
+      const renamed = await renamePoster(poster, ctx, posterOpts);
       if (renamed !== poster) poster = uploaded = renamed;
     }
 
     const project = await store.updateProject(id, {
       ...data,
+      slug,
       poster,
       posterAlt: poster ? data.posterAlt : undefined,
     });
@@ -196,7 +218,10 @@ export async function updateProjectAction(
       return { message: "This project no longer exists." };
     }
     if (!isSamePosterFile(existing.poster, poster)) await deletePosterQuietly(existing.poster);
-    revalidateProjects();
+    revalidateProjects(project.slug);
+    if (existing.slug && existing.slug !== project.slug) {
+      revalidatePath(Routes.project(existing.slug));
+    }
     revalidatePath(`${AdminRoutes.PROJECTS}/${id}/edit`);
     return { ok: true, message: `“${project.title}” updated.` };
   } catch (err) {

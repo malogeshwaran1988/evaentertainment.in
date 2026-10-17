@@ -1,9 +1,14 @@
 import "server-only";
-import { createHash } from "node:crypto";
 import { mkdir, readFile, unlink, writeFile } from "node:fs/promises";
 import path from "node:path";
-import { POSTER_MAX_BYTES, POSTER_URL_PREFIX, projectNameKey } from "@@/data/projects";
+import {
+  POSTER_MAX_BYTES,
+  POSTER_URL_PREFIX,
+  type Project,
+  type ProjectLanguage,
+} from "@@/data/projects";
 import { deleteBlob, readBlob, USE_BLOB, writeBlob } from "@@/lib/blob";
+import { posterFileBaseName, uniquePosterBaseName } from "@@/lib/project-seo";
 
 const posterBlobPath = (name: string) => `our-projects/${name}`;
 const ONE_YEAR = 60 * 60 * 24 * 365;
@@ -27,6 +32,12 @@ export const POSTER_CONTENT_TYPES = {
 } as const;
 
 type PosterExt = keyof typeof POSTER_CONTENT_TYPES;
+
+export type PosterNameContext = {
+  title: string;
+  posterAlt?: string;
+  to: readonly ProjectLanguage[];
+};
 
 /** Detects the real image type from its first bytes; the browser-reported type can't be trusted. */
 function sniffImage(bytes: Buffer): PosterExt | null {
@@ -53,30 +64,11 @@ function sniffImage(bytes: Buffer): PosterExt | null {
   return null;
 }
 
-/**
- * "Biker" -> "biker". Names that aren't fully Latin get a short hash of the full name, so
- * "Biker" and "Biker தமிழ்" (or two all-Tamil names) never share a file.
- */
-function posterBaseName(title: string) {
-  const slug = title
-    .normalize("NFKD")
-    .replace(/\p{M}/gu, "")
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "")
-    .slice(0, 50)
-    .replace(/-+$/, "");
-  const key = projectNameKey(title);
-  if (slug && /^[a-z0-9]*$/.test(key)) return slug;
-  const hash = createHash("sha256").update(key).digest("hex").slice(0, 8);
-  return slug ? `${slug}-${hash}` : `poster-${hash}`;
-}
-
 /** The query changes on every upload, so the long-lived cache never serves an old image. */
 const posterUrl = (name: string) => `${POSTER_URL_PREFIX}${name}?v=${Date.now().toString(36)}`;
 
 /** File name of an uploaded poster ("biker.avif"), or null for seeded /public images. */
-function posterFileName(posterPath: string | undefined) {
+export function posterFileName(posterPath: string | undefined) {
   if (!posterPath?.startsWith(POSTER_URL_PREFIX)) return null;
   const name = posterPath.slice(POSTER_URL_PREFIX.length).split("?")[0];
   return POSTER_FILE_PATTERN.test(name) ? name : null;
@@ -93,7 +85,6 @@ async function writePosterFile(name: string, bytes: Buffer, ext: PosterExt) {
     await writeBlob(posterBlobPath(name), bytes, {
       contentType: POSTER_CONTENT_TYPES[ext],
       cacheControlMaxAge: ONE_YEAR,
-      // Project names are unique, so an existing file is this project's old poster or an orphan.
       allowOverwrite: true,
     });
     return;
@@ -104,8 +95,19 @@ async function writePosterFile(name: string, bytes: Buffer, ext: PosterExt) {
 
 export type PosterResult = { ok: true; path: string } | { ok: false; error: string };
 
-/** Saves as "<project name>.<ext>", replacing any file already under that name. */
-export async function savePoster(file: File, title: string): Promise<PosterResult> {
+export type PosterSaveOptions = {
+  projects: readonly Pick<Project, "id" | "poster">[];
+  excludeProjectId?: string;
+};
+
+/**
+ * Saves branded `<stem>-<langs>-dubbing-eva-entertainment.<ext>`, with -2/-3 on clash.
+ */
+export async function savePoster(
+  file: File,
+  ctx: PosterNameContext,
+  options: PosterSaveOptions,
+): Promise<PosterResult> {
   if (file.size > POSTER_MAX_BYTES) {
     return {
       ok: false,
@@ -117,20 +119,33 @@ export async function savePoster(file: File, title: string): Promise<PosterResul
   if (!ext) {
     return { ok: false, error: "Poster must be a JPG, PNG, WebP or AVIF image." };
   }
-  const name = `${posterBaseName(title)}.${ext}`;
+  const finalBase = uniquePosterBaseName(
+    posterFileBaseName(ctx),
+    options.projects,
+    options.excludeProjectId,
+  );
+  const name = `${finalBase}.${ext}`;
   await writePosterFile(name, bytes, ext);
   return { ok: true, path: posterUrl(name) };
 }
 
 /**
- * Copies an uploaded poster to the file name for `title` and returns its new path, or the
- * same path when nothing needs to move. The old file is left for the caller to delete.
+ * Copies an uploaded poster to the branded slug for `ctx`. Old file left for the caller to delete.
  */
-export async function renamePoster(posterPath: string, title: string): Promise<string> {
+export async function renamePoster(
+  posterPath: string,
+  ctx: PosterNameContext,
+  options: PosterSaveOptions,
+): Promise<string> {
   const name = posterFileName(posterPath);
   if (!name) return posterPath;
   const ext = name.slice(name.lastIndexOf(".") + 1) as PosterExt;
-  const target = `${posterBaseName(title)}.${ext}`;
+  const finalBase = uniquePosterBaseName(
+    posterFileBaseName(ctx),
+    options.projects,
+    options.excludeProjectId,
+  );
+  const target = `${finalBase}.${ext}`;
   if (target === name) return posterPath;
   const poster = await readPoster(name);
   if (!poster) return posterPath;

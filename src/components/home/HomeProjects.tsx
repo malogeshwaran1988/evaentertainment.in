@@ -6,9 +6,10 @@ import { Routes } from "@@/constants/routes";
 import {
   POSTER_URL_PREFIX,
   projectLanguageLine,
-  projectPosterAlt,
   type PublicProject,
 } from "@@/data/projects";
+import { projectPosterAlt } from "@@/lib/project-seo";
+import { SITE_NAME } from "@@/constants/constants";
 
 export const HOME_PROJECTS_LIMIT = 6;
 
@@ -53,11 +54,14 @@ export default function HomeProjects({ projects }: { projects: PublicProject[] }
                 )}
               </div>
               <h3 className="eva-project-title">
-                <Link className="eva-project-open" href={Routes.PROJECTS}>
+                <Link className="eva-project-open" href={Routes.project(project.slug)}>
                   {project.title}
                 </Link>
               </h3>
               <p className="eva-project-meta">{projectLanguageLine(project)}</p>
+              <p className="eva-project-meta eva-project-brand-caption">
+                Dubbed by {SITE_NAME}
+              </p>
             </li>
           ))}
         </ul>

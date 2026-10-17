@@ -2,10 +2,10 @@ import { Film } from "lucide-react";
 import {
   PROJECT_YEAR_ONGOING,
   projectLanguageLine,
-  projectPosterAlt,
   projectYearLabel,
   type ProjectLanguage,
 } from "@@/data/projects";
+import { projectPosterAlt } from "@@/lib/project-seo";
 import { cn } from "@@/lib/utils";
 
 type ProjectCardPreviewProps = {
@@ -59,7 +59,12 @@ export default function ProjectCardPreview({
             // eslint-disable-next-line @next/next/no-img-element
             <img
               src={poster}
-              alt={projectPosterAlt({ title: name || "Project", posterAlt: posterAlt?.trim() })}
+              alt={projectPosterAlt({
+                title: name || "Project",
+                posterAlt: posterAlt?.trim(),
+                from: from || "English",
+                to: to.length ? to : ["Tamil"],
+              })}
               className="absolute inset-0 size-full object-cover"
             />
           ) : (

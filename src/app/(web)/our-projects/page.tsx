@@ -1,11 +1,15 @@
 import JsonLd from "@@/components/common/JsonLd";
 import PageHero from "@@/components/common/PageHero";
 import { Routes } from "@@/constants/routes";
-import { buildPageMetadata } from "@@/lib/seo";
+import { absoluteUrl, buildPageMetadata } from "@@/lib/seo";
 import { connection } from "next/server";
 import { SvgIcon } from "@@/components/common/Icons";
 import ProjectsGallery from "@@/components/projects/ProjectsGallery";
 import { getPublicProjects } from "@@/lib/projects-public";
+import {
+  projectAbsolutePosterUrl,
+  projectHref,
+} from "@@/lib/project-seo";
 import {
   PROJECT_LANGUAGES,
   PROJECT_YEAR_ONGOING,
@@ -34,17 +38,23 @@ export default async function ProjectsPage() {
     url: PROJECTS_PAGE_URL,
     mainEntity: {
       "@type": "ItemList",
-      itemListElement: projects.map((project, index) => ({
-        "@type": "ListItem",
-        position: index + 1,
-        item: {
-          "@type": "Movie",
-          name: project.title,
-          ...(project.year && project.year !== PROJECT_YEAR_ONGOING
-            ? { dateCreated: project.year }
-            : {}),
-        },
-      })),
+      itemListElement: projects.map((project, index) => {
+        const poster = projectAbsolutePosterUrl(project.poster);
+        return {
+          "@type": "ListItem",
+          position: index + 1,
+          url: absoluteUrl(projectHref(project.slug)),
+          item: {
+            "@type": "Movie",
+            name: project.title,
+            url: absoluteUrl(projectHref(project.slug)),
+            ...(poster ? { image: poster } : {}),
+            ...(project.year && project.year !== PROJECT_YEAR_ONGOING
+              ? { dateCreated: project.year }
+              : {}),
+          },
+        };
+      }),
     },
   };
 

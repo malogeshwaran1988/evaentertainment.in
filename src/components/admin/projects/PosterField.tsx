@@ -120,8 +120,8 @@ export default function PosterField({
         <div className="min-w-0 flex-1 space-y-3">
           <p id="poster-hint" className="text-sm text-muted-foreground">
             JPG, PNG, WebP, GIF or BMP — converted to AVIF under {POSTER_AVIF_MAX_KB} KB
-            (aim ~{POSTER_AVIF_MIN_KB}–{POSTER_AVIF_MAX_KB} KB). Portrait 2:3, e.g. 600 × 900 px.
-            Or paste a direct image URL below.
+            (aim ~{POSTER_AVIF_MIN_KB}–{POSTER_AVIF_MAX_KB} KB). Very large images are resized
+            automatically. Portrait 2:3, e.g. 600 × 900 px. Or paste a direct image URL below.
           </p>
 
           <input
