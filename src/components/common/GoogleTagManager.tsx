@@ -1,7 +1,7 @@
 import { GTM_ID } from "@@/constants/constants";
 import { CONSENT_STORAGE_KEY } from "@@/lib/consent";
 
-/** Production only, like Clarity, so local dev sessions don't reach GTM. */
+/** Production only, so local dev sessions don't reach GTM. */
 const ENABLED = process.env.NODE_ENV === "production";
 
 /** Consent Mode v2 defaults; must run before the GTM snippet. Visitors who already accepted start granted. */
