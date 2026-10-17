@@ -3,6 +3,7 @@
 import { FormEvent, useId, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Routes } from "@@/constants/routes";
+import { useFormShield } from "@@/components/common/FormShield";
 import { COUNTRIES } from "@@/data/countries";
 
 const SERVICES = [
@@ -23,6 +24,7 @@ export default function BookingForm() {
   const router = useRouter();
   const formId = useId();
   const [submitting, setSubmitting] = useState(false);
+  const shield = useFormShield();
   const [error, setError] = useState<string | null>(null);
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
 
@@ -32,6 +34,7 @@ export default function BookingForm() {
     const form = e.currentTarget;
     const data = new FormData(form);
     const payload = {
+      ...shield.values(form),
       name: String(data.get("name") || "").trim(),
       lastname: String(data.get("lastname") || "").trim(),
       email: String(data.get("email") || "").trim(),
@@ -52,6 +55,10 @@ export default function BookingForm() {
     if (!payload.service) nextErrors.service = "Select a service.";
     setFieldErrors(nextErrors);
     if (Object.keys(nextErrors).length) return;
+    if (shield.enabled && !payload.turnstileToken) {
+      setError("Please complete the verification check.");
+      return;
+    }
 
     setSubmitting(true);
     try {
@@ -69,6 +76,7 @@ export default function BookingForm() {
       router.push(Routes.THANK_YOU);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong.");
+      shield.reset();
     } finally {
       setSubmitting(false);
     }
@@ -258,6 +266,7 @@ export default function BookingForm() {
               </div>
             </div>
           </div>
+          {shield.fields}
           <div className="form-btn-wrap row-top-25">
             <button type="submit" className="btn btn--lg" disabled={submitting}>
               <i className="icon icon-mic-3" aria-hidden="true" />

@@ -8,7 +8,7 @@ import { Button } from "@@/components/ui/button";
 import { Input } from "@@/components/ui/input";
 import { Label } from "@@/components/ui/label";
 
-export default function LoginForm({ backTo }: { backTo: string }) {
+export default function LoginForm({ backTo, totp = false }: { backTo: string; totp?: boolean }) {
   const [state, formAction, pending] = useActionState<LoginState, FormData>(
     loginAction,
     {},
@@ -76,6 +76,21 @@ export default function LoginForm({ backTo }: { backTo: string }) {
             </button>
           </div>
         </div>
+
+        {totp ? (
+          <div className="space-y-2">
+            <Label htmlFor="totp">Authenticator code</Label>
+            <Input
+              id="totp"
+              name="totp"
+              inputMode="numeric"
+              autoComplete="one-time-code"
+              pattern="[0-9]{6}"
+              maxLength={6}
+              required
+            />
+          </div>
+        ) : null}
 
         {state.error ? (
           <p

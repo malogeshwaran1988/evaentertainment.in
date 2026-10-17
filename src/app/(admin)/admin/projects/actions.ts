@@ -292,5 +292,6 @@ export type FetchPosterFromUrlResult =
 /** Downloads a remote image for the admin poster field (CORS-safe). */
 export async function fetchPosterFromUrlAction(url: string): Promise<FetchPosterFromUrlResult> {
   await requireAdmin();
+  if (typeof url !== "string") return { ok: false, error: "Paste an image URL." };
   return fetchPosterImageFromUrl(url);
 }

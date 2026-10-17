@@ -3,6 +3,7 @@
 import { FormEvent, useId, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Routes } from "@@/constants/routes";
+import { useFormShield } from "@@/components/common/FormShield";
 
 const MESSAGE_MIN = 20;
 
@@ -10,6 +11,7 @@ export default function ContactForm({ services }: { services: string[] }) {
   const router = useRouter();
   const formId = useId();
   const [submitting, setSubmitting] = useState(false);
+  const shield = useFormShield();
   const [error, setError] = useState<string | null>(null);
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
   const [messageLen, setMessageLen] = useState(0);
@@ -17,8 +19,10 @@ export default function ContactForm({ services }: { services: string[] }) {
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setError(null);
-    const data = new FormData(e.currentTarget);
+    const form = e.currentTarget;
+    const data = new FormData(form);
     const payload = {
+      ...shield.values(form),
       name: String(data.get("name") || "").trim(),
       lastname: "",
       email: String(data.get("email") || "").trim(),
@@ -41,6 +45,10 @@ export default function ContactForm({ services }: { services: string[] }) {
     }
     setFieldErrors(nextErrors);
     if (Object.keys(nextErrors).length) return;
+    if (shield.enabled && !payload.turnstileToken) {
+      setError("Please complete the verification check.");
+      return;
+    }
 
     setSubmitting(true);
     try {
@@ -58,6 +66,7 @@ export default function ContactForm({ services }: { services: string[] }) {
       router.push(Routes.THANK_YOU);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong.");
+      shield.reset();
     } finally {
       setSubmitting(false);
     }
@@ -186,6 +195,8 @@ export default function ContactForm({ services }: { services: string[] }) {
           </p>
         ) : null}
       </div>
+
+      {shield.fields}
 
       <button
         type="submit"

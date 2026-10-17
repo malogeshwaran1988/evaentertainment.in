@@ -1,36 +1,19 @@
 import { NextRequest, NextResponse } from "next/server";
 import { isValidEmail, sendMail } from "@@/utils/mail";
-import { checkRateLimit } from "@@/utils/rateLimit";
+import { cleanLine, cleanText, LIMITS } from "@@/lib/security/form-guard";
+import { guardFormRequest } from "@@/lib/security/form-request";
 
 export async function POST(req: NextRequest) {
-  const ip =
-    req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
-    req.headers.get("x-real-ip") ||
-    "unknown";
-  const limited = checkRateLimit(`contact:${ip}`);
-  if (!limited.ok) {
-    return NextResponse.json(
-      { error: "Too many requests. Please try again later." },
-      {
-        status: 429,
-        headers: { "Retry-After": String(limited.retryAfterSec) },
-      },
-    );
-  }
+  const guard = await guardFormRequest(req, "contact");
+  if (!guard.ok) return guard.response;
+  const body = guard.body;
 
-  let body: Record<string, unknown>;
-  try {
-    body = (await req.json()) as Record<string, unknown>;
-  } catch {
-    return NextResponse.json({ error: "Invalid JSON body." }, { status: 400 });
-  }
-
-  const name = String(body.name || "").trim();
-  const lastname = String(body.lastname || "").trim();
-  const email = String(body.email || "").trim();
-  const phone = String(body.phone || "").trim();
-  const service = String(body.service || "").trim();
-  const message = String(body.message || "").trim();
+  const name = cleanLine(body.name, LIMITS.name);
+  const lastname = cleanLine(body.lastname, LIMITS.name);
+  const email = cleanLine(body.email, LIMITS.email);
+  const phone = cleanLine(body.phone, LIMITS.phone);
+  const service = cleanLine(body.service, LIMITS.service);
+  const message = cleanText(body.message, LIMITS.message);
 
   if (!name || !email || !message) {
     return NextResponse.json(
@@ -40,6 +23,9 @@ export async function POST(req: NextRequest) {
   }
   if (!isValidEmail(email)) {
     return NextResponse.json({ error: "Invalid email." }, { status: 400 });
+  }
+  if (phone && !/^[+\d][\d\s()\-.]{4,24}$/.test(phone)) {
+    return NextResponse.json({ error: "Invalid phone number." }, { status: 400 });
   }
 
   try {
