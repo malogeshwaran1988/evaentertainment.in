@@ -50,9 +50,13 @@ Apply Laws of UX and WCAG 2.2 AA without changing brand look:
 - Social previews stay JPG (platforms don't read AVIF): each page has its own 1200x630 `public/images/og/<page>.jpg` with an `*_OG_IMAGE_ALT`, built by the same script.
 - Decorative photo animations: `ImageEffects` + positions in `src/data/image-fx.ts`; keep them `aria-hidden` and off under reduced motion.
 
+## Analytics
+
+Do not add GTM (or other analytics) to individual pages. Public pages under `(web)` inherit `GtmHead` / `GtmNoscript` from `src/app/(web)/layout.tsx`.
+
 ## Checklist
 
-1. Add route to `src/constants/routes.ts` and nav if needed
+1. Add route under `src/app/(web)/` (inherits GTM) plus `src/constants/routes.ts` and nav if needed
 2. Add `src/data/<page>.ts` with SEO constants
 3. Server page + client islands only where interactive
 4. Update `src/app/sitemap.ts` (and robots.txt if needed)

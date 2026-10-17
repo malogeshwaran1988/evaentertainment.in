@@ -4,10 +4,6 @@ export const DEFAULT_OG_IMAGE = "/images/og/home.jpg";
 export const DEFAULT_OG_IMAGE_ALT = "EVA Entertainment dubbing and recording studio";
 export const LOGO_ALT = "EVA Entertainment logo";
 
-/** Microsoft Clarity project ID (public; it appears in the script URL). Env var overrides it. */
-export const CLARITY_PROJECT_ID =
-  process.env.NEXT_PUBLIC_CLARITY_PROJECT_ID || "yoam4umvyi";
-
 /** Google Tag Manager container ID (public; it appears in the script URL). Env var overrides it. */
 export const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID || "GTM-WRZW2JSM";
 

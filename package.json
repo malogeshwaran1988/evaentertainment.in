@@ -10,7 +10,6 @@
     "images": "node scripts/optimize-images.mjs"
   },
   "dependencies": {
-    "@microsoft/clarity": "^1.0.2",
     "@radix-ui/react-alert-dialog": "^1.1.23",
     "@radix-ui/react-avatar": "^1.2.6",
     "@radix-ui/react-checkbox": "^1.3.11",

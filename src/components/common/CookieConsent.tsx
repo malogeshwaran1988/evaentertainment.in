@@ -28,8 +28,9 @@ export default function CookieConsent() {
       <div className="eva-cookie-bar-inner">
         <p className="eva-cookie-text">
           <strong>We use cookies.</strong> Essential storage keeps the site working. With your
-          permission, Microsoft Clarity analytics cookies help us understand how visitors use the
-          site so we can improve it. See our <Link href={Routes.PRIVACY}>Privacy Policy</Link>.
+          permission, Google analytics tags loaded through Google Tag Manager help us understand how
+          visitors use the site so we can improve it. See our{" "}
+          <Link href={Routes.PRIVACY}>Privacy Policy</Link>.
         </p>
         <div className="eva-cookie-actions">
           <button type="button" className="btn btn--border" onClick={() => choose("rejected")}>

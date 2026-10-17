@@ -75,7 +75,7 @@ export const PRIVACY_CONTENT = {
         },
         {
           type: "p",
-          text: "When you visit our website, our hosting and server infrastructure may automatically collect limited technical data such as IP address, browser type, device information, referring URL, pages viewed, and timestamps. We use this information for security, diagnostics, and to keep the site reliable. We also use Microsoft Clarity to understand how visitors use our website. Clarity captures mouse movements, clicks, scrolling, and page interactions as session recordings and heatmaps, which we review to improve site usability and content. Text typed into form fields is masked and is not captured. Microsoft processes this data under the Microsoft Privacy Statement (https://privacy.microsoft.com/privacystatement). We also use Google Tag Manager to manage Google analytics tags; these tags only store cookies or measure your visit after you choose \"Accept all\", and Google processes this data under the Google Privacy Policy (https://policies.google.com/privacy). We do not operate third-party advertising trackers on this site.",
+          text: "When you visit our website, our hosting and server infrastructure may automatically collect limited technical data such as IP address, browser type, device information, referring URL, pages viewed, and timestamps. We use this information for security, diagnostics, and to keep the site reliable. We also use Google Tag Manager to manage Google analytics tags; these tags only store cookies or measure your visit after you choose \"Accept all\", and Google processes this data under the Google Privacy Policy (https://policies.google.com/privacy). We do not operate third-party advertising trackers on this site.",
         },
         {
           type: "h3",
@@ -137,7 +137,7 @@ export const PRIVACY_CONTENT = {
       blocks: [
         {
           type: "p",
-          text: "Our website may use essential cookies or similar storage needed for security, session continuity, and basic site function. We also use Microsoft Clarity for website analytics, which sets first-party and third-party cookies (such as _clck and _clsk) to measure how visitors use the site and to link page views within a visit. Clarity, and any Google analytics tags loaded through Google Tag Manager, only run or store cookies after you choose \"Accept all\" in the cookie banner. If you choose \"Reject\", analytics cookies are not set. You can change your choice at any time with \"Cookie settings\" at the bottom of every page, and you can also block or delete cookies in your browser settings; the website will continue to work without them. We do not sell personal data and do not use advertising trackers. If we introduce marketing cookies in the future, we will update this Policy and, where required, seek appropriate consent.",
+          text: "Our website may use essential cookies or similar storage needed for security, session continuity, and basic site function. Google analytics tags loaded through Google Tag Manager only run or store cookies after you choose \"Accept all\" in the cookie banner. If you choose \"Reject\", analytics cookies are not set. You can change your choice at any time with \"Cookie settings\" at the bottom of every page, and you can also block or delete cookies in your browser settings; the website will continue to work without them. We do not sell personal data and do not use advertising trackers. If we introduce marketing cookies in the future, we will update this Policy and, where required, seek appropriate consent.",
         },
       ],
     },
@@ -152,7 +152,7 @@ export const PRIVACY_CONTENT = {
         {
           type: "ul",
           items: [
-            "Service providers who support hosting, email delivery, website analytics (Microsoft Clarity), IT, accounting, or similar operations under confidentiality obligations.",
+            "Service providers who support hosting, email delivery, website analytics (Google Tag Manager / Google analytics), IT, accounting, or similar operations under confidentiality obligations.",
             "Freelance talent, engineers, directors, or production partners engaged for your project, limited to what is necessary for delivery.",
             "Professional advisers (legal, accounting) where required.",
             "Government authorities, courts, or law enforcement when required by applicable law or to protect our rights, users, or the public.",

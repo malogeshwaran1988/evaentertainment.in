@@ -5,7 +5,6 @@ import Footer from "@@/components/common/Footer";
 import BookingCta from "@@/components/common/BookingCta";
 import GoToTopButton from "@@/components/common/GoToTopButton";
 import BodyClass from "@@/components/common/BodyClass";
-import ClarityAnalytics from "@@/components/common/ClarityAnalytics";
 import CookieConsent from "@@/components/common/CookieConsent";
 import WebHead from "@@/components/common/WebHead";
 import { GtmHead, GtmNoscript } from "@@/components/common/GoogleTagManager";
@@ -82,7 +81,6 @@ export default function WebLayout({
           <Footer />
         </div>
         <CookieConsent />
-        <ClarityAnalytics />
       </body>
     </html>
   );
