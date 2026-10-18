@@ -1,4 +1,6 @@
+import Link from "@@/components/common/NavLink";
 import { SITE_NAME } from "@@/constants/constants";
+import { Routes } from "@@/constants/routes";
 import { PROJECT_LANGUAGES } from "@@/data/projects";
 import {
   formatAudioHours,
@@ -8,24 +10,24 @@ import {
 type ProjectImpactStripProps = {
   stats: ProjectImpactStats;
   className?: string;
+  /** When true, show a soft CTA to the portfolio (default on). */
+  showCta?: boolean;
 };
 
 export default function ProjectImpactStrip({
   stats,
   className,
+  showCta = true,
 }: ProjectImpactStripProps) {
   const total = formatAudioHours(stats.totalAudioHours);
-  const moreLanguageCount = Math.max(
-    0,
-    stats.languageCount - stats.hoursByLanguage.length,
-  );
+  const careDays = stats.careDays;
+  const dayLabel = careDays === 1 ? "day" : "days";
+  const languagesReached =
+    stats.languageCount > 0 ? stats.languageCount : PROJECT_LANGUAGES.length;
   const languageRows =
     stats.hoursByLanguage.length > 0
       ? stats.hoursByLanguage
       : PROJECT_LANGUAGES.map((language) => ({ language, hours: 0 }));
-  const languageLine = languageRows
-    .map((row) => `${row.language} ${formatAudioHours(row.hours)} hrs`)
-    .join(" · ");
 
   return (
     <section
@@ -36,21 +38,46 @@ export default function ProjectImpactStrip({
         <h2 id="eva-impact-title" className="eva-impact-title">
           Stories brought home in every language
         </h2>
-        <p className="eva-impact-stat">
-          <span className="eva-impact-stat-num">{total}</span> hours of dubbed audio
-        </p>
-        <p className="eva-impact-copy">
-          That’s the care of{" "}
-          <strong>{stats.careDays.toLocaleString("en-IN")} days</strong> without pause —
-          performances shaped at {SITE_NAME} so each film lands in your language and feels like it
+        <p className="eva-impact-lead">
+          Performances shaped at {SITE_NAME} so each film lands in your language and feels like it
           was made for you.
         </p>
-        <p className="eva-impact-langs">
-          {languageLine}
-          {stats.hoursByLanguage.length > 0 && moreLanguageCount > 0
-            ? ` · and ${moreLanguageCount} more`
-            : null}
-        </p>
+
+        <ul className="eva-impact-stats" aria-label="Dubbing impact">
+          <li className="eva-impact-stat-card">
+            <span className="eva-impact-stat-value">{total}</span>
+            <span className="eva-impact-stat-label">Hours of dubbed audio</span>
+          </li>
+          <li className="eva-impact-stat-card">
+            <span className="eva-impact-stat-value">{careDays.toLocaleString("en-IN")}</span>
+            <span className="eva-impact-stat-label">
+              {dayLabel.charAt(0).toUpperCase() + dayLabel.slice(1)} of care without pause
+            </span>
+          </li>
+          <li className="eva-impact-stat-card">
+            <span className="eva-impact-stat-value">{languagesReached}</span>
+            <span className="eva-impact-stat-label">Languages reached</span>
+          </li>
+        </ul>
+
+        <ul className="eva-impact-chips" aria-label="Hours by language">
+          {languageRows.map((row) => (
+            <li key={row.language} className="eva-impact-chip">
+              <span className="eva-impact-chip-lang">{row.language}</span>
+              <span className="eva-impact-chip-hrs">
+                {formatAudioHours(row.hours)} hrs
+              </span>
+            </li>
+          ))}
+        </ul>
+
+        {showCta ? (
+          <p className="eva-impact-cta">
+            <Link className="btn" href={Routes.PROJECTS}>
+              See our projects
+            </Link>
+          </p>
+        ) : null}
       </div>
     </section>
   );

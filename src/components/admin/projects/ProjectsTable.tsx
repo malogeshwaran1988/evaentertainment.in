@@ -146,6 +146,38 @@ export default function ProjectsTable({ projects }: { projects: Project[] }) {
           ),
       },
       {
+        id: "audioHours",
+        header: "Hours",
+        cell: ({ row }) =>
+          row.original.audioHours != null ? (
+            <span className="whitespace-nowrap tabular-nums">{row.original.audioHours}</span>
+          ) : (
+            <span className="text-muted-foreground" aria-label="No hours">
+              –
+            </span>
+          ),
+      },
+      {
+        id: "description",
+        header: "Description",
+        cell: ({ row }) => {
+          const text = row.original.description?.trim();
+          if (!text) {
+            return (
+              <span className="text-muted-foreground" aria-label="No description">
+                –
+              </span>
+            );
+          }
+          const short = text.length > 60 ? `${text.slice(0, 60).trimEnd()}…` : text;
+          return (
+            <span className="line-clamp-2 max-w-[14rem] text-muted-foreground" title={text}>
+              {short}
+            </span>
+          );
+        },
+      },
+      {
         accessorKey: "updatedAt",
         header: "Updated",
         cell: ({ getValue }) => (
