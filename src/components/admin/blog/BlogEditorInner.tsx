@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Theme } from "@radix-ui/themes";
 import { RichTextEditor } from "@templatepix/text-editor";
 import "@radix-ui/themes/styles.css";
@@ -55,6 +55,15 @@ export default function BlogEditorInner({
   const { mode } = useThemeMode();
   const wrap = useRef<HTMLDivElement>(null);
 
+  // @templatepix/text-editor 1.1.0 never writes its *initial* `value` into the editable area
+  // (it only syncs when `value` changes), so an edit page would open empty and saving would wipe
+  // the article. Mount it empty, then hand it the real value so its change-sync fills it in.
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- one-time post-mount hand-off
+    setMounted(true);
+  }, []);
+
   // The editable area is a contentEditable div with no label of its own: name it after the
   // visible "Article" label and link the hint/error text (WCAG 1.3.1, 4.1.2).
   useEffect(() => {
@@ -79,7 +88,7 @@ export default function BlogEditorInner({
     >
       <div ref={wrap} className="eva-blog-editor">
         <RichTextEditor
-          value={value}
+          value={mounted ? value : ""}
           onChange={onChange}
           placeholder="Write the article…"
           height={480}
