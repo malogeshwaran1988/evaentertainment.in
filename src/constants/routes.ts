@@ -18,15 +18,15 @@ export const Routes = {
 
 export type AppRoute = (typeof Routes)[keyof typeof Routes];
 
-/** One page per service, at the site root (keyword + city slugs). */
+/** One page per service, at the site root (keyword slugs; old "-mumbai" URLs 301 here). */
 export const SERVICE_SLUGS = [
-  "dubbing-studio-mumbai",
-  "voice-over-studio-mumbai",
-  "foley-recording-mumbai",
-  "5-1-mixing-studio-mumbai",
-  "subtitling-services-mumbai",
-  "song-recording-studio-mumbai",
-  "translation-services-mumbai",
+  "dubbing-studio",
+  "voice-over-studio",
+  "foley-recording",
+  "5-1-mixing-studio",
+  "subtitling-services",
+  "song-recording-studio",
+  "translation-services",
   "stock-music-library",
 ] as const;
 
@@ -47,6 +47,12 @@ export const LEGACY_REDIRECTS: { from: string; to: string; statusCode?: 301 }[] 
   { from: "/privacy", to: Routes.PRIVACY },
   { from: "/terms", to: Routes.TERMS },
   { from: "/services", to: WHAT_WE_DO_HREF },
+  // Service pages dropped the "-mumbai" suffix (Oct 2026); "Mumbai" stays in titles and copy.
+  ...SERVICE_SLUGS.filter((slug) => slug !== "stock-music-library").map((slug) => ({
+    from: `/${slug}-mumbai`,
+    to: serviceHref(slug),
+    statusCode: 301 as const,
+  })),
   // Next matches redirect sources case-insensitively, so these also cover /OURCLIENTS, /Our-Clients …
   // (never list a casing of /clients itself: that would loop).
   ...["/our-clients", "/ourclients"].map(

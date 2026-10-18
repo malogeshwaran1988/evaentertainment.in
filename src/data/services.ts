@@ -30,7 +30,7 @@ export type Service = ServiceIcon & {
 
 export const SERVICES: Service[] = [
   {
-    slug: "dubbing-studio-mumbai",
+    slug: "dubbing-studio",
     name: "Lip-Sync Dubbing",
     icon: "icon-lip-syncdubbing-01",
     h1: "Lip-Sync Dubbing Studio in Mumbai",
@@ -63,10 +63,10 @@ export const SERVICES: Service[] = [
       { q: "What do I need to send you?", a: "Your video in the source language, plus a script if you have one. We handle translation, casting, recording, direction and the final mix." },
       { q: "Which languages can you dub into?", a: "We work with native dubbing artists for Indian and international languages. Tell us your target languages when you contact us and we will share voice samples." },
     ],
-    related: ["voice-over-studio-mumbai", "translation-services-mumbai", "5-1-mixing-studio-mumbai"],
+    related: ["voice-over-studio", "translation-services", "5-1-mixing-studio"],
   },
   {
-    slug: "voice-over-studio-mumbai",
+    slug: "voice-over-studio",
     name: "Voice Over",
     icon: "icon-voiceover",
     h1: "Voice Over Studio in Mumbai",
@@ -99,10 +99,10 @@ export const SERVICES: Service[] = [
       { q: "Do you record voice-overs for IVR systems?", a: "Yes. We record IVR prompts as well as e-learning, documentary, corporate and advertising voice-overs." },
       { q: "Can you record the same script in several languages?", a: "Yes. We cast native artists for each language and deliver every version from the same studio." },
     ],
-    related: ["dubbing-studio-mumbai", "translation-services-mumbai", "song-recording-studio-mumbai"],
+    related: ["dubbing-studio", "translation-services", "song-recording-studio"],
   },
   {
-    slug: "foley-recording-mumbai",
+    slug: "foley-recording",
     name: "Foley Recording",
     icon: "icon-folleyrecording",
     h1: "Foley Recording & Sound Design in Mumbai",
@@ -140,10 +140,10 @@ export const SERVICES: Service[] = [
       { q: "Why does a dubbed film need Foley?", a: "When the original dialogue is replaced, effects that were recorded with it are often lost. Foley rebuilds them so the new version sounds complete." },
       { q: "Can you also mix the final soundtrack?", a: "Yes. We can deliver Foley as separate tracks or take the project through to a stereo or 5.1 mix." },
     ],
-    related: ["5-1-mixing-studio-mumbai", "dubbing-studio-mumbai", "stock-music-library"],
+    related: ["5-1-mixing-studio", "dubbing-studio", "stock-music-library"],
   },
   {
-    slug: "5-1-mixing-studio-mumbai",
+    slug: "5-1-mixing-studio",
     name: "5.1 Mixing & Mastering",
     svg: "podcast",
     h1: "5.1 Mixing & Mastering Studio in Mumbai",
@@ -175,10 +175,10 @@ export const SERVICES: Service[] = [
       { q: "Do you also deliver stereo mixes?", a: "Yes. We deliver stereo and mono mixes as well as 5.1, depending on where the content will be shown." },
       { q: "Can you mix a dubbed version of my film?", a: "Yes. We mix the new dialogue with music and effects so the dubbed version sounds like the original." },
     ],
-    related: ["foley-recording-mumbai", "dubbing-studio-mumbai", "song-recording-studio-mumbai"],
+    related: ["foley-recording", "dubbing-studio", "song-recording-studio"],
   },
   {
-    slug: "subtitling-services-mumbai",
+    slug: "subtitling-services",
     name: "Subtitling",
     icon: "icon-translate1",
     h1: "Subtitling Services in Mumbai",
@@ -210,10 +210,10 @@ export const SERVICES: Service[] = [
       { q: "Who writes the subtitles?", a: "Native speakers of the target language, working with our translation team." },
       { q: "Can you subtitle a film into English?", a: "Yes. We create English subtitles for films in other languages, as well as subtitles in other languages for English films." },
     ],
-    related: ["translation-services-mumbai", "dubbing-studio-mumbai", "voice-over-studio-mumbai"],
+    related: ["translation-services", "dubbing-studio", "voice-over-studio"],
   },
   {
-    slug: "song-recording-studio-mumbai",
+    slug: "song-recording-studio",
     name: "Song Recording",
     icon: "icon-songrecording",
     h1: "Song Recording Studio in Mumbai",
@@ -245,10 +245,10 @@ export const SERVICES: Service[] = [
       { q: "Can you mix and master my song too?", a: "Yes. We can mix and master the song in the same studio after recording." },
       { q: "Do you record jingles for ads?", a: "Yes. We record jingles and songs for ad films as well as film and independent music." },
     ],
-    related: ["5-1-mixing-studio-mumbai", "voice-over-studio-mumbai", "stock-music-library"],
+    related: ["5-1-mixing-studio", "voice-over-studio", "stock-music-library"],
   },
   {
-    slug: "translation-services-mumbai",
+    slug: "translation-services",
     name: "Translation",
     svg: "language",
     h1: "Script Translation Services in Mumbai",
@@ -280,7 +280,7 @@ export const SERVICES: Service[] = [
       { q: "Which languages do you translate?", a: "Indian and international languages, by native translators. Tell us your source and target languages when you contact us." },
       { q: "Can you record or subtitle the translated script?", a: "Yes. We can take the translation straight into dubbing, voice-over or subtitling." },
     ],
-    related: ["subtitling-services-mumbai", "dubbing-studio-mumbai", "voice-over-studio-mumbai"],
+    related: ["subtitling-services", "dubbing-studio", "voice-over-studio"],
   },
   {
     slug: "stock-music-library",
@@ -315,7 +315,7 @@ export const SERVICES: Service[] = [
       { q: "Can you edit a track to my video's length?", a: "Yes. We can edit music to length and mix it with your voice-over or dialogue." },
       { q: "Do you also offer sound effects?", a: "Yes. Ask us about sound effects, or see our Foley recording service for custom effects." },
     ],
-    related: ["song-recording-studio-mumbai", "foley-recording-mumbai", "5-1-mixing-studio-mumbai"],
+    related: ["song-recording-studio", "foley-recording", "5-1-mixing-studio"],
   },
 ];
 

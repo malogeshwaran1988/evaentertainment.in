@@ -33,7 +33,7 @@ Copy `.env.example` to `.env.local` and set SMTP credentials for contact/booking
 All paths live in `src/constants/routes.ts`; the sitemap, menu, footer and redirects read from it.
 
 - `/`, `/about-us`, `/our-projects`, `/studio-equipment`, `/contact-us`, `/book-studio-session`, `/thank-you`, `/privacy-policy`, `/terms-conditions`. Admin (`/login`, `/admin`) is noindex.
-- One page per service, built from `src/data/services.ts` by `src/app/(web)/[service]/page.tsx`: `/dubbing-studio-mumbai`, `/voice-over-studio-mumbai`, `/foley-recording-mumbai`, `/5-1-mixing-studio-mumbai`, `/subtitling-services-mumbai`, `/song-recording-studio-mumbai`, `/translation-services-mumbai`, `/stock-music-library`.
+- One page per service, built from `src/data/services.ts` by `src/app/(web)/[service]/page.tsx`: `/dubbing-studio`, `/voice-over-studio`, `/foley-recording`, `/5-1-mixing-studio`, `/subtitling-services`, `/song-recording-studio`, `/translation-services`, `/stock-music-library`.
 - There is no services overview page: the SERVICES menu item is a dropdown of the service pages, and its link (plus the old `/services` URL) goes to the home page's What We Do section (`/#what-we-do`).
 - Old URLs (`/about`, `/contact`, `/projects`, `/equipment`, `/book`, `/privacy`, `/terms`, `/services`) permanently redirect to the new ones (`LEGACY_REDIRECTS`).
 - `GET /api/projects` is the public, read-only projects list.
