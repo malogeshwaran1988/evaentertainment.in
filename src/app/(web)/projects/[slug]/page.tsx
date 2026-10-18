@@ -213,7 +213,7 @@ export default async function ProjectDetailPage({
   }));
 
   return (
-    <main className="page-main">
+    <main id="main-content" tabIndex={-1} className="page-main">
       <JsonLd id="project-org-jsonld" data={orgSchema} />
       <JsonLd id="project-work-jsonld" data={workSchema} />
       <JsonLd id="project-breadcrumb-jsonld" data={breadcrumbSchema} />

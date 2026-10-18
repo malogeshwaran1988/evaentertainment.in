@@ -74,6 +74,9 @@ export default function WebLayout({
         <GtmNoscript />
         <div className="flex min-h-screen flex-col">
           <BodyClass />
+          <a className="eva-skip-link" href="#main-content">
+            Skip to main content
+          </a>
           <Header serviceNames={SERVICE_NAMES} />
           <div className="flex-1">{children}</div>
           <BookingCta />

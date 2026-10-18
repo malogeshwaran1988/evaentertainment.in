@@ -29,7 +29,7 @@ export default function PrivacyPage() {
   };
 
   return (
-    <main className="page-main">
+    <main id="main-content" tabIndex={-1} className="page-main">
       <JsonLd id="privacy-jsonld" data={schema} />
       <PageHero
         icon="icon-like"

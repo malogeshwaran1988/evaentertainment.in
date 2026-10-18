@@ -80,7 +80,7 @@ export default async function LanguageHubPage({ params }: { params: Promise<{ pa
   };
 
   return (
-    <main className="page-main">
+    <main id="main-content" tabIndex={-1} className="page-main">
       <JsonLd id="hub-jsonld" data={listSchema} />
       <PageHero
         svg={<SvgIcon name="film" />}

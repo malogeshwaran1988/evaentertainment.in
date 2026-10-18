@@ -3,7 +3,7 @@ import { Routes, WHAT_WE_DO_HREF } from "@@/constants/routes";
 
 export default function NotFoundContent() {
   return (
-    <main className="page-main">
+    <main id="main-content" tabIndex={-1} className="page-main">
       <section
         className="block block--title block--darkbg eva-404"
         aria-labelledby="eva-404-title"

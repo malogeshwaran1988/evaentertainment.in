@@ -39,7 +39,7 @@ export default async function HomePage() {
   };
 
   return (
-    <main className="page-main home-page">
+    <main id="main-content" tabIndex={-1} className="page-main home-page">
       <JsonLd id="home-localbusiness-jsonld" data={orgSchema} />
       <HeroSlider />
       <ProjectImpactStrip stats={impact} className="block block--darkbg" />

@@ -34,7 +34,7 @@ export default function ContactPage() {
   };
 
   return (
-    <main className="page-main">
+    <main id="main-content" tabIndex={-1} className="page-main">
       <JsonLd id="contact-jsonld" data={schema} />
       <PageHero
         icon="icon-travel"

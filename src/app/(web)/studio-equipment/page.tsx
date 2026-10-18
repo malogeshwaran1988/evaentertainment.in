@@ -27,7 +27,7 @@ export default function EquipmentPage() {
   };
 
   return (
-    <main className="page-main">
+    <main id="main-content" tabIndex={-1} className="page-main">
       <link
         rel="preload"
         as="image"

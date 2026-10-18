@@ -15,7 +15,7 @@ export const metadata = buildPageMetadata({
 
 export default function ThankYouPage() {
   return (
-    <main className="page-main">
+    <main id="main-content" tabIndex={-1} className="page-main">
       <PageHero
         icon="icon-like"
         title="Thank You"

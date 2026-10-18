@@ -62,7 +62,7 @@ export default async function ServicePage({ params }: PageProps<"/[service]">) {
   };
 
   return (
-    <main className="page-main">
+    <main id="main-content" tabIndex={-1} className="page-main">
       <JsonLd id="service-jsonld" data={serviceSchema} />
       <JsonLd id="faq-jsonld" data={faqSchema} />
       <PageHero
