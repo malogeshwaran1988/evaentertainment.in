@@ -1,4 +1,5 @@
 import { SITE_NAME } from "@@/constants/constants";
+import { PROJECT_LANGUAGES } from "@@/data/projects";
 import {
   formatAudioHours,
   type ProjectImpactStats,
@@ -13,14 +14,16 @@ export default function ProjectImpactStrip({
   stats,
   className,
 }: ProjectImpactStripProps) {
-  if (stats.totalAudioHours <= 0) return null;
-
   const total = formatAudioHours(stats.totalAudioHours);
   const moreLanguageCount = Math.max(
     0,
     stats.languageCount - stats.hoursByLanguage.length,
   );
-  const languageLine = stats.hoursByLanguage
+  const languageRows =
+    stats.hoursByLanguage.length > 0
+      ? stats.hoursByLanguage
+      : PROJECT_LANGUAGES.map((language) => ({ language, hours: 0 }));
+  const languageLine = languageRows
     .map((row) => `${row.language} ${formatAudioHours(row.hours)} hrs`)
     .join(" · ");
 
@@ -42,12 +45,12 @@ export default function ProjectImpactStrip({
           performances shaped at {SITE_NAME} so each film lands in your language and feels like it
           was made for you.
         </p>
-        {languageLine ? (
-          <p className="eva-impact-langs">
-            {languageLine}
-            {moreLanguageCount > 0 ? ` · and ${moreLanguageCount} more` : null}
-          </p>
-        ) : null}
+        <p className="eva-impact-langs">
+          {languageLine}
+          {stats.hoursByLanguage.length > 0 && moreLanguageCount > 0
+            ? ` · and ${moreLanguageCount} more`
+            : null}
+        </p>
       </div>
     </section>
   );
