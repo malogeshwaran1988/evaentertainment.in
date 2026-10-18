@@ -21,7 +21,8 @@ const CSP = [
   "worker-src 'self' blob:",
   "object-src 'none'",
   "base-uri 'self'",
-  "form-action 'self'",
+  // accounts.google.com: the admin "Sign in with Google" form redirects there.
+  "form-action 'self' https://accounts.google.com",
   "frame-ancestors 'self'",
   ...(isDev ? [] : ["upgrade-insecure-requests"]),
 ].join("; ");

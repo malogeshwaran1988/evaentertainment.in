@@ -1,15 +1,12 @@
-import { NextResponse, type NextRequest } from "next/server";
-import {
-  ADMIN_COOKIE,
-  AdminRoutes,
-  verifyAdminSession,
-} from "@@/lib/admin-session";
+import { NextResponse } from "next/server";
+import { auth, isAllowedAdminEmail } from "@@/auth";
+import { AdminRoutes } from "@@/lib/admin-session";
 import { BLOG_ENABLED } from "@@/lib/blog/enabled";
 import { blogRedirectFor } from "@@/lib/blog/redirects";
 
 const BLOG_POST_PATH = /^\/blog\/([^/]+)$/;
 
-export async function proxy(request: NextRequest) {
+export const proxy = auth(async (request) => {
   const { pathname, search } = request.nextUrl;
 
   const blogPost = BLOG_POST_PATH.exec(pathname);
@@ -30,7 +27,8 @@ export async function proxy(request: NextRequest) {
     return NextResponse.next();
   }
 
-  const session = await verifyAdminSession(request.cookies.get(ADMIN_COOKIE)?.value);
+  // UX redirect only; every admin page/action re-checks with requireAdmin().
+  const session = isAllowedAdminEmail(request.auth?.user?.email);
 
   if (pathname === AdminRoutes.LOGIN) {
     return session
@@ -45,7 +43,7 @@ export async function proxy(request: NextRequest) {
   }
 
   return NextResponse.next();
-}
+});
 
 export const config = {
   matcher: ["/login", "/admin", "/admin/:path*", "/blog/:slug"],

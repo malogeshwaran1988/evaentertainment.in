@@ -32,14 +32,12 @@
     "@upstash/redis": "^1.39.0",
     "@vercel/blob": "^2.8.0",
     "any-ascii": "^0.3.3",
-    "bcryptjs": "^3.0.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "jose": "^6.2.12",
     "lucide-react": "^1.48.0",
     "next": "^16.4.2",
+    "next-auth": "5.0.0-beta.32",
     "nodemailer": "^10.1.2",
-    "otpauth": "^9.5.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "sanitize-html": "^2.18.1",
@@ -64,5 +62,13 @@
     "postcss": "^8.5.15",
     "tailwindcss": "^4.3.3",
     "typescript": "5.9.3"
+  },
+  "overrides": {
+    "next-auth": {
+      "nodemailer": "$nodemailer",
+      "@auth/core": {
+        "nodemailer": "$nodemailer"
+      }
+    }
   }
 }
