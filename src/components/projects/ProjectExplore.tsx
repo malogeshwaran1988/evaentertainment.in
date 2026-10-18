@@ -63,6 +63,7 @@ export default function ProjectExplore({ projects }: ProjectExploreProps) {
                       fill
                       sizes="140px"
                       loading="lazy"
+                      fetchPriority="low"
                     />
                   ) : (
                     <PosterPlaceholder title={project.title} />

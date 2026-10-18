@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import { notFound } from "next/navigation";
 import JsonLd from "@@/components/common/JsonLd";
 import Link from "@@/components/common/NavLink";
 import PageHero from "@@/components/common/PageHero";
 import { SvgIcon } from "@@/components/common/Icons";
-import { PosterPlaceholder } from "@@/components/projects/ProjectPoster";
+import PosterBatchGrid from "@@/components/projects/PosterBatchGrid";
 import { SITE_NAME } from "@@/constants/constants";
 import { Routes, serviceHref } from "@@/constants/routes";
 import { PROJECTS_OG_IMAGE, projectIsPublished } from "@@/data/projects";
@@ -101,29 +100,15 @@ export default async function LanguageHubPage({ params }: { params: Promise<{ pa
             <Link href={serviceHref("5-1-mixing-studio")}>5.1 mixing</Link>, or{" "}
             <Link href={Routes.CONTACT}>contact us</Link> for a quote.
           </p>
-          <ul className="eva-projects-grid">
-            {pair.projects.map((p) => (
-              <li className="eva-project-card" key={p.id}>
-                <div className="eva-project-poster">
-                  {p.poster ? (
-                    <Image
-                      src={p.poster}
-                      alt={projectPosterAlt(p)}
-                      fill
-                      sizes="(min-width: 1200px) 16vw, (min-width: 992px) 23vw, (min-width: 768px) 30vw, 46vw"
-                    />
-                  ) : (
-                    <PosterPlaceholder title={p.title} />
-                  )}
-                </div>
-                <h2 className="eva-project-title">
-                  <Link className="eva-project-open" href={projectHref(p.slug)}>
-                    {p.title}
-                  </Link>
-                </h2>
-              </li>
-            ))}
-          </ul>
+          <PosterBatchGrid
+            items={pair.projects.map((p) => ({
+              id: p.id,
+              href: projectHref(p.slug),
+              title: p.title,
+              ...(p.poster ? { poster: p.poster } : {}),
+              alt: projectPosterAlt(p),
+            }))}
+          />
         </div>
       </section>
     </main>

@@ -5266,3 +5266,35 @@ form[aria-busy="true"] textarea {
   font-size: 28px;
   font-weight: 700;
 }
+
+/* ---- Batched poster grids: Load more ---- */
+.eva-load-more {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 32px;
+}
+.eva-load-more-sentinel {
+  width: 100%;
+  height: 1px;
+}
+.eva-load-more-btn {
+  min-height: 48px;
+}
+.eva-load-more-btn:focus-visible {
+  outline: 3px solid #be8501;
+  outline-offset: 3px;
+}
+.eva-load-more-count {
+  opacity: 0.8;
+}
+.eva-load-more-done {
+  margin: 0;
+  font-size: 15px;
+  opacity: 0.75;
+}
+.eva-noscript-links {
+  columns: 2 220px;
+  margin: 24px 0 0;
+  padding-left: 1.2em;
+}

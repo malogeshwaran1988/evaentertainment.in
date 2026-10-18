@@ -68,6 +68,8 @@ export default function PageHero({
           alt=""
           aria-hidden="true"
           decoding="async"
+          // Decorative: the page's real first image (e.g. the poster) gets fetchPriority=high.
+          fetchPriority="low"
           data-unoptimized={backgroundUnoptimized ? "" : undefined}
         />
       ) : null}

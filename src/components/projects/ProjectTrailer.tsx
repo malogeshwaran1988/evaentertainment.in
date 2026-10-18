@@ -29,7 +29,7 @@ export default function ProjectTrailer({ id, title }: { id: string; title: strin
       ) : (
         <button type="button" className="eva-project-trailer-btn" onClick={() => setPlay(true)}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={`https://i.ytimg.com/vi/${id}/hqdefault.jpg`} alt="" loading="lazy" decoding="async" width={480} height={360} />
+          <img src={`https://i.ytimg.com/vi/${id}/hqdefault.jpg`} alt="" loading="lazy" fetchPriority="low" decoding="async" width={480} height={360} />
           <span className="eva-project-trailer-play" aria-hidden="true">▶</span>
           <span className="eva-project-trailer-label">
             Play trailer<span className="sr-only">: {title} (loads YouTube)</span>

@@ -1,8 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useCallback, useRef, useState } from "react";
+import { BATCH_SIZE, LoadMore, useBatchReveal } from "@@/components/common/BatchReveal";
 import Link from "@@/components/common/NavLink";
+import { NoScriptLinks } from "@@/components/projects/PosterBatchGrid";
 import { PosterPlaceholder, YearBadge } from "@@/components/projects/ProjectPoster";
 import { Routes } from "@@/constants/routes";
 import {
@@ -11,7 +13,7 @@ import {
   type PublicProject,
   type ProjectLanguage,
 } from "@@/data/projects";
-import { imageLoading } from "@@/lib/image-loading";
+import { gridImageLoading } from "@@/lib/image-loading";
 import { projectPosterAlt } from "@@/lib/project-seo";
 
 type Filter = "All" | ProjectLanguage;
@@ -36,6 +38,16 @@ export default function ProjectsGallery({
     filter === "All"
       ? projects
       : projects.filter((p) => p.from === filter || p.to.includes(filter));
+
+  const { shown, hasMore, more, announce } = useBatchReveal(visible.length, BATCH_SIZE, filter);
+  const gridRef = useRef<HTMLUListElement>(null);
+  const prevShown = useRef(shown);
+  const focusNew = useCallback(() => {
+    const links = gridRef.current?.querySelectorAll<HTMLElement>(".eva-project-open");
+    const target = links?.[prevShown.current];
+    prevShown.current = shown;
+    return target;
+  }, [shown]);
 
   if (projects.length === 0) {
     return <p className="eva-projects-empty">Projects coming soon.</p>;
@@ -68,8 +80,9 @@ export default function ProjectsGallery({
       {visible.length === 0 ? (
         <p className="eva-projects-empty">No {filter} projects to show yet.</p>
       ) : (
-        <ul className="eva-projects-grid">
-          {visible.map((project, i) => (
+        <>
+        <ul className="eva-projects-grid" ref={gridRef}>
+          {visible.slice(0, shown).map((project, i) => (
             <li className="eva-project-card" key={project.id}>
               <div className="eva-project-poster">
                 <YearBadge year={project.year} />
@@ -78,7 +91,7 @@ export default function ProjectsGallery({
                     src={project.poster}
                     alt={projectPosterAlt(project)}
                     fill
-                    {...imageLoading(i)}
+                    {...gridImageLoading(i)}
                     sizes="(min-width: 1200px) 16vw, (min-width: 992px) 23vw, (min-width: 768px) 30vw, 46vw"
                   />
                 ) : (
@@ -99,6 +112,25 @@ export default function ProjectsGallery({
             </li>
           ))}
         </ul>
+        {filter === "All" ? (
+          <NoScriptLinks
+            items={visible
+              .slice(BATCH_SIZE)
+              .map((p) => ({ id: p.id, href: Routes.project(p.slug), title: p.title }))}
+          />
+        ) : null}
+        <LoadMore
+          hasMore={hasMore}
+          onMore={() => {
+            prevShown.current = shown;
+            more();
+          }}
+          shown={shown}
+          total={visible.length}
+          announce={announce}
+          focusAfter={focusNew}
+        />
+        </>
       )}
     </>
   );
