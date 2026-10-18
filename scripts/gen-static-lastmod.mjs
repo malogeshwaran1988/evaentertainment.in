@@ -50,6 +50,18 @@ for (const [route, paths] of Object.entries(ROUTES)) {
 if (!found) {
   console.log("[gen-static-lastmod] git history unavailable; keeping", OUT);
 } else {
-  writeFileSync(OUT, `${JSON.stringify(result, null, 2)}\n`);
-  console.log("[gen-static-lastmod] wrote", OUT);
+  const next = `${JSON.stringify(result, null, 2)}\n`;
+  // Only write on a real change: touching this src/ file while `next dev` runs makes every open tab rebuild/reload.
+  let current = "";
+  try {
+    current = readFileSync(OUT, "utf8");
+  } catch {
+    /* first run */
+  }
+  if (current === next) {
+    console.log("[gen-static-lastmod] unchanged", OUT);
+  } else {
+    writeFileSync(OUT, next);
+    console.log("[gen-static-lastmod] wrote", OUT);
+  }
 }
