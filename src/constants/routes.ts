@@ -8,8 +8,11 @@ export const Routes = {
   THANK_YOU: "/thank-you",
   PRIVACY: "/privacy-policy",
   TERMS: "/terms-conditions",
+  BLOG: "/blog",
   /** Per-project detail: `/projects/<slug>`. */
   project: (slug: string) => `/projects/${slug}` as const,
+  /** Blog post: `/blog/<slug>`. */
+  blogPost: (slug: string) => `/blog/${slug}` as const,
 } as const;
 
 export type AppRoute = (typeof Routes)[keyof typeof Routes];
@@ -55,4 +58,5 @@ export const NAV_ITEMS: NavItem[] = [
   { label: "SERVICES", href: WHAT_WE_DO_HREF, children: SERVICE_SLUGS },
   { label: "OUR PROJECTS", href: Routes.PROJECTS },
   { label: "EQUIPMENT", href: Routes.EQUIPMENT },
+  { label: "BLOG", href: Routes.BLOG },
 ];

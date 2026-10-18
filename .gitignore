@@ -21,6 +21,7 @@
 # admin-managed data (projects.json, uploaded project posters)
 /storage/
 /public/images/our-projects/*
+/public/images/blog/*
 !/public/images/our-projects/.gitkeep
 
 # misc

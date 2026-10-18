@@ -2,6 +2,8 @@ import type { MetadataRoute } from "next";
 import { Routes, SERVICE_SLUGS, serviceHref } from "@@/constants/routes";
 import { projectIsPublished } from "@@/data/projects";
 import STATIC_LASTMOD from "@@/data/static-lastmod.json";
+import { blogHref } from "@@/lib/blog/slug";
+import { getPublicBlogPosts } from "@@/lib/blog/store";
 import { getProjects } from "@@/lib/projects-store";
 import { projectIsIndexable } from "@@/lib/project-content";
 import { LANGUAGE_HUB_MIN_PROJECTS, LANGUAGE_HUB_PREFIX, languagePairs } from "@@/lib/project-links";
@@ -72,5 +74,29 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.8,
     }));
 
-  return [...staticEntries, ...hubEntries, ...projectEntries];
+  // Only live posts (published and publish date reached); drafts and scheduled posts never appear.
+  let posts: Awaited<ReturnType<typeof getPublicBlogPosts>> = [];
+  try {
+    posts = await getPublicBlogPosts();
+  } catch (err) {
+    console.error("[sitemap] blog unavailable", err);
+  }
+  const blogEntries: MetadataRoute.Sitemap = posts.length
+    ? [
+        {
+          url: absoluteUrl(Routes.BLOG),
+          lastModified: new Date(Math.max(...posts.map((p) => new Date(p.updatedAt).getTime()))),
+          changeFrequency: "weekly" as const,
+          priority: 0.7,
+        },
+        ...posts.map((post) => ({
+          url: absoluteUrl(blogHref(post.slug)),
+          lastModified: new Date(post.updatedAt),
+          changeFrequency: "monthly" as const,
+          priority: 0.6,
+        })),
+      ]
+    : [];
+
+  return [...staticEntries, ...hubEntries, ...projectEntries, ...blogEntries];
 }

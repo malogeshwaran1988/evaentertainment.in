@@ -1,16 +1,9 @@
 import "server-only";
 import { BlobNotFoundError, BlobPreconditionFailedError, del, get, head, put } from "@vercel/blob";
+import { blobPath, USE_BLOB } from "@@/lib/blob-path";
 
 /** Vercel sets the token when the Blob store is connected; without it (local dev) data stays on disk. */
-export const USE_BLOB = Boolean(process.env.BLOB_READ_WRITE_TOKEN);
-
-/**
- * The store may be shared with other sites, so everything EVA writes lives under this folder.
- * Local tests against the real store set EVA_BLOB_PREFIX (e.g. "eva-test/") to keep off live data.
- */
-const BLOB_PREFIX = process.env.EVA_BLOB_PREFIX || "eva/";
-
-const blobPath = (pathname: string) => `${BLOB_PREFIX}${pathname}`;
+export { USE_BLOB };
 
 export { BlobPreconditionFailedError };
 
@@ -57,4 +50,15 @@ export function writeBlob(pathname: string, body: Buffer | string, options: Writ
 
 export function deleteBlob(pathname: string) {
   return del(blobPath(pathname));
+}
+
+/** True when the blob exists (a HEAD request; nothing is downloaded). */
+export async function blobExists(pathname: string) {
+  try {
+    await head(blobPath(pathname));
+    return true;
+  } catch (err) {
+    if (err instanceof BlobNotFoundError) return false;
+    throw err;
+  }
 }

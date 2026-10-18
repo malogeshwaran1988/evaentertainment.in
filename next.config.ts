@@ -17,7 +17,7 @@ const CSP = [
   "img-src 'self' data: blob: https:",
   "media-src 'self' blob: data:",
   "connect-src 'self' blob: data: https://www.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com https://challenges.cloudflare.com",
-  "frame-src https://www.google.com https://www.googletagmanager.com https://challenges.cloudflare.com https://www.youtube-nocookie.com",
+  "frame-src https://www.google.com https://www.googletagmanager.com https://challenges.cloudflare.com https://www.youtube-nocookie.com https://player.vimeo.com",
   "worker-src 'self' blob:",
   "object-src 'none'",
   "base-uri 'self'",
