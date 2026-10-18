@@ -10,13 +10,9 @@ import {
 import { NAV_ITEMS, Routes, serviceHref } from "@@/constants/routes";
 import { SERVICES } from "@@/data/services";
 
-/**
- * The Services column already lists every service page. OUR CLIENTS is footer-only: adding it to
- * the header makes the nav wrap to two lines at 992–1440px.
- */
+/** The Services column already lists every service page. */
 const FOOTER_LINKS = [
   ...NAV_ITEMS.filter((item) => !item.children),
-  { label: "OUR CLIENTS", href: Routes.CLIENTS },
   { label: "CONTACT", href: Routes.CONTACT },
 ];
 

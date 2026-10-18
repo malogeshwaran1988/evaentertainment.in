@@ -5025,3 +5025,58 @@ html body .eva-hero-ctas .eva-hero-cta-secondary:hover {
   justify-content: center;
   margin-top: 24px;
 }
+
+/*
+ * Header nav fit (8 items incl. OUR CLIENTS + BLOG): keep one line at 992–1440px by narrowing the
+ * logo/CTA side columns and the gaps between items. Links keep min-height 44px and focus outlines.
+ */
+@media (min-width: 992px) {
+  .eva-header-bar .header-menu .menu {
+    flex-wrap: nowrap !important;
+    white-space: nowrap;
+  }
+}
+@media (min-width: 992px) and (max-width: 1024px) {
+  .eva-header-bar > .logo,
+  .header-actions {
+    flex: 0 0 120px;
+    width: 120px;
+    min-width: 120px;
+  }
+  .eva-header-bar .header-menu .menu {
+    gap: 0.5rem 0.6rem;
+  }
+  .eva-header-bar .header-menu .menu > li > a,
+  .header .header-menu ul li a {
+    font-size: 12px !important;
+    padding-left: 0.2rem !important;
+    padding-right: 0.2rem !important;
+  }
+  .header-contact-cta--bar {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+    font-size: 12px !important;
+  }
+}
+@media (min-width: 1025px) {
+  .eva-header-bar > .logo,
+  .header-actions {
+    flex-basis: 180px;
+    width: 180px;
+    min-width: 180px;
+  }
+  .eva-header-bar .header-menu .menu {
+    gap: 0.5rem 1.1rem;
+  }
+}
+@media (min-width: 1025px) and (max-width: 1199px) {
+  .eva-header-bar > .logo,
+  .header-actions {
+    flex-basis: 150px;
+    width: 150px;
+    min-width: 150px;
+  }
+  .eva-header-bar .header-menu .menu {
+    gap: 0.5rem 0.8rem;
+  }
+}
