@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import LoginForm from "@@/components/admin/login/LoginForm";
 import { safeAdminPath } from "@@/lib/admin-session";
+import { isTotpEnabled } from "@@/lib/admin-auth";
 
 export const metadata: Metadata = {
   title: "Login",
@@ -14,7 +15,7 @@ export default async function LoginPage({
   const { backTo } = await searchParams;
   return (
     <main className="flex min-h-svh items-center justify-center bg-muted/40 p-4 sm:p-6">
-      <LoginForm backTo={safeAdminPath(Array.isArray(backTo) ? backTo[0] : backTo)} />
+      <LoginForm totp={isTotpEnabled()} backTo={safeAdminPath(Array.isArray(backTo) ? backTo[0] : backTo)} />
     </main>
   );
 }

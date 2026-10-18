@@ -62,7 +62,7 @@ export default async function ProjectsPage() {
   };
 
   return (
-    <main className="page-main">
+    <main id="main-content" tabIndex={-1} className="page-main">
       <JsonLd id="projects-jsonld" data={schema} />
       <PageHero
         svg={<SvgIcon name="film" />}

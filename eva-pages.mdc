@@ -38,7 +38,8 @@ Apply Laws of UX and WCAG 2.2 AA without changing brand look:
 - Visible `:focus-visible`
 - Meaningful image `alt`
 - Footer on every page
-- No skip-to-content link (project decision)
+- Skip link “Skip to main content” first in `(web)/layout.tsx`; every page’s `<main>` has `id="main-content" tabIndex={-1}`
+- Follow `.cursor` skills `laws-of-ux-review`, `user-centered-design`, `wcag-22-aa-audit` (WCAG 2.2 AA, targets ≥ 24px, 44px for primary actions)
 
 ## Images
 

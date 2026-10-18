@@ -1,8 +1,13 @@
 import nodemailer from "nodemailer";
 
 export function isValidEmail(email: string): boolean {
+  if (email.length > 254 || /[\r\n<>,;"]/.test(email)) return false;
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
+
+/** Removes CR/LF and control chars so user input can never add mail headers. */
+const headerSafe = (v: string) =>
+  v.replace(/[\u0000-\u001f\u007f]+/g, " ").trim();
 
 export async function sendMail(options: {
   subject: string;
@@ -40,8 +45,13 @@ export async function sendMail(options: {
   await transporter.sendMail({
     from,
     to,
-    replyTo: options.replyTo,
-    subject: options.subject,
+    replyTo:
+      options.replyTo && isValidEmail(headerSafe(options.replyTo))
+        ? headerSafe(options.replyTo)
+        : undefined,
+    subject: headerSafe(options.subject).slice(0, 200),
+    disableFileAccess: true,
+    disableUrlAccess: true,
     text: options.text,
   });
 

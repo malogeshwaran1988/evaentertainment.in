@@ -27,7 +27,7 @@ export default function AboutPage() {
   };
 
   return (
-    <main className="page-main">
+    <main id="main-content" tabIndex={-1} className="page-main">
       <JsonLd id="about-jsonld" data={schema} />
       <PageHero
         icon="icon-folded-newspaper"

@@ -29,7 +29,7 @@ export default function TermsPage() {
   };
 
   return (
-    <main className="page-main">
+    <main id="main-content" tabIndex={-1} className="page-main">
       <JsonLd id="terms-jsonld" data={schema} />
       <PageHero
         icon="icon-folded-newspaper"

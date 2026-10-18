@@ -24,3 +24,38 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
   - Never write to the app's own files on Vercel; they're read-only.
 - Posters are always referenced as `/images/our-projects/<name>` and served by the route handler. Render them unoptimized/`<img>`.
 - After finishing each task, commit and push to `origin logeshwaran` with a descriptive message (a summary line plus bullet notes), and share the notes in chat. Fetch or rebase first, never force-push, and never commit `.env`, `storage/` or uploaded posters.
+
+## SEO rules (mandatory)
+
+- **Status pages are never indexed.** Every success, failure, error, confirmation or status page
+  (thank-you, sent/failed, error, not-found, booking confirmation, login/admin) must render
+  `noindex, follow` and must not appear in `sitemap.xml`. Use `buildStatusPageMetadata()` or
+  `buildPageMetadata({ ..., noindex: true })` / `STATUS_PAGE_ROBOTS` from `src/lib/seo.ts`, and add
+  the route to `NOINDEX_ROUTES` (the sitemap filters on it). Form success/failure shown inline (no
+  URL) needs nothing extra.
+- **Thin project pages are noindex.** `/projects/[slug]` is indexed and listed in the sitemap only
+  when its unique content (description + page-content fields) reaches
+  `PROJECT_INDEX_MIN_WORDS` (default 150, env `NEXT_PUBLIC_PROJECT_INDEX_MIN_WORDS`). The admin
+  shows a Thin/Indexable badge. Language hubs (`/dubbing/<from>-to-<to>`) are indexed only with
+  3+ projects.
+- **One ALT pattern:** use `projectSeoAlt()` everywhere (Title Case, “… – From to To Dubbing”).
+- **Poster file names:** the ALT/title stem is capped at `POSTER_STEM_MAX` (50) characters.
+- **Structured data:** EVA is a `contributor`/`translator`, never the film's `productionCompany`.
+- **Static lastmod:** `npm run build` regenerates `src/data/static-lastmod.json` from git history;
+  commit it when it changes.
+
+## UX & accessibility rules (mandatory)
+
+- Standard: WCAG 2.2 AA plus the `laws-of-ux-review`, `user-centered-design` and `wcag-22-aa-audit`
+  skills. No a11y npm packages; native HTML first, ARIA only where needed.
+- Every `(web)` page's `<main>` has `id="main-content" tabIndex={-1}` (target of the skip link in
+  `(web)/layout.tsx`). Admin content is `#admin-content`.
+- Text on brand green `#70b615` is near-black `#0b0d10` (white is 2.5:1). Focus rings: gold + dark
+  ring (see the a11y block at the end of `globals.scss`); never remove outlines without a replacement.
+- Targets ≥ 24×24 px, primary actions ≥ 44 px. Respect `prefers-reduced-motion`; carousels need a
+  pause button.
+- Public forms use `useFormValidation` (`src/components/common/useFormValidation.ts`): visible
+  labels, `required`, blur validation, `aria-invalid` + `aria-describedby`, focus first error,
+  `role="status"` while sending, `role="alert"` for server errors.
+- Admin status pills use `StatusBadge`/`VisibilityBadge`/`CategoryBadge`/`SeoBadge`
+  (`src/components/admin/ui/StatusBadge.tsx`): icon + text + AA-contrast tones, never colour alone.

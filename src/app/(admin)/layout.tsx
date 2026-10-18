@@ -8,13 +8,9 @@ export const metadata: Metadata = {
   icons: { icon: "/favicon.ico" },
   robots: {
     index: false,
-    follow: false,
+    follow: true,
     nocache: true,
-    googleBot: {
-      index: false,
-      follow: false,
-      noimageindex: true,
-    },
+    googleBot: { index: false, follow: true, noimageindex: true },
   },
 };
 

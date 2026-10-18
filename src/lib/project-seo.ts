@@ -7,10 +7,13 @@ import {
   type Project,
   type ProjectLanguage,
 } from "@@/data/projects";
+import { titleCase } from "@@/lib/project-content";
 
 const BRAND_SLUG = "eva-entertainment";
 const DUBBING_BRAND_SLUG = "dubbing-eva-entertainment";
 const META_DESC_MAX = 160;
+/** Cap for the ALT/title part of poster file names, so names stay readable. */
+export const POSTER_STEM_MAX = 50;
 
 export const EVA_ORG_ID = `${APP_BASE_URL}/#organization`;
 
@@ -49,7 +52,7 @@ export function posterFileBaseName(input: {
   posterAlt?: string;
   to: readonly ProjectLanguage[];
 }): string {
-  const stem = slugifyAscii(posterNameStem(input)) || "poster";
+  const stem = slugifyAscii(posterNameStem(input), POSTER_STEM_MAX) || "poster";
   const targets = targetsSlug(input.to);
   let base = stem;
   if (!base.includes(targets) && targets) {
@@ -143,14 +146,17 @@ function targetsPhrase(to: readonly string[]) {
   return `${to.slice(0, -1).join(", ")} and ${to[to.length - 1]}`;
 }
 
-/** Stored ALT or default with language context — no brand suffix (avoids keyword spam). */
+/**
+ * The one ALT pattern used everywhere (cards, detail page, OG): Title Case,
+ * "<ALT or Title> Movie Poster – <From> to <To> Dubbing" (language part skipped if the
+ * typed ALT already mentions dubbing). No brand suffix (avoids keyword spam).
+ */
 export function projectSeoAlt(
   project: Pick<Project, "title" | "posterAlt" | "from" | "to">,
 ): string {
-  const base = project.posterAlt?.trim() || `${project.title} movie poster`;
+  const base = titleCase(project.posterAlt?.trim() || `${project.title} movie poster`);
   if (/\bdubbing\b/i.test(base)) return base;
-  const line = projectLanguageLine(project);
-  return `${base} – ${line} dubbing`;
+  return `${base} – ${projectLanguageLine(project)} Dubbing`;
 }
 
 /** @deprecated Use projectSeoAlt — kept as the public render helper name. */
@@ -174,7 +180,7 @@ export function projectSeoTitle(
 }
 
 export function projectSeoDescription(
-  project: Pick<Project, "title" | "from" | "to" | "description">,
+  project: Pick<Project, "title" | "from" | "to" | "description" | "synopsis">,
 ): string {
   const custom = project.description?.trim();
   if (custom) {
@@ -183,6 +189,12 @@ export function projectSeoDescription(
       : `${custom} — ${SITE_NAME}`;
     if (withBrand.length <= META_DESC_MAX) return withBrand;
     return `${withBrand.slice(0, META_DESC_MAX - 1).trimEnd()}…`;
+  }
+  const synopsis = project.synopsis?.trim();
+  if (synopsis) {
+    const lead = `${project.title} (${project.from} to ${targetsPhrase(project.to)} dubbing by ${SITE_NAME}): `;
+    const full = `${lead}${synopsis}`;
+    return full.length <= META_DESC_MAX ? full : `${full.slice(0, META_DESC_MAX - 1).trimEnd()}…`;
   }
   const targets = targetsPhrase(project.to);
   return `${project.title} was dubbed from ${project.from} into ${targets} by ${SITE_NAME}, a dubbing studio in Andheri, Mumbai.`;

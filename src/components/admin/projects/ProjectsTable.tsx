@@ -27,7 +27,9 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@@/components/ui/alert-dialog";
-import { Badge } from "@@/components/ui/badge";
+import { CategoryBadge, VisibilityBadge } from "@@/components/admin/ui/StatusBadge";
+import { IndexBadge } from "@@/components/admin/projects/ProjectContentFields";
+import { PROJECT_INDEX_MIN_WORDS, projectUniqueWordCount } from "@@/lib/project-content";
 import { Button } from "@@/components/ui/button";
 import {
   DropdownMenu,
@@ -52,6 +54,7 @@ import {
   TableRow,
 } from "@@/components/ui/table";
 import {
+  PROJECT_CATEGORIES,
   PROJECT_LANGUAGES,
   projectLanguageLine,
   projectYearLabel,
@@ -75,6 +78,9 @@ export default function ProjectsTable({ projects }: { projects: Project[] }) {
   const router = useRouter();
   const [search, setSearch] = useState("");
   const [language, setLanguage] = useState<string>(ALL);
+  const [category, setCategory] = useState<string>(ALL);
+  const [visibility, setVisibility] = useState<string>(ALL);
+  const [seo, setSeo] = useState<string>(ALL);
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 20 });
   const [pendingDelete, setPendingDelete] = useState<Project | null>(null);
   const [viewing, setViewing] = useState<Project | null>(null);
@@ -131,17 +137,18 @@ export default function ProjectsTable({ projects }: { projects: Project[] }) {
       {
         accessorKey: "category",
         header: "Category",
-        cell: ({ getValue }) => <Badge variant="secondary">{getValue<string>()}</Badge>,
+        cell: ({ getValue }) => <CategoryBadge category={getValue<string>()} />,
       },
       {
         id: "published",
         header: "Visibility",
         cell: ({ row }) =>
-          row.original.published !== false ? (
-            <Badge variant="secondary">Public</Badge>
-          ) : (
-            <Badge variant="outline">Private</Badge>
-          ),
+          <VisibilityBadge published={row.original.published !== false} />,
+      },
+      {
+        id: "seo",
+        header: "SEO",
+        cell: ({ row }) => <IndexBadge words={projectUniqueWordCount(row.original)} />,
       },
       {
         id: "year",
@@ -206,7 +213,7 @@ export default function ProjectsTable({ projects }: { projects: Project[] }) {
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="h-8 w-8"
+                  className="h-10 w-10"
                   aria-label={`Actions for ${row.original.title}`}
                 >
                   <MoreHorizontal className="size-4" />
@@ -243,12 +250,23 @@ export default function ProjectsTable({ projects }: { projects: Project[] }) {
     data: projects,
     columns,
     state: {
-      globalFilter: search,
+      // Re-run the global filter whenever any select changes.
+      globalFilter: `${search}\u0000${category}\u0000${visibility}\u0000${seo}`,
       columnFilters: [{ id: "languages", value: language }],
       pagination,
     },
-    globalFilterFn: (row, _id, value: string) =>
-      row.original.title.toLowerCase().includes(value.trim().toLowerCase()),
+    globalFilterFn: (row, _id, value: string) => {
+      const p = row.original;
+      const query = value.split("\u0000")[0].trim().toLowerCase();
+      if (query && !p.title.toLowerCase().includes(query)) return false;
+      if (category !== ALL && p.category !== category) return false;
+      if (visibility !== ALL && (p.published !== false ? "public" : "private") !== visibility) return false;
+      if (seo !== ALL) {
+        const ok = projectUniqueWordCount(p) >= PROJECT_INDEX_MIN_WORDS;
+        if ((ok ? "indexable" : "thin") !== seo) return false;
+      }
+      return true;
+    },
     onPaginationChange: setPagination,
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
@@ -257,6 +275,8 @@ export default function ProjectsTable({ projects }: { projects: Project[] }) {
   });
 
   const filteredCount = table.getFilteredRowModel().rows.length;
+  const filtersActive =
+    search !== "" || language !== ALL || category !== ALL || visibility !== ALL || seo !== ALL;
   const resetPage = () => setPagination((p) => ({ ...p, pageIndex: 0 }));
 
   const confirmDelete = () => {
@@ -273,7 +293,7 @@ export default function ProjectsTable({ projects }: { projects: Project[] }) {
 
   return (
     <div className="min-w-0 overflow-hidden rounded-xl border bg-surface shadow-card">
-      <div className="flex flex-col gap-3 border-b p-3 sm:flex-row sm:items-center">
+      <div className="flex flex-col gap-3 border-b p-3 sm:flex-row sm:flex-wrap sm:items-center">
         <div className="relative w-full sm:max-w-xs">
           <Search
             className="pointer-events-none absolute left-2.5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground"
@@ -283,7 +303,7 @@ export default function ProjectsTable({ projects }: { projects: Project[] }) {
             type="search"
             placeholder="Search by title"
             aria-label="Search projects by title"
-            className="pl-8"
+            className="h-10 pl-8"
             value={search}
             onChange={(e) => {
               setSearch(e.target.value);
@@ -298,7 +318,7 @@ export default function ProjectsTable({ projects }: { projects: Project[] }) {
             resetPage();
           }}
         >
-          <SelectTrigger className="w-full sm:w-44" aria-label="Filter by language">
+          <SelectTrigger className="h-10 w-full sm:w-44" aria-label="Filter by language">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
@@ -310,7 +330,62 @@ export default function ProjectsTable({ projects }: { projects: Project[] }) {
             ))}
           </SelectContent>
         </Select>
+        <FilterSelect
+          label="Filter by category"
+          value={category}
+          onChange={(v) => {
+            setCategory(v);
+            resetPage();
+          }}
+          options={[[ALL, "All categories"], ...PROJECT_CATEGORIES.map((c) => [c, c] as [string, string])]}
+        />
+        <FilterSelect
+          label="Filter by visibility"
+          value={visibility}
+          onChange={(v) => {
+            setVisibility(v);
+            resetPage();
+          }}
+          options={[
+            [ALL, "Any visibility"],
+            ["public", "Public"],
+            ["private", "Private"],
+          ]}
+        />
+        <FilterSelect
+          label="Filter by SEO status"
+          value={seo}
+          onChange={(v) => {
+            setSeo(v);
+            resetPage();
+          }}
+          options={[
+            [ALL, "Any SEO status"],
+            ["thin", "Thin (noindex)"],
+            ["indexable", "Indexable"],
+          ]}
+        />
+        {filtersActive ? (
+          <Button
+            type="button"
+            variant="ghost"
+            className="h-10 sm:ml-auto"
+            onClick={() => {
+              setSearch("");
+              setLanguage(ALL);
+              setCategory(ALL);
+              setVisibility(ALL);
+              setSeo(ALL);
+              resetPage();
+            }}
+          >
+            Clear filters
+          </Button>
+        ) : null}
       </div>
+      <p className="sr-only" role="status" aria-live="polite">
+        {filteredCount} {filteredCount === 1 ? "project" : "projects"} shown
+      </p>
 
       <div className="overflow-x-auto">
         <Table>
@@ -346,7 +421,7 @@ export default function ProjectsTable({ projects }: { projects: Project[] }) {
                     <p className="text-sm font-medium">No projects found</p>
                     <p className="text-sm text-muted-foreground">
                       {projects.length
-                        ? "Try a different title or language."
+                        ? "Try a different title or filter, or clear the filters."
                         : "Add your first project to get started."}
                     </p>
                   </div>
@@ -401,5 +476,32 @@ export default function ProjectsTable({ projects }: { projects: Project[] }) {
         </AlertDialogContent>
       </AlertDialog>
     </div>
+  );
+}
+
+function FilterSelect({
+  label,
+  value,
+  onChange,
+  options,
+}: {
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+  options: [string, string][];
+}) {
+  return (
+    <Select value={value} onValueChange={onChange}>
+      <SelectTrigger className="h-10 w-full sm:w-44" aria-label={label}>
+        <SelectValue />
+      </SelectTrigger>
+      <SelectContent>
+        {options.map(([v, text]) => (
+          <SelectItem key={v} value={v}>
+            {text}
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
   );
 }

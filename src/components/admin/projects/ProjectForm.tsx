@@ -47,6 +47,7 @@ import {
 import { cn } from "@@/lib/utils";
 import PosterField, { type PickedPoster } from "./PosterField";
 import ProjectCardPreview from "./ProjectCardPreview";
+import ProjectContentFields from "./ProjectContentFields";
 
 type ProjectFormProps = {
   action: (state: ProjectFormState, formData: FormData) => Promise<ProjectFormState>;
@@ -65,6 +66,15 @@ const STEP_PROGRESS: Record<PosterBusyStep, number> = {
   converting: 62,
   saving: 88,
 };
+
+function RequiredMark() {
+  return (
+    <>
+      <span aria-hidden="true" className="text-destructive">*</span>
+      <span className="sr-only">(required)</span>
+    </>
+  );
+}
 
 function FieldError({ id, message }: { id: string; message?: string }) {
   if (!message) return null;
@@ -98,6 +108,7 @@ export default function ProjectForm({ action, initial, submitLabel }: ProjectFor
   // Hides a server-side poster error once a different file has been picked.
   const [pickedAfter, setPickedAfter] = useState<ProjectFormState | null>(null);
   const pickedUrl = useRef<string | null>(null);
+  const formRef = useRef<HTMLFormElement>(null);
   const errors = state.fieldErrors ?? {};
   const posterError =
     posterClientError ?? (pickedAfter === state ? undefined : errors.poster);
@@ -191,6 +202,11 @@ export default function ProjectForm({ action, initial, submitLabel }: ProjectFor
     } else if (state.message) {
       toast.error(state.message);
       setBusyStep(null);
+      // Move keyboard/screen-reader users to the first field that needs fixing (WCAG 3.3.1).
+      requestAnimationFrame(() => {
+        const first = formRef.current?.querySelector<HTMLElement>('[aria-invalid="true"]');
+        (first ?? formRef.current?.querySelector<HTMLElement>("#form-error-summary"))?.focus();
+      });
     }
   }, [state, router]);
 
@@ -223,11 +239,31 @@ export default function ProjectForm({ action, initial, submitLabel }: ProjectFor
   return (
     <div className="relative grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_248px]">
       <form
+        ref={formRef}
         onSubmit={submit}
         className="relative min-w-0 space-y-6 rounded-xl border bg-surface p-4 shadow-card sm:p-6"
         noValidate
         aria-busy={overlayBusy || undefined}
       >
+        {!state.ok && state.message ? (
+          <div
+            id="form-error-summary"
+            role="alert"
+            tabIndex={-1}
+            className="rounded-md border border-red-700/60 bg-red-50 px-4 py-3 text-sm text-red-800 dark:border-red-400/60 dark:bg-red-950 dark:text-red-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          >
+            <p className="font-semibold">{state.message}</p>
+            {Object.keys(errors).length ? (
+              <p className="mt-1">
+                Fix the {Object.keys(errors).length === 1 ? "highlighted field" : `${Object.keys(errors).length} highlighted fields`} below, then save again.
+              </p>
+            ) : null}
+          </div>
+        ) : null}
+        <p className="text-sm text-muted-foreground">
+          Fields marked <span aria-hidden="true" className="font-semibold text-destructive">*</span>
+          <span className="sr-only">with an asterisk</span> are required.
+        </p>
         <PosterField
           current={initial?.poster}
           picked={picked}
@@ -302,7 +338,7 @@ export default function ProjectForm({ action, initial, submitLabel }: ProjectFor
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="title">Project Name</Label>
+          <Label htmlFor="title">Project Name <RequiredMark /></Label>
           <Input
             id="title"
             name="title"
@@ -390,7 +426,7 @@ export default function ProjectForm({ action, initial, submitLabel }: ProjectFor
 
         <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
           <div className="space-y-2">
-            <Label htmlFor="from">Source language</Label>
+            <Label htmlFor="from">Source language <RequiredMark /></Label>
             <Select
               name="from"
               value={from}
@@ -419,7 +455,7 @@ export default function ProjectForm({ action, initial, submitLabel }: ProjectFor
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="category">Category</Label>
+            <Label htmlFor="category">Category <RequiredMark /></Label>
             <Select name="category" value={category} onValueChange={setCategory}>
               <SelectTrigger
                 id="category"
@@ -495,6 +531,8 @@ export default function ProjectForm({ action, initial, submitLabel }: ProjectFor
           </div>
           <FieldError id="to-error" message={errors.to} />
         </fieldset>
+
+        <ProjectContentFields initial={initial} errors={errors} description={description} />
 
         <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
           <Button variant="outline" asChild disabled={overlayBusy}>

@@ -3,7 +3,14 @@
 import { FormEvent, useId, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Routes } from "@@/constants/routes";
+import { useFormShield } from "@@/components/common/FormShield";
 import { COUNTRIES } from "@@/data/countries";
+import {
+  EMAIL_RE,
+  phoneError,
+  useFormValidation,
+  type Validators,
+} from "@@/components/common/useFormValidation";
 
 const SERVICES = [
   "Language Dubbing",
@@ -14,24 +21,59 @@ const SERVICES = [
 
 const HOURS = [
   { value: "1", label: "1 Hour" },
-  { value: "2", label: "2 Hour" },
-  { value: "3", label: "4 Hour" },
-  { value: "4", label: "6 Hour" },
+  { value: "2", label: "2 Hours" },
+  { value: "3", label: "4 Hours" },
+  { value: "4", label: "6 Hours" },
 ] as const;
+
+const VALIDATORS: Validators = {
+  name: (v) => (v ? undefined : "First name is required."),
+  email: (v) =>
+    !v ? "Email is required." : EMAIL_RE.test(v) ? undefined : "Enter a valid email address, like name@example.com.",
+  // Optional, but if given it must look like a phone number.
+  phone: (v) => (v ? phoneError(v) : undefined),
+  service: (v) => (v ? undefined : "Select a service."),
+  date: (v) => {
+    if (!v) return undefined;
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    return new Date(`${v}T00:00:00`) < today ? "Choose today or a later date." : undefined;
+  },
+};
+
+function todayIso() {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+}
+
+function FieldError({ id, message }: { id: string; message?: string }) {
+  if (!message) return null;
+  return (
+    <p id={id} className="form-error-text">
+      {message}
+    </p>
+  );
+}
 
 export default function BookingForm() {
   const router = useRouter();
   const formId = useId();
   const [submitting, setSubmitting] = useState(false);
+  const shield = useFormShield();
   const [error, setError] = useState<string | null>(null);
-  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+  const { errors: fieldErrors, onBlur, onChange, validateAll, describe } =
+    useFormValidation(VALIDATORS);
+  const [minDate] = useState(todayIso);
 
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    if (submitting) return;
     setError(null);
     const form = e.currentTarget;
+    if (!validateAll(form)) return;
     const data = new FormData(form);
     const payload = {
+      ...shield.values(form),
       name: String(data.get("name") || "").trim(),
       lastname: String(data.get("lastname") || "").trim(),
       email: String(data.get("email") || "").trim(),
@@ -43,15 +85,10 @@ export default function BookingForm() {
       date: String(data.get("date") || "").trim(),
     };
 
-    const nextErrors: Record<string, string> = {};
-    if (!payload.name) nextErrors.name = "First name is required.";
-    if (!payload.email) nextErrors.email = "Email is required.";
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payload.email)) {
-      nextErrors.email = "Enter a valid email address.";
+    if (shield.enabled && !payload.turnstileToken) {
+      setError("Please complete the verification check.");
+      return;
     }
-    if (!payload.service) nextErrors.service = "Select a service.";
-    setFieldErrors(nextErrors);
-    if (Object.keys(nextErrors).length) return;
 
     setSubmitting(true);
     try {
@@ -68,8 +105,10 @@ export default function BookingForm() {
       }
       router.push(Routes.THANK_YOU);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Something went wrong.");
-    } finally {
+      setError(
+        `${err instanceof Error ? err.message : "Something went wrong."} Your details are still here, so you can try again.`,
+      );
+      shield.reset();
       setSubmitting(false);
     }
   }
@@ -83,7 +122,10 @@ export default function BookingForm() {
         <form
           className="form-custom"
           onSubmit={onSubmit}
+          onBlur={onBlur}
+          onChange={onChange}
           noValidate
+          aria-busy={submitting || undefined}
           aria-labelledby={`${formId}-title`}
         >
           {error ? (
@@ -91,31 +133,27 @@ export default function BookingForm() {
               <p>{error}</p>
             </div>
           ) : null}
+          <p className="eva-enquiry-required-note">
+            <span aria-hidden="true">*</span> Required field
+          </p>
           <div className="form-row">
             <div className="form-group">
-              <label className="sr-only" htmlFor={`${formId}-name`}>
-                First Name
+              <label className="label" htmlFor={`${formId}-name`}>
+                First Name <span aria-hidden="true">*</span>
               </label>
               <input
                 id={`${formId}-name`}
                 type="text"
                 className="input-custom input-full"
                 name="name"
-                placeholder="First Name*"
                 autoComplete="given-name"
-                aria-invalid={!!fieldErrors.name}
-                aria-describedby={
-                  fieldErrors.name ? `${formId}-name-error` : undefined
-                }
+                required
+                {...describe("name", `${formId}-name-error`)}
               />
-              {fieldErrors.name ? (
-                <p id={`${formId}-name-error`} className="form-error-text">
-                  {fieldErrors.name}
-                </p>
-              ) : null}
+              <FieldError id={`${formId}-name-error`} message={fieldErrors.name} />
             </div>
             <div className="form-group">
-              <label className="sr-only" htmlFor={`${formId}-lastname`}>
+              <label className="label" htmlFor={`${formId}-lastname`}>
                 Last Name
               </label>
               <input
@@ -123,36 +161,30 @@ export default function BookingForm() {
                 type="text"
                 className="input-custom input-full"
                 name="lastname"
-                placeholder="Last Name"
                 autoComplete="family-name"
               />
             </div>
           </div>
           <div className="form-row">
             <div className="form-group">
-              <label className="sr-only" htmlFor={`${formId}-email`}>
-                Email address
+              <label className="label" htmlFor={`${formId}-email`}>
+                Email address <span aria-hidden="true">*</span>
               </label>
               <input
                 id={`${formId}-email`}
                 type="email"
                 className="input-custom input-full"
                 name="email"
-                placeholder="Email address*"
                 autoComplete="email"
-                aria-invalid={!!fieldErrors.email}
-                aria-describedby={
-                  fieldErrors.email ? `${formId}-email-error` : undefined
-                }
+                inputMode="email"
+                spellCheck={false}
+                required
+                {...describe("email", `${formId}-email-error`)}
               />
-              {fieldErrors.email ? (
-                <p id={`${formId}-email-error`} className="form-error-text">
-                  {fieldErrors.email}
-                </p>
-              ) : null}
+              <FieldError id={`${formId}-email-error`} message={fieldErrors.email} />
             </div>
             <div className="form-group">
-              <label className="sr-only" htmlFor={`${formId}-phone`}>
+              <label className="label" htmlFor={`${formId}-phone`}>
                 Phone number
               </label>
               <input
@@ -160,14 +192,16 @@ export default function BookingForm() {
                 type="tel"
                 className="input-custom input-full"
                 name="phone"
-                placeholder="Phone number"
                 autoComplete="tel"
+                inputMode="tel"
+                {...describe("phone", `${formId}-phone-error`)}
               />
+              <FieldError id={`${formId}-phone-error`} message={fieldErrors.phone} />
             </div>
           </div>
           <div className="form-row">
             <div className="form-group">
-              <label className="sr-only" htmlFor={`${formId}-address`}>
+              <label className="label" htmlFor={`${formId}-address`}>
                 Address
               </label>
               <input
@@ -175,12 +209,11 @@ export default function BookingForm() {
                 type="text"
                 className="input-custom input-full"
                 name="address"
-                placeholder="Address"
                 autoComplete="street-address"
               />
             </div>
             <div className="form-group">
-              <label className="sr-only" htmlFor={`${formId}-city`}>
+              <label className="label" htmlFor={`${formId}-city`}>
                 Country
               </label>
               <div className="select-wrapper">
@@ -202,15 +235,15 @@ export default function BookingForm() {
           <div className="row-top-25">
             <div className="form-row">
               <div className="form-group sm-full">
-                <div className="label" id={`${formId}-service-label`}>
+                <label className="label" htmlFor={`${formId}-service`}>
                   Studio Service:
-                </div>
+                </label>
                 <div className="select-wrapper">
                   <select
+                    id={`${formId}-service`}
                     name="service"
                     className="input-custom"
-                    aria-labelledby={`${formId}-service-label`}
-                    aria-invalid={!!fieldErrors.service}
+                    {...describe("service", `${formId}-service-error`)}
                     defaultValue={SERVICES[0]}
                   >
                     {SERVICES.map((s) => (
@@ -220,19 +253,17 @@ export default function BookingForm() {
                     ))}
                   </select>
                 </div>
-                {fieldErrors.service ? (
-                  <p className="form-error-text">{fieldErrors.service}</p>
-                ) : null}
+                <FieldError id={`${formId}-service-error`} message={fieldErrors.service} />
               </div>
               <div className="form-group">
-                <div className="label" id={`${formId}-hours-label`}>
+                <label className="label" htmlFor={`${formId}-hours`}>
                   Time:
-                </div>
+                </label>
                 <div className="select-wrapper">
                   <select
+                    id={`${formId}-hours`}
                     name="hours"
                     className="input-custom"
-                    aria-labelledby={`${formId}-hours-label`}
                     defaultValue="1"
                   >
                     {HOURS.map((h) => (
@@ -252,17 +283,24 @@ export default function BookingForm() {
                     id={`${formId}-date`}
                     type="date"
                     name="date"
+                    min={minDate}
                     className="form-control input-custom"
+                    {...describe("date", `${formId}-date-error`)}
                   />
                 </div>
+                <FieldError id={`${formId}-date-error`} message={fieldErrors.date} />
               </div>
             </div>
           </div>
+          {shield.fields}
           <div className="form-btn-wrap row-top-25">
             <button type="submit" className="btn btn--lg" disabled={submitting}>
               <i className="icon icon-mic-3" aria-hidden="true" />
               <span>{submitting ? "Sending…" : "Book session now"}</span>
             </button>
+            <p className="sr-only" role="status" aria-live="polite">
+              {submitting ? "Sending your booking request, please wait." : ""}
+            </p>
           </div>
         </form>
       </div>

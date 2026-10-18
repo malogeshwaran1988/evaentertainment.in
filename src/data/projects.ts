@@ -56,9 +56,54 @@ export type Project = {
   year?: string;
   /** When false, hidden from the live site (admin still sees it). Missing → treat as true. */
   published: boolean;
+  /** Optional per-film content that makes each project page unique (all optional, older rows omit them). */
+  synopsis?: string;
+  director?: string;
+  /** Lead cast of the original film. */
+  cast?: string[];
+  /** Original release date, "YYYY-MM-DD" or "YYYY-MM" or "YYYY". */
+  originalRelease?: string;
+  productionHouse?: string;
+  /** What EVA did on the project. */
+  evaWork?: ProjectEvaWork;
+  /** Hindi (target) voice cast: who voiced which role. */
+  voiceCast?: ProjectVoiceRole[];
+  /** YouTube URL of the dubbed trailer. */
+  trailerUrl?: string;
+  /** Where the dubbed version can be watched (platform / channel). */
+  whereToWatch?: string;
+  faqs?: ProjectFaq[];
   createdAt: string;
   updatedAt: string;
 };
+
+export type ProjectEvaWork = {
+  lipSync?: boolean;
+  songs?: boolean;
+  /** e.g. "5.1 and stereo" */
+  mix?: string;
+  voiceArtists?: number;
+  dubbingDirector?: string;
+  notes?: string;
+};
+export type ProjectVoiceRole = { role: string; artist: string };
+export type ProjectFaq = { q: string; a: string };
+
+/** Content fields edited in the admin "Page content" section. */
+export const PROJECT_CONTENT_KEYS = [
+  "synopsis",
+  "director",
+  "cast",
+  "originalRelease",
+  "productionHouse",
+  "evaWork",
+  "voiceCast",
+  "trailerUrl",
+  "whereToWatch",
+  "faqs",
+] as const;
+
+export const PROJECT_SYNOPSIS_MAX = 2000;
 
 /** What the website and `GET /api/projects` expose: no internal timestamps or publish flag. */
 export type PublicProject = Omit<Project, "createdAt" | "updatedAt" | "published"> & {
@@ -78,6 +123,7 @@ export type ProjectInput = Pick<
   | "audioHours"
   | "year"
   | "published"
+  | (typeof PROJECT_CONTENT_KEYS)[number]
 >;
 
 /** Older stored rows omit `published`; those stay live on the website. */

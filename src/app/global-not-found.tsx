@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { STATUS_PAGE_ROBOTS } from "@@/lib/seo";
 import "@@/styles/globals.scss";
 import Header from "@@/components/common/Header";
 import Footer from "@@/components/common/Footer";
@@ -14,10 +15,7 @@ export const metadata: Metadata = {
   title: { absolute: "Page Not Found" },
   description: "The page you are looking for does not exist.",
   icons: { icon: "/favicon.ico" },
-  robots: {
-    index: false,
-    follow: false,
-  },
+  robots: STATUS_PAGE_ROBOTS,
 };
 
 export default function GlobalNotFound() {

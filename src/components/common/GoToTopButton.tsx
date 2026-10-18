@@ -17,9 +17,17 @@ export default function GoToTopButton() {
       type="button"
       className={`goto-top${visible ? " is-visible" : ""}`}
       aria-label="Back to top"
-      onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+      // While faded out it must not be a hidden tab stop.
+      tabIndex={visible ? undefined : -1}
+      aria-hidden={visible ? undefined : true}
+      onClick={() => {
+        const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        window.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" });
+        // Keyboard users land at the start of the page, not on a vanished button.
+        document.querySelector<HTMLElement>(".eva-skip-link")?.focus({ preventScroll: true });
+      }}
     >
-      ↑
+      <span aria-hidden="true">↑</span>
     </button>
   );
 }

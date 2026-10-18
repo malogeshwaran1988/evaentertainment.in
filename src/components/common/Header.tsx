@@ -18,6 +18,8 @@ export function Header({ serviceNames }: { serviceNames: Record<ServiceSlug, str
   const [isSticky, setIsSticky] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
   const lastScrollY = useRef(0);
+  const navRef = useRef<HTMLElement>(null);
+  const toggleRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     setMenuOpen(false);
@@ -31,6 +33,42 @@ export function Header({ serviceNames }: { serviceNames: Record<ServiceSlug, str
       document.body.classList.remove("menu-open");
       document.body.classList.remove("fixed");
     };
+  }, [menuOpen]);
+
+  // Mobile drawer behaves like a modal: Esc closes it, Tab stays inside, focus returns to the toggle.
+  useEffect(() => {
+    if (!menuOpen) return;
+    const nav = navRef.current;
+    const toggle = toggleRef.current;
+    const focusables = () =>
+      [
+        ...(nav?.querySelectorAll<HTMLElement>("a[href], button:not([disabled])") ?? []),
+        ...(toggle ? [toggle] : []),
+      ].filter((el) => el.offsetParent !== null || el === toggle);
+    // Only trap when the drawer is actually shown (mobile layout).
+    if (!nav || getComputedStyle(nav).visibility === "hidden") return;
+    focusables()[0]?.focus();
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setMenuOpen(false);
+        toggle?.focus();
+        return;
+      }
+      if (e.key !== "Tab") return;
+      const list = focusables();
+      if (!list.length) return;
+      const first = list[0];
+      const last = list[list.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
   }, [menuOpen]);
 
   useEffect(() => {
@@ -107,6 +145,7 @@ export function Header({ serviceNames }: { serviceNames: Record<ServiceSlug, str
           </div>
 
           <nav
+            ref={navRef}
             id="primary-menu"
             className={`header-menu${menuOpen ? " is-open opened" : ""}`}
             aria-label="Primary"
@@ -138,13 +177,18 @@ export function Header({ serviceNames }: { serviceNames: Record<ServiceSlug, str
                       e.currentTarget.querySelector<HTMLButtonElement>(".eva-nav-sub-toggle")?.focus();
                     }}
                   >
-                    <Link href={item.href}>{item.label}</Link>
+                    <Link
+                      href={item.href}
+                      aria-current={pathname === item.href ? "page" : isActive(item) ? "true" : undefined}
+                    >
+                      {item.label}
+                    </Link>
                     <button
                       type="button"
                       className="eva-nav-sub-toggle"
                       aria-expanded={subOpen}
                       aria-controls="nav-services-menu"
-                      aria-label={`${subOpen ? "Hide" : "Show"} ${item.label.toLowerCase()} pages`}
+                      aria-label={`${item.label.charAt(0)}${item.label.slice(1).toLowerCase()} submenu`}
                       onClick={() => {
                         setSubOpen((v) => !v);
                         setSubDismissed(false);
@@ -167,7 +211,14 @@ export function Header({ serviceNames }: { serviceNames: Record<ServiceSlug, str
                   </li>
                 ) : (
                   <li key={item.href} className={isActive(item) ? "active" : undefined}>
-                    <Link href={item.href}>{item.label}</Link>
+                    <Link
+                      href={item.href}
+                      aria-current={
+                        pathname === item.href ? "page" : isActive(item) ? "true" : undefined
+                      }
+                    >
+                      {item.label}
+                    </Link>
                   </li>
                 ),
               )}
@@ -192,11 +243,12 @@ export function Header({ serviceNames }: { serviceNames: Record<ServiceSlug, str
               Contact Us
             </Link>
             <button
+              ref={toggleRef}
               type="button"
               className={`menu-toggle${menuOpen ? " opened" : ""}`}
               aria-expanded={menuOpen}
               aria-controls="primary-menu"
-              aria-label={menuOpen ? "Close menu" : "Open menu"}
+              aria-label="Menu"
               onClick={() => setMenuOpen((v) => !v)}
             >
               <i className="icon icon-three" aria-hidden="true" />

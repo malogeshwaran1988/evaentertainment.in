@@ -36,7 +36,8 @@
     --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 100%;
     --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
+    /* Form control borders need 3:1 against the surface (WCAG 1.4.11): 3.4:1 on white. */
+    --input: 240 4% 56%;
     --ring: 86 79% 40%;
     --radius: 0.5rem;
 
@@ -80,7 +81,7 @@
     --destructive: 0 63% 45%;
     --destructive-foreground: 0 0% 100%;
     --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
+    --input: 240 4% 46%; /* 3.6:1 on the dark surface */
     --ring: 82 85% 55%;
 
     --sidebar-background: 240 5.9% 8%;
@@ -94,5 +95,34 @@
     font-family:
       ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
       Arial, sans-serif;
+  }
+}
+
+/* ---- Accessibility baseline (WCAG 2.2 AA) ---- */
+@layer base {
+  /* 2.4.7: a visible focus ring on every keyboard-focused control, even ones without ring utilities. */
+  :focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
+  }
+  /* Red text on the dark surface is 2.9:1 with the shadcn token; use a lighter red (9.3:1). */
+  .dark .text-destructive {
+    color: #fca5a5;
+  }
+  /* Light theme: shadcn red is 4.8:1 on white; keep error text a bit darker for tinted backgrounds. */
+  :root:not(.dark) .text-destructive {
+    color: #b91c1c;
+  }
+}
+
+/* 2.3.3 / user preference: no spinners sliding in, no smooth scrolling. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

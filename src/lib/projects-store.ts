@@ -3,6 +3,7 @@ import { randomUUID } from "node:crypto";
 import { mkdir, readFile, rename, writeFile } from "node:fs/promises";
 import path from "node:path";
 import {
+  PROJECT_CONTENT_KEYS,
   compareProjects,
   projectIsPublished,
   type Project,
@@ -177,8 +178,17 @@ export function createProject(input: ProjectInput & { slug: string }) {
     if (!project.posterAlt) delete project.posterAlt;
     if (!project.description) delete project.description;
     if (!project.audioHours) delete project.audioHours;
+    dropEmptyContent(project);
     return { next: [...projects, project], result: project };
   });
+}
+
+/** Keeps stored rows lean: unset optional page-content fields are removed, not saved as undefined. */
+function dropEmptyContent(project: Project) {
+  for (const key of PROJECT_CONTENT_KEYS) {
+    const v = project[key];
+    if (v === undefined || v === "" || (Array.isArray(v) && v.length === 0)) delete project[key];
+  }
 }
 
 /** Optional fields are final values: pass `undefined` to clear them. */
@@ -196,6 +206,7 @@ export function updateProject(id: string, input: ProjectInput & { slug: string }
     if (!updated.posterAlt) delete updated.posterAlt;
     if (!updated.description) delete updated.description;
     if (!updated.audioHours) delete updated.audioHours;
+    dropEmptyContent(updated);
     const next = [...projects];
     next[index] = updated;
     return { next, result: updated };

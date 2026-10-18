@@ -5,16 +5,17 @@ import { Routes, WHAT_WE_DO_HREF } from "@@/constants/routes";
 import { buildPageMetadata, absoluteUrl } from "@@/lib/seo";
 
 export const metadata = buildPageMetadata({
-  title: "Thank You",
+  title: "Thank You | EVA Entertainment",
   description: "Your message was sent successfully to EVA Entertainment.",
   url: absoluteUrl(Routes.THANK_YOU),
   ogImage: DEFAULT_OG_IMAGE,
   ogImageAlt: DEFAULT_OG_IMAGE_ALT,
+  noindex: true,
 });
 
 export default function ThankYouPage() {
   return (
-    <main className="page-main">
+    <main id="main-content" tabIndex={-1} className="page-main">
       <PageHero
         icon="icon-like"
         title="Thank You"
