@@ -1,15 +1,17 @@
 import type { CSSProperties } from "react";
+import { connection } from "next/server";
 import Link from "@@/components/common/NavLink";
 import InViewFx from "@@/components/common/InViewFx";
 import JsonLd from "@@/components/common/JsonLd";
 import HeroSlider from "@@/components/home/HeroSlider";
-import HomeProjects, { HOME_PROJECTS_LIMIT } from "@@/components/home/HomeProjects";
+import HomeProjects from "@@/components/home/HomeProjects";
 import ProjectImpactStrip from "@@/components/projects/ProjectImpactStrip";
 import ServiceCardGrid from "@@/components/services/ServiceCardGrid";
 import { APP_BASE_URL, CONTACT, POSTAL_ADDRESS, SITE_NAME, SOCIAL_LINKS } from "@@/constants/constants";
 import {
   HOME_INTRO,
   HOME_PAGE_URL,
+  HOME_PROJECTS_LIMIT,
   SERVICE_CARDS,
   WHAT_WE_DO,
 } from "@@/data/home";
@@ -19,6 +21,8 @@ import { aggregateProjectImpact } from "@@/lib/project-stats";
 const EQ_BARS = Array.from({ length: 16 }, (_, i) => i);
 
 export default async function HomePage() {
+  // Read at request time: projects change from the admin panel without a redeploy.
+  await connection();
   const { projects: allProjects } = await getPublicProjects();
   const projects = allProjects.slice(0, HOME_PROJECTS_LIMIT);
   const impact = aggregateProjectImpact(allProjects);
