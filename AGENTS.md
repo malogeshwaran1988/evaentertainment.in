@@ -43,3 +43,19 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 - **Structured data:** EVA is a `contributor`/`translator`, never the film's `productionCompany`.
 - **Static lastmod:** `npm run build` regenerates `src/data/static-lastmod.json` from git history;
   commit it when it changes.
+
+## UX & accessibility rules (mandatory)
+
+- Standard: WCAG 2.2 AA plus the `laws-of-ux-review`, `user-centered-design` and `wcag-22-aa-audit`
+  skills. No a11y npm packages; native HTML first, ARIA only where needed.
+- Every `(web)` page's `<main>` has `id="main-content" tabIndex={-1}` (target of the skip link in
+  `(web)/layout.tsx`). Admin content is `#admin-content`.
+- Text on brand green `#70b615` is near-black `#0b0d10` (white is 2.5:1). Focus rings: gold + dark
+  ring (see the a11y block at the end of `globals.scss`); never remove outlines without a replacement.
+- Targets ≥ 24×24 px, primary actions ≥ 44 px. Respect `prefers-reduced-motion`; carousels need a
+  pause button.
+- Public forms use `useFormValidation` (`src/components/common/useFormValidation.ts`): visible
+  labels, `required`, blur validation, `aria-invalid` + `aria-describedby`, focus first error,
+  `role="status"` while sending, `role="alert"` for server errors.
+- Admin status pills use `StatusBadge`/`VisibilityBadge`/`CategoryBadge`/`SeoBadge`
+  (`src/components/admin/ui/StatusBadge.tsx`): icon + text + AA-contrast tones, never colour alone.
