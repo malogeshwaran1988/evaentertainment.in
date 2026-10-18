@@ -4437,13 +4437,9 @@ body:not(.page-blog) .block--darkbg h3.eva-service-ideal-title,
 .eva-project-fact {
   display: contents;
 }
-.eva-project-eva-list,
-.eva-project-related {
+.eva-project-eva-list {
   padding-left: 1.2em;
   margin: 0 0 10px;
-}
-.eva-project-related a {
-  text-decoration: underline;
 }
 .eva-project-faq {
   border-bottom: 1px solid rgba(255, 255, 255, 0.12);
