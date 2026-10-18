@@ -3,7 +3,6 @@ import { Routes, SERVICE_SLUGS, serviceHref } from "@@/constants/routes";
 import { projectIsPublished } from "@@/data/projects";
 import STATIC_LASTMOD from "@@/data/static-lastmod.json";
 import { BLOG_ENABLED } from "@@/lib/blog/enabled";
-import { CLIENTS_ENABLED } from "@@/lib/clients-enabled";
 import { blogHref } from "@@/lib/blog/slug";
 import { getPublicBlogPosts } from "@@/lib/blog/store";
 import { getProjects } from "@@/lib/projects-store";
@@ -35,7 +34,7 @@ const ENTRIES: Entry[] = [
   [Routes.EQUIPMENT, "monthly", 0.7],
   [Routes.CONTACT, "monthly", 0.8],
   [Routes.BOOK, "monthly", 0.8],
-  ...(CLIENTS_ENABLED ? [[Routes.CLIENTS, "monthly", 0.7] as Entry] : []),
+  [Routes.CLIENTS, "monthly", 0.7],
   [Routes.PRIVACY, "yearly", 0.3],
   [Routes.TERMS, "yearly", 0.3],
 ];

@@ -9,7 +9,7 @@ export default function BlogComingSoon() {
       title="Blog"
       subtitle="Dubbing, voice-over and sound notes from our Mumbai studio"
       href={Routes.BLOG}
-      message="Our blog on dubbing, voice-over and sound is coming soon."
+      message="Our blog on dubbing, voice-over and sound"
       detail="Until then, see the films we have worked on or tell us about your project."
     />
   );

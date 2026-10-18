@@ -35,6 +35,8 @@ export type InquiryEmail = {
   fields: EmailField[];
   /** Free-text message, shown as its own block with line breaks kept. */
   message?: string;
+  /** Label above the message block (default "Message"). */
+  messageLabel?: string;
   replyName: string;
   replyEmail: string;
 };
@@ -84,12 +86,8 @@ function button(label: string, href: string): string {
 <![endif]--><!--[if !mso]><!-- --><a href="${h}" style="display:inline-block;background-color:${B.green};color:#13161D;font-family:${FONT};font-size:15px;font-weight:700;line-height:44px;text-align:center;text-decoration:none;padding:0 26px;border-radius:6px;mso-hide:all;">${l}</a><!--<![endif]-->`;
 }
 
-export function renderInquiryEmail(e: InquiryEmail): { html: string; text: string } {
-  const reply = mailtoHref(e.replyEmail);
-  const firstName = e.replyName.split(/\s+/)[0] || "the client";
-  const preheader = `${e.heading} from ${e.replyName}`;
-
-  const html = `<!DOCTYPE html>
+function layout(o: { title: string; preheader: string; rows: string; footer?: string }): string {
+  return `<!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
 <head>
 <meta charset="utf-8">
@@ -98,11 +96,11 @@ export function renderInquiryEmail(e: InquiryEmail): { html: string; text: strin
 <meta name="x-apple-disable-message-reformatting">
 <meta name="color-scheme" content="light dark">
 <meta name="supported-color-schemes" content="light dark">
-<title>${escapeHtml(e.heading)}</title>
+<title>${escapeHtml(o.title)}</title>
 <!--[if mso]><noscript><xml><o:OfficeDocumentSettings><o:PixelsPerInch>96</o:PixelsPerInch></o:OfficeDocumentSettings></xml></noscript><![endif]-->
 </head>
 <body style="margin:0;padding:0;background-color:${B.page};">
-<div style="display:none;max-height:0;overflow:hidden;mso-hide:all;font-size:1px;line-height:1px;color:${B.page};">${escapeHtml(preheader)}&#8203;&nbsp;&#8203;&nbsp;&#8203;&nbsp;</div>
+<div style="display:none;max-height:0;overflow:hidden;mso-hide:all;font-size:1px;line-height:1px;color:${B.page};">${escapeHtml(o.preheader)}&#8203;&nbsp;&#8203;&nbsp;&#8203;&nbsp;</div>
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="${B.page}" style="background-color:${B.page};">
 <tr><td align="center" style="padding:24px 12px;">
 <!--[if mso]><table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0"><tr><td><![endif]-->
@@ -110,7 +108,26 @@ export function renderInquiryEmail(e: InquiryEmail): { html: string; text: strin
 <tr><td bgcolor="${B.ink}" align="left" style="background-color:${B.ink};padding:20px 28px;border-radius:8px 8px 0 0;border-bottom:4px solid ${B.gold};">
 <img src="${EMAIL_LOGO.src}" width="${EMAIL_LOGO.width}" height="${EMAIL_LOGO.height}" alt="${escapeHtml(SITE_NAME)}" style="display:block;border:0;outline:none;text-decoration:none;width:${EMAIL_LOGO.width}px;height:${EMAIL_LOGO.height}px;font-family:${FONT};font-size:24px;line-height:30px;font-weight:800;color:${B.gold};">
 </td></tr>
-<tr><td bgcolor="#FFFFFF" style="background-color:#FFFFFF;padding:28px 28px 8px;">
+${o.rows}<tr><td bgcolor="${B.ink}" style="background-color:${B.ink};padding:18px 28px;border-radius:0 0 8px 8px;font-family:${FONT};font-size:12px;line-height:18px;color:#C9CDD3;">
+${o.footer ?? `Sent by the ${escapeHtml(SITE_NAME)} website form at`} <a href="${APP_BASE_URL}" style="color:#C9CDD3;text-decoration:underline;">evaentertainment.in</a>. Andheri West, Mumbai.
+</td></tr>
+</table>
+<!--[if mso]></td></tr></table><![endif]-->
+</td></tr>
+</table>
+</body>
+</html>`;
+}
+
+export function renderInquiryEmail(e: InquiryEmail): { html: string; text: string } {
+  const reply = mailtoHref(e.replyEmail);
+  const firstName = e.replyName.split(/\s+/)[0] || "the client";
+  const preheader = `${e.heading} from ${e.replyName}`;
+
+  const html = layout({
+    title: e.heading,
+    preheader,
+    rows: `<tr><td bgcolor="#FFFFFF" style="background-color:#FFFFFF;padding:28px 28px 8px;">
 <h1 style="margin:0 0 8px;font-family:${FONT};font-size:22px;line-height:30px;font-weight:700;color:${B.text};">${escapeHtml(e.heading)}</h1>
 <p style="margin:0 0 20px;font-family:${FONT};font-size:15px;line-height:22px;color:${B.muted};">${escapeHtml(e.intro)}</p>
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-top:1px solid ${B.line};">
@@ -120,7 +137,7 @@ ${e.fields.filter((f) => f.value).map(row).join("\n")}
 ${
   e.message
     ? `<tr><td bgcolor="#FFFFFF" style="background-color:#FFFFFF;padding:12px 28px 8px;">
-<p style="margin:0 0 8px;font-family:${FONT};font-size:13px;line-height:20px;font-weight:600;color:${B.muted};">Message</p>
+<p style="margin:0 0 8px;font-family:${FONT};font-size:13px;line-height:20px;font-weight:600;color:${B.muted};">${escapeHtml(e.messageLabel ?? "Message")}</p>
 <div style="font-family:${FONT};font-size:15px;line-height:23px;color:${B.text};background-color:#F7F8FA;border-left:4px solid ${B.green};padding:14px 16px;white-space:pre-wrap;word-break:break-word;">${escapeHtml(e.message)}</div>
 </td></tr>`
     : ""
@@ -133,15 +150,8 @@ ${button(`Reply to ${firstName}`, reply)}
 </td></tr>`
     : ""
 }
-<tr><td bgcolor="${B.ink}" style="background-color:${B.ink};padding:18px 28px;border-radius:0 0 8px 8px;font-family:${FONT};font-size:12px;line-height:18px;color:#C9CDD3;">
-Sent by the ${escapeHtml(SITE_NAME)} website form at <a href="${APP_BASE_URL}" style="color:#C9CDD3;text-decoration:underline;">evaentertainment.in</a>. Andheri West, Mumbai.
-</td></tr>
-</table>
-<!--[if mso]></td></tr></table><![endif]-->
-</td></tr>
-</table>
-</body>
-</html>`;
+`,
+  });
 
   const text = [
     `${e.heading}`,
@@ -150,7 +160,7 @@ Sent by the ${escapeHtml(SITE_NAME)} website form at <a href="${APP_BASE_URL}" s
     e.intro,
     "",
     ...e.fields.filter((f) => f.value).map((f) => `${f.label}: ${f.value}`),
-    ...(e.message ? ["", "Message:", e.message] : []),
+    ...(e.message ? ["", `${e.messageLabel ?? "Message"}:`, e.message] : []),
     "",
     `Reply to this email to answer ${e.replyName} (${e.replyEmail}).`,
     "",
@@ -198,7 +208,14 @@ export type BookingInput = {
   service: string;
   hours?: string;
   date?: string;
+  time?: string;
+  language?: string;
+  notes?: string;
 };
+
+/** Booking form "hours" option values map to these labels (see BookingForm HOURS). */
+const HOURS_LABEL: Record<string, string> = { "1": "1 hour", "2": "2 hours", "3": "4 hours", "4": "6 hours" };
+const hoursLabel = (v?: string) => (v ? (HOURS_LABEL[v] ?? v) : "");
 
 export function bookingEmail(b: BookingInput) {
   const fullName = [b.name, b.lastname].filter(Boolean).join(" ");
@@ -211,13 +228,92 @@ export function bookingEmail(b: BookingInput) {
       { label: "Phone", value: b.phone ?? "", kind: "tel" },
       { label: "Service", value: b.service },
       { label: "Preferred date", value: b.date ?? "" },
-      { label: "Hours", value: b.hours ?? "" },
+      { label: "Preferred time", value: b.time ?? "" },
+      { label: "Duration", value: hoursLabel(b.hours) },
+      { label: "Language(s)", value: b.language ?? "" },
       { label: "Address", value: b.address ?? "" },
       { label: "City / Country", value: b.city ?? "" },
     ],
+    message: b.notes || undefined,
+    messageLabel: "Notes",
     replyName: fullName,
     replyEmail: b.email,
   });
   const when = b.date ? ` for ${b.date}` : "";
   return { subject: `Studio session request from ${fullName}${when}`, html, text };
+}
+
+/* ------------------------------------------------------------------------------------------------
+ * Client auto-acknowledgement. Echoes NO user free text except the (escaped, ≤40 char) first name
+ * and, for bookings, the requested date. The only links are fixed (mailto:info@… and the site).
+ * --------------------------------------------------------------------------------------------- */
+
+export const ACK_CONTACT_EMAIL = "info@evaentertainment.in";
+
+export type AckInput = { kind: "contact" | "booking"; firstName: string; date?: string };
+
+const ackSafe = (v: string | undefined, max: number) =>
+  (v ?? "").replace(/[\u0000-\u001f\u007f<>]+/g, " ").replace(/\s+/g, " ").trim().slice(0, max).trim();
+
+const p = (html: string, extra = "") =>
+  `<p style="margin:0 0 16px;font-family:${FONT};font-size:16px;line-height:25px;color:${B.text};${extra}">${html}</p>`;
+
+export function ackEmail(a: AckInput) {
+  const first = ackSafe(a.firstName.split(/\s+/)[0], 40) || "there";
+  const date = a.kind === "booking" ? ackSafe(a.date, 40) : "";
+  const subject =
+    a.kind === "booking"
+      ? "We've received your studio session request – EVA Entertainment"
+      : "Thank you for contacting EVA Entertainment";
+  const heading = a.kind === "booking" ? "Studio session request received" : "Thank you for your enquiry";
+  const mail = `mailto:${ACK_CONTACT_EMAIL}`;
+
+  const dateRow = date
+    ? `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 18px;"><tr>
+<td style="background-color:#F7F8FA;border-left:4px solid ${B.green};padding:12px 16px;font-family:${FONT};font-size:15px;line-height:22px;color:${B.text};">
+<span style="color:${B.muted};font-weight:600;">Requested date/time:</span> ${escapeHtml(date)}
+</td></tr></table>`
+    : "";
+
+  const rows = `<tr><td bgcolor="#FFFFFF" style="background-color:#FFFFFF;padding:30px 28px 10px;">
+<h1 style="margin:0 0 18px;font-family:${FONT};font-size:22px;line-height:30px;font-weight:700;color:${B.text};">${escapeHtml(heading)}</h1>
+${p(`Dear ${escapeHtml(first)},`)}
+${p("Thank you for contacting EVA Entertainment. We have received your enquiry and a member of our team will get back to you within one business day.")}
+${dateRow}
+${p(`If your project is urgent, please reply to this email or write to <a href="${mail}" style="color:${B.text};text-decoration:underline;">${ACK_CONTACT_EMAIL}</a>.`)}
+</td></tr>
+<tr><td bgcolor="#FFFFFF" align="left" style="background-color:#FFFFFF;padding:4px 28px 18px;">
+${button("Write to us", mail)}
+</td></tr>
+<tr><td bgcolor="#FFFFFF" style="background-color:#FFFFFF;padding:8px 28px 28px;">
+${p("Warm regards,", "margin-bottom:4px;")}
+${p(`<strong>Team EVA Entertainment</strong><br><span style="color:${B.muted};font-size:14px;">Dubbing, Voice-over &amp; Sound Studio<br>Andheri West, Mumbai</span>`, "margin-bottom:0;")}
+</td></tr>
+`;
+
+  const html = layout({
+    title: subject,
+    preheader: "We have received your enquiry and will get back to you within one business day.",
+    rows,
+    footer: `You are receiving this one-time confirmation because this address was used on a form at`,
+  });
+
+  const text = [
+    `Dear ${first},`,
+    "",
+    "Thank you for contacting EVA Entertainment. We have received your enquiry and a member of our team will get back to you within one business day.",
+    ...(date ? ["", `Requested date/time: ${date}`] : []),
+    "",
+    `If your project is urgent, please reply to this email or write to ${ACK_CONTACT_EMAIL}.`,
+    "",
+    "Warm regards,",
+    "Team EVA Entertainment",
+    "Dubbing, Voice-over & Sound Studio",
+    "Andheri West, Mumbai",
+    "",
+    "--",
+    `${APP_BASE_URL}`,
+  ].join("\n");
+
+  return { subject, html, text };
 }

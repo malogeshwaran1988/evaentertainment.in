@@ -1,8 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { isValidEmail, sendMail } from "@@/utils/mail";
+import { sendClientAck } from "@@/utils/mail-ack";
 import { bookingEmail } from "@@/utils/email-templates";
-import { cleanLine, LIMITS } from "@@/lib/security/form-guard";
+import { cleanLine, cleanText, LIMITS } from "@@/lib/security/form-guard";
 import { guardFormRequest } from "@@/lib/security/form-request";
+import { COUNTRIES } from "@@/data/countries";
 
 export async function POST(req: NextRequest) {
   const guard = await guardFormRequest(req, "booking");
@@ -14,10 +16,16 @@ export async function POST(req: NextRequest) {
   const email = cleanLine(body.email, LIMITS.email);
   const phone = cleanLine(body.phone, LIMITS.phone);
   const address = cleanLine(body.address, LIMITS.address);
-  const city = cleanLine(body.city, LIMITS.city);
+  const rawCity = cleanLine(body.city, LIMITS.city);
+  // The form posts an ISO alpha-3 code; show the country name in the email.
+  const city = COUNTRIES.find((c) => c.code === rawCity)?.name ?? rawCity;
   const service = cleanLine(body.service, LIMITS.service);
   const hours = cleanLine(body.hours, LIMITS.hours);
   const date = cleanLine(body.date, LIMITS.date);
+  const rawTime = cleanLine(body.time, LIMITS.time);
+  const time = /^([01]\d|2[0-3]):[0-5]\d$/.test(rawTime) ? rawTime : "";
+  const language = cleanLine(body.language, LIMITS.language);
+  const notes = cleanText(body.notes, LIMITS.notes);
 
   if (!name || !email || !service) {
     return NextResponse.json(
@@ -34,9 +42,11 @@ export async function POST(req: NextRequest) {
 
   try {
     await sendMail({
-      ...bookingEmail({ name, lastname, email, phone, address, city, service, hours, date }),
+      ...bookingEmail({ name, lastname, email, phone, address, city, service, hours, date, time, language, notes }),
       replyTo: email,
     });
+    // Internal email succeeded; the ack never fails the request.
+    await sendClientAck(email, { kind: "booking", firstName: name, date: [date, time].filter(Boolean).join(" at ") });
     return NextResponse.json({ ok: true });
   } catch (err) {
     console.error("[api/booking]", err);

@@ -25,8 +25,13 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 - Posters are always referenced as `/images/our-projects/<name>` and served by the route handler. Render them unoptimized/`<img>`.
 - After finishing each task, commit and push to `origin logeshwaran` with a descriptive message (a summary line plus bullet notes), and share the notes in chat. Fetch or rebase first, never force-push, and never commit `.env`, `storage/` or uploaded posters.
 
+## Layout rules (mandatory)
+
+- **Max content width is 1536px site-wide** (`--eva-content-max` in `src/styles/globals.scss`). Header, footer and every section cap their inner content (`.container`, `.eva-header-bar`, footer inners) at it with the existing 15px side padding; full-bleed backgrounds stay viewport-wide. Use `.container` (or the variable) for new sections; never hard-code another max width. Admin is out of scope.
+
 ## SEO rules (mandatory)
 
+- **Whenever a page URL is added or changed, update the sitemap; it lists only index, follow pages.**
 - **Status pages are never indexed.** Every success, failure, error, confirmation or status page
   (thank-you, sent/failed, error, not-found, booking confirmation, login/admin) must render
   `noindex, follow` and must not appear in `sitemap.xml`. Use `buildStatusPageMetadata()` or

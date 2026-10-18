@@ -1,19 +1,27 @@
-import Link from "@@/components/common/NavLink";
 import PageHero from "@@/components/common/PageHero";
+import ThankYouContent from "@@/components/common/ThankYouContent";
 import { DEFAULT_OG_IMAGE, DEFAULT_OG_IMAGE_ALT } from "@@/constants/constants";
-import { Routes, WHAT_WE_DO_HREF } from "@@/constants/routes";
+import { Routes } from "@@/constants/routes";
 import { buildPageMetadata, absoluteUrl } from "@@/lib/seo";
+import { parseThankYouType } from "@@/lib/thank-you";
 
+// Status page: noindex, follow; listed in NOINDEX_ROUTES so it never enters sitemap.xml.
+// Canonical is the bare /thank-you, so ?type= variants never compete.
 export const metadata = buildPageMetadata({
   title: "Thank You | EVA Entertainment",
-  description: "Your message was sent successfully to EVA Entertainment.",
+  description: "Thank you for contacting EVA Entertainment.",
   url: absoluteUrl(Routes.THANK_YOU),
   ogImage: DEFAULT_OG_IMAGE,
   ogImageAlt: DEFAULT_OG_IMAGE_ALT,
   noindex: true,
 });
 
-export default function ThankYouPage() {
+export default async function ThankYouPage({
+  searchParams,
+}: {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+}) {
+  const type = parseThankYouType((await searchParams).type);
   return (
     <main id="main-content" tabIndex={-1} className="page-main">
       <PageHero
@@ -24,15 +32,7 @@ export default function ThankYouPage() {
       />
       <section className="block">
         <div className="container text-center">
-          <p className="p--lg">Your message was sent successfully. We will get back to you soon.</p>
-          <div className="eva-service-actions eva-thank-you-actions">
-            <Link href={Routes.HOME} className="btn btn--border">
-              <span>Back to Home</span>
-            </Link>
-            <Link href={WHAT_WE_DO_HREF} className="btn">
-              <span>Explore our services</span>
-            </Link>
-          </div>
+          <ThankYouContent type={type} />
         </div>
       </section>
     </main>

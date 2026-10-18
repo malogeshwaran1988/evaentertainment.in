@@ -18,12 +18,16 @@ type MailInput = {
   text: string;
   html?: string;
   replyTo?: string;
+  /** Defaults to CONTACT_TO (internal notification). */
+  to?: string;
+  fromName?: string;
+  headers?: Record<string, string>;
 };
 
 /** Builds the nodemailer message (exported so tests can render it with jsonTransport). */
 export function buildMailOptions(options: MailInput): Mail.Options {
   const user = process.env.SMTP_USER;
-  const to = process.env.CONTACT_TO || "info@evaentertainment.in";
+  const to = options.to ?? (process.env.CONTACT_TO || "info@evaentertainment.in");
   const fromAddress = headerSafe(
     process.env.SMTP_FROM || user || "info@lasmind.com",
   ).replace(/^.*<([^>]+)>.*$/, "$1");
@@ -34,7 +38,7 @@ export function buildMailOptions(options: MailInput): Mail.Options {
       : undefined;
 
   return {
-    from: { name: MAIL_FROM_NAME, address: fromAddress },
+    from: { name: options.fromName ?? MAIL_FROM_NAME, address: fromAddress },
     to,
     replyTo,
     subject: headerSafe(options.subject).slice(0, 200),
@@ -44,7 +48,33 @@ export function buildMailOptions(options: MailInput): Mail.Options {
     disableUrlAccess: true,
     text: options.text,
     html: options.html,
+    headers: options.headers,
   };
+}
+
+/**
+ * Dev/mock only: when MAIL_PREVIEW_DIR is set, render the full message with nodemailer's
+ * jsonTransport (never sent) and save <time>-<to>.html/.json there for review.
+ */
+async function writeMailPreview(options: MailInput) {
+  const dir = process.env.MAIL_PREVIEW_DIR;
+  if (!dir || process.env.NODE_ENV === "production") return;
+  try {
+    const { mkdir, writeFile } = await import("node:fs/promises");
+    const path = await import("node:path");
+    const info = await nodemailer.createTransport({ jsonTransport: true }).sendMail(buildMailOptions(options));
+    const msg = JSON.parse(String(info.message)) as Record<string, unknown>;
+    const to = String(options.to ?? process.env.CONTACT_TO ?? "internal").replace(/[^\w.@-]/g, "_");
+    const base = path.join(dir, `${Date.now()}-${to}`);
+    await mkdir(dir, { recursive: true });
+    await writeFile(`${base}.html`, options.html ?? "");
+    const { html: _html, text: _text, ...headers } = msg;
+    void _html;
+    void _text;
+    await writeFile(`${base}.json`, JSON.stringify(headers, null, 2));
+  } catch (err) {
+    console.warn("[mail:preview] could not write preview", err);
+  }
 }
 
 export async function sendMail(options: MailInput) {
@@ -53,13 +83,13 @@ export async function sendMail(options: MailInput) {
   const user = process.env.SMTP_USER;
   const pass = process.env.SMTP_PASS;
 
-  if (!host || !user || !pass) {
-    // Local/dev without SMTP: accept and log. Production should set SMTP_*.
-    if (
-      process.env.NODE_ENV !== "production" ||
-      process.env.MAIL_MOCK === "1"
-    ) {
-      console.info("[mail:dev-fallback]", options.subject, options.text);
+  // MAIL_MOCK=1 ALWAYS wins, even when SMTP_* is configured: nothing leaves the machine.
+  const mock = process.env.MAIL_MOCK === "1";
+  if (mock || !host || !user || !pass) {
+    // Mock, or local/dev without SMTP: accept and log. Production must set SMTP_*.
+    if (mock || process.env.NODE_ENV !== "production") {
+      console.info("[mail:mock]", options.to ?? "(internal)", options.subject);
+      await writeMailPreview(options);
       return { ok: true as const, mocked: true as const };
     }
     throw new Error(

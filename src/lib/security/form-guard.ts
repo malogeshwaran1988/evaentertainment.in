@@ -50,6 +50,9 @@ export const LIMITS = {
   city: 100,
   hours: 10,
   date: 20,
+  time: 10,
+  language: 100,
+  notes: 2000,
 } as const;
 
 export const MAX_BODY_BYTES = 16 * 1024;

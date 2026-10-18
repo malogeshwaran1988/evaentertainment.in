@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { isValidEmail, sendMail } from "@@/utils/mail";
+import { sendClientAck } from "@@/utils/mail-ack";
 import { contactEmail } from "@@/utils/email-templates";
 import { cleanLine, cleanText, LIMITS } from "@@/lib/security/form-guard";
 import { guardFormRequest } from "@@/lib/security/form-request";
@@ -34,6 +35,8 @@ export async function POST(req: NextRequest) {
       ...contactEmail({ name, lastname, email, phone, service, message }),
       replyTo: email,
     });
+    // Internal email succeeded; the ack never fails the request.
+    await sendClientAck(email, { kind: "contact", firstName: name });
     return NextResponse.json({ ok: true });
   } catch (err) {
     console.error("[api/contact]", err);
