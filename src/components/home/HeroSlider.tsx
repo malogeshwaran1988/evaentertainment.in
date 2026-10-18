@@ -11,7 +11,9 @@ function SlideLine({
   className,
   text,
   line,
+  tagline,
 }: {
+  tagline?: string;
   role: "h1" | "title" | "subtitle";
   className: string;
   text: string;
@@ -28,6 +30,7 @@ function SlideLine({
     return (
       <h1 className={className || undefined} style={style}>
         {content}
+        {tagline ? <small className="eva-hero-h1-tagline">{tagline}</small> : null}
       </h1>
     );
   }
@@ -117,6 +120,7 @@ export default function HeroSlider() {
                           role={line.role}
                           className={line.className}
                           text={line.text}
+                          tagline={"tagline" in line ? line.tagline : undefined}
                         />
                       ))}
                     </div>
