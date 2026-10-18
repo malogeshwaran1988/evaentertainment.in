@@ -5,7 +5,7 @@ import { useRef } from "react";
 import Link from "@@/components/common/NavLink";
 import { PosterPlaceholder } from "@@/components/projects/ProjectPoster";
 import { Routes } from "@@/constants/routes";
-import { POSTER_URL_PREFIX, type PublicProject } from "@@/data/projects";
+import { type PublicProject } from "@@/data/projects";
 import { projectPosterAlt } from "@@/lib/project-seo";
 
 type ProjectExploreProps = {
@@ -62,7 +62,6 @@ export default function ProjectExplore({ projects }: ProjectExploreProps) {
                       fill
                       sizes="140px"
                       loading="lazy"
-                      unoptimized={project.poster.startsWith(POSTER_URL_PREFIX)}
                     />
                   ) : (
                     <PosterPlaceholder title={project.title} />

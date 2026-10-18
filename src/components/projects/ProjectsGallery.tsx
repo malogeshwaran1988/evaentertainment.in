@@ -6,7 +6,7 @@ import Link from "@@/components/common/NavLink";
 import { PosterPlaceholder, YearBadge } from "@@/components/projects/ProjectPoster";
 import { Routes } from "@@/constants/routes";
 import {
-  POSTER_URL_PREFIX,
+
   projectLanguageLine,
   type PublicProject,
   type ProjectLanguage,
@@ -80,7 +80,6 @@ export default function ProjectsGallery({
                     fill
                     {...imageLoading(i)}
                     sizes="(min-width: 1200px) 16vw, (min-width: 992px) 23vw, (min-width: 768px) 30vw, 46vw"
-                    unoptimized={project.poster.startsWith(POSTER_URL_PREFIX)}
                   />
                 ) : (
                   <PosterPlaceholder title={project.title} />

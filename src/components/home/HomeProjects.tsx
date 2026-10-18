@@ -7,7 +7,7 @@ import { SvgIcon } from "@@/components/common/Icons";
 import { PosterPlaceholder, YearBadge } from "@@/components/projects/ProjectPoster";
 import { Routes } from "@@/constants/routes";
 import {
-  POSTER_URL_PREFIX,
+
   projectLanguageLine,
   type PublicProject,
 } from "@@/data/projects";
@@ -68,7 +68,6 @@ export default function HomeProjects({ projects }: { projects: PublicProject[] }
                       alt={projectPosterAlt(project)}
                       fill
                       sizes="(min-width: 992px) 18vw, (min-width: 768px) 30vw, 42vw"
-                      unoptimized={project.poster.startsWith(POSTER_URL_PREFIX)}
                     />
                   ) : (
                     <PosterPlaceholder title={project.title} />
