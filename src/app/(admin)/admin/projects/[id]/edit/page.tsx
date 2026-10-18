@@ -34,6 +34,16 @@ export default async function EditProjectPage({
           audioHours: project.audioHours,
           year: project.year,
           published: project.published !== false,
+          synopsis: project.synopsis,
+          director: project.director,
+          cast: project.cast,
+          originalRelease: project.originalRelease,
+          productionHouse: project.productionHouse,
+          evaWork: project.evaWork,
+          voiceCast: project.voiceCast,
+          trailerUrl: project.trailerUrl,
+          whereToWatch: project.whereToWatch,
+          faqs: project.faqs,
         }}
         submitLabel="Save changes"
       />

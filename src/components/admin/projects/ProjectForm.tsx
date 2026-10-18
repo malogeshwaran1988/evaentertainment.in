@@ -47,6 +47,7 @@ import {
 import { cn } from "@@/lib/utils";
 import PosterField, { type PickedPoster } from "./PosterField";
 import ProjectCardPreview from "./ProjectCardPreview";
+import ProjectContentFields from "./ProjectContentFields";
 
 type ProjectFormProps = {
   action: (state: ProjectFormState, formData: FormData) => Promise<ProjectFormState>;
@@ -495,6 +496,8 @@ export default function ProjectForm({ action, initial, submitLabel }: ProjectFor
           </div>
           <FieldError id="to-error" message={errors.to} />
         </fieldset>
+
+        <ProjectContentFields initial={initial} errors={errors} description={description} />
 
         <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
           <Button variant="outline" asChild disabled={overlayBusy}>

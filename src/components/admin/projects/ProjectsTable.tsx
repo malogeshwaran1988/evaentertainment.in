@@ -28,6 +28,8 @@ import {
   AlertDialogTitle,
 } from "@@/components/ui/alert-dialog";
 import { Badge } from "@@/components/ui/badge";
+import { IndexBadge } from "@@/components/admin/projects/ProjectContentFields";
+import { projectUniqueWordCount } from "@@/lib/project-content";
 import { Button } from "@@/components/ui/button";
 import {
   DropdownMenu,
@@ -142,6 +144,11 @@ export default function ProjectsTable({ projects }: { projects: Project[] }) {
           ) : (
             <Badge variant="outline">Private</Badge>
           ),
+      },
+      {
+        id: "seo",
+        header: "SEO",
+        cell: ({ row }) => <IndexBadge words={projectUniqueWordCount(row.original)} />,
       },
       {
         id: "year",
