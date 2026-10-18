@@ -247,7 +247,7 @@ export default function ProjectForm({ action, initial, submitLabel }: ProjectFor
         />
 
         <div className="space-y-2">
-          <Label htmlFor="posterAlt">ALT name</Label>
+          <Label htmlFor="posterAlt">Custom ALT (optional)</Label>
           <Input
             id="posterAlt"
             name="posterAlt"
@@ -258,8 +258,8 @@ export default function ProjectForm({ action, initial, submitLabel }: ProjectFor
             aria-describedby={errors.posterAlt ? "posterAlt-error posterAlt-hint" : "posterAlt-hint"}
           />
           <p id="posterAlt-hint" className="text-sm text-muted-foreground">
-            Typed ALT for the poster. Leave blank to use “{previewTitle} movie poster” plus the
-            language line.
+            Leave blank to use the Final ALT in the SEO preview. Only fill this if the default
+            needs an override.
           </p>
           <FieldError id="posterAlt-error" message={errors.posterAlt} />
           <div

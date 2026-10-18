@@ -2429,60 +2429,130 @@ body:not(.page-blog) .block--darkbg .eva-project-title,
 }
 
 /* ---- Dubbing impact strip (home + our projects) ---- */
+/* Kill Glory .block margin so white page bg does not show between dark sections. */
+.block.eva-impact {
+  margin-bottom: 0;
+}
+
 .eva-impact {
-  padding-top: 48px;
-  padding-bottom: 48px;
+  padding-top: 56px;
+  padding-bottom: 56px;
   text-align: center;
 }
 
 .eva-impact--projects {
-  padding-bottom: 24px;
-  margin-bottom: 0;
+  padding-bottom: 32px;
 }
 
 .eva-impact-title {
   margin: 0 0 12px;
   font-family: "Raleway", sans-serif;
-  font-size: clamp(22px, 3vw, 30px);
+  font-size: clamp(24px, 3.2vw, 34px);
   font-weight: 700;
   line-height: 1.25;
   color: #fff;
 }
 
-.eva-impact-stat {
-  margin: 0 0 14px;
-  font-size: clamp(18px, 2.4vw, 22px);
-  font-weight: 600;
-  color: rgba(255, 255, 255, 0.92);
-}
-
-.eva-impact-stat-num {
-  color: #abee2d;
-  font-size: 1.35em;
-  font-weight: 800;
-  letter-spacing: 0.02em;
-}
-
-.eva-impact-copy {
-  margin: 0 auto 18px;
-  max-width: 42em;
+.eva-impact-lead {
+  margin: 0 auto 32px;
+  max-width: 36em;
   font-size: 16px;
   line-height: 1.7;
   color: rgba(255, 255, 255, 0.78);
 }
 
-.eva-impact-copy strong {
-  color: #fff;
-  font-weight: 700;
+.eva-impact-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin: 0 auto 28px;
+  padding: 0;
+  max-width: 920px;
+  list-style: none;
 }
 
-.eva-impact-langs {
-  margin: 0 auto;
-  max-width: 48em;
-  font-size: 14px;
+.eva-impact-stat-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 120px;
+  padding: 20px 14px;
+  border: 1px solid rgba(112, 182, 21, 0.35);
+  background: linear-gradient(
+    165deg,
+    rgba(112, 182, 21, 0.14) 0%,
+    rgba(19, 22, 29, 0.85) 100%
+  );
+}
+
+.eva-impact-stat-value {
+  font-family: "Raleway", sans-serif;
+  font-size: clamp(36px, 5vw, 52px);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  color: #abee2d;
+}
+
+.eva-impact-stat-label {
+  max-width: 12em;
+  font-size: 13px;
   font-weight: 600;
-  line-height: 1.6;
-  color: rgba(171, 238, 45, 0.92);
+  line-height: 1.35;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.eva-impact-chips {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin: 0 auto 28px;
+  padding: 0;
+  max-width: 920px;
+  list-style: none;
+}
+
+.eva-impact-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 8px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.eva-impact-chip-lang {
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.eva-impact-chip-hrs {
+  font-size: 13px;
+  font-weight: 600;
+  color: #abee2d;
+}
+
+.eva-impact-cta {
+  margin: 0;
+}
+
+@media (max-width: 767px) {
+  .eva-impact-stats {
+    grid-template-columns: 1fr;
+    max-width: 320px;
+  }
+
+  .eva-impact-stat-card {
+    min-height: 100px;
+  }
 }
 
 .eva-page-hero--has-bg {
@@ -2526,25 +2596,31 @@ body:not(.page-blog) .block--darkbg .eva-project-title,
 
 .block.eva-project-detail-hero {
   margin-bottom: 0;
-  padding-bottom: 56px;
+  padding-bottom: 28px;
 }
 
-.eva-project-detail {
+.block.eva-project-detail {
+  margin-bottom: 0;
   position: relative;
-  padding-top: 48px;
-  padding-bottom: 72px;
+  padding-top: 28px;
+  padding-bottom: 40px;
 }
 
 .eva-project-detail-inner {
   position: relative;
 }
 
+.eva-project-detail-stage {
+  position: relative;
+}
+
 .eva-project-detail-poster {
   position: relative;
   aspect-ratio: 2 / 3;
+  max-height: 58vh;
   overflow: hidden;
   background: #13161d;
-  margin-bottom: 24px;
+  margin-bottom: 16px;
   border: 1px solid rgba(255, 215, 128, 0.35);
   box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
 }
@@ -2557,14 +2633,14 @@ body:not(.page-blog) .block--darkbg .eva-project-title,
 }
 
 .eva-project-detail-heading {
-  margin: 0 0 16px;
+  margin: 0 0 12px;
 }
 
 .eva-project-detail-chips {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  margin: 0 0 18px;
+  margin: 0 0 14px;
   padding: 0;
   list-style: none;
 }
@@ -2584,7 +2660,7 @@ body:not(.page-blog) .block--darkbg .eva-project-title,
 }
 
 .eva-project-detail-brand {
-  margin: 0 0 14px;
+  margin: 0 0 12px;
   font-size: 15px;
   font-weight: 600;
   letter-spacing: 0.02em;
@@ -2592,7 +2668,7 @@ body:not(.page-blog) .block--darkbg .eva-project-title,
 }
 
 .eva-project-detail-desc {
-  margin: 0 0 28px;
+  margin: 0 0 20px;
   max-width: 38em;
   font-size: 16px;
   line-height: 1.7;
@@ -2606,57 +2682,60 @@ body:not(.page-blog) .block--darkbg .eva-project-title,
   gap: 12px;
 }
 
-.eva-project-explore {
-  margin-top: 56px;
-  padding-top: 40px;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+/* Named prev/next beside the project (desktop) or under CTAs (mobile). */
+.eva-project-adj-nav--side {
+  display: none;
 }
 
-.eva-project-explore-nav {
+.eva-project-adj-nav--stack {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   gap: 12px;
-  margin-top: 28px;
+  margin-top: 20px;
 }
 
-.eva-project-explore-adj {
+.eva-project-adj {
   display: inline-flex;
   align-items: center;
   gap: 10px;
+  box-sizing: border-box;
+  width: 148px;
   min-height: 44px;
-  padding: 8px 12px;
+  padding: 10px 12px;
   border: 1px solid rgba(255, 255, 255, 0.16);
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(11, 13, 16, 0.72);
   color: #fff;
   text-decoration: none;
   transition: border-color 0.2s ease, background 0.2s ease;
 }
 
-.eva-project-explore-adj:hover,
-.eva-project-explore-adj:focus-visible {
+.eva-project-adj:hover,
+.eva-project-adj:focus-visible {
   border-color: rgba(112, 182, 21, 0.55);
-  background: rgba(112, 182, 21, 0.12);
+  background: rgba(112, 182, 21, 0.15);
+  color: #fff;
   outline: 0;
 }
 
-.eva-project-explore-adj--disabled {
-  opacity: 0.4;
+.eva-project-adj--disabled {
+  opacity: 0.35;
   pointer-events: none;
 }
 
-.eva-project-explore-adj-label {
+.eva-project-adj-label {
   display: flex;
+  flex: 1;
   flex-direction: column;
   gap: 2px;
-  font-size: 12px;
+  min-width: 0;
+  font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
 
-.eva-project-explore-adj-title {
-  max-width: 180px;
+.eva-project-adj-title {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -2664,7 +2743,53 @@ body:not(.page-blog) .block--darkbg .eva-project-title,
   font-weight: 500;
   letter-spacing: 0;
   text-transform: none;
-  color: rgba(255, 255, 255, 0.72);
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.eva-project-adj span[aria-hidden="true"] {
+  flex-shrink: 0;
+  font-size: 22px;
+  line-height: 1;
+}
+
+@media (min-width: 992px) {
+  .eva-project-detail-stage {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .eva-project-adj-nav--side {
+    display: contents;
+  }
+
+  .eva-project-adj-nav--side .eva-project-adj--prev {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .eva-project-adj-nav--side .eva-project-adj--next {
+    grid-column: 3;
+    grid-row: 1;
+  }
+
+  .eva-project-detail-main {
+    grid-column: 2;
+    grid-row: 1;
+    margin: 0;
+  }
+
+  .eva-project-adj-nav--stack {
+    display: none;
+  }
+}
+
+/* Explore strip (inside .container with the project stage). */
+.eva-project-explore {
+  margin-top: 28px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .eva-project-explore-head {
@@ -2673,7 +2798,7 @@ body:not(.page-blog) .block--darkbg .eva-project-title,
   align-items: baseline;
   justify-content: space-between;
   gap: 12px 24px;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 
 .eva-project-explore-title {
@@ -2701,15 +2826,16 @@ body:not(.page-blog) .block--darkbg .eva-project-title,
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
+  width: 100%;
 }
 
 .eva-project-explore-scroll {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 999px;
   background: rgba(11, 13, 16, 0.7);
@@ -2728,7 +2854,7 @@ body:not(.page-blog) .block--darkbg .eva-project-title,
 
 .eva-project-explore-thumbs {
   display: flex;
-  gap: 14px;
+  gap: 16px;
   margin: 0;
   padding: 4px 2px 10px;
   list-style: none;
@@ -2738,19 +2864,17 @@ body:not(.page-blog) .block--darkbg .eva-project-title,
 }
 
 .eva-project-explore-thumb {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  width: 128px;
+  display: block;
+  width: 140px;
   flex: 0 0 auto;
   color: #fff;
   text-decoration: none;
   scroll-snap-align: start;
 }
 
-.eva-project-explore-thumb:hover .eva-project-explore-thumb-title,
-.eva-project-explore-thumb:focus-visible .eva-project-explore-thumb-title {
-  color: #abee2d;
+.eva-project-explore-thumb:hover .eva-project-explore-thumb-media,
+.eva-project-explore-thumb:focus-visible .eva-project-explore-thumb-media {
+  border-color: rgba(112, 182, 21, 0.55);
 }
 
 .eva-project-explore-thumb:focus-visible {
@@ -2761,30 +2885,22 @@ body:not(.page-blog) .block--darkbg .eva-project-title,
   position: relative;
   display: block;
   width: 100%;
-  min-height: 168px;
+  min-height: 180px;
   aspect-ratio: 2 / 3;
   overflow: hidden;
   background: #13161d;
   border: 1px solid rgba(255, 255, 255, 0.12);
+  transition: border-color 0.2s ease;
 }
 
 .eva-project-explore-thumb-media img {
   object-fit: cover;
 }
 
-.eva-project-explore-thumb-title {
-  display: -webkit-box;
-  overflow: hidden;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  font-size: 12px;
-  font-weight: 600;
-  line-height: 1.35;
-}
-
 @media (max-width: 991px) {
   .eva-project-detail-poster {
-    max-width: 360px;
+    max-width: 320px;
+    max-height: none;
     margin-left: auto;
     margin-right: auto;
   }
@@ -3622,23 +3738,68 @@ body:not(.page-blog) .block--darkbg .eva-project-dialog-title,
   text-align: center;
 }
 
-/* Centred row, so one or two ongoing titles don't hug the left edge. */
-@media (min-width: 768px) {
-  .eva-projects-grid.eva-home-projects-grid {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 40px 24px;
-  }
+.eva-home-projects-carousel {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+}
 
+.eva-home-projects-scroll {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+  background: rgba(11, 13, 16, 0.75);
+  color: #fff;
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+}
+
+.eva-home-projects-scroll:hover,
+.eva-home-projects-scroll:focus-visible {
+  border-color: #70b615;
+  color: #abee2d;
+  background: rgba(112, 182, 21, 0.15);
+  outline: 0;
+}
+
+/* Horizontal scroll strip at all breakpoints so left/right arrows are useful. */
+.eva-projects-grid.eva-home-projects-grid {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 20px;
+  margin: 0;
+  padding: 4px 2px 10px;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.eva-home-projects-grid::-webkit-scrollbar {
+  display: none;
+}
+
+.eva-home-projects-grid > .eva-project-card {
+  flex: 0 0 42%;
+  scroll-snap-align: start;
+}
+
+@media (min-width: 768px) {
   .eva-home-projects-grid > .eva-project-card {
-    flex: 0 0 calc((100% - 48px) / 3);
+    flex-basis: 30%;
   }
 }
 
 @media (min-width: 992px) {
   .eva-home-projects-grid > .eva-project-card {
-    flex-basis: calc((100% - 120px) / 6);
+    flex-basis: 20%;
   }
 }
 
@@ -3652,27 +3813,19 @@ body:not(.page-blog) .block--darkbg .eva-project-dialog-title,
     margin-bottom: 28px;
   }
 
-  /* Phones: one swipeable row instead of a tall grid. */
+  .eva-home-projects-carousel {
+    gap: 8px;
+  }
+
+  .eva-home-projects-scroll {
+    width: 36px;
+    height: 36px;
+    font-size: 20px;
+  }
+
   .eva-projects-grid.eva-home-projects-grid {
-    grid-template-columns: none;
-    grid-auto-flow: column;
-    grid-auto-columns: 42%;
     gap: 16px;
-    margin: 0 -20px;
-    padding: 0 20px 8px;
-    overflow-x: auto;
-    overscroll-behavior-x: contain;
-    scroll-snap-type: x mandatory;
-    scroll-padding: 0 20px;
-    scrollbar-width: none;
-  }
-
-  .eva-home-projects-grid::-webkit-scrollbar {
-    display: none;
-  }
-
-  .eva-home-projects-grid > .eva-project-card {
-    scroll-snap-align: start;
+    padding: 0 2px 8px;
   }
 
   .eva-home-projects-cta {

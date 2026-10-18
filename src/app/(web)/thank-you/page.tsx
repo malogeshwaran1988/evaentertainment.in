@@ -10,7 +10,6 @@ export const metadata = buildPageMetadata({
   url: absoluteUrl(Routes.THANK_YOU),
   ogImage: DEFAULT_OG_IMAGE,
   ogImageAlt: DEFAULT_OG_IMAGE_ALT,
-  noindex: true,
 });
 
 export default function ThankYouPage() {

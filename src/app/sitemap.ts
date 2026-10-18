@@ -5,11 +5,11 @@ import { getProjects } from "@@/lib/projects-store";
 import { projectHref } from "@@/lib/project-seo";
 import { absoluteUrl } from "@@/lib/seo";
 
-const lastModified = new Date("2026-10-11");
+const lastModified = new Date("2026-10-18");
 
 type Entry = [path: string, changeFrequency: "weekly" | "monthly" | "yearly", priority: number];
 
-/** Thank You is noindex and old URLs redirect, so neither is listed. */
+/** All public indexable routes. Admin (/login, /admin) stays out. */
 const ENTRIES: Entry[] = [
   [Routes.HOME, "weekly", 1],
   ...SERVICE_SLUGS.map((slug): Entry => [serviceHref(slug), "monthly", 0.9]),
@@ -18,6 +18,7 @@ const ENTRIES: Entry[] = [
   [Routes.EQUIPMENT, "monthly", 0.7],
   [Routes.CONTACT, "monthly", 0.8],
   [Routes.BOOK, "monthly", 0.8],
+  [Routes.THANK_YOU, "yearly", 0.2],
   [Routes.PRIVACY, "yearly", 0.3],
   [Routes.TERMS, "yearly", 0.3],
 ];

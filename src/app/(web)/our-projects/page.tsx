@@ -71,7 +71,11 @@ export default async function ProjectsPage() {
         className="eva-projects-hero"
       />
 
-      <ProjectImpactStrip stats={impact} className="block block--darkbg eva-impact--projects" />
+      <ProjectImpactStrip
+        stats={impact}
+        className="block block--darkbg eva-impact--projects"
+        showCta={false}
+      />
 
       <section
         className="block block--darkbg eva-projects"

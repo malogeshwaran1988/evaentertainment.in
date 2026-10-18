@@ -79,12 +79,24 @@ export default function ProjectPreviewDialog({ project, onClose }: ProjectPrevie
                   </dd>
                 </div>
                 <div>
+                  <dt className="text-muted-foreground">Hours dubbed</dt>
+                  <dd className="font-medium">
+                    {shown.audioHours != null ? shown.audioHours : "Not set"}
+                  </dd>
+                </div>
+                {shown.description?.trim() ? (
+                  <div>
+                    <dt className="text-muted-foreground">Description</dt>
+                    <dd className="font-medium whitespace-pre-wrap">{shown.description.trim()}</dd>
+                  </div>
+                ) : null}
+                <div>
                   <dt className="text-muted-foreground">Poster</dt>
                   <dd className="font-medium">{shown.poster ? "Uploaded" : "None"}</dd>
                 </div>
                 {shown.poster ? (
                   <div>
-                    <dt className="text-muted-foreground">ALT name</dt>
+                    <dt className="text-muted-foreground">Custom ALT</dt>
                     <dd className="font-medium">
                       {shown.posterAlt || `Default (${shown.title} poster)`}
                     </dd>

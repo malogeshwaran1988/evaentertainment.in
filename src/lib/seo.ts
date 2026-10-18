@@ -7,7 +7,7 @@ type PageSeo = {
   url: string;
   ogImage: string;
   ogImageAlt: string;
-  /** Keep out of search results (e.g. Thank You). */
+  /** Keep out of search results when needed. Admin uses its own layout robots. */
   noindex?: boolean;
 };
 
