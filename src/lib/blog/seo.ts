@@ -14,9 +14,16 @@ export const BLOG_IMAGE_STEM_MAX = 50;
 const mentionsBrand = (text: string) => /eva\s*entertainment/i.test(text);
 
 /** Branded file name without extension: `<stem>-eva-entertainment` (brand not repeated). */
+const TRAILING_STOP_WORDS = /(?:-(?:a|an|and|at|by|for|from|in|of|on|or|the|to|with))+$/;
+
+/**
+ * "<stem>-eva-entertainment". The brand is taken out of the stem first (titles often end
+ * "… at EVA Entertainment") so it isn't cut in half, and dangling words like "-to" are trimmed.
+ */
 export function blogImageBaseName(stem: string): string {
-  const base = slugifyAscii(stem, BLOG_IMAGE_STEM_MAX) || "blog-image";
-  return base.includes(BRAND_SLUG) ? base : `${base}-${BRAND_SLUG}`;
+  const full = slugifyAscii(stem, 200).replace(new RegExp(`(?:-(?:at|by|from))?-?${BRAND_SLUG}`, "g"), "");
+  const base = slugifyAscii(full, BLOG_IMAGE_STEM_MAX).replace(TRAILING_STOP_WORDS, "") || "blog-image";
+  return `${base}-${BRAND_SLUG}`;
 }
 
 /** Cover ALT: the typed ALT (or the title), with "– EVA Entertainment" added unless it's already there. */

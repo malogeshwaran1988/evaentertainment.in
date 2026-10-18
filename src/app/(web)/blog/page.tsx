@@ -51,6 +51,7 @@ export default async function BlogPage() {
       {posts.length ? <JsonLd id="blog-jsonld" data={schema} /> : null}
       <PageHero
         icon="icon-folded-newspaper"
+        className="eva-blog-hero"
         title="Blog"
         subtitle="Dubbing, voice-over and sound notes from our Mumbai studio"
         trail={[{ label: "Blog", href: Routes.BLOG }]}

@@ -103,6 +103,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
       <JsonLd id="blog-post-jsonld" data={articleSchema} />
       <PageHero
         icon="icon-folded-newspaper"
+        className="eva-blog-hero"
         title={post.title}
         trail={[
           { label: "Blog", href: Routes.BLOG },

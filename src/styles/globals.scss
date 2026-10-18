@@ -4736,6 +4736,10 @@ html body .eva-hero-ctas .eva-hero-cta-secondary:hover {
 }
 
 /* ---------- Blog (/blog, /blog/[slug]) ---------- */
+/* Hero sits flush on the dark section (no white band), like .eva-projects-hero. */
+.block.eva-blog-hero {
+  margin-bottom: 0;
+}
 .block.eva-blog {
   margin-bottom: 0;
   padding-top: 28px;
