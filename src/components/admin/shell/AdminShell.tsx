@@ -54,7 +54,7 @@ export default function AdminShell({
         </a>
         <AdminSidebar username={username} />
         <SidebarInset className="h-svh overflow-hidden md:h-[calc(100svh-1rem)]">
-          <header className="flex h-16 shrink-0 items-center justify-between gap-2 border-b px-4 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
+          <header className="flex h-16 shrink-0 items-center justify-between gap-2 border-b px-4 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
             <div className="flex min-w-0 items-center gap-2">
               <SidebarTrigger className="-ml-1 size-9" />
               <Separator orientation="vertical" className="mr-2 h-4" />
@@ -86,7 +86,7 @@ export default function AdminShell({
             ref={mainRef}
             id="admin-content"
             tabIndex={-1}
-            className="flex min-h-0 min-w-0 flex-1 flex-col overflow-y-auto p-4 focus:outline-none md:p-6"
+            className="flex min-h-0 min-w-0 flex-1 flex-col overflow-y-auto p-4 focus:outline-hidden md:p-6"
           >
             {children}
           </div>

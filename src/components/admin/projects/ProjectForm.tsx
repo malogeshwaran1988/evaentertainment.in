@@ -250,7 +250,7 @@ export default function ProjectForm({ action, initial, submitLabel }: ProjectFor
             id="form-error-summary"
             role="alert"
             tabIndex={-1}
-            className="rounded-md border border-red-700/60 bg-red-50 px-4 py-3 text-sm text-red-800 dark:border-red-400/60 dark:bg-red-950 dark:text-red-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className="rounded-md border border-red-700/60 bg-red-50 px-4 py-3 text-sm text-red-800 dark:border-red-400/60 dark:bg-red-950 dark:text-red-200 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring"
           >
             <p className="font-semibold">{state.message}</p>
             {Object.keys(errors).length ? (
@@ -362,8 +362,8 @@ export default function ProjectForm({ action, initial, submitLabel }: ProjectFor
             maxLength={PROJECT_DESCRIPTION_MAX}
             rows={5}
             className={cn(
-              "flex min-h-[120px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-base shadow-sm transition-[color,box-shadow] placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50 md:text-sm dark:bg-input/30",
-              "focus-visible:border-ring focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50",
+              "flex min-h-[120px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-base shadow-xs transition-[color,box-shadow] placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50 md:text-sm dark:bg-input/30",
+              "focus-visible:border-ring focus-visible:outline-hidden focus-visible:ring-[3px] focus-visible:ring-ring/50",
               "aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40",
             )}
             aria-invalid={errors.description ? true : undefined}
@@ -548,7 +548,7 @@ export default function ProjectForm({ action, initial, submitLabel }: ProjectFor
 
         {overlayBusy && activeStep ? (
           <div
-            className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-4 rounded-xl bg-background/80 p-6 backdrop-blur-sm"
+            className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-4 rounded-xl bg-background/80 p-6 backdrop-blur-xs"
             role="status"
             aria-live="polite"
             aria-label={STEP_LABEL[activeStep]}

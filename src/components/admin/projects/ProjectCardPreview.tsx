@@ -41,14 +41,14 @@ export default function ProjectCardPreview({
   return (
     <div className={cn("flex justify-center rounded-lg bg-[#181818] p-6", RALEWAY, className)}>
       <div className="w-[200px] text-left">
-        <div className="relative mb-4 aspect-[2/3] overflow-hidden bg-[#13161d]">
+        <div className="relative mb-4 aspect-2/3 overflow-hidden bg-[#13161d]">
           {year ? (
             <span
               className={cn(
-                "absolute left-2 top-2 z-[1] rounded-[2px] px-2 py-[3px] text-xs font-bold uppercase leading-[1.4] tracking-[0.04em]",
+                "absolute left-2 top-2 z-1 rounded-[2px] px-2 py-[3px] text-xs font-bold uppercase leading-[1.4] tracking-[0.04em]",
                 year === PROJECT_YEAR_ONGOING
                   ? "bg-[#70b615] text-[#0b0d10]"
-                  : "bg-black/[0.78] text-white",
+                  : "bg-black/78 text-white",
               )}
             >
               {projectYearLabel(year)}
@@ -69,7 +69,7 @@ export default function ProjectCardPreview({
             />
           ) : (
             <div
-              className="absolute inset-0 flex flex-col items-center justify-center gap-3.5 border border-white/[0.08] bg-[linear-gradient(160deg,#26282f_0%,#13161d_100%)] p-4 text-center text-white/85"
+              className="absolute inset-0 flex flex-col items-center justify-center gap-3.5 border border-white/8 bg-[linear-gradient(160deg,#26282f_0%,#13161d_100%)] p-4 text-center text-white/85"
               aria-hidden="true"
             >
               <Film className="size-8 text-[#70b615]" />
@@ -87,10 +87,10 @@ export default function ProjectCardPreview({
         >
           {name || "Project name"}
         </p>
-        <p className={cn("text-sm leading-normal", languages ? "text-white/[0.72]" : "text-white/40")}>
+        <p className={cn("text-sm leading-normal", languages ? "text-white/72" : "text-white/40")}>
           {languages || "Source to target languages"}
         </p>
-        <p className="text-sm leading-normal text-white/[0.72]">{category}</p>
+        <p className="text-sm leading-normal text-white/72">{category}</p>
       </div>
     </div>
   );

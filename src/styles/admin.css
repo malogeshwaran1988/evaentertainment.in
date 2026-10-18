@@ -1,8 +1,115 @@
-@config "../../tailwind.admin.config.ts";
+@import "tailwindcss" source(none);
+@import "tw-animate-css";
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@source "../app/(admin)";
+@source "../components/admin";
+@source "../components/ui";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+  Keep Tailwind v3 `space-x-*` / `space-y-*` behaviour (margin on every visible
+  sibling after the first). v4 switched to a bottom margin on all but the last
+  child, which shifts forms that start with hidden inputs (server actions) and
+  ignores margins on inline labels. The admin layout was designed against v3.
+*/
+@utility space-y-* {
+  /* cancel v4's end margin on the first child */
+  & > :not(:last-child) {
+    margin-block-end: 0;
+  }
+  & > :not([hidden]) ~ :not([hidden]) {
+    --tw-space-y-reverse: 0;
+    margin-block-start: calc(var(--spacing) * --value(number) * calc(1 - var(--tw-space-y-reverse)));
+    margin-block-end: calc(var(--spacing) * --value(number) * var(--tw-space-y-reverse));
+  }
+}
+@utility space-x-* {
+  /* cancel v4's end margin on the first child */
+  & > :not(:last-child) {
+    margin-inline-end: 0;
+  }
+  & > :not([hidden]) ~ :not([hidden]) {
+    --tw-space-x-reverse: 0;
+    margin-inline-start: calc(var(--spacing) * --value(number) * calc(1 - var(--tw-space-x-reverse)));
+    margin-inline-end: calc(var(--spacing) * --value(number) * var(--tw-space-x-reverse));
+  }
+}
+
+@theme {
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+
+  --color-link: rgb(var(--link-rgb));
+
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+  --color-surface-raised: var(--surface-raised);
+
+  --color-border: hsl(var(--border));
+  --color-border-muted: var(--border-muted);
+
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-ink-subtle: var(--ink-subtle);
+
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+
+  --color-sidebar: hsl(var(--sidebar-background));
+  --color-sidebar-foreground: hsl(var(--sidebar-foreground));
+  --color-sidebar-primary: hsl(var(--sidebar-primary));
+  --color-sidebar-primary-foreground: hsl(var(--sidebar-primary-foreground));
+  --color-sidebar-accent: hsl(var(--sidebar-accent));
+  --color-sidebar-accent-foreground: hsl(var(--sidebar-accent-foreground));
+  --color-sidebar-border: hsl(var(--sidebar-border));
+  --color-sidebar-ring: hsl(var(--sidebar-ring));
+
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+
+  --shadow-card: var(--card-shadow);
+}
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: hsl(var(--border));
+  }
+}
 
 @layer base {
   :root {

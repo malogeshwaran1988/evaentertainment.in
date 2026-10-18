@@ -94,7 +94,7 @@ export default function PosterField({
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
         <div
           className={cn(
-            "relative flex aspect-[2/3] w-32 shrink-0 items-center justify-center overflow-hidden rounded-md border bg-muted",
+            "relative flex aspect-2/3 w-32 shrink-0 items-center justify-center overflow-hidden rounded-md border bg-muted",
             error && "border-destructive",
           )}
         >

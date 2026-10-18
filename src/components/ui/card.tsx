@@ -25,7 +25,7 @@ const CardHeader = React.forwardRef<
   <div
     ref={ref}
     className={cn(
-      "flex flex-col space-y-1.5 p-6 has-[[data-slot=card-action]]:grid has-[[data-slot=card-action]]:grid-cols-[1fr_auto] has-[[data-slot=card-action]]:items-start has-[[data-slot=card-action]]:gap-1.5 has-[[data-slot=card-action]]:space-y-0",
+      "flex flex-col space-y-1.5 p-6 has-data-[slot=card-action]:grid has-data-[slot=card-action]:grid-cols-[1fr_auto] has-data-[slot=card-action]:items-start has-data-[slot=card-action]:gap-1.5 has-data-[slot=card-action]:space-y-0",
       className
     )}
     {...props}
