@@ -29,15 +29,13 @@ export default function ProjectExplore({ projects }: ProjectExploreProps) {
       className="eva-project-explore"
       aria-labelledby="eva-project-explore-title"
     >
-      <div className="container eva-project-explore-head-wrap">
-        <div className="eva-project-explore-head">
-          <h2 id="eva-project-explore-title" className="eva-project-explore-title">
-            Explore more projects
-          </h2>
-          <Link className="eva-project-explore-all" href={Routes.PROJECTS}>
-            View all projects
-          </Link>
-        </div>
+      <div className="eva-project-explore-head">
+        <h2 id="eva-project-explore-title" className="eva-project-explore-title">
+          Explore more projects
+        </h2>
+        <Link className="eva-project-explore-all" href={Routes.PROJECTS}>
+          View all projects
+        </Link>
       </div>
       <div className="eva-project-explore-carousel">
         <button
@@ -54,6 +52,7 @@ export default function ProjectExplore({ projects }: ProjectExploreProps) {
               <Link
                 className="eva-project-explore-thumb"
                 href={Routes.project(project.slug)}
+                aria-label={project.title}
               >
                 <span className="eva-project-explore-thumb-media">
                   {project.poster ? (
@@ -69,7 +68,6 @@ export default function ProjectExplore({ projects }: ProjectExploreProps) {
                     <PosterPlaceholder title={project.title} />
                   )}
                 </span>
-                <span className="eva-project-explore-thumb-title">{project.title}</span>
               </Link>
             </li>
           ))}

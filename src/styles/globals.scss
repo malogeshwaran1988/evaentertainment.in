@@ -2699,8 +2699,9 @@ body:not(.page-blog) .block--darkbg .eva-project-title,
   display: inline-flex;
   align-items: center;
   gap: 10px;
+  box-sizing: border-box;
+  width: 148px;
   min-height: 44px;
-  max-width: 200px;
   padding: 10px 12px;
   border: 1px solid rgba(255, 255, 255, 0.16);
   background: rgba(11, 13, 16, 0.72);
@@ -2724,6 +2725,7 @@ body:not(.page-blog) .block--darkbg .eva-project-title,
 
 .eva-project-adj-label {
   display: flex;
+  flex: 1;
   flex-direction: column;
   gap: 2px;
   min-width: 0;
@@ -2783,15 +2785,11 @@ body:not(.page-blog) .block--darkbg .eva-project-title,
   }
 }
 
-/* Full-width explore strip (outside .container). */
+/* Explore strip (inside .container with the project stage). */
 .eva-project-explore {
   margin-top: 28px;
   padding-top: 24px;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.eva-project-explore-head-wrap {
-  margin-bottom: 16px;
 }
 
 .eva-project-explore-head {
@@ -2800,6 +2798,7 @@ body:not(.page-blog) .block--darkbg .eva-project-title,
   align-items: baseline;
   justify-content: space-between;
   gap: 12px 24px;
+  margin-bottom: 16px;
 }
 
 .eva-project-explore-title {
@@ -2829,8 +2828,6 @@ body:not(.page-blog) .block--darkbg .eva-project-title,
   align-items: center;
   gap: 12px;
   width: 100%;
-  padding: 0 16px 8px;
-  box-sizing: border-box;
 }
 
 .eva-project-explore-scroll {
@@ -2867,9 +2864,7 @@ body:not(.page-blog) .block--darkbg .eva-project-title,
 }
 
 .eva-project-explore-thumb {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+  display: block;
   width: 140px;
   flex: 0 0 auto;
   color: #fff;
@@ -2877,9 +2872,9 @@ body:not(.page-blog) .block--darkbg .eva-project-title,
   scroll-snap-align: start;
 }
 
-.eva-project-explore-thumb:hover .eva-project-explore-thumb-title,
-.eva-project-explore-thumb:focus-visible .eva-project-explore-thumb-title {
-  color: #abee2d;
+.eva-project-explore-thumb:hover .eva-project-explore-thumb-media,
+.eva-project-explore-thumb:focus-visible .eva-project-explore-thumb-media {
+  border-color: rgba(112, 182, 21, 0.55);
 }
 
 .eva-project-explore-thumb:focus-visible {
@@ -2895,20 +2890,11 @@ body:not(.page-blog) .block--darkbg .eva-project-title,
   overflow: hidden;
   background: #13161d;
   border: 1px solid rgba(255, 255, 255, 0.12);
+  transition: border-color 0.2s ease;
 }
 
 .eva-project-explore-thumb-media img {
   object-fit: cover;
-}
-
-.eva-project-explore-thumb-title {
-  display: -webkit-box;
-  overflow: hidden;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  font-size: 12px;
-  font-weight: 600;
-  line-height: 1.35;
 }
 
 @media (max-width: 991px) {
@@ -2923,7 +2909,6 @@ body:not(.page-blog) .block--darkbg .eva-project-title,
 @media (max-width: 767px) {
   .eva-project-explore-carousel {
     grid-template-columns: minmax(0, 1fr);
-    padding: 0 12px 8px;
   }
 
   .eva-project-explore-scroll {

@@ -216,9 +216,9 @@ export default async function ProjectDetailPage({
               </div>
             </div>
           </div>
-        </div>
 
-        <ProjectExplore projects={exploreProjects} />
+          <ProjectExplore projects={exploreProjects} />
+        </div>
       </section>
     </main>
   );
