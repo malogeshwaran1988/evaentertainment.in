@@ -30,6 +30,7 @@ export default async function EditProjectPage({
           category: project.category,
           poster: project.poster,
           posterAlt: project.posterAlt,
+          description: project.description,
           year: project.year,
         }}
         submitLabel="Save changes"

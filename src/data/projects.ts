@@ -48,6 +48,8 @@ export type Project = {
   poster?: string;
   /** Typed ALT only; public pages render SEO ALT via projectSeoAlt. */
   posterAlt?: string;
+  /** Optional public blurb on /projects/[slug]. */
+  description?: string;
   /** "ongoing" (still being dubbed) or a release year like "2025". Older projects have none. */
   year?: string;
   createdAt: string;
@@ -62,8 +64,11 @@ export type PublicProject = Omit<Project, "createdAt" | "updatedAt"> & {
 
 export type ProjectInput = Pick<
   Project,
-  "title" | "from" | "to" | "category" | "poster" | "posterAlt" | "year"
+  "title" | "from" | "to" | "category" | "poster" | "posterAlt" | "description" | "year"
 >;
+
+/** Max length for the public project description (admin + store). */
+export const PROJECT_DESCRIPTION_MAX = 800;
 
 export const PROJECT_YEAR_ONGOING = "ongoing";
 export const PROJECT_YEAR_MIN = 1990;

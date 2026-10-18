@@ -16,9 +16,26 @@ type Props = {
   /** Adds BreadcrumbList JSON-LD (skip on noindex pages). */
   schema?: boolean;
   className?: string;
+  /**
+   * Optional full-bleed decorative background (e.g. project poster).
+   * Decorative only — not announced to assistive tech.
+   */
+  backgroundSrc?: string;
+  /** When true, skip next/image optimization (uploaded posters). */
+  backgroundUnoptimized?: boolean;
 };
 
-export default function PageHero({ icon, svg, title, subtitle, trail, schema = true, className }: Props) {
+export default function PageHero({
+  icon,
+  svg,
+  title,
+  subtitle,
+  trail,
+  schema = true,
+  className,
+  backgroundSrc,
+  backgroundUnoptimized,
+}: Props) {
   const breadcrumbSchema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -30,8 +47,30 @@ export default function PageHero({ icon, svg, title, subtitle, trail, schema = t
     })),
   };
 
+  const classes = [
+    "block",
+    "block--title",
+    "block--darkbg",
+    backgroundSrc ? "eva-page-hero--has-bg" : "",
+    className ?? "",
+  ]
+    .filter(Boolean)
+    .join(" ");
+
   return (
-    <div className={`block block--title block--darkbg${className ? ` ${className}` : ""}`}>
+    <div className={classes}>
+      {backgroundSrc ? (
+        // Decorative hero atmosphere only; the poster is also shown in content with real ALT.
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          className="eva-page-hero__bg"
+          src={backgroundSrc}
+          alt=""
+          aria-hidden="true"
+          decoding="async"
+          data-unoptimized={backgroundUnoptimized ? "" : undefined}
+        />
+      ) : null}
       {schema ? <JsonLd id="breadcrumb-jsonld" data={breadcrumbSchema} /> : null}
       <div className="container">
         <div className="text-center">

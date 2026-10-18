@@ -9,7 +9,6 @@ import {
   type PublicProject,
 } from "@@/data/projects";
 import { projectPosterAlt } from "@@/lib/project-seo";
-import { SITE_NAME } from "@@/constants/constants";
 
 export const HOME_PROJECTS_LIMIT = 6;
 
@@ -59,9 +58,6 @@ export default function HomeProjects({ projects }: { projects: PublicProject[] }
                 </Link>
               </h3>
               <p className="eva-project-meta">{projectLanguageLine(project)}</p>
-              <p className="eva-project-meta eva-project-brand-caption">
-                Dubbed by {SITE_NAME}
-              </p>
             </li>
           ))}
         </ul>

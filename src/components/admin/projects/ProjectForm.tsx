@@ -25,6 +25,7 @@ import {
 } from "@@/components/ui/select";
 import {
   PROJECT_CATEGORIES,
+  PROJECT_DESCRIPTION_MAX,
   PROJECT_LANGUAGES,
   PROJECT_YEAR_ONGOING,
   projectYearOptions,
@@ -78,6 +79,7 @@ export default function ProjectForm({ action, initial, submitLabel }: ProjectFor
   const [state, formAction, pending] = useActionState(action, {});
   const [title, setTitle] = useState(initial?.title ?? "");
   const [posterAlt, setPosterAlt] = useState(initial?.posterAlt ?? "");
+  const [description, setDescription] = useState(initial?.description ?? "");
   const [from, setFrom] = useState<ProjectLanguage | "">(initial?.from ?? "");
   const [to, setTo] = useState<ProjectLanguage[]>(initial?.to ?? []);
   const [category, setCategory] = useState(initial?.category ?? PROJECT_CATEGORIES[0]);
@@ -252,8 +254,8 @@ export default function ProjectForm({ action, initial, submitLabel }: ProjectFor
             aria-describedby={errors.posterAlt ? "posterAlt-error posterAlt-hint" : "posterAlt-hint"}
           />
           <p id="posterAlt-hint" className="text-sm text-muted-foreground">
-            Typed ALT only (stored as-is). Public pages append the dubbing SEO suffix. Leave blank
-            to start from “{previewTitle} movie poster”.
+            Typed ALT for the poster. Leave blank to use “{previewTitle} movie poster” plus the
+            language line.
           </p>
           <FieldError id="posterAlt-error" message={errors.posterAlt} />
           <div
@@ -307,6 +309,32 @@ export default function ProjectForm({ action, initial, submitLabel }: ProjectFor
             aria-describedby={errors.title ? "title-error" : undefined}
           />
           <FieldError id="title-error" message={errors.title} />
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="description">Description</Label>
+          <textarea
+            id="description"
+            name="description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            maxLength={PROJECT_DESCRIPTION_MAX}
+            rows={5}
+            className={cn(
+              "flex min-h-[120px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-base shadow-sm transition-[color,box-shadow] placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50 md:text-sm dark:bg-input/30",
+              "focus-visible:border-ring focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50",
+              "aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40",
+            )}
+            aria-invalid={errors.description ? true : undefined}
+            aria-describedby={
+              errors.description ? "description-error description-hint" : "description-hint"
+            }
+          />
+          <p id="description-hint" className="text-sm text-muted-foreground">
+            Shown on the public project page. Optional — leave blank if you only want the title and
+            languages. ({description.length}/{PROJECT_DESCRIPTION_MAX})
+          </p>
+          <FieldError id="description-error" message={errors.description} />
         </div>
 
         <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">

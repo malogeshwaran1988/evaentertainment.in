@@ -7,6 +7,7 @@ import PageHero from "@@/components/common/PageHero";
 import Link from "@@/components/common/NavLink";
 import { SvgIcon } from "@@/components/common/Icons";
 import { PosterPlaceholder } from "@@/components/projects/ProjectPoster";
+import ProjectExplore from "@@/components/projects/ProjectExplore";
 import { APP_BASE_URL, SITE_NAME } from "@@/constants/constants";
 import { Routes } from "@@/constants/routes";
 import {
@@ -14,17 +15,19 @@ import {
   PROJECT_YEAR_ONGOING,
   PROJECTS_OG_IMAGE,
   PROJECTS_PAGE_URL,
+  type Project,
 } from "@@/data/projects";
 import { getProjectBySlug, getProjects } from "@@/lib/projects-store";
 import {
   EVA_ORG_ID,
   evaOrganizationLd,
   projectAbsolutePosterUrl,
-  projectDubbingLine,
   projectHref,
+  projectLanguageChip,
   projectPosterAlt,
   projectSeoDescription,
   projectSeoTitle,
+  projectYearChip,
 } from "@@/lib/project-seo";
 import { absoluteUrl, buildPageMetadata } from "@@/lib/seo";
 
@@ -54,19 +57,34 @@ export async function generateMetadata({
   });
 }
 
+function neighbors(projects: Project[], slug: string) {
+  const index = projects.findIndex((p) => p.slug === slug);
+  if (index < 0) return { prev: null, next: null, others: projects };
+  return {
+    prev: index > 0 ? projects[index - 1] : null,
+    next: index < projects.length - 1 ? projects[index + 1] : null,
+    others: projects.filter((p) => p.slug !== slug),
+  };
+}
+
 export default async function ProjectDetailPage({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }) {
   await connection();
-  const project = await getProjectBySlug((await params).slug);
+  const slug = (await params).slug;
+  const projects = await getProjects();
+  const project = projects.find((p) => p.slug === slug) ?? (await getProjectBySlug(slug));
   if (!project) notFound();
 
+  const { prev, next, others } = neighbors(projects, project.slug);
   const url = absoluteUrl(projectHref(project.slug));
   const posterUrl = projectAbsolutePosterUrl(project.poster);
   const seoAlt = projectPosterAlt(project);
   const workType = project.category === "Movie Dubbing" ? "Movie" : "CreativeWork";
+  const yearChip = projectYearChip(project);
+  const posterIsUpload = Boolean(project.poster?.startsWith(POSTER_URL_PREFIX));
 
   const workSchema = {
     "@context": "https://schema.org",
@@ -74,6 +92,7 @@ export default async function ProjectDetailPage({
     name: project.title,
     url,
     ...(posterUrl ? { image: posterUrl } : {}),
+    ...(project.description ? { description: project.description } : {}),
     ...(project.year && project.year !== PROJECT_YEAR_ONGOING
       ? { dateCreated: project.year }
       : {}),
@@ -124,11 +143,35 @@ export default async function ProjectDetailPage({
           { label: "Our Projects", href: Routes.PROJECTS },
           { label: project.title, href: Routes.project(project.slug) },
         ]}
-        className="eva-projects-hero"
+        className="eva-projects-hero eva-project-detail-hero"
+        schema={false}
+        backgroundSrc={project.poster}
+        backgroundUnoptimized={posterIsUpload}
       />
 
-      <section className="block block--darkbg eva-project-detail" aria-labelledby="project-detail-title">
-        <div className="container">
+      <section className="block block--darkbg eva-project-detail" aria-label={project.title}>
+        <div className="container eva-project-detail-inner">
+          {prev ? (
+            <Link
+              className="eva-project-side-nav eva-project-side-nav--prev"
+              href={Routes.project(prev.slug)}
+              aria-label={`Previous project: ${prev.title}`}
+            >
+              <span aria-hidden="true">‹</span>
+              <span className="eva-project-side-nav-text">Previous project</span>
+            </Link>
+          ) : null}
+          {next ? (
+            <Link
+              className="eva-project-side-nav eva-project-side-nav--next"
+              href={Routes.project(next.slug)}
+              aria-label={`Next project: ${next.title}`}
+            >
+              <span className="eva-project-side-nav-text">Next project</span>
+              <span aria-hidden="true">›</span>
+            </Link>
+          ) : null}
+
           <div className="row gutter-30 align-items-start">
             <div className="col-md-5">
               <div className="eva-project-detail-poster">
@@ -139,8 +182,8 @@ export default async function ProjectDetailPage({
                     width={600}
                     height={900}
                     className="eva-project-detail-img"
-                    unoptimized={project.poster.startsWith(POSTER_URL_PREFIX)}
-                    priority
+                    unoptimized={posterIsUpload}
+                    loading="eager"
                     fetchPriority="high"
                   />
                 ) : (
@@ -149,13 +192,16 @@ export default async function ProjectDetailPage({
               </div>
             </div>
             <div className="col-md-7">
-              <h1 id="project-detail-title" className="h--lg">
-                {project.title}
-              </h1>
-              <p className="p--lg eva-project-detail-line">{projectDubbingLine(project)}</p>
-              <p className="eva-project-detail-brand">
-                Dubbed by {SITE_NAME}
-              </p>
+              <p className="h--lg eva-project-detail-heading">{project.title}</p>
+              <ul className="eva-project-detail-chips" aria-label="Project details">
+                <li className="eva-project-detail-chip">{projectLanguageChip(project)}</li>
+                <li className="eva-project-detail-chip">{project.category}</li>
+                {yearChip ? <li className="eva-project-detail-chip">{yearChip}</li> : null}
+              </ul>
+              <p className="eva-project-detail-brand">Dubbed by {SITE_NAME}</p>
+              {project.description ? (
+                <p className="eva-project-detail-desc">{project.description}</p>
+              ) : null}
               <div className="eva-project-detail-cta">
                 <Link className="btn" href={Routes.CONTACT}>
                   Contact us
@@ -166,6 +212,22 @@ export default async function ProjectDetailPage({
               </div>
             </div>
           </div>
+
+          <ProjectExplore
+            projects={others.map((p) => ({
+              id: p.id,
+              slug: p.slug,
+              title: p.title,
+              from: p.from,
+              to: p.to,
+              category: p.category,
+              ...(p.poster ? { poster: p.poster } : {}),
+              ...(p.posterAlt ? { posterAlt: p.posterAlt } : {}),
+              ...(p.year ? { year: p.year } : {}),
+            }))}
+            prev={prev ? { slug: prev.slug, title: prev.title } : null}
+            next={next ? { slug: next.slug, title: next.title } : null}
+          />
         </div>
       </section>
     </main>

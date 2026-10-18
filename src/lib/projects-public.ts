@@ -19,6 +19,7 @@ function toPublic({
   category,
   poster,
   posterAlt,
+  description,
   year,
 }: Project): PublicProject {
   return {
@@ -30,6 +31,7 @@ function toPublic({
     category,
     ...(poster ? { poster } : {}),
     ...(posterAlt ? { posterAlt } : {}),
+    ...(description ? { description } : {}),
     ...(year ? { year, yearLabel: projectYearLabel(year) } : {}),
   };
 }

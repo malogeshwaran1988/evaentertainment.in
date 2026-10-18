@@ -4,7 +4,6 @@ import Image from "next/image";
 import { useState } from "react";
 import Link from "@@/components/common/NavLink";
 import { PosterPlaceholder, YearBadge } from "@@/components/projects/ProjectPoster";
-import { SITE_NAME } from "@@/constants/constants";
 import { Routes } from "@@/constants/routes";
 import {
   POSTER_URL_PREFIX,
@@ -98,9 +97,6 @@ export default function ProjectsGallery({
               </h2>
               <p className="eva-project-meta">{projectLanguageLine(project)}</p>
               <p className="eva-project-meta">{project.category}</p>
-              <p className="eva-project-meta eva-project-brand-caption">
-                Dubbed by {SITE_NAME}
-              </p>
             </li>
           ))}
         </ul>

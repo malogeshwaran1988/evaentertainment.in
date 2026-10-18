@@ -2428,15 +2428,58 @@ body:not(.page-blog) .block--darkbg .eva-project-title,
   color: rgba(255, 255, 255, 0.72);
 }
 
-.eva-project-brand-caption {
-  margin-top: 2px;
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.55);
+.eva-page-hero--has-bg {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.eva-page-hero__bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  filter: blur(2px) brightness(0.45) saturate(1.05);
+  transform: scale(1.08);
+  pointer-events: none;
+  user-select: none;
+}
+
+.eva-page-hero--has-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    180deg,
+    rgba(11, 13, 16, 0.55) 0%,
+    rgba(11, 13, 16, 0.72) 55%,
+    rgba(11, 13, 16, 0.92) 100%
+  );
+  pointer-events: none;
+}
+
+.eva-page-hero--has-bg > .container {
+  position: relative;
+  z-index: 2;
+}
+
+.block.eva-project-detail-hero {
+  margin-bottom: 0;
+  padding-bottom: 56px;
 }
 
 .eva-project-detail {
-  padding-top: 40px;
-  padding-bottom: 60px;
+  position: relative;
+  padding-top: 48px;
+  padding-bottom: 72px;
+}
+
+.eva-project-detail-inner {
+  position: relative;
 }
 
 .eva-project-detail-poster {
@@ -2445,29 +2488,306 @@ body:not(.page-blog) .block--darkbg .eva-project-title,
   overflow: hidden;
   background: #13161d;
   margin-bottom: 24px;
+  border: 1px solid rgba(255, 215, 128, 0.35);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
 }
 
 .eva-project-detail-img {
   display: block;
   width: 100%;
-  height: auto;
+  height: 100%;
   object-fit: cover;
 }
 
-.eva-project-detail-line {
-  margin: 12px 0 8px;
+.eva-project-detail-heading {
+  margin: 0 0 16px;
+}
+
+.eva-project-detail-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 0 0 18px;
+  padding: 0;
+  list-style: none;
+}
+
+.eva-project-detail-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 6px 12px;
+  border: 1px solid rgba(112, 182, 21, 0.45);
+  border-radius: 999px;
+  background: rgba(112, 182, 21, 0.08);
+  color: #abee2d;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.3;
 }
 
 .eva-project-detail-brand {
-  margin: 0 0 28px;
+  margin: 0 0 14px;
   font-size: 15px;
-  color: rgba(255, 255, 255, 0.72);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.eva-project-detail-desc {
+  margin: 0 0 28px;
+  max-width: 38em;
+  font-size: 16px;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.78);
+  white-space: pre-wrap;
 }
 
 .eva-project-detail-cta {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
+}
+
+.eva-project-side-nav {
+  display: none;
+  position: absolute;
+  top: 18%;
+  z-index: 3;
+  align-items: center;
+  gap: 8px;
+  max-width: 140px;
+  padding: 12px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(11, 13, 16, 0.72);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.eva-project-side-nav:hover,
+.eva-project-side-nav:focus-visible {
+  background: rgba(112, 182, 21, 0.2);
+  border-color: rgba(112, 182, 21, 0.55);
+  color: #fff;
+  outline: 0;
+}
+
+.eva-project-side-nav--prev {
+  left: 0;
+  transform: translateX(-50%);
+}
+
+.eva-project-side-nav--next {
+  right: 0;
+  transform: translateX(50%);
+}
+
+.eva-project-side-nav span[aria-hidden="true"] {
+  font-size: 22px;
+  line-height: 1;
+}
+
+.eva-project-explore {
+  margin-top: 56px;
+  padding-top: 40px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.eva-project-explore-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.eva-project-explore-adj {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 8px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.04);
+  color: #fff;
+  text-decoration: none;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.eva-project-explore-adj:hover,
+.eva-project-explore-adj:focus-visible {
+  border-color: rgba(112, 182, 21, 0.55);
+  background: rgba(112, 182, 21, 0.12);
+  outline: 0;
+}
+
+.eva-project-explore-adj--disabled {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.eva-project-explore-adj-label {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.eva-project-explore-adj-title {
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.eva-project-explore-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px 24px;
+  margin-bottom: 20px;
+}
+
+.eva-project-explore-title {
+  margin: 0;
+  font-family: "Raleway", sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.eva-project-explore-all {
+  color: #abee2d;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.eva-project-explore-all:hover,
+.eva-project-explore-all:focus-visible {
+  text-decoration: underline;
+  outline: 0;
+}
+
+.eva-project-explore-carousel {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+}
+
+.eva-project-explore-scroll {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+  background: rgba(11, 13, 16, 0.7);
+  color: #fff;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.eva-project-explore-scroll:hover,
+.eva-project-explore-scroll:focus-visible {
+  border-color: #70b615;
+  color: #abee2d;
+  outline: 0;
+}
+
+.eva-project-explore-thumbs {
+  display: flex;
+  gap: 14px;
+  margin: 0;
+  padding: 4px 2px 10px;
+  list-style: none;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: thin;
+}
+
+.eva-project-explore-thumb {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 112px;
+  flex: 0 0 auto;
+  color: #fff;
+  text-decoration: none;
+  scroll-snap-align: start;
+}
+
+.eva-project-explore-thumb:hover .eva-project-explore-thumb-title,
+.eva-project-explore-thumb:focus-visible .eva-project-explore-thumb-title {
+  color: #abee2d;
+}
+
+.eva-project-explore-thumb:focus-visible {
+  outline: 0;
+}
+
+.eva-project-explore-thumb-media {
+  position: relative;
+  display: block;
+  aspect-ratio: 2 / 3;
+  overflow: hidden;
+  background: #13161d;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.eva-project-explore-thumb-media img {
+  object-fit: cover;
+}
+
+.eva-project-explore-thumb-title {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+@media (min-width: 1200px) {
+  .eva-project-side-nav {
+    display: inline-flex;
+  }
+}
+
+@media (max-width: 991px) {
+  .eva-project-detail-poster {
+    max-width: 360px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+@media (max-width: 767px) {
+  .eva-project-explore-carousel {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .eva-project-explore-scroll {
+    display: none;
+  }
 }
 
 .eva-projects-empty {

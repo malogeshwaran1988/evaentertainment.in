@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import {
   PROJECT_CATEGORIES,
+  PROJECT_DESCRIPTION_MAX,
   PROJECT_LANGUAGES,
   PROJECT_YEAR_MIN,
   PROJECT_YEAR_ONGOING,
@@ -39,6 +40,17 @@ const projectSchema = z
       .trim()
       .max(150, "Keep the ALT name under 150 characters.")
       .transform((v) => v || undefined),
+    description: z
+      .string()
+      .trim()
+      .max(
+        PROJECT_DESCRIPTION_MAX,
+        `Keep the description under ${PROJECT_DESCRIPTION_MAX} characters.`,
+      )
+      .transform((v) => {
+        const cleaned = v.replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, "");
+        return cleaned || undefined;
+      }),
     from: z.enum(PROJECT_LANGUAGES, { error: "Choose the source language." }),
     to: z
       .array(z.enum(PROJECT_LANGUAGES))
@@ -64,6 +76,7 @@ function parse(formData: FormData) {
   const result = projectSchema.safeParse({
     title: formData.get("title"),
     posterAlt: formData.get("posterAlt") ?? "",
+    description: formData.get("description") ?? "",
     from: formData.get("from"),
     to: formData.getAll("to"),
     category: formData.get("category"),

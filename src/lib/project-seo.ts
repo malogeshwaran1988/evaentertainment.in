@@ -10,7 +10,7 @@ import {
 
 const BRAND_SLUG = "eva-entertainment";
 const DUBBING_BRAND_SLUG = "dubbing-eva-entertainment";
-const SEO_ALT_SUFFIX = "dubbing by EVA Entertainment";
+const META_DESC_MAX = 160;
 
 export const EVA_ORG_ID = `${APP_BASE_URL}/#organization`;
 
@@ -143,14 +143,14 @@ function targetsPhrase(to: readonly string[]) {
   return `${to.slice(0, -1).join(", ")} and ${to[to.length - 1]}`;
 }
 
-/** Stored ALT or default; plus SEO suffix unless already present. */
+/** Stored ALT or default with language context — no brand suffix (avoids keyword spam). */
 export function projectSeoAlt(
   project: Pick<Project, "title" | "posterAlt" | "from" | "to">,
 ): string {
   const base = project.posterAlt?.trim() || `${project.title} movie poster`;
-  if (new RegExp(SEO_ALT_SUFFIX, "i").test(base)) return base;
+  if (/\bdubbing\b/i.test(base)) return base;
   const line = projectLanguageLine(project);
-  return `${base} – ${line} ${SEO_ALT_SUFFIX}`;
+  return `${base} – ${line} dubbing`;
 }
 
 /** @deprecated Use projectSeoAlt — kept as the public render helper name. */
@@ -174,12 +174,21 @@ export function projectSeoTitle(
 }
 
 export function projectSeoDescription(
-  project: Pick<Project, "title" | "from" | "to">,
+  project: Pick<Project, "title" | "from" | "to" | "description">,
 ): string {
+  const custom = project.description?.trim();
+  if (custom) {
+    const withBrand = new RegExp(SITE_NAME, "i").test(custom)
+      ? custom
+      : `${custom} — ${SITE_NAME}`;
+    if (withBrand.length <= META_DESC_MAX) return withBrand;
+    return `${withBrand.slice(0, META_DESC_MAX - 1).trimEnd()}…`;
+  }
   const targets = targetsPhrase(project.to);
-  return `${project.title} was dubbed from ${project.from} into ${targets} by ${SITE_NAME}, a dubbing and voice-over studio in Andheri, Mumbai.`;
+  return `${project.title} was dubbed from ${project.from} into ${targets} by ${SITE_NAME}, a dubbing studio in Andheri, Mumbai.`;
 }
 
+/** Languages · category · year — no brand (brand shown once on the detail page). */
 export function projectDubbingLine(
   project: Pick<Project, "from" | "to" | "category" | "year">,
 ): string {
@@ -190,13 +199,24 @@ export function projectDubbingLine(
       : project.year
         ? projectYearLabel(project.year)
         : "";
-  const parts = [
-    `Dubbed by ${SITE_NAME}`,
-    `${project.from} → ${targets}`,
-    project.category,
-    year,
-  ].filter(Boolean);
-  return parts.join(" · ");
+  return [`${project.from} → ${targets}`, project.category, year]
+    .filter(Boolean)
+    .join(" · ");
+}
+
+export function projectLanguageChip(
+  project: Pick<Project, "from" | "to">,
+): string {
+  return `${project.from} → ${project.to.join(", ")}`;
+}
+
+export function projectYearChip(
+  project: Pick<Project, "year">,
+): string | undefined {
+  if (!project.year) return undefined;
+  return project.year === PROJECT_YEAR_ONGOING
+    ? "Ongoing"
+    : projectYearLabel(project.year);
 }
 
 export function evaOrganizationLd() {
