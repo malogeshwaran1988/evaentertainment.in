@@ -19,6 +19,8 @@ function toPublic({
   category,
   poster,
   posterAlt,
+  description,
+  audioHours,
   year,
 }: Project): PublicProject {
   return {
@@ -30,6 +32,8 @@ function toPublic({
     category,
     ...(poster ? { poster } : {}),
     ...(posterAlt ? { posterAlt } : {}),
+    ...(description ? { description } : {}),
+    ...(audioHours ? { audioHours } : {}),
     ...(year ? { year, yearLabel: projectYearLabel(year) } : {}),
   };
 }

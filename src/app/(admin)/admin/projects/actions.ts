@@ -3,7 +3,9 @@
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import {
+  PROJECT_AUDIO_HOURS_MAX,
   PROJECT_CATEGORIES,
+  PROJECT_DESCRIPTION_MAX,
   PROJECT_LANGUAGES,
   PROJECT_YEAR_MIN,
   PROJECT_YEAR_ONGOING,
@@ -39,6 +41,41 @@ const projectSchema = z
       .trim()
       .max(150, "Keep the ALT name under 150 characters.")
       .transform((v) => v || undefined),
+    description: z
+      .string()
+      .trim()
+      .max(
+        PROJECT_DESCRIPTION_MAX,
+        `Keep the description under ${PROJECT_DESCRIPTION_MAX} characters.`,
+      )
+      .transform((v) => {
+        const cleaned = v.replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, "");
+        return cleaned || undefined;
+      }),
+    audioHours: z.string().trim().transform((raw, ctx) => {
+      if (!raw) return undefined;
+      const n = Number(raw);
+      if (!Number.isFinite(n)) {
+        ctx.addIssue({ code: "custom", message: "Enter hours as a number." });
+        return z.NEVER;
+      }
+      if (n <= 0) {
+        ctx.addIssue({ code: "custom", message: "Hours must be greater than zero." });
+        return z.NEVER;
+      }
+      if (n > PROJECT_AUDIO_HOURS_MAX) {
+        ctx.addIssue({
+          code: "custom",
+          message: `Keep hours under ${PROJECT_AUDIO_HOURS_MAX.toLocaleString("en-IN")}.`,
+        });
+        return z.NEVER;
+      }
+      if (Math.round(n * 10) !== n * 10) {
+        ctx.addIssue({ code: "custom", message: "Use at most one decimal place." });
+        return z.NEVER;
+      }
+      return n;
+    }),
     from: z.enum(PROJECT_LANGUAGES, { error: "Choose the source language." }),
     to: z
       .array(z.enum(PROJECT_LANGUAGES))
@@ -64,6 +101,8 @@ function parse(formData: FormData) {
   const result = projectSchema.safeParse({
     title: formData.get("title"),
     posterAlt: formData.get("posterAlt") ?? "",
+    description: formData.get("description") ?? "",
+    audioHours: formData.get("audioHours") ?? "",
     from: formData.get("from"),
     to: formData.getAll("to"),
     category: formData.get("category"),

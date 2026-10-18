@@ -156,11 +156,13 @@ export function createProject(input: ProjectInput & { slug: string }) {
     const project: Project = { ...input, id: randomUUID(), createdAt: now, updatedAt: now };
     if (!project.poster) delete project.poster;
     if (!project.posterAlt) delete project.posterAlt;
+    if (!project.description) delete project.description;
+    if (!project.audioHours) delete project.audioHours;
     return { next: [...projects, project], result: project };
   });
 }
 
-/** `input.poster` and `input.posterAlt` are final values: pass `undefined` to clear them. */
+/** Optional fields are final values: pass `undefined` to clear them. */
 export function updateProject(id: string, input: ProjectInput & { slug: string }) {
   return mutate((projects) => {
     const index = projects.findIndex((p) => p.id === id);
@@ -172,6 +174,8 @@ export function updateProject(id: string, input: ProjectInput & { slug: string }
     };
     if (!updated.poster) delete updated.poster;
     if (!updated.posterAlt) delete updated.posterAlt;
+    if (!updated.description) delete updated.description;
+    if (!updated.audioHours) delete updated.audioHours;
     const next = [...projects];
     next[index] = updated;
     return { next, result: updated };
