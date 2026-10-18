@@ -7,7 +7,8 @@
     "build": "next build --webpack",
     "start": "next start",
     "lint": "eslint .",
-    "images": "node scripts/optimize-images.mjs"
+    "images": "node scripts/optimize-images.mjs",
+    "prebuild": "node scripts/gen-static-lastmod.mjs"
   },
   "dependencies": {
     "@jsquash/avif": "^2.1.1",
@@ -36,6 +37,7 @@
     "react-dom": "^19.0.0",
     "sass": "^1.83.1",
     "server-only": "^0.0.1",
+    "sharp": "^0.35.5",
     "sonner": "^2.0.8",
     "tailwind-merge": "^3.7.0",
     "tailwindcss-animate": "^1.0.7",

@@ -17,7 +17,7 @@ const CSP = [
   "img-src 'self' data: blob: https:",
   "media-src 'self' blob: data:",
   "connect-src 'self' blob: data: https://www.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com https://challenges.cloudflare.com",
-  "frame-src https://www.google.com https://www.googletagmanager.com https://challenges.cloudflare.com",
+  "frame-src https://www.google.com https://www.googletagmanager.com https://challenges.cloudflare.com https://www.youtube-nocookie.com",
   "worker-src 'self' blob:",
   "object-src 'none'",
   "base-uri 'self'",
@@ -36,6 +36,8 @@ const nextConfig: NextConfig = {
 
   images: {
     formats: ["image/avif", "image/webp"],
+    // Uploaded posters carry ?v=<version>; allow the optimizer to resize them for cards.
+    localPatterns: [{ pathname: "/images/our-projects/**" }, { pathname: "/**", search: "" }],
   },
 
   async redirects() {
@@ -82,9 +84,9 @@ const nextConfig: NextConfig = {
           },
         ],
       },
-      ...["/login", "/admin", "/admin/:path*"].map((source) => ({
+      ...["/login", "/admin", "/admin/:path*", "/thank-you"].map((source) => ({
         source,
-        headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow, noarchive" }],
+        headers: [{ key: "X-Robots-Tag", value: "noindex, follow, noarchive" }],
       })),
       {
         source: "/(.*)",
