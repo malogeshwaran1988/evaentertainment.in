@@ -24,12 +24,13 @@ function AdjacentLink({
     return (
       <span
         className={`eva-project-adj eva-project-adj--${direction} eva-project-adj--disabled`}
-        aria-disabled="true"
       >
         {isPrev ? <span aria-hidden="true">‹</span> : null}
         <span className="eva-project-adj-label">
           {label}
-          <span className="eva-project-adj-title">—</span>
+          <span className="eva-project-adj-title">
+            {isPrev ? "Start of the list" : "End of the list"}
+          </span>
         </span>
         {!isPrev ? <span aria-hidden="true">›</span> : null}
       </span>

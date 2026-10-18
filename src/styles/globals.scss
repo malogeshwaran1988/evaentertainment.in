@@ -86,13 +86,29 @@ textarea:focus-visible {
   overflow: hidden;
 }
 
+/*
+ * Inactive slides stay in the accessibility tree (so the H1 on slide 1 is always exposed),
+ * but are invisible and inert to the pointer; their images are not rendered.
+ */
 .eva-hero-slider .slide {
-  display: none;
   min-height: 100vh;
+}
+
+.eva-hero-slider .slide:not(.is-active) {
+  position: absolute !important;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.eva-hero-slider .slide:not(.is-active) .eva-hero-media {
+  display: none;
 }
 
 .eva-hero-slider .slide.is-active {
   display: block;
+  z-index: 1;
 }
 
 .eva-hero-slider .eva-hero-media {
@@ -174,18 +190,51 @@ textarea:focus-visible {
   gap: 8px;
 }
 
+/* 24×24 hit area (WCAG 2.5.8) around the 12px dot. */
+.eva-hero-slider .eva-hero-dots {
+  align-items: center;
+  gap: 4px;
+}
+
 .eva-hero-slider .eva-hero-dots button {
-  width: 12px;
-  height: 12px;
+  position: relative;
+  width: 24px;
+  height: 24px;
+  border: 0;
   border-radius: 50%;
-  border: 1px solid #fff;
   background: transparent;
   padding: 0;
   cursor: pointer;
 }
 
-.eva-hero-slider .eva-hero-dots button.is-active {
+.eva-hero-slider .eva-hero-dots button:not(.eva-hero-pause)::before {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border-radius: 50%;
+  border: 1px solid #fff;
+  box-shadow: 0 0 0 1px rgb(0 0 0 / 0.45);
+}
+
+.eva-hero-slider .eva-hero-dots button.is-active::before {
   background: #fff;
+}
+
+.eva-hero-slider .eva-hero-dots button:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 1px;
+}
+
+.eva-hero-slider .eva-hero-dots .eva-hero-pause {
+  width: 32px;
+  height: 32px;
+  margin-right: 6px;
+  color: #fff;
+  font-size: 11px;
+  line-height: 1;
+  letter-spacing: -1px;
+  background: rgb(0 0 0 / 0.55);
+  border: 1px solid rgb(255 255 255 / 0.8);
 }
 
 /* Slick arrow classes reused on React buttons (label text hidden via slick CSS) */
@@ -4445,4 +4494,249 @@ body:not(.page-blog) .block--darkbg h3.eva-service-ideal-title,
   font-size: 22px;
   line-height: 50px;
   text-align: center;
+}
+
+/* =====================================================================
+ * Accessibility & UX refinements (WCAG 2.2 AA, Laws of UX).
+ * Brand colours/fonts unchanged; only text-on-green, focus, targets and states.
+ * `html body` raises specificity over the legacy /css/*.css loaded in <head>.
+ * ===================================================================== */
+
+/* 2.4.1 Bypass blocks: skip link, visible on focus. */
+.eva-skip-link {
+  position: fixed;
+  top: 8px;
+  left: 8px;
+  z-index: 100000;
+  padding: 12px 18px;
+  border-radius: 6px;
+  background: #70b615;
+  color: #0b0d10;
+  font-weight: 700;
+  text-decoration: none;
+  transform: translateY(-200%);
+}
+.eva-skip-link:focus,
+.eva-skip-link:focus-visible {
+  transform: none;
+  color: #0b0d10;
+  outline: 2px solid #0b0d10;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 5px #fff;
+}
+main:focus {
+  outline: none;
+}
+
+/*
+ * 2.4.7 / 1.4.11: the gold ring alone is 2.4:1 on white. Pair it with a dark inner ring so the
+ * indicator is ≥ 3:1 on both the light and the dark sections.
+ */
+html body :is(a, button, input, select, textarea, summary, iframe, [tabindex]):focus-visible {
+  outline: 2px solid #c9a227;
+  outline-offset: 3px;
+  box-shadow: 0 0 0 3px #0b0d10;
+}
+html body .header :is(a, button):focus-visible {
+  outline-color: #fff;
+}
+/* Form fields: the green border alone was the only focus cue. */
+html body .eva-enquiry-field :is(input, select, textarea):focus-visible,
+html body .form-custom :is(input, select, textarea):focus-visible {
+  border-color: #3d6e0a;
+  outline: 2px solid #3d6e0a;
+  outline-offset: 1px;
+  box-shadow: none;
+}
+
+/* 2.4.11 Focus not obscured: keep focused items clear of the sticky header and cookie bar. */
+html {
+  scroll-padding-top: 96px;
+  scroll-padding-bottom: calc(var(--eva-cookie-h, 0px) + 16px);
+}
+body {
+  padding-bottom: var(--eva-cookie-h, 0px);
+}
+html body .goto-top {
+  bottom: calc(24px + var(--eva-cookie-h, 0px));
+}
+
+/* 1.4.3: white on brand green is 2.5:1, so green buttons use near-black text (7.8:1). */
+html body .btn:not(.btn--border),
+html body .btn:not(.btn--border):focus,
+html body .btn:not(.btn--border):hover,
+html body .btn:not(.btn--border):active,
+html body .btn:not(.btn--border) [class*="icon"],
+html body .btn--border:hover,
+html body .btn--border:active,
+html body .btn--border:hover [class*="icon"],
+html body .header-contact-cta,
+html body .header-contact-cta:hover,
+html body .header-contact-cta:focus {
+  color: #0b0d10 !important;
+}
+
+/* 1.4.11: form field borders ≥ 3:1 on white (were 1.4:1). */
+html body .eva-enquiry-field :is(input, select, textarea),
+html body .form-custom .input-custom {
+  border-color: #8a8a8a;
+}
+html body .eva-enquiry-field [aria-invalid="true"],
+html body .form-custom [aria-invalid="true"] {
+  border-color: #b3261e;
+  border-width: 2px;
+}
+
+/* 1.4.3: error and helper text. */
+html body .form-error-text {
+  color: #b3261e;
+  font-weight: 600;
+}
+html body .form-error-text::before {
+  content: "⚠ ";
+  font-weight: 400;
+}
+html body .eva-enquiry-count,
+html body .eva-contact-card-role,
+html body .eva-contact-card-hint,
+html body .eva-contact-hours {
+  color: #595959;
+}
+
+/* Server/network errors were hidden by legacy `.errorform { display: none }`. */
+html body .eva-enquiry-form .errorform,
+html body .form-custom .errorform {
+  display: block;
+  margin: 0 0 16px;
+  padding: 12px 14px;
+  border: 1px solid #b3261e;
+  border-left-width: 4px;
+  border-radius: 8px;
+  background: #fff5f5;
+  color: #b3261e;
+  font-weight: 600;
+}
+
+.eva-enquiry-required-note {
+  margin: 0 0 12px;
+  font-size: 13px;
+  color: #595959;
+}
+.eva-enquiry-required-note span {
+  color: #1a1a1a;
+  font-weight: 700;
+}
+.form-popup.booking-form-panel .eva-enquiry-required-note {
+  margin-top: -4px;
+}
+.form-popup.booking-form-panel label.label {
+  display: block;
+  margin-bottom: 4px;
+}
+
+/* Loading state: busy forms dim slightly and the submit shows progress (Doherty threshold). */
+form[aria-busy="true"] :is(button[type="submit"]) {
+  cursor: progress;
+  opacity: 0.85;
+}
+
+/* 2.5.8 Target size: inline footer/legal links and social icons get ≥ 24px hit areas. */
+html body .eva-footer-links a,
+html body .eva-footer-legal a,
+html body .eva-footer-legal button,
+html body .eva-footer-contact-block a {
+  display: inline-block;
+  min-height: 24px;
+  padding-block: 2px;
+}
+html body .eva-footer-social a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+}
+html body .eva-nav-sub-toggle {
+  min-width: 24px;
+  min-height: 24px;
+}
+html body .menu-toggle {
+  min-width: 44px;
+  min-height: 44px;
+}
+
+/* Trailer: visible label on the lite embed. */
+.eva-project-trailer-label {
+  position: absolute;
+  left: 50%;
+  bottom: 16px;
+  transform: translateX(-50%);
+  padding: 6px 12px;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* 2.3.3 / user preference: stop decorative motion everywhere. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto !important;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Hero CTAs (primary + secondary), shown on every slide. */
+.eva-hero-ctas {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 28px;
+}
+html body .eva-hero-ctas .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  height: auto;
+  margin: 0 !important; /* legacy `.btn + .btn` adds a 51px top margin */
+  padding: 12px 28px;
+  line-height: 1.2;
+  border-radius: 999px;
+}
+html body .eva-hero-ctas .btn span {
+  display: inline;
+  padding: 0;
+  line-height: inherit;
+}
+html body .eva-hero-ctas .eva-hero-cta-secondary,
+html body .eva-hero-ctas .eva-hero-cta-secondary:focus {
+  color: #fff;
+  background: rgb(0 0 0 / 0.45);
+}
+html body .eva-hero-ctas .eva-hero-cta-secondary:hover {
+  color: #0b0d10;
+}
+/* Small screens: keep the H1 in view; one compact primary CTA (Hick's law). */
+@media (max-width: 767px) {
+  .eva-hero-ctas {
+    margin-top: 14px;
+  }
+  html body .eva-hero-ctas .btn {
+    min-height: 44px;
+    padding: 10px 22px;
+    font-size: 15px;
+  }
+  html body .eva-hero-ctas .eva-hero-cta-secondary {
+    display: none;
+  }
 }

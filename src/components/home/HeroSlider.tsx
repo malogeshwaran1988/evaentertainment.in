@@ -3,6 +3,8 @@
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
 import ImageEffects from "@@/components/common/ImageEffects";
+import Link from "@@/components/common/NavLink";
+import { Routes } from "@@/constants/routes";
 import { HERO_SLIDES } from "@@/data/home";
 import { imageLoading } from "@@/lib/image-loading";
 
@@ -30,7 +32,12 @@ function SlideLine({
     return (
       <h1 className={className || undefined} style={style}>
         {content}
-        {tagline ? <small className="eva-hero-h1-tagline">{tagline}</small> : null}
+        {tagline ? (
+          <>
+            {" "}
+            <small className="eva-hero-h1-tagline">{tagline}</small>
+          </>
+        ) : null}
       </h1>
     );
   }
@@ -46,6 +53,10 @@ function SlideLine({
 export default function HeroSlider() {
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
+  // WCAG 2.2.2: autoplay can be stopped by the user, and is off under reduced motion.
+  const [userPaused, setUserPaused] = useState(false);
+  const [hoverPaused, setHoverPaused] = useState(false);
+  const [reduceMotion, setReduceMotion] = useState(false);
   const sliderRef = useRef<HTMLDivElement>(null);
   const count = HERO_SLIDES.length;
 
@@ -75,12 +86,23 @@ export default function HeroSlider() {
   }, [count]);
 
   useEffect(() => {
-    if (paused) return;
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const sync = () => setReduceMotion(mq.matches);
+    sync();
+    mq.addEventListener("change", sync);
+    return () => mq.removeEventListener("change", sync);
+  }, []);
+
+  const stopped = userPaused || reduceMotion;
+  const autoplayOff = paused || stopped || hoverPaused;
+
+  useEffect(() => {
+    if (autoplayOff) return;
     const id = window.setInterval(() => {
       setIndex((i) => (i + 1) % count);
     }, 6000);
     return () => window.clearInterval(id);
-  }, [count, paused]);
+  }, [count, autoplayOff]);
 
   return (
     <div className="block bottom-null block--slider">
@@ -90,13 +112,30 @@ export default function HeroSlider() {
           id="mainSlider"
           className="mainSlider slick-initialized eva-hero-slider"
           style={{ opacity: 1 }}
-          data-paused={paused || undefined}
+          data-paused={autoplayOff || undefined}
+          role="region"
+          aria-roledescription="carousel"
+          aria-label="Studio highlights"
+          onMouseEnter={() => setHoverPaused(true)}
+          onMouseLeave={() => setHoverPaused(false)}
+          onFocus={() => setHoverPaused(true)}
+          onBlur={(e) => {
+            if (!e.currentTarget.contains(e.relatedTarget as Node | null)) setHoverPaused(false);
+          }}
+          onKeyDown={(e) => {
+            if (e.key === "ArrowLeft") goPrev();
+            else if (e.key === "ArrowRight") goNext();
+          }}
         >
+          <div className="eva-hero-slides" aria-live={autoplayOff ? "polite" : "off"}>
           {HERO_SLIDES.map((slide, i) => (
             <div
               key={slide.image}
               className={`slide${i === index ? " is-active" : ""}`}
-              aria-hidden={i !== index}
+              role="group"
+              aria-roledescription="slide"
+              aria-label={`${i + 1} of ${count}`}
+              aria-current={i === index ? "true" : undefined}
             >
               <div className="img--holder eva-hero-media eva-fx-host">
                 <Image
@@ -123,12 +162,25 @@ export default function HeroSlider() {
                           tagline={"tagline" in line ? line.tagline : undefined}
                         />
                       ))}
+                      {/*
+                        Serial position / Paradox of the active user: a clear first action in the
+                        first viewport. One primary (Von Restorff) + one secondary. Inert on hidden slides.
+                      */}
+                      <div className="eva-hero-ctas" inert={i !== index}>
+                        <Link href={Routes.BOOK} className="btn btn--lg">
+                          <span>Book a session</span>
+                        </Link>
+                        <Link href={Routes.PROJECTS} className="btn btn--lg btn--border eva-hero-cta-secondary">
+                          <span>See our projects</span>
+                        </Link>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           ))}
+          </div>
 
           <button
             type="button"
@@ -147,14 +199,28 @@ export default function HeroSlider() {
             Next
           </button>
 
-          <div className="eva-hero-dots" role="tablist" aria-label="Hero slides">
+          <div className="eva-hero-dots" role="group" aria-label="Choose slide">
+            <button
+              type="button"
+              className="eva-hero-pause"
+              aria-label={stopped ? "Play slideshow" : "Pause slideshow"}
+              aria-pressed={reduceMotion ? undefined : userPaused}
+              onClick={() => {
+                if (reduceMotion) {
+                  setReduceMotion(false);
+                  setUserPaused(false);
+                } else setUserPaused((v) => !v);
+              }}
+            >
+              <span aria-hidden="true">{stopped ? "▶" : "❚❚"}</span>
+            </button>
             {HERO_SLIDES.map((slide, i) => (
               <button
                 key={slide.image}
                 type="button"
                 className={i === index ? "is-active" : undefined}
-                aria-label={`Show slide ${i + 1}`}
-                aria-selected={i === index}
+                aria-label={`Show slide ${i + 1} of ${count}`}
+                aria-current={i === index ? "true" : undefined}
                 onClick={() => setIndex(i)}
               />
             ))}

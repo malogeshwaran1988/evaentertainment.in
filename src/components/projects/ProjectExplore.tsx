@@ -21,7 +21,8 @@ export default function ProjectExplore({ projects }: ProjectExploreProps) {
     const el = scrollerRef.current;
     if (!el) return;
     const step = Math.min(el.clientWidth * 0.75, 360);
-    el.scrollBy({ left: dir * step, behavior: "smooth" });
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    el.scrollBy({ left: dir * step, behavior: reduce ? "auto" : "smooth" });
   };
 
   return (
