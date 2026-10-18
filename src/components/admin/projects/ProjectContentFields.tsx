@@ -1,5 +1,6 @@
 "use client";
 
+import { SeoBadge } from "@@/components/admin/ui/StatusBadge";
 import { useMemo, useState } from "react";
 import { Checkbox } from "@@/components/ui/checkbox";
 import { Input } from "@@/components/ui/input";
@@ -30,24 +31,7 @@ function Err({ message }: { message?: string }) {
 
 /** Badge used in the form and the projects table. */
 export function IndexBadge({ words }: { words: number }) {
-  const ok = words >= PROJECT_INDEX_MIN_WORDS;
-  return (
-    <span
-      className={cn(
-        "inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium",
-        ok
-          ? "bg-emerald-500/15 text-emerald-700 dark:text-emerald-400"
-          : "bg-amber-500/15 text-amber-700 dark:text-amber-400",
-      )}
-      title={
-        ok
-          ? "Enough unique content: indexed by Google and listed in the sitemap."
-          : `Thin: noindex and left out of the sitemap until it has ${PROJECT_INDEX_MIN_WORDS}+ words of unique content.`
-      }
-    >
-      {ok ? "Indexable" : "Thin"} · {words} words
-    </span>
-  );
+  return <SeoBadge words={words} min={PROJECT_INDEX_MIN_WORDS} />;
 }
 
 /**

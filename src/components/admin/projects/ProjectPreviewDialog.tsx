@@ -1,5 +1,8 @@
 "use client";
 
+import { CategoryBadge, VisibilityBadge } from "@@/components/admin/ui/StatusBadge";
+import { IndexBadge } from "@@/components/admin/projects/ProjectContentFields";
+import { projectUniqueWordCount } from "@@/lib/project-content";
 import Link from "next/link";
 import { useState } from "react";
 import { Pencil } from "lucide-react";
@@ -70,12 +73,18 @@ export default function ProjectPreviewDialog({ project, onClose }: ProjectPrevie
                 </div>
                 <div>
                   <dt className="text-muted-foreground">Category</dt>
-                  <dd className="font-medium">{shown.category}</dd>
+                  <dd><CategoryBadge category={shown.category} /></dd>
                 </div>
                 <div>
                   <dt className="text-muted-foreground">Visibility</dt>
-                  <dd className="font-medium">
-                    {shown.published !== false ? "Public" : "Private"}
+                  <dd>
+                    <VisibilityBadge published={shown.published !== false} />
+                  </dd>
+                </div>
+                <div>
+                  <dt className="text-muted-foreground">Search (SEO)</dt>
+                  <dd>
+                    <IndexBadge words={projectUniqueWordCount(shown)} />
                   </dd>
                 </div>
                 <div>
