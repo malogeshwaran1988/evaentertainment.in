@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import LoginForm from "@@/components/admin/login/LoginForm";
+import { isAuthConfigured } from "@@/auth";
 import { safeAdminPath } from "@@/lib/admin-session";
 
 export const metadata: Metadata = {
@@ -34,7 +35,9 @@ export default async function LoginPage({
   }
   return (
     <main className="flex min-h-svh items-center justify-center bg-muted/40 p-4 sm:p-6">
-      <LoginForm backTo={safeAdminPath(path)} error={errorMessage(first(sp.error))} />
+      <LoginForm
+        notice={isAuthConfigured() ? undefined : process.env.NODE_ENV === "production" ? "Sign-in is temporarily unavailable. Please contact the site administrator." : "Google sign-in isn't configured yet. Add AUTH_GOOGLE_ID, AUTH_GOOGLE_SECRET and AUTH_SECRET to the environment."}
+        backTo={safeAdminPath(path)} error={errorMessage(first(sp.error))} />
     </main>
   );
 }

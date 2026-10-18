@@ -1,6 +1,6 @@
 import "server-only";
 import { redirect } from "next/navigation";
-import { auth, isAllowedAdminEmail } from "@@/auth";
+import { auth, isAllowedAdminEmail, isAuthConfigured } from "@@/auth";
 import { AdminRoutes, type AdminSession } from "@@/lib/admin-session";
 
 /**
@@ -8,7 +8,14 @@ import { AdminRoutes, type AdminSession } from "@@/lib/admin-session";
  * removing an address from ADMIN_ALLOWED_EMAILS locks it out without waiting for expiry.
  */
 export async function getAdminSession(): Promise<AdminSession | null> {
-  const session = await auth();
+  if (!isAuthConfigured()) return null;
+  let session;
+  try {
+    session = await auth();
+  } catch (err) {
+    console.error("[admin-auth] session check failed", err);
+    return null;
+  }
   const email = session?.user?.email;
   return isAllowedAdminEmail(email) ? { username: email } : null;
 }

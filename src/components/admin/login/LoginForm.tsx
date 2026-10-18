@@ -16,15 +16,16 @@ function GoogleMark() {
   );
 }
 
-function SubmitButton() {
+function SubmitButton({ disabled = false }: { disabled?: boolean }) {
   const { pending } = useFormStatus();
+  const off = pending || disabled;
   return (
     <button
       type="submit"
-      disabled={pending}
-      aria-disabled={pending}
-      aria-describedby="login-help"
-      className="flex h-12 w-full items-center justify-center gap-3 rounded-md border border-[#181818] bg-white px-4 text-base font-semibold text-[#181818] shadow-sm transition-colors hover:bg-zinc-100 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-wait disabled:opacity-80 dark:border-zinc-500"
+      disabled={off}
+      aria-disabled={off}
+      aria-describedby={disabled ? "login-help login-notice" : "login-help"}
+      className="flex h-12 w-full items-center justify-center gap-3 rounded-md border border-[#181818] bg-white px-4 text-base font-semibold text-[#181818] shadow-sm transition-colors hover:bg-zinc-100 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60 dark:border-zinc-500"
     >
       {pending ? <Loader2 className="size-5 animate-spin" aria-hidden="true" /> : <GoogleMark />}
       <span>{pending ? "Redirecting to Google…" : "Sign in with Google"}</span>
@@ -32,7 +33,7 @@ function SubmitButton() {
   );
 }
 
-export default function LoginForm({ backTo, error }: { backTo: string; error?: string }) {
+export default function LoginForm({ backTo, error, notice }: { backTo: string; error?: string; notice?: string }) {
   return (
     <div className="w-full max-w-sm overflow-hidden rounded-xl border bg-card text-card-foreground shadow-card">
       <div className="flex items-center justify-center bg-[#181818] px-6 py-6">
@@ -49,7 +50,17 @@ export default function LoginForm({ backTo, error }: { backTo: string; error?: s
 
         <input type="hidden" name="backTo" value={backTo} />
 
-        {error ? (
+        {notice ? (
+          <p
+            id="login-notice"
+            role="status"
+            className="rounded-md border border-amber-700/60 bg-amber-50 px-3 py-2 text-sm text-amber-900 dark:border-amber-400/60 dark:bg-amber-950 dark:text-amber-100"
+          >
+            {notice}
+          </p>
+        ) : null}
+
+        {error && !notice ? (
           <p
             role="alert"
             className="rounded-md border border-red-700/60 bg-red-50 px-3 py-2 text-sm text-red-800 dark:border-red-400/60 dark:bg-red-950 dark:text-red-200"
@@ -58,7 +69,7 @@ export default function LoginForm({ backTo, error }: { backTo: string; error?: s
           </p>
         ) : null}
 
-        <SubmitButton />
+        <SubmitButton disabled={Boolean(notice)} />
       </form>
     </div>
   );

@@ -21,6 +21,15 @@ export function isAllowedAdminEmail(email: unknown): email is string {
   return e.endsWith(`@${ADMIN_DOMAIN}`) && allowedEmails().includes(e);
 }
 
+/** True when Google sign-in has everything it needs; without it, auth() is never called. */
+export function isAuthConfigured(): boolean {
+  return Boolean(
+    process.env.AUTH_GOOGLE_ID?.trim() &&
+      process.env.AUTH_GOOGLE_SECRET?.trim() &&
+      process.env.AUTH_SECRET?.trim(),
+  );
+}
+
 const config = {
   // Google: authorization code flow with PKCE + state (state added explicitly; Auth.js defaults to PKCE only).
   // Reads AUTH_GOOGLE_ID / AUTH_GOOGLE_SECRET.
