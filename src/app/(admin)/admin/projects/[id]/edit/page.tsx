@@ -33,6 +33,7 @@ export default async function EditProjectPage({
           description: project.description,
           audioHours: project.audioHours,
           year: project.year,
+          published: project.published !== false,
         }}
         submitLabel="Save changes"
       />

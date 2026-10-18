@@ -91,6 +91,7 @@ const projectSchema = z
             Number(v) <= new Date().getFullYear()),
         YEAR_ERROR,
       ),
+    published: z.boolean(),
   })
   .refine((v) => !v.to.includes(v.from), {
     path: ["to"],
@@ -107,6 +108,7 @@ function parse(formData: FormData) {
     to: formData.getAll("to"),
     category: formData.get("category"),
     year: formData.get("year") ?? undefined,
+    published: formData.get("published") === "on",
   });
   if (result.success) {
     // Keep target languages in the canonical PROJECT_LANGUAGES order.
