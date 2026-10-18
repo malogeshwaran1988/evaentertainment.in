@@ -10,7 +10,7 @@ import ProjectAdjacentNav from "@@/components/projects/ProjectAdjacentNav";
 import ProjectExplore from "@@/components/projects/ProjectExplore";
 import ProjectTrailer from "@@/components/projects/ProjectTrailer";
 import { projectIsIndexable, youtubeId } from "@@/lib/project-content";
-import { languageHubHref, relatedProjects } from "@@/lib/project-links";
+import { languageHubHref } from "@@/lib/project-links";
 import { serviceHref } from "@@/constants/routes";
 import { APP_BASE_URL, SITE_NAME } from "@@/constants/constants";
 import { Routes } from "@@/constants/routes";
@@ -102,7 +102,6 @@ export default async function ProjectDetailPage({
   const workType = project.category === "Movie Dubbing" ? "Movie" : "CreativeWork";
   const yearChip = projectYearChip(project);
   const trailerId = youtubeId(project.trailerUrl);
-  const related = relatedProjects(project, projects, 4);
   const mainTarget = project.to[0];
   const releaseYear = project.originalRelease?.slice(0, 4);
   const ew = project.evaWork;
@@ -369,20 +368,6 @@ export default async function ProjectDetailPage({
                     <p>{f.a}</p>
                   </details>
                 ))}
-              </section>
-            ) : null}
-
-            {related.length ? (
-              <section aria-labelledby="pc-related">
-                <h2 id="pc-related" className="h--md">Related dubbing projects</h2>
-                <ul className="eva-project-related">
-                  {related.map((r) => (
-                    <li key={r.id}>
-                      <Link href={projectHref(r.slug)}>{r.title}</Link>{" "}
-                      <span>({r.from} to {r.to.join(", ")})</span>
-                    </li>
-                  ))}
-                </ul>
               </section>
             ) : null}
           </div>

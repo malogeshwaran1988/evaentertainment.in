@@ -28,17 +28,3 @@ export function languagePairs(projects: readonly Project[]): LanguagePair[] {
   }
   return [...map.values()].sort((a, b) => b.projects.length - a.projects.length);
 }
-
-/** Same language pair first, then same category, newest first (input order). */
-export function relatedProjects(project: Project, all: readonly Project[], limit = 4): Project[] {
-  const others = all.filter((p) => p.id !== project.id);
-  const score = (p: Project) =>
-    (p.from === project.from ? 2 : 0) +
-    (p.to.some((t) => project.to.includes(t)) ? 1 : 0) +
-    (p.category === project.category ? 0.5 : 0);
-  return others
-    .map((p, i) => ({ p, s: score(p), i }))
-    .sort((a, b) => b.s - a.s || a.i - b.i)
-    .slice(0, limit)
-    .map((x) => x.p);
-}
