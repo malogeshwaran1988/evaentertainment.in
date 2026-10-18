@@ -7,6 +7,7 @@ import PageHero from "@@/components/common/PageHero";
 import Link from "@@/components/common/NavLink";
 import { SvgIcon } from "@@/components/common/Icons";
 import { PosterPlaceholder } from "@@/components/projects/ProjectPoster";
+import ProjectAdjacentNav from "@@/components/projects/ProjectAdjacentNav";
 import ProjectExplore from "@@/components/projects/ProjectExplore";
 import { APP_BASE_URL, SITE_NAME } from "@@/constants/constants";
 import { Routes } from "@@/constants/routes";
@@ -80,6 +81,8 @@ export default async function ProjectDetailPage({
   if (!project) notFound();
 
   const { prev, next, others } = neighbors(projects, project.slug);
+  const prevNav = prev ? { slug: prev.slug, title: prev.title } : null;
+  const nextNav = next ? { slug: next.slug, title: next.title } : null;
   const url = absoluteUrl(projectHref(project.slug));
   const posterUrl = projectAbsolutePosterUrl(project.poster);
   const seoAlt = projectPosterAlt(project);
@@ -132,6 +135,18 @@ export default async function ProjectDetailPage({
     ...evaOrganizationLd(),
   };
 
+  const exploreProjects = others.map((p) => ({
+    id: p.id,
+    slug: p.slug,
+    title: p.title,
+    from: p.from,
+    to: p.to,
+    category: p.category,
+    ...(p.poster ? { poster: p.poster } : {}),
+    ...(p.posterAlt ? { posterAlt: p.posterAlt } : {}),
+    ...(p.year ? { year: p.year } : {}),
+  }));
+
   return (
     <main className="page-main">
       <JsonLd id="project-org-jsonld" data={orgSchema} />
@@ -152,68 +167,58 @@ export default async function ProjectDetailPage({
 
       <section className="block block--darkbg eva-project-detail" aria-label={project.title}>
         <div className="container eva-project-detail-inner">
-          <div className="row gutter-30 align-items-start">
-            <div className="col-md-5">
-              <div className="eva-project-detail-poster">
-                {project.poster ? (
-                  <Image
-                    src={project.poster}
-                    alt={seoAlt}
-                    width={600}
-                    height={900}
-                    className="eva-project-detail-img"
-                    unoptimized={posterIsUpload}
-                    loading="eager"
-                    fetchPriority="high"
-                  />
-                ) : (
-                  <PosterPlaceholder title={project.title} />
-                )}
+          <div className="eva-project-detail-stage">
+            <ProjectAdjacentNav prev={prevNav} next={nextNav} variant="side" />
+            <div className="row gutter-30 align-items-start eva-project-detail-main">
+              <div className="col-md-5">
+                <div className="eva-project-detail-poster">
+                  {project.poster ? (
+                    <Image
+                      src={project.poster}
+                      alt={seoAlt}
+                      width={600}
+                      height={900}
+                      className="eva-project-detail-img"
+                      unoptimized={posterIsUpload}
+                      loading="eager"
+                      fetchPriority="high"
+                    />
+                  ) : (
+                    <PosterPlaceholder title={project.title} />
+                  )}
+                </div>
               </div>
-            </div>
-            <div className="col-md-7">
-              <p className="h--lg eva-project-detail-heading">{project.title}</p>
-              <ul className="eva-project-detail-chips" aria-label="Project details">
-                <li className="eva-project-detail-chip">{projectLanguageChip(project)}</li>
-                <li className="eva-project-detail-chip">{project.category}</li>
-                {yearChip ? <li className="eva-project-detail-chip">{yearChip}</li> : null}
-                {project.audioHours ? (
-                  <li className="eva-project-detail-chip">
-                    {formatAudioHours(project.audioHours)} hours dubbed
-                  </li>
+              <div className="col-md-7">
+                <p className="h--lg eva-project-detail-heading">{project.title}</p>
+                <ul className="eva-project-detail-chips" aria-label="Project details">
+                  <li className="eva-project-detail-chip">{projectLanguageChip(project)}</li>
+                  <li className="eva-project-detail-chip">{project.category}</li>
+                  {yearChip ? <li className="eva-project-detail-chip">{yearChip}</li> : null}
+                  {project.audioHours ? (
+                    <li className="eva-project-detail-chip">
+                      {formatAudioHours(project.audioHours)} hours dubbed
+                    </li>
+                  ) : null}
+                </ul>
+                <p className="eva-project-detail-brand">Dubbed by {SITE_NAME}</p>
+                {project.description ? (
+                  <p className="eva-project-detail-desc">{project.description}</p>
                 ) : null}
-              </ul>
-              <p className="eva-project-detail-brand">Dubbed by {SITE_NAME}</p>
-              {project.description ? (
-                <p className="eva-project-detail-desc">{project.description}</p>
-              ) : null}
-              <div className="eva-project-detail-cta">
-                <Link className="btn" href={Routes.CONTACT}>
-                  Contact us
-                </Link>
-                <Link className="btn btn--border" href={Routes.BOOK}>
-                  Book a session
-                </Link>
+                <div className="eva-project-detail-cta">
+                  <Link className="btn" href={Routes.CONTACT}>
+                    Contact us
+                  </Link>
+                  <Link className="btn btn--border" href={Routes.BOOK}>
+                    Book a session
+                  </Link>
+                </div>
+                <ProjectAdjacentNav prev={prevNav} next={nextNav} variant="stack" />
               </div>
             </div>
           </div>
-
-          <ProjectExplore
-            projects={others.map((p) => ({
-              id: p.id,
-              slug: p.slug,
-              title: p.title,
-              from: p.from,
-              to: p.to,
-              category: p.category,
-              ...(p.poster ? { poster: p.poster } : {}),
-              ...(p.posterAlt ? { posterAlt: p.posterAlt } : {}),
-              ...(p.year ? { year: p.year } : {}),
-            }))}
-            prev={prev ? { slug: prev.slug, title: prev.title } : null}
-            next={next ? { slug: next.slug, title: next.title } : null}
-          />
         </div>
+
+        <ProjectExplore projects={exploreProjects} />
       </section>
     </main>
   );

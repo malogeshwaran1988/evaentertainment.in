@@ -2596,25 +2596,31 @@ body:not(.page-blog) .block--darkbg .eva-project-title,
 
 .block.eva-project-detail-hero {
   margin-bottom: 0;
-  padding-bottom: 56px;
+  padding-bottom: 28px;
 }
 
-.eva-project-detail {
+.block.eva-project-detail {
+  margin-bottom: 0;
   position: relative;
-  padding-top: 48px;
-  padding-bottom: 72px;
+  padding-top: 28px;
+  padding-bottom: 40px;
 }
 
 .eva-project-detail-inner {
   position: relative;
 }
 
+.eva-project-detail-stage {
+  position: relative;
+}
+
 .eva-project-detail-poster {
   position: relative;
   aspect-ratio: 2 / 3;
+  max-height: 58vh;
   overflow: hidden;
   background: #13161d;
-  margin-bottom: 24px;
+  margin-bottom: 16px;
   border: 1px solid rgba(255, 215, 128, 0.35);
   box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
 }
@@ -2627,14 +2633,14 @@ body:not(.page-blog) .block--darkbg .eva-project-title,
 }
 
 .eva-project-detail-heading {
-  margin: 0 0 16px;
+  margin: 0 0 12px;
 }
 
 .eva-project-detail-chips {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  margin: 0 0 18px;
+  margin: 0 0 14px;
   padding: 0;
   list-style: none;
 }
@@ -2654,7 +2660,7 @@ body:not(.page-blog) .block--darkbg .eva-project-title,
 }
 
 .eva-project-detail-brand {
-  margin: 0 0 14px;
+  margin: 0 0 12px;
   font-size: 15px;
   font-weight: 600;
   letter-spacing: 0.02em;
@@ -2662,7 +2668,7 @@ body:not(.page-blog) .block--darkbg .eva-project-title,
 }
 
 .eva-project-detail-desc {
-  margin: 0 0 28px;
+  margin: 0 0 20px;
   max-width: 38em;
   font-size: 16px;
   line-height: 1.7;
@@ -2676,57 +2682,58 @@ body:not(.page-blog) .block--darkbg .eva-project-title,
   gap: 12px;
 }
 
-.eva-project-explore {
-  margin-top: 56px;
-  padding-top: 40px;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+/* Named prev/next beside the project (desktop) or under CTAs (mobile). */
+.eva-project-adj-nav--side {
+  display: none;
 }
 
-.eva-project-explore-nav {
+.eva-project-adj-nav--stack {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   gap: 12px;
-  margin-top: 28px;
+  margin-top: 20px;
 }
 
-.eva-project-explore-adj {
+.eva-project-adj {
   display: inline-flex;
   align-items: center;
   gap: 10px;
   min-height: 44px;
-  padding: 8px 12px;
+  max-width: 200px;
+  padding: 10px 12px;
   border: 1px solid rgba(255, 255, 255, 0.16);
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(11, 13, 16, 0.72);
   color: #fff;
   text-decoration: none;
   transition: border-color 0.2s ease, background 0.2s ease;
 }
 
-.eva-project-explore-adj:hover,
-.eva-project-explore-adj:focus-visible {
+.eva-project-adj:hover,
+.eva-project-adj:focus-visible {
   border-color: rgba(112, 182, 21, 0.55);
-  background: rgba(112, 182, 21, 0.12);
+  background: rgba(112, 182, 21, 0.15);
+  color: #fff;
   outline: 0;
 }
 
-.eva-project-explore-adj--disabled {
-  opacity: 0.4;
+.eva-project-adj--disabled {
+  opacity: 0.35;
   pointer-events: none;
 }
 
-.eva-project-explore-adj-label {
+.eva-project-adj-label {
   display: flex;
   flex-direction: column;
   gap: 2px;
-  font-size: 12px;
+  min-width: 0;
+  font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
 
-.eva-project-explore-adj-title {
-  max-width: 180px;
+.eva-project-adj-title {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -2734,7 +2741,57 @@ body:not(.page-blog) .block--darkbg .eva-project-title,
   font-weight: 500;
   letter-spacing: 0;
   text-transform: none;
-  color: rgba(255, 255, 255, 0.72);
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.eva-project-adj span[aria-hidden="true"] {
+  flex-shrink: 0;
+  font-size: 22px;
+  line-height: 1;
+}
+
+@media (min-width: 992px) {
+  .eva-project-detail-stage {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .eva-project-adj-nav--side {
+    display: contents;
+  }
+
+  .eva-project-adj-nav--side .eva-project-adj--prev {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .eva-project-adj-nav--side .eva-project-adj--next {
+    grid-column: 3;
+    grid-row: 1;
+  }
+
+  .eva-project-detail-main {
+    grid-column: 2;
+    grid-row: 1;
+    margin: 0;
+  }
+
+  .eva-project-adj-nav--stack {
+    display: none;
+  }
+}
+
+/* Full-width explore strip (outside .container). */
+.eva-project-explore {
+  margin-top: 28px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.eva-project-explore-head-wrap {
+  margin-bottom: 16px;
 }
 
 .eva-project-explore-head {
@@ -2743,7 +2800,6 @@ body:not(.page-blog) .block--darkbg .eva-project-title,
   align-items: baseline;
   justify-content: space-between;
   gap: 12px 24px;
-  margin-bottom: 20px;
 }
 
 .eva-project-explore-title {
@@ -2771,15 +2827,18 @@ body:not(.page-blog) .block--darkbg .eva-project-title,
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
+  width: 100%;
+  padding: 0 16px 8px;
+  box-sizing: border-box;
 }
 
 .eva-project-explore-scroll {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 999px;
   background: rgba(11, 13, 16, 0.7);
@@ -2798,7 +2857,7 @@ body:not(.page-blog) .block--darkbg .eva-project-title,
 
 .eva-project-explore-thumbs {
   display: flex;
-  gap: 14px;
+  gap: 16px;
   margin: 0;
   padding: 4px 2px 10px;
   list-style: none;
@@ -2811,7 +2870,7 @@ body:not(.page-blog) .block--darkbg .eva-project-title,
   display: flex;
   flex-direction: column;
   gap: 8px;
-  width: 128px;
+  width: 140px;
   flex: 0 0 auto;
   color: #fff;
   text-decoration: none;
@@ -2831,7 +2890,7 @@ body:not(.page-blog) .block--darkbg .eva-project-title,
   position: relative;
   display: block;
   width: 100%;
-  min-height: 168px;
+  min-height: 180px;
   aspect-ratio: 2 / 3;
   overflow: hidden;
   background: #13161d;
@@ -2854,7 +2913,8 @@ body:not(.page-blog) .block--darkbg .eva-project-title,
 
 @media (max-width: 991px) {
   .eva-project-detail-poster {
-    max-width: 360px;
+    max-width: 320px;
+    max-height: none;
     margin-left: auto;
     margin-right: auto;
   }
@@ -2863,6 +2923,7 @@ body:not(.page-blog) .block--darkbg .eva-project-title,
 @media (max-width: 767px) {
   .eva-project-explore-carousel {
     grid-template-columns: minmax(0, 1fr);
+    padding: 0 12px 8px;
   }
 
   .eva-project-explore-scroll {
