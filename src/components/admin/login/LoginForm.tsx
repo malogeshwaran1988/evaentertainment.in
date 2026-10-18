@@ -69,10 +69,14 @@ export default function LoginForm({ backTo, totp = false }: { backTo: string; to
               type="button"
               onClick={() => setShowPassword((v) => !v)}
               className="absolute inset-y-0 right-0 flex w-10 items-center justify-center rounded-r-md text-muted-foreground hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-              aria-label={showPassword ? "Hide password" : "Show password"}
+              aria-label="Show password"
               aria-pressed={showPassword}
             >
-              {showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
+              {showPassword ? (
+                <EyeOff className="size-4" aria-hidden="true" />
+              ) : (
+                <Eye className="size-4" aria-hidden="true" />
+              )}
             </button>
           </div>
         </div>
@@ -88,7 +92,12 @@ export default function LoginForm({ backTo, totp = false }: { backTo: string; to
               pattern="[0-9]{6}"
               maxLength={6}
               required
+              aria-describedby={state.error ? "totp-hint login-error" : "totp-hint"}
+              aria-invalid={state.error ? true : undefined}
             />
+            <p id="totp-hint" className="text-sm text-muted-foreground">
+              The 6-digit code from your authenticator app.
+            </p>
           </div>
         ) : null}
 
@@ -96,14 +105,14 @@ export default function LoginForm({ backTo, totp = false }: { backTo: string; to
           <p
             id="login-error"
             role="alert"
-            className="rounded-md border border-destructive/30 bg-destructive/10 px-3 py-2 text-sm text-destructive"
+            className="rounded-md border border-red-700/60 bg-red-50 px-3 py-2 text-sm text-red-800 dark:border-red-400/60 dark:bg-red-950 dark:text-red-200"
           >
             {state.error}
           </p>
         ) : null}
 
-        <Button type="submit" className="w-full" disabled={pending}>
-          {pending ? <Loader2 className="animate-spin" /> : null}
+        <Button type="submit" className="h-11 w-full" disabled={pending} aria-disabled={pending}>
+          {pending ? <Loader2 className="animate-spin" aria-hidden="true" /> : null}
           {pending ? "Signing in…" : "Sign in"}
         </Button>
       </form>

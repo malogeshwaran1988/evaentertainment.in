@@ -46,11 +46,17 @@ export default function AdminShell({
   return (
     <AdminThemeProvider>
       <SidebarProvider defaultOpen={defaultOpen}>
+        <a
+          href="#admin-content"
+          className="sr-only z-50 rounded-md bg-primary px-4 py-2 font-semibold text-primary-foreground focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
+        >
+          Skip to content
+        </a>
         <AdminSidebar username={username} />
         <SidebarInset className="h-svh overflow-hidden md:h-[calc(100svh-1rem)]">
           <header className="flex h-16 shrink-0 items-center justify-between gap-2 border-b px-4 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
             <div className="flex min-w-0 items-center gap-2">
-              <SidebarTrigger className="-ml-1" />
+              <SidebarTrigger className="-ml-1 size-9" />
               <Separator orientation="vertical" className="mr-2 h-4" />
               <Breadcrumb>
                 <BreadcrumbList>
@@ -78,7 +84,9 @@ export default function AdminShell({
           </header>
           <div
             ref={mainRef}
-            className="flex min-h-0 min-w-0 flex-1 flex-col overflow-y-auto p-4 md:p-6"
+            id="admin-content"
+            tabIndex={-1}
+            className="flex min-h-0 min-w-0 flex-1 flex-col overflow-y-auto p-4 focus:outline-none md:p-6"
           >
             {children}
           </div>
