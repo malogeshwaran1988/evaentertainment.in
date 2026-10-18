@@ -1,6 +1,8 @@
 import type { ComponentType, ReactNode, SVGProps } from "react";
 import {
+  CalendarClock,
   CheckCircle2,
+  FilePen,
   Clapperboard,
   Captions,
   EyeOff,
@@ -108,6 +110,29 @@ export function SeoBadge({ words, min }: { words: number; min: number }) {
       }
     >
       {ok ? "Indexable" : "Thin"} · {words} {words === 1 ? "word" : "words"}
+    </StatusBadge>
+  );
+}
+
+/** Blog post state: Draft (never public), Scheduled (published, date not reached), Published. */
+export function BlogStatusBadge({ state }: { state: "draft" | "scheduled" | "published" }) {
+  if (state === "published") {
+    return (
+      <StatusBadge tone="success" icon={Globe} title="Live on the public blog and in the sitemap">
+        Published
+      </StatusBadge>
+    );
+  }
+  if (state === "scheduled") {
+    return (
+      <StatusBadge tone="sky" icon={CalendarClock} title="Goes live on its publish date">
+        Scheduled
+      </StatusBadge>
+    );
+  }
+  return (
+    <StatusBadge tone="warning" icon={FilePen} title="Not public: hidden from the blog, search engines and the sitemap">
+      Draft
     </StatusBadge>
   );
 }

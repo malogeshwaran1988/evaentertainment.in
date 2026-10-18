@@ -10,10 +10,15 @@ export const AdminRoutes = {
   PROJECTS: "/admin/projects",
   PROJECTS_NEW: "/admin/projects/new",
   PROFILE: "/admin/profile",
+  BLOG: "/admin/blog",
+  BLOG_NEW: "/admin/blog/new",
 } as const;
 
 export const projectEditPath = (id: string) =>
   `${AdminRoutes.PROJECTS}/${encodeURIComponent(id)}/edit`;
+
+export const blogEditPath = (id: string) =>
+  `${AdminRoutes.BLOG}/${encodeURIComponent(id)}/edit`;
 
 export type AdminSession = { username: string };
 

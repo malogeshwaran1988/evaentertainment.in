@@ -59,3 +59,12 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
   `role="status"` while sending, `role="alert"` for server errors.
 - Admin status pills use `StatusBadge`/`VisibilityBadge`/`CategoryBadge`/`SeoBadge`
   (`src/components/admin/ui/StatusBadge.tsx`): icon + text + AA-contrast tones, never colour alone.
+
+## Blog rules (mandatory)
+
+- Posts live in one JSON file (`blog.json`, Blob or `storage/`) via `src/lib/blog/store.ts`. Admin pages are addressed by post **id**, never slug.
+- Slugs: always go through `slugifyBlog` / `validateBlogSlug` (`src/lib/blog/slug.ts`) on client and server. Slugs are unique across current **and former** slugs.
+- Once a post has been published (`firstPublishedAt`), its slug is locked unless the editor explicitly unlocks it; the old slug is kept in `previousSlugs` and `/blog/<old>` 301s to the new URL in `src/proxy.ts` (page-level `permanentRedirect` is the fallback).
+- Only `blogPostIsPublic` posts (published and publish date reached, IST) render, appear on `/blog` or go in the sitemap. Everything else 404s with `noindex`.
+- Editor HTML is sanitised on save with `sanitizeBlogHtml` — never render unsanitised post HTML. Embeds: YouTube (rewritten to youtube-nocookie) and Vimeo only; keep CSP `frame-src` in sync.
+- Images: AVIF on the client, ≤150 KB, branded `…-eva-entertainment.<ext>` names; ALT falls back to "<title> – EVA Entertainment".
