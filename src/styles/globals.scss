@@ -2428,6 +2428,63 @@ body:not(.page-blog) .block--darkbg .eva-project-title,
   color: rgba(255, 255, 255, 0.72);
 }
 
+/* ---- Dubbing impact strip (home + our projects) ---- */
+.eva-impact {
+  padding-top: 48px;
+  padding-bottom: 48px;
+  text-align: center;
+}
+
+.eva-impact--projects {
+  padding-bottom: 24px;
+  margin-bottom: 0;
+}
+
+.eva-impact-title {
+  margin: 0 0 12px;
+  font-family: "Raleway", sans-serif;
+  font-size: clamp(22px, 3vw, 30px);
+  font-weight: 700;
+  line-height: 1.25;
+  color: #fff;
+}
+
+.eva-impact-stat {
+  margin: 0 0 14px;
+  font-size: clamp(18px, 2.4vw, 22px);
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.eva-impact-stat-num {
+  color: #abee2d;
+  font-size: 1.35em;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+
+.eva-impact-copy {
+  margin: 0 auto 18px;
+  max-width: 42em;
+  font-size: 16px;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.eva-impact-copy strong {
+  color: #fff;
+  font-weight: 700;
+}
+
+.eva-impact-langs {
+  margin: 0 auto;
+  max-width: 48em;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.6;
+  color: rgba(171, 238, 45, 0.92);
+}
+
 .eva-page-hero--has-bg {
   position: relative;
   overflow: hidden;

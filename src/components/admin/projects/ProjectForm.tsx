@@ -24,6 +24,7 @@ import {
   SelectValue,
 } from "@@/components/ui/select";
 import {
+  PROJECT_AUDIO_HOURS_MAX,
   PROJECT_CATEGORIES,
   PROJECT_DESCRIPTION_MAX,
   PROJECT_LANGUAGES,
@@ -80,6 +81,9 @@ export default function ProjectForm({ action, initial, submitLabel }: ProjectFor
   const [title, setTitle] = useState(initial?.title ?? "");
   const [posterAlt, setPosterAlt] = useState(initial?.posterAlt ?? "");
   const [description, setDescription] = useState(initial?.description ?? "");
+  const [audioHours, setAudioHours] = useState(
+    initial?.audioHours != null ? String(initial.audioHours) : "",
+  );
   const [from, setFrom] = useState<ProjectLanguage | "">(initial?.from ?? "");
   const [to, setTo] = useState<ProjectLanguage[]>(initial?.to ?? []);
   const [category, setCategory] = useState(initial?.category ?? PROJECT_CATEGORIES[0]);
@@ -335,6 +339,31 @@ export default function ProjectForm({ action, initial, submitLabel }: ProjectFor
             languages. ({description.length}/{PROJECT_DESCRIPTION_MAX})
           </p>
           <FieldError id="description-error" message={errors.description} />
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="audioHours">Hours of audio dubbed</Label>
+          <Input
+            id="audioHours"
+            name="audioHours"
+            type="number"
+            inputMode="decimal"
+            min={0.1}
+            max={PROJECT_AUDIO_HOURS_MAX}
+            step={0.1}
+            value={audioHours}
+            onChange={(e) => setAudioHours(e.target.value)}
+            placeholder="e.g. 12.5"
+            aria-invalid={errors.audioHours ? true : undefined}
+            aria-describedby={
+              errors.audioHours ? "audioHours-error audioHours-hint" : "audioHours-hint"
+            }
+          />
+          <p id="audioHours-hint" className="text-sm text-muted-foreground">
+            Finished hours of dubbed audio delivered (used for public impact totals on Home and Our
+            Projects). Leave blank if unknown.
+          </p>
+          <FieldError id="audioHours-error" message={errors.audioHours} />
         </div>
 
         <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">

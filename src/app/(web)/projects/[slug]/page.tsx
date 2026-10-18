@@ -29,6 +29,7 @@ import {
   projectSeoTitle,
   projectYearChip,
 } from "@@/lib/project-seo";
+import { formatAudioHours } from "@@/lib/project-stats";
 import { absoluteUrl, buildPageMetadata } from "@@/lib/seo";
 
 /** Allow admin-created slugs after deploy; generateStaticParams still prebuilds known ones. */
@@ -197,6 +198,11 @@ export default async function ProjectDetailPage({
                 <li className="eva-project-detail-chip">{projectLanguageChip(project)}</li>
                 <li className="eva-project-detail-chip">{project.category}</li>
                 {yearChip ? <li className="eva-project-detail-chip">{yearChip}</li> : null}
+                {project.audioHours ? (
+                  <li className="eva-project-detail-chip">
+                    {formatAudioHours(project.audioHours)} hours dubbed
+                  </li>
+                ) : null}
               </ul>
               <p className="eva-project-detail-brand">Dubbed by {SITE_NAME}</p>
               {project.description ? (
