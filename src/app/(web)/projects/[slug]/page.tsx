@@ -16,6 +16,7 @@ import {
   PROJECT_YEAR_ONGOING,
   PROJECTS_OG_IMAGE,
   PROJECTS_PAGE_URL,
+  projectIsPublished,
   type Project,
 } from "@@/data/projects";
 import { getProjectBySlug, getProjects } from "@@/lib/projects-store";
@@ -37,7 +38,7 @@ import { absoluteUrl, buildPageMetadata } from "@@/lib/seo";
 export const dynamicParams = true;
 
 export async function generateStaticParams() {
-  const projects = await getProjects();
+  const projects = (await getProjects()).filter(projectIsPublished);
   return projects.map((p) => ({ slug: p.slug }));
 }
 
@@ -48,7 +49,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   await connection();
   const project = await getProjectBySlug((await params).slug);
-  if (!project) return {};
+  if (!project || !projectIsPublished(project)) return {};
   const ogImage = project.poster || PROJECTS_OG_IMAGE;
   return buildPageMetadata({
     title: projectSeoTitle(project),
@@ -76,8 +77,10 @@ export default async function ProjectDetailPage({
 }) {
   await connection();
   const slug = (await params).slug;
-  const projects = await getProjects();
-  const project = projects.find((p) => p.slug === slug) ?? (await getProjectBySlug(slug));
+  const projects = (await getProjects()).filter(projectIsPublished);
+  const project =
+    projects.find((p) => p.slug === slug) ??
+    (await getProjectBySlug(slug).then((p) => (p && projectIsPublished(p) ? p : null)));
   if (!project) notFound();
 
   const { prev, next, others } = neighbors(projects, project.slug);

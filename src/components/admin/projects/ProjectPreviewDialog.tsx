@@ -73,6 +73,12 @@ export default function ProjectPreviewDialog({ project, onClose }: ProjectPrevie
                   <dd className="font-medium">{shown.category}</dd>
                 </div>
                 <div>
+                  <dt className="text-muted-foreground">Visibility</dt>
+                  <dd className="font-medium">
+                    {shown.published !== false ? "Public" : "Private"}
+                  </dd>
+                </div>
+                <div>
                   <dt className="text-muted-foreground">Year</dt>
                   <dd className="font-medium">
                     {shown.year ? projectYearLabel(shown.year) : "Not set"}

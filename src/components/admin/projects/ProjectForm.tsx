@@ -88,6 +88,7 @@ export default function ProjectForm({ action, initial, submitLabel }: ProjectFor
   const [to, setTo] = useState<ProjectLanguage[]>(initial?.to ?? []);
   const [category, setCategory] = useState(initial?.category ?? PROJECT_CATEGORIES[0]);
   const [year, setYear] = useState(initial?.year ?? "");
+  const [published, setPublished] = useState(initial?.published !== false);
   const [yearOptions] = useState(projectYearOptions);
   const [picked, setPicked] = useState<PickedPoster | null>(null);
   const [removePoster, setRemovePoster] = useState(false);
@@ -364,6 +365,27 @@ export default function ProjectForm({ action, initial, submitLabel }: ProjectFor
             Projects). Leave blank if unknown.
           </p>
           <FieldError id="audioHours-error" message={errors.audioHours} />
+        </div>
+
+        <div className="space-y-2">
+          <input type="hidden" name="published" value={published ? "on" : ""} />
+          <div className="flex items-start gap-3">
+            <Checkbox
+              id="published"
+              checked={published}
+              onCheckedChange={(checked) => setPublished(checked === true)}
+              aria-describedby="published-hint"
+            />
+            <div className="space-y-1">
+              <Label htmlFor="published" className="font-medium leading-none">
+                Published on website
+              </Label>
+              <p id="published-hint" className="text-sm text-muted-foreground">
+                Turn off to hide this project from the live site. It stays in the admin list.
+              </p>
+            </div>
+          </div>
+          <FieldError id="published-error" message={errors.published} />
         </div>
 
         <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">

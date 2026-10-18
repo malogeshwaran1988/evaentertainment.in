@@ -2,7 +2,12 @@ import "server-only";
 import { randomUUID } from "node:crypto";
 import { mkdir, readFile, rename, writeFile } from "node:fs/promises";
 import path from "node:path";
-import { compareProjects, type Project, type ProjectInput } from "@@/data/projects";
+import {
+  compareProjects,
+  projectIsPublished,
+  type Project,
+  type ProjectInput,
+} from "@@/data/projects";
 import { PROJECTS_SEED } from "@@/data/projects-seed";
 import { BlobPreconditionFailedError, readBlobVersioned, USE_BLOB, writeBlob } from "@@/lib/blob";
 import { projectPageSlugBase, uniqueProjectSlug, uniqueSlug } from "@@/lib/project-seo";
@@ -27,7 +32,7 @@ function parseProjects(raw: string): Project[] {
   return Array.isArray(parsed) ? (parsed as Project[]) : [];
 }
 
-/** Ensure every project has a unique public slug; returns whether anything changed. */
+/** Ensure every project has a unique public slug and a published flag; returns whether anything changed. */
 export function ensureProjectSlugs(projects: Project[]): { projects: Project[]; changed: boolean } {
   let changed = false;
   const next: Project[] = [];
@@ -38,8 +43,9 @@ export function ensureProjectSlugs(projects: Project[]): { projects: Project[]; 
       projectPageSlugBase({ title: project.title, to: project.to });
     const slug = uniqueSlug(desired, taken);
     taken.add(slug);
-    if (slug !== project.slug) changed = true;
-    next.push({ ...project, slug });
+    const published = projectIsPublished(project);
+    if (slug !== project.slug || project.published !== published) changed = true;
+    next.push({ ...project, slug, published });
   }
   return { projects: next, changed };
 }
@@ -67,7 +73,14 @@ function seedProjects(): Project[] {
     const p = PROJECTS_SEED[i];
     const at = new Date(base - i * 1000).toISOString();
     const slug = uniqueProjectSlug({ title: p.title, to: p.to }, seeded);
-    seeded.push({ ...p, id: randomUUID(), slug, createdAt: at, updatedAt: at });
+    seeded.push({
+      ...p,
+      published: true,
+      id: randomUUID(),
+      slug,
+      createdAt: at,
+      updatedAt: at,
+    });
   }
   return seeded;
 }
@@ -153,7 +166,13 @@ export async function getProjectBySlug(slug: string) {
 export function createProject(input: ProjectInput & { slug: string }) {
   return mutate((projects) => {
     const now = new Date().toISOString();
-    const project: Project = { ...input, id: randomUUID(), createdAt: now, updatedAt: now };
+    const project: Project = {
+      ...input,
+      published: input.published !== false,
+      id: randomUUID(),
+      createdAt: now,
+      updatedAt: now,
+    };
     if (!project.poster) delete project.poster;
     if (!project.posterAlt) delete project.posterAlt;
     if (!project.description) delete project.description;
@@ -170,6 +189,7 @@ export function updateProject(id: string, input: ProjectInput & { slug: string }
     const updated: Project = {
       ...projects[index],
       ...input,
+      published: input.published !== false,
       updatedAt: new Date().toISOString(),
     };
     if (!updated.poster) delete updated.poster;

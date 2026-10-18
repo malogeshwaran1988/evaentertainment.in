@@ -11,9 +11,8 @@ import {
   projectLanguageLine,
   type PublicProject,
 } from "@@/data/projects";
+import { HOME_PROJECTS_LIMIT } from "@@/data/home";
 import { projectPosterAlt } from "@@/lib/project-seo";
-
-export const HOME_PROJECTS_LIMIT = 6;
 
 /** Home strip: ongoing projects first, then the newest by year (order comes from getPublicProjects). */
 export default function HomeProjects({ projects }: { projects: PublicProject[] }) {
