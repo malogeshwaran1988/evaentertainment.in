@@ -12,6 +12,7 @@ import {
   useFormValidation,
   type Validators,
 } from "@@/components/common/useFormValidation";
+import { BLOCKED_EMAIL_MESSAGE, isBlockedEmail } from "@@/lib/blocked-email-domains";
 
 const SERVICES = [
   "Language Dubbing",
@@ -32,9 +33,11 @@ const VALIDATORS: Validators = {
   email: (v) =>
     !v
       ? "Email is required."
-      : EMAIL_RE.test(v)
-        ? undefined
-        : "Enter a valid email address, like name@example.com.",
+      : !EMAIL_RE.test(v)
+        ? "Enter a valid email address, like name@yourcompany.com."
+        : isBlockedEmail(v)
+          ? BLOCKED_EMAIL_MESSAGE
+          : undefined,
   // Optional, but if given it must look like a phone number.
   phone: (v) => (v ? phoneError(v) : undefined),
   service: (v) => (v ? undefined : "Select a service."),
@@ -76,6 +79,7 @@ export default function BookingForm() {
     onChange,
     validateAll,
     describe,
+    setFieldError,
   } = useFormValidation(VALIDATORS);
   const [minDate] = useState(todayIso);
 
@@ -118,7 +122,19 @@ export default function BookingForm() {
       if (!res.ok) {
         const body = (await res.json().catch(() => null)) as {
           error?: string;
+          field?: string;
         } | null;
+        if (body?.field === "email" && body.error) {
+          // Field-level error (blocked email): show it on the field and unlock the form.
+          setFieldError("email", body.error);
+          shield.reset();
+          inFlight.current = false;
+          setSubmitting(false);
+          requestAnimationFrame(() =>
+            (form.elements.namedItem("email") as HTMLElement | null)?.focus(),
+          );
+          return;
+        }
         throw new Error(body?.error || "Something went wrong.");
       }
       // Stay disabled while navigating away.

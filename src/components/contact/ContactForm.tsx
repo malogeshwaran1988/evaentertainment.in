@@ -11,6 +11,7 @@ import {
   useFormValidation,
   type Validators,
 } from "@@/components/common/useFormValidation";
+import { BLOCKED_EMAIL_MESSAGE, isBlockedEmail } from "@@/lib/blocked-email-domains";
 
 const MESSAGE_MIN = 20;
 
@@ -19,9 +20,11 @@ const VALIDATORS: Validators = {
   email: (v) =>
     !v
       ? "Email is required."
-      : EMAIL_RE.test(v)
-        ? undefined
-        : "Enter a valid email address, like name@example.com.",
+      : !EMAIL_RE.test(v)
+        ? "Enter a valid email address, like name@yourcompany.com."
+        : isBlockedEmail(v)
+          ? BLOCKED_EMAIL_MESSAGE
+          : undefined,
   phone: (v) => (v ? phoneError(v) : "Phone is required."),
   service: (v) => (v ? undefined : "Select a service."),
   message: (v) =>
@@ -50,7 +53,7 @@ export default function ContactForm({ services }: { services: string[] }) {
   const shield = useFormShield();
   const [error, setError] = useState<string | null>(null);
   const [messageLen, setMessageLen] = useState(0);
-  const { errors, onBlur, onChange, validateAll, describe } =
+  const { errors, onBlur, onChange, validateAll, describe, setFieldError } =
     useFormValidation(VALIDATORS);
   const id = (name: string) => `${formId}-${name}`;
 
@@ -86,7 +89,19 @@ export default function ContactForm({ services }: { services: string[] }) {
       if (!res.ok) {
         const body = (await res.json().catch(() => null)) as {
           error?: string;
+          field?: string;
         } | null;
+        if (body?.field === "email" && body.error) {
+          // Field-level error (blocked email): show it on the field and unlock the form.
+          setFieldError("email", body.error);
+          shield.reset();
+          inFlight.current = false;
+          setSubmitting(false);
+          requestAnimationFrame(() =>
+            (form.elements.namedItem("email") as HTMLElement | null)?.focus(),
+          );
+          return;
+        }
         throw new Error(body?.error || "Something went wrong.");
       }
       // Stay disabled while navigating away.

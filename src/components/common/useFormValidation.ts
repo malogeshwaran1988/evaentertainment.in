@@ -94,5 +94,11 @@ export function useFormValidation(validators: Validators) {
     "aria-describedby": [hintId, errors[name] ? errorId : undefined].filter(Boolean).join(" ") || undefined,
   });
 
-  return { errors, onBlur, onChange, validateAll, describe };
+  /** Shows a server-side error on one field (e.g. a blocked email domain). */
+  const setFieldError = useCallback((name: string, message: string) => {
+    setErrors((prev) => ({ ...prev, [name]: message }));
+    setTouched((t) => ({ ...t, [name]: true }));
+  }, []);
+
+  return { errors, onBlur, onChange, validateAll, describe, setFieldError };
 }
