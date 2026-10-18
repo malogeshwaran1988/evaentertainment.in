@@ -1,6 +1,7 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
+import { revalidatePath, updateTag } from "next/cache";
+import { PROJECTS_TAG } from "@@/lib/cache-tags";
 import { z } from "zod";
 import {
   PROJECT_AUDIO_HOURS_MAX,
@@ -205,7 +206,7 @@ async function duplicateNameState(
   exceptId?: string,
 ): Promise<ProjectFormState | null> {
   const key = projectNameKey(title);
-  const clash = (await store.getProjects()).find(
+  const clash = (await store.getProjectsFresh()).find(
     (p) => p.id !== exceptId && projectNameKey(p.title) === key,
   );
   if (!clash) return null;
@@ -222,6 +223,8 @@ function posterNameCtx(data: ProjectInput) {
 }
 
 function revalidateProjects(slug?: string) {
+  // Drop the cached Blob JSON first so this request and the next visitors read the saved data.
+  updateTag(PROJECTS_TAG);
   revalidatePath(Routes.HOME);
   revalidatePath(Routes.PROJECTS);
   revalidatePath("/sitemap.xml");
@@ -244,7 +247,7 @@ export async function createProjectAction(
     const duplicate = await duplicateNameState(data.title);
     if (duplicate) return duplicate;
 
-    const projects = await store.getProjects();
+    const projects = await store.getProjectsFresh();
     const slug = uniqueProjectSlug({ title: data.title, to: data.to }, projects);
     const file = posterFile(formData);
     if (file) {
@@ -283,12 +286,12 @@ export async function updateProjectAction(
   const discardUploaded = () =>
     isSamePosterFile(uploaded, existing?.poster) ? undefined : deletePosterQuietly(uploaded);
   try {
-    existing = await store.getProject(id);
+    existing = await store.getProjectFresh(id);
     if (!existing) return { message: "This project no longer exists." };
     const duplicate = await duplicateNameState(data.title, id);
     if (duplicate) return duplicate;
 
-    const projects = await store.getProjects();
+    const projects = await store.getProjectsFresh();
     const slug = uniqueProjectSlug(
       { title: data.title, to: data.to },
       projects,

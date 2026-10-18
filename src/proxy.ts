@@ -1,18 +1,18 @@
 import { NextResponse, type NextRequest } from "next/server";
-import {
-  ADMIN_COOKIE,
-  AdminRoutes,
-  verifyAdminSession,
-} from "@@/lib/admin-session";
+import { auth, isAllowedAdminEmail, isAuthConfigured } from "@@/auth";
+import { AdminRoutes } from "@@/lib/admin-session";
+import { BLOG_ENABLED } from "@@/lib/blog/enabled";
 import { blogRedirectFor } from "@@/lib/blog/redirects";
 
 const BLOG_POST_PATH = /^\/blog\/([^/]+)$/;
 
-export async function proxy(request: NextRequest) {
+async function handle(request: NextRequest, email: unknown) {
   const { pathname, search } = request.nextUrl;
 
   const blogPost = BLOG_POST_PATH.exec(pathname);
   if (blogPost) {
+    // Blog off: the page itself sends every post URL to /blog ("Coming soon").
+    if (!BLOG_ENABLED) return NextResponse.next();
     let slug: string;
     try {
       slug = decodeURIComponent(blogPost[1]);
@@ -27,7 +27,8 @@ export async function proxy(request: NextRequest) {
     return NextResponse.next();
   }
 
-  const session = await verifyAdminSession(request.cookies.get(ADMIN_COOKIE)?.value);
+  // UX redirect only; every admin page/action re-checks with requireAdmin().
+  const session = isAllowedAdminEmail(email);
 
   if (pathname === AdminRoutes.LOGIN) {
     return session
@@ -42,6 +43,14 @@ export async function proxy(request: NextRequest) {
   }
 
   return NextResponse.next();
+}
+
+const withAuth = auth((request) => handle(request, request.auth?.user?.email));
+
+/** Without the Google/AUTH env vars, skip Auth.js so nothing crashes: admin just goes to /login. */
+export async function proxy(request: NextRequest) {
+  if (!isAuthConfigured()) return handle(request, null);
+  return withAuth(request, {} as never);
 }
 
 export const config = {

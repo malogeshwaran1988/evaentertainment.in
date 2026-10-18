@@ -17,6 +17,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 - Admin panel (Our Projects only) lives in the `(admin)` route group: `/login` and `/admin/*`, with its own root layout, shadcn/ui (`src/components/ui`) and Tailwind v4 theme in `src/styles/admin.css`. Never import `admin.css` or shadcn components into `(web)` pages, or Glory CSS into admin pages.
 - When admin project form fields change (`ProjectForm` / `ProjectInput`), update `ProjectsTable` and `ProjectPreviewDialog` in the same change so the list view stays in sync.
 - Every admin page must stay noindex/nofollow and call `requireAdmin()`; every admin server action must call `requireAdmin()` too (the proxy is not a security boundary).
+- Admin login is Google sign-in only (Auth.js v5, `src/auth.ts`, routes `/api/auth/*`, callback `/api/auth/callback/google`). Access needs a verified Google Workspace account with `hd=lasmind.com`, an `@lasmind.com` email and a match in `ADMIN_ALLOWED_EMAILS` (default `info@lasmind.com`); `requireAdmin()` re-checks the allowlist on every call. Env: `AUTH_SECRET`, `AUTH_GOOGLE_ID`, `AUTH_GOOGLE_SECRET`, `ADMIN_ALLOWED_EMAILS` (+ `AUTH_URL` outside Vercel/dev). Never add a username/password path back. One OAuth client per site (EVA now; TemplatePix gets its own).
 - Projects and posters go through `src/lib/projects-store.ts` and `src/lib/project-posters.ts` (150 KB cap, magic-byte type check).
   - When `BLOB_READ_WRITE_TOKEN` is set (Vercel), both are stored in the private Blob store under `eva/` via `src/lib/blob.ts`. Local tests with the real token must set `EVA_BLOB_PREFIX=eva-test/`.
   - Posters use branded basenames via `src/lib/project-seo.ts` (`…-dubbing-eva-entertainment.avif`, `-2`/`-3` on clash) with a `?v=` version in the stored path; each project also has a public `slug` for `/projects/[slug]`. Project names must be unique.
@@ -25,8 +26,18 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 - Posters are always referenced as `/images/our-projects/<name>` and served by the route handler. Render them unoptimized/`<img>`.
 - After finishing each task, commit and push to `origin logeshwaran` with a descriptive message (a summary line plus bullet notes), and share the notes in chat. Fetch or rebase first, never force-push, and never commit `.env`, `storage/` or uploaded posters.
 
+## Layout rules (mandatory)
+
+- **Max content width is 1536px site-wide** (`--eva-content-max` in `src/styles/globals.scss`). Header, footer and every section cap their inner content (`.container`, `.eva-header-bar`, footer inners) at it with the existing 15px side padding; full-bleed backgrounds stay viewport-wide. Use `.container` (or the variable) for new sections; never hard-code another max width. Admin is out of scope.
+
+## Vercel Blob quota (Hobby, mandatory)
+
+- Local dev/tests/builds use the disk store; remote Blob only on Vercel or with `BLOB_USE_REMOTE=1`.
+- Public reads go through the cached loaders (`unstable_cache`, tags in `src/lib/cache-tags.ts`, 1 day) with one `get()` and no `head()`; admin save actions call `updateTag()` and use the `*Fresh` readers. Never add `list()`/`head()` on a request path. Blob-backed image/OG routes must send `immutable` with a `?v=` versioned URL.
+
 ## SEO rules (mandatory)
 
+- **Whenever a page URL is added or changed, update the sitemap; it lists only index, follow pages.**
 - **Status pages are never indexed.** Every success, failure, error, confirmation or status page
   (thank-you, sent/failed, error, not-found, booking confirmation, login/admin) must render
   `noindex, follow` and must not appear in `sitemap.xml`. Use `buildStatusPageMetadata()` or
@@ -61,6 +72,8 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
   (`src/components/admin/ui/StatusBadge.tsx`): icon + text + AA-contrast tones, never colour alone.
 
 ## Blog rules (mandatory)
+
+- **Public switch:** `NEXT_PUBLIC_BLOG_ENABLED` (`src/lib/blog/enabled.ts`), default off. Off: `/blog` renders "Coming soon" (200, `noindex, follow`), `/blog/<slug>` 307s to `/blog`, `/og/blog/*` 404s, no blog URLs in the sitemap; admin blog and `/preview/blog` keep working. To launch: set `NEXT_PUBLIC_BLOG_ENABLED=true` in Vercel (Production) and redeploy — it is baked in at build time.
 
 - Posts live in one JSON file (`blog.json`, Blob or `storage/`) via `src/lib/blog/store.ts`. Admin pages are addressed by post **id**, never slug.
 - Slugs: always go through `slugifyBlog` / `validateBlogSlug` (`src/lib/blog/slug.ts`) on client and server. Slugs are unique across current **and former** slugs.

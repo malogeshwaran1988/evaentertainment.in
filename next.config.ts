@@ -21,7 +21,8 @@ const CSP = [
   "worker-src 'self' blob:",
   "object-src 'none'",
   "base-uri 'self'",
-  "form-action 'self'",
+  // accounts.google.com: the admin "Sign in with Google" form redirects there.
+  "form-action 'self' https://accounts.google.com",
   "frame-ancestors 'self'",
   ...(isDev ? [] : ["upgrade-insecure-requests"]),
 ].join("; ");
@@ -48,11 +49,9 @@ const nextConfig: NextConfig = {
         destination: "https://evaentertainment.in/:path*",
         permanent: true,
       },
-      ...LEGACY_REDIRECTS.map(({ from, to }) => ({
-        source: from,
-        destination: to,
-        permanent: true,
-      })),
+      ...LEGACY_REDIRECTS.map(({ from, to, statusCode }) =>
+        statusCode ? { source: from, destination: to, statusCode } : { source: from, destination: to, permanent: true },
+      ),
     ];
   },
 
@@ -71,6 +70,14 @@ const nextConfig: NextConfig = {
               ],
             },
           ]),
+      {
+        // Admin-only blog preview: never cached, never indexed.
+        source: "/preview/:path*",
+        headers: [
+          { key: "Cache-Control", value: "private, no-store, max-age=0" },
+          { key: "X-Robots-Tag", value: "noindex, nofollow" },
+        ],
+      },
       {
         source: "/sitemap.xml",
         headers: [

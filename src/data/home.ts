@@ -14,14 +14,14 @@ export const HOME_SEO = {
 
 /** "What We Do" cards on the home page, in display order. */
 export const WHAT_WE_DO: ServiceSlug[] = [
-  "dubbing-studio-mumbai",
-  "voice-over-studio-mumbai",
-  "song-recording-studio-mumbai",
-  "foley-recording-mumbai",
+  "dubbing-studio",
+  "voice-over-studio",
+  "song-recording-studio",
+  "foley-recording",
   "stock-music-library",
-  "5-1-mixing-studio-mumbai",
-  "subtitling-services-mumbai",
-  "translation-services-mumbai",
+  "5-1-mixing-studio",
+  "subtitling-services",
+  "translation-services",
 ];
 
 export const HOME_INTRO =
@@ -32,7 +32,7 @@ export const HOME_PROJECTS_LIMIT = 6;
 
 export const SERVICE_CARDS = [
   {
-    href: serviceHref("dubbing-studio-mumbai"),
+    href: serviceHref("dubbing-studio"),
     image: "/images/home/services-grid-1.avif",
     alt: "Voice artist dubbing at a studio microphone",
     eyebrow: "Offering",
@@ -41,7 +41,7 @@ export const SERVICE_CARDS = [
       "Our studio is the ideal place for Lip-Sync & voice-over dubbing; it's quiet, it's private and has every possible amenity you could desire.",
   },
   {
-    href: serviceHref("5-1-mixing-studio-mumbai"),
+    href: serviceHref("5-1-mixing-studio"),
     image: "/images/home/services-grid-2.avif",
     alt: "Sound engineer at a 5.1 mixing console",
     eyebrow: "Digital",
@@ -49,7 +49,7 @@ export const SERVICE_CARDS = [
     description: "",
   },
   {
-    href: serviceHref("foley-recording-mumbai"),
+    href: serviceHref("foley-recording"),
     image: "/images/home/services-grid-3.avif",
     alt: "Mixing console faders for Foley recording",
     eyebrow: "Royal",
@@ -57,7 +57,7 @@ export const SERVICE_CARDS = [
     description: "",
   },
   {
-    href: serviceHref("translation-services-mumbai"),
+    href: serviceHref("translation-services"),
     image: "/images/home/services-grid-4.avif",
     alt: "Studio headphones resting on piano keys",
     eyebrow: "Voice",
@@ -74,7 +74,7 @@ export const SERVICE_CARDS = [
     description: "Amplify your ideas and explore our curated stock music library.",
   },
   {
-    href: serviceHref("subtitling-services-mumbai"),
+    href: serviceHref("subtitling-services"),
     image: "/images/home/services-grid-6.avif",
     alt: "Laptop running subtitle editing software",
     eyebrow: "Text Services",

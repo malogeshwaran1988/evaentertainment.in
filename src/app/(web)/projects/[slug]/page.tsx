@@ -269,7 +269,7 @@ export default async function ProjectDetailPage({
                   <p className="eva-project-detail-desc">{project.description}</p>
                 ) : null}
                 <p className="eva-project-detail-links">
-                  More: <Link href={serviceHref("dubbing-studio-mumbai")}>Lip-sync dubbing studio in Mumbai</Link>
+                  More: <Link href={serviceHref("dubbing-studio")}>Lip-sync dubbing studio in Mumbai</Link>
                   {project.to.map((t) => (
                     <span key={t}>
                       {" · "}

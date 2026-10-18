@@ -10,7 +10,9 @@ import {
   type ProjectInput,
 } from "@@/data/projects";
 import { PROJECTS_SEED } from "@@/data/projects-seed";
-import { BlobPreconditionFailedError, readBlobVersioned, USE_BLOB, writeBlob } from "@@/lib/blob";
+import { unstable_cache } from "next/cache";
+import { BlobPreconditionFailedError, readBlobText, readBlobVersioned, USE_BLOB, writeBlob } from "@@/lib/blob";
+import { DATA_REVALIDATE_SECONDS, PROJECTS_TAG } from "@@/lib/cache-tags";
 import { projectPageSlugBase, uniqueProjectSlug, uniqueSlug } from "@@/lib/project-seo";
 
 const DATA_DIR = path.resolve(
@@ -118,7 +120,20 @@ async function readSnapshot(): Promise<Snapshot> {
   }
 }
 
-async function readAll(): Promise<Project[]> {
+/**
+ * Read path: one cheap Blob get (no head) and only on a cache miss. Cached across requests and
+ * instances by Next's data cache under PROJECTS_TAG; admin saves invalidate it (updateTag).
+ */
+async function readAllUncached(): Promise<Project[]> {
+  if (USE_BLOB) {
+    const text = await readBlobText(BLOB_FILE);
+    if (text !== null) {
+      const { projects, changed } = ensureProjectSlugs(parseProjects(text));
+      // Legacy rows missing slug/published: fix them once through the versioned write path.
+      if (changed) await mutate((all) => ({ next: all, result: null })).catch(() => undefined);
+      return projects;
+    }
+  }
   const { projects, etag } = await readSnapshot();
   const { projects: normalized, changed } = ensureProjectSlugs(projects);
   if (changed) {
@@ -130,6 +145,11 @@ async function readAll(): Promise<Project[]> {
   }
   return normalized;
 }
+
+const readAll = unstable_cache(readAllUncached, ["eva-projects-v1"], {
+  tags: [PROJECTS_TAG],
+  revalidate: DATA_REVALIDATE_SECONDS,
+});
 
 function mutate<T>(fn: (projects: Project[]) => { next: Project[]; result: T }) {
   const run = writeQueue.then(async () => {
@@ -154,6 +174,16 @@ function mutate<T>(fn: (projects: Project[]) => { next: Project[]; result: T }) 
 export async function getProjects(): Promise<Project[]> {
   const projects = await readAll();
   return [...projects].sort(compareProjects);
+}
+
+/** Uncached read for admin save actions (slug/poster checks) so they never act on stale data. */
+export async function getProjectsFresh(): Promise<Project[]> {
+  const { projects } = await readSnapshot();
+  return [...ensureProjectSlugs(projects).projects].sort(compareProjects);
+}
+
+export async function getProjectFresh(id: string) {
+  return (await getProjectsFresh()).find((p) => p.id === id) ?? null;
 }
 
 export async function getProject(id: string) {

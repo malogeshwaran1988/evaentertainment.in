@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { startTransition, useActionState, useEffect, useId, useMemo, useRef, useState } from "react";
-import { Loader2, Lock, RotateCcw, Unlock } from "lucide-react";
+import { Eye, Loader2, Lock, RotateCcw, Unlock } from "lucide-react";
 import { toast } from "sonner";
 import { uploadBlogImageAction, type BlogFormState } from "@@/app/(admin)/admin/blog/actions";
 import BlogEditor from "@@/components/admin/blog/BlogEditor";
@@ -27,6 +27,7 @@ import {
 } from "@@/data/blog";
 import { convertPosterToAvif, POSTER_SOURCE_ACCEPT } from "@@/lib/admin/poster-to-avif";
 import { AdminRoutes } from "@@/lib/admin-session";
+import { BLOG_PREVIEW_PATH, writeBlogPreview } from "@@/lib/blog/preview";
 import { blogCoverAlt, blogImageBaseName, blogSeoDescription, blogSeoTitle } from "@@/lib/blog/seo";
 import { blogHref, BLOG_SLUG_MAX, slugifyBlog, uniqueBlogSlug, validateBlogSlug } from "@@/lib/blog/slug";
 import { cn } from "@@/lib/utils";
@@ -242,6 +243,28 @@ export default function BlogForm({ action, initial, submitLabel, today, takenSlu
   const scheduled = status === "published" && publishDate > today;
   const previewPost = { title: title.trim() || "Post title", coverAlt, metaTitle, metaDescription, excerpt };
   const currentCover = cover?.url ?? (removeCover ? undefined : initial?.cover);
+
+  // One preview slot per open form, so pressing Preview again refreshes the same tab's data.
+  const [previewKey] = useState(() => Math.random().toString(36).slice(2, 12));
+  const openPreview = () => {
+    const ok = writeBlogPreview(previewKey, {
+      title: title.trim(),
+      slug: slug || "preview",
+      excerpt: excerpt.trim(),
+      content,
+      cover: currentCover,
+      coverAlt: coverAlt.trim() || undefined,
+      author: author.trim() || BLOG_DEFAULT_AUTHOR,
+      publishDate,
+      category,
+      tags: tags.split(",").map((t) => t.trim()).filter(Boolean),
+    });
+    if (!ok) {
+      toast.error("Couldn't open the preview: browser storage is full or disabled.");
+      return;
+    }
+    window.open(`${BLOG_PREVIEW_PATH}?k=${previewKey}`, `eva-blog-preview-${previewKey}`);
+  };
   const errorCount = Object.keys(state.fieldErrors ?? {}).length;
   const id = (name: string) => `${formId}-${name}`;
 
@@ -644,6 +667,11 @@ export default function BlogForm({ action, initial, submitLabel, today, takenSlu
             <Link href={AdminRoutes.BLOG} onClick={(e) => busy && e.preventDefault()}>
               Cancel
             </Link>
+          </Button>
+          <Button type="button" variant="outline" className="min-h-11" onClick={openPreview} disabled={converting}>
+            <Eye aria-hidden="true" />
+            Preview
+            <span className="sr-only"> (opens in a new tab)</span>
           </Button>
           <Button type="submit" disabled={busy} className="min-h-11">
             {pending ? <Loader2 className="animate-spin" aria-hidden="true" /> : null}

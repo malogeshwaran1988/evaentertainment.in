@@ -1,3 +1,8 @@
+:root {
+  /* Site-wide max content width (AGENTS.md). Backgrounds stay full-bleed; inner content caps here. */
+  --eva-content-max: 1536px;
+}
+
 /* Self-hosted Raleway (variable 100-900, OFL). The latin file is preloaded in WebHead. */
 @font-face {
   font-family: "Raleway";
@@ -578,10 +583,10 @@ textarea:focus-visible {
   pointer-events: auto;
 }
 
-/* ---- Site content max-width shell (1200px) ---- */
+/* ---- Site content max-width shell (1536px, --eva-content-max) ---- */
 body .container {
   width: 100%;
-  max-width: 1200px;
+  max-width: var(--eva-content-max);
   margin-left: auto;
   margin-right: auto;
   padding-left: 15px;
@@ -605,7 +610,7 @@ body .block.block--full.no-pad-gutter > .container.container--bleed {
   justify-content: space-between;
   gap: 1rem;
   width: 100%;
-  max-width: 1200px;
+  max-width: var(--eva-content-max);
   margin-left: auto;
   margin-right: auto;
   padding-left: 15px;
@@ -1211,7 +1216,7 @@ body .block.block--full.no-pad-gutter > .container.container--bleed {
 }
 
 .eva-footer-grid {
-  max-width: 1200px;
+  max-width: var(--eva-content-max);
   margin: 0 auto;
   padding: 0 15px;
   display: grid;
@@ -1335,7 +1340,7 @@ body .block.block--full.no-pad-gutter > .container.container--bleed {
 }
 
 .eva-footer-bar-inner {
-  max-width: 1200px;
+  max-width: var(--eva-content-max);
   margin: 0 auto;
   padding: 12px 15px;
   box-sizing: border-box;
@@ -4294,7 +4299,7 @@ body:not(.page-blog) .block--darkbg h3.eva-service-ideal-title,
   align-items: center;
   justify-content: space-between;
   gap: 16px 32px;
-  max-width: 1170px;
+  max-width: var(--eva-content-max);
   margin: 0 auto;
 }
 
@@ -4984,4 +4989,312 @@ html body .eva-hero-ctas .eva-hero-cta-secondary:hover {
   display: block;
   font-size: 13px;
   color: rgba(255, 255, 255, 0.65);
+}
+
+/* Admin-only blog preview (/preview/blog). Pinned to the bottom so it never covers the fixed header. */
+.eva-blog-preview-banner {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10000;
+  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.35);
+  padding: 12px 20px;
+  background: #ffd780;
+  color: #13161d;
+  font-size: 15px;
+  line-height: 1.5;
+  text-align: center;
+}
+
+/* Shared "Coming soon" page (src/components/common/ComingSoon.tsx). */
+.block.eva-coming-soon-hero {
+  margin-bottom: 0;
+}
+.block.eva-coming-soon-block {
+  margin-bottom: 0;
+  padding-top: 72px;
+  padding-bottom: 88px;
+  background: #fff;
+  color: #13161d;
+}
+.eva-coming-soon-intro {
+  max-width: 780px;
+  margin: 0 auto 56px;
+  text-align: center;
+}
+.eva-coming-soon-intro h2 {
+  margin: 0 0 20px;
+  line-height: 1.25;
+  color: #13161d;
+}
+.eva-coming-soon-intro p {
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.75;
+  color: #4a4f57;
+}
+.eva-coming-soon {
+  position: relative;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 48px 40px 44px;
+  text-align: center;
+  background: #13161d;
+  color: rgba(255, 255, 255, 0.82);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 18px 40px rgba(19, 22, 29, 0.14);
+}
+.eva-coming-soon::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 4px;
+  background: linear-gradient(90deg, #be8501, #70b615);
+}
+.eva-coming-soon-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  width: 64px;
+  height: 64px;
+  margin-bottom: 18px;
+  border-radius: 50%;
+  border: 1px solid rgba(190, 133, 1, 0.55);
+  background: rgba(190, 133, 1, 0.08);
+}
+.eva-coming-soon-badge i {
+  display: block;
+  width: 4px;
+  border-radius: 2px;
+  background: #be8501;
+}
+.eva-coming-soon-badge i:nth-child(even) {
+  background: #70b615;
+}
+.eva-coming-soon-badge i:nth-child(1), .eva-coming-soon-badge i:nth-child(5) { height: 12px; }
+.eva-coming-soon-badge i:nth-child(2), .eva-coming-soon-badge i:nth-child(4) { height: 22px; }
+.eva-coming-soon-badge i:nth-child(3) { height: 30px; }
+.eva-coming-soon-eyebrow {
+  margin: 0 0 8px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #e0a419;
+}
+h2.eva-coming-soon-title {
+  margin: 0 0 12px;
+  font-size: 30px;
+  line-height: 1.3;
+  color: #fff;
+}
+.eva-coming-soon-detail {
+  max-width: 520px;
+  margin: 0 auto;
+  font-size: 16px;
+  line-height: 1.7;
+}
+.eva-coming-soon-cta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 28px;
+}
+.eva-coming-soon-cta .btn {
+  min-width: 180px;
+  margin: 0;
+}
+.eva-coming-soon-cta .btn--border {
+  color: #fff;
+}
+@media (max-width: 767px) {
+  .block.eva-coming-soon-block { padding-top: 44px; padding-bottom: 56px; }
+  .eva-coming-soon-intro { margin-bottom: 36px; }
+  .eva-coming-soon-intro p { font-size: 16px; }
+  .eva-coming-soon { padding: 36px 20px 32px; border-radius: 10px; }
+  h2.eva-coming-soon-title { font-size: 24px; }
+  .eva-coming-soon-cta .btn { width: 100%; }
+}
+
+/*
+ * Header nav fit (8 items incl. OUR CLIENTS + BLOG): keep one line at 992–1440px by narrowing the
+ * logo/CTA side columns and the gaps between items. Links keep min-height 44px and focus outlines.
+ */
+@media (min-width: 992px) {
+  .eva-header-bar .header-menu .menu {
+    flex-wrap: nowrap !important;
+    white-space: nowrap;
+  }
+}
+@media (min-width: 992px) and (max-width: 1024px) {
+  .eva-header-bar > .logo,
+  .header-actions {
+    flex: 0 0 120px;
+    width: 120px;
+    min-width: 120px;
+  }
+  .eva-header-bar .header-menu .menu {
+    gap: 0.5rem 0.6rem;
+  }
+  .eva-header-bar .header-menu .menu > li > a,
+  .header .header-menu ul li a {
+    font-size: 12px !important;
+    padding-left: 0.2rem !important;
+    padding-right: 0.2rem !important;
+  }
+  .header-contact-cta--bar {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+    font-size: 12px !important;
+  }
+}
+@media (min-width: 1025px) {
+  .eva-header-bar > .logo,
+  .header-actions {
+    flex-basis: 180px;
+    width: 180px;
+    min-width: 180px;
+  }
+  .eva-header-bar .header-menu .menu {
+    gap: 0.5rem 1.1rem;
+  }
+}
+@media (min-width: 1025px) and (max-width: 1199px) {
+  .eva-header-bar > .logo,
+  .header-actions {
+    flex-basis: 150px;
+    width: 150px;
+    min-width: 150px;
+  }
+  .eva-header-bar .header-menu .menu {
+    gap: 0.5rem 0.8rem;
+  }
+}
+
+/* ---- Form submit: branded "Sending…" state + thank-you ---- */
+.eva-form-fieldset {
+  display: contents;
+  border: 0;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+}
+.eva-sending,
+.btn .eva-sending,
+.btn span.eva-sending {
+  display: inline-flex;
+  color: #fff;
+  align-items: center;
+  gap: 10px;
+}
+.eva-sending-wave,
+.btn span.eva-sending-wave {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  height: 20px;
+}
+.eva-sending-wave i,
+.btn .eva-sending-wave i {
+  display: block;
+  width: 4px;
+  height: 100%;
+  border-radius: 2px;
+  background: #be8501;
+  transform-origin: center;
+  animation: eva-wave 0.9s ease-in-out infinite;
+}
+.eva-sending-wave i:nth-child(even) {
+  background: #70b615;
+}
+.eva-sending-wave i:nth-child(2) { animation-delay: -0.75s; }
+.eva-sending-wave i:nth-child(3) { animation-delay: -0.6s; }
+.eva-sending-wave i:nth-child(4) { animation-delay: -0.45s; }
+.eva-sending-wave i:nth-child(5) { animation-delay: -0.3s; }
+@keyframes eva-wave {
+  0%, 100% { transform: scaleY(0.3); }
+  50% { transform: scaleY(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .eva-sending-wave i { animation: none; }
+  .eva-sending-wave i:nth-child(1), .eva-sending-wave i:nth-child(5) { transform: scaleY(0.4); }
+  .eva-sending-wave i:nth-child(2), .eva-sending-wave i:nth-child(4) { transform: scaleY(0.7); }
+}
+/* Busy submit button: dark so both brand colours read; full opacity (it is a status, not "off"). */
+.eva-enquiry-submit[aria-busy="true"],
+.eva-enquiry-submit[aria-busy="true"]:disabled,
+.booking-form-panel .btn[aria-busy="true"],
+.booking-form-panel .btn[aria-busy="true"]:disabled {
+  background: #13161d;
+  color: #fff;
+  opacity: 1;
+  cursor: progress;
+}
+form[aria-busy="true"] input,
+form[aria-busy="true"] select,
+form[aria-busy="true"] textarea {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.btn span.eva-sending-label,
+.eva-sending-label {
+  color: #fff;
+  letter-spacing: 0.04em;
+}
+.booking-form-panel textarea.textarea-custom {
+  width: 100%;
+  min-height: 110px;
+}
+.eva-thank-you {
+  max-width: 640px;
+  margin: 0 auto;
+}
+.eva-thank-you-tick {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  margin-bottom: 16px;
+  border-radius: 50%;
+  border: 2px solid #70b615;
+  color: #70b615;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+/* ---- Batched poster grids: Load more ---- */
+.eva-load-more {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 32px;
+}
+.eva-load-more-sentinel {
+  width: 100%;
+  height: 1px;
+}
+.eva-load-more-btn {
+  min-height: 48px;
+}
+.eva-load-more-btn:focus-visible {
+  outline: 3px solid #be8501;
+  outline-offset: 3px;
+}
+.eva-load-more-count {
+  opacity: 0.8;
+}
+.eva-load-more-done {
+  margin: 0;
+  font-size: 15px;
+  opacity: 0.75;
+}
+.eva-noscript-links {
+  columns: 2 220px;
+  margin: 24px 0 0;
+  padding-left: 1.2em;
 }

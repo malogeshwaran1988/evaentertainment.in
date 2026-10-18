@@ -233,3 +233,26 @@
     scroll-behavior: auto !important;
   }
 }
+
+/*
+ * Blog editor (@templatepix/text-editor) sizing. The package sets a viewport-based inline height
+ * (up to 72vh) on its editor shell; clamp it to a conventional 320px … min(62vh, 600px) so long
+ * posts scroll inside the editor. The drag-resize handle still works within that range.
+ * Its class names are CSS-module hashes, so match on the stable "tpx-te_<part>" prefix.
+ */
+.eva-blog-editor [class*="tpx-te_root"] {
+  /* clip (not hidden) so the toolbar can stick while the page scrolls. */
+  overflow: clip;
+}
+.eva-blog-editor [class*="tpx-te_toolbar"] {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+}
+.eva-blog-editor [class*="tpx-te_editorShell"] {
+  min-height: 320px !important;
+  max-height: min(62vh, 600px) !important;
+}
+.eva-blog-editor [class*="tpx-te_editor_"] {
+  min-height: 0;
+}

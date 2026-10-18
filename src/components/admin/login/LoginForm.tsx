@@ -1,120 +1,75 @@
 "use client";
 
 import Image from "next/image";
-import { useActionState, useState } from "react";
-import { Eye, EyeOff, Loader2 } from "lucide-react";
-import { loginAction, type LoginState } from "@@/app/(admin)/login/actions";
-import { Button } from "@@/components/ui/button";
-import { Input } from "@@/components/ui/input";
-import { Label } from "@@/components/ui/label";
+import { useFormStatus } from "react-dom";
+import { Loader2 } from "lucide-react";
+import { googleSignInAction } from "@@/app/(admin)/login/actions";
 
-export default function LoginForm({ backTo, totp = false }: { backTo: string; totp?: boolean }) {
-  const [state, formAction, pending] = useActionState<LoginState, FormData>(
-    loginAction,
-    {},
+function GoogleMark() {
+  return (
+    <svg viewBox="0 0 48 48" className="size-5 shrink-0" aria-hidden="true" focusable="false">
+      <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z" />
+      <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z" />
+      <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z" />
+      <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z" />
+    </svg>
   );
-  const [showPassword, setShowPassword] = useState(false);
+}
 
+function SubmitButton({ disabled = false }: { disabled?: boolean }) {
+  const { pending } = useFormStatus();
+  const off = pending || disabled;
+  return (
+    <button
+      type="submit"
+      disabled={off}
+      aria-disabled={off}
+      aria-describedby={disabled ? "login-help login-notice" : "login-help"}
+      className="flex h-12 w-full items-center justify-center gap-3 rounded-md border border-[#181818] bg-white px-4 text-base font-semibold text-[#181818] shadow-sm transition-colors hover:bg-zinc-100 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60 dark:border-zinc-500"
+    >
+      {pending ? <Loader2 className="size-5 animate-spin" aria-hidden="true" /> : <GoogleMark />}
+      <span>{pending ? "Redirecting to Google…" : "Sign in with Google"}</span>
+    </button>
+  );
+}
+
+export default function LoginForm({ backTo, error, notice }: { backTo: string; error?: string; notice?: string }) {
   return (
     <div className="w-full max-w-sm overflow-hidden rounded-xl border bg-card text-card-foreground shadow-card">
       <div className="flex items-center justify-center bg-[#181818] px-6 py-6">
-        <Image
-          src="/images/common/eva-logo.avif"
-          alt="EVA Entertainment"
-          width={160}
-          height={45}
-          priority
-          sizes="160px"
-        />
+        <Image src="/images/common/eva-logo.avif" alt="EVA Entertainment" width={160} height={45} priority sizes="160px" />
       </div>
 
-      <form action={formAction} className="space-y-5 p-6" noValidate>
+      <form action={googleSignInAction} className="space-y-5 p-6">
         <div className="space-y-1">
           <h1 className="text-xl font-semibold tracking-tight">Admin login</h1>
-          <p className="text-sm text-muted-foreground">
-            Sign in to manage website content.
+          <p id="login-help" className="text-sm text-muted-foreground">
+            Sign in with your LasMind Google Workspace account to manage website content.
           </p>
         </div>
 
         <input type="hidden" name="backTo" value={backTo} />
 
-        <div className="space-y-2">
-          <Label htmlFor="username">Username</Label>
-          <Input
-            id="username"
-            name="username"
-            autoComplete="username"
-            defaultValue={state.username}
-            required
-            autoFocus
-            aria-invalid={state.error ? true : undefined}
-            aria-describedby={state.error ? "login-error" : undefined}
-          />
-        </div>
-
-        <div className="space-y-2">
-          <Label htmlFor="password">Password</Label>
-          <div className="relative">
-            <Input
-              id="password"
-              name="password"
-              type={showPassword ? "text" : "password"}
-              autoComplete="current-password"
-              required
-              className="pr-10"
-              aria-invalid={state.error ? true : undefined}
-              aria-describedby={state.error ? "login-error" : undefined}
-            />
-            <button
-              type="button"
-              onClick={() => setShowPassword((v) => !v)}
-              className="absolute inset-y-0 right-0 flex w-10 items-center justify-center rounded-r-md text-muted-foreground hover:text-foreground focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring"
-              aria-label="Show password"
-              aria-pressed={showPassword}
-            >
-              {showPassword ? (
-                <EyeOff className="size-4" aria-hidden="true" />
-              ) : (
-                <Eye className="size-4" aria-hidden="true" />
-              )}
-            </button>
-          </div>
-        </div>
-
-        {totp ? (
-          <div className="space-y-2">
-            <Label htmlFor="totp">Authenticator code</Label>
-            <Input
-              id="totp"
-              name="totp"
-              inputMode="numeric"
-              autoComplete="one-time-code"
-              pattern="[0-9]{6}"
-              maxLength={6}
-              required
-              aria-describedby={state.error ? "totp-hint login-error" : "totp-hint"}
-              aria-invalid={state.error ? true : undefined}
-            />
-            <p id="totp-hint" className="text-sm text-muted-foreground">
-              The 6-digit code from your authenticator app.
-            </p>
-          </div>
-        ) : null}
-
-        {state.error ? (
+        {notice ? (
           <p
-            id="login-error"
-            role="alert"
-            className="rounded-md border border-red-700/60 bg-red-50 px-3 py-2 text-sm text-red-800 dark:border-red-400/60 dark:bg-red-950 dark:text-red-200"
+            id="login-notice"
+            role="status"
+            className="rounded-md border border-amber-700/60 bg-amber-50 px-3 py-2 text-sm text-amber-900 dark:border-amber-400/60 dark:bg-amber-950 dark:text-amber-100"
           >
-            {state.error}
+            {notice}
           </p>
         ) : null}
 
-        <Button type="submit" className="h-11 w-full" disabled={pending} aria-disabled={pending}>
-          {pending ? <Loader2 className="animate-spin" aria-hidden="true" /> : null}
-          {pending ? "Signing in…" : "Sign in"}
-        </Button>
+        {error && !notice ? (
+          <p
+            role="alert"
+            className="rounded-md border border-red-700/60 bg-red-50 px-3 py-2 text-sm text-red-800 dark:border-red-400/60 dark:bg-red-950 dark:text-red-200"
+          >
+            {error}
+          </p>
+        ) : null}
+
+        <SubmitButton disabled={Boolean(notice)} />
       </form>
     </div>
   );

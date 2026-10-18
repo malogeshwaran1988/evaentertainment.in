@@ -37,7 +37,7 @@ export default async function ProfilePage() {
         <Separator />
         <CardContent className="space-y-4 pt-6">
           <dl className="grid gap-3 text-sm sm:grid-cols-[8rem_1fr]">
-            <dt className="text-muted-foreground">Username</dt>
+            <dt className="text-muted-foreground">Google account</dt>
             <dd className="font-medium">{session.username}</dd>
             <dt className="text-muted-foreground">Role</dt>
             <dd className="font-medium">Administrator</dd>
@@ -45,8 +45,7 @@ export default async function ProfilePage() {
             <dd className="font-medium">Our Projects</dd>
           </dl>
           <p className="text-sm text-muted-foreground">
-            The login is set on the server (ADMIN_USERNAME / ADMIN_PASSWORD) and
-            can’t be changed here.
+            You signed in with Google. Access is limited to the @lasmind.com accounts in ADMIN_ALLOWED_EMAILS on the server.
           </p>
           <form action={logoutAction}>
             <Button type="submit" variant="outline">

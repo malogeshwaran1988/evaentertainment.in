@@ -1,6 +1,7 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
+import { revalidatePath, updateTag } from "next/cache";
+import { BLOG_TAG } from "@@/lib/cache-tags";
 import { z } from "zod";
 import { Routes } from "@@/constants/routes";
 import {
@@ -25,6 +26,8 @@ import { blogImageFileName, blogImagesOf, deleteBlogImage, saveBlogImage } from 
 import { sanitizeBlogHtml } from "@@/lib/blog/sanitize";
 import { blogHref, slugifyBlog, uniqueBlogSlug, validateBlogSlug } from "@@/lib/blog/slug";
 import * as store from "@@/lib/blog/store";
+
+const BLOG_PREVIEW_HTML_MAX = 400_000;
 
 type FieldKey = keyof BlogPostInput | "slug";
 
@@ -148,6 +151,8 @@ function slugTakenState(err: store.BlogSlugTakenError): BlogFormState {
 }
 
 function revalidateBlog(...slugs: (string | undefined)[]) {
+  // Drop the cached Blob JSON first so this request and the next visitors read the saved data.
+  updateTag(BLOG_TAG);
   revalidatePath(Routes.BLOG);
   revalidatePath("/blog/[slug]", "page");
   revalidatePath("/sitemap.xml");
@@ -158,7 +163,7 @@ function revalidateBlog(...slugs: (string | undefined)[]) {
 /** Uploaded images no post uses any more. */
 async function deleteUnusedImages(candidates: Iterable<string>) {
   const inUse = new Set<string>();
-  for (const p of await store.getBlogPosts()) for (const n of blogImagesOf(p)) inUse.add(n);
+  for (const p of await store.getBlogPostsFresh()) for (const n of blogImagesOf(p)) inUse.add(n);
   for (const name of candidates) if (!inUse.has(name)) await deleteBlogImage(name);
 }
 
@@ -167,7 +172,7 @@ const SAVE_FAILED = "Couldn't save the post. Please try again.";
 export async function createBlogPostAction(_prev: BlogFormState, formData: FormData): Promise<BlogFormState> {
   await requireAdmin();
   const { data, fieldErrors } = parse(formData);
-  const posts = await store.getBlogPosts();
+  const posts = await store.getBlogPostsFresh();
   const slugResult = requestedSlug(formData, String(formData.get("title") ?? ""), store.takenBlogSlugs(posts));
   if (!data || slugResult.error) {
     return {
@@ -206,7 +211,7 @@ export async function updateBlogPostAction(
 ): Promise<BlogFormState> {
   await requireAdmin();
   const { data, fieldErrors } = parse(formData);
-  const posts = await store.getBlogPosts();
+  const posts = await store.getBlogPostsFresh();
   const existing = posts.find((p) => p.id === id);
   if (!existing) return { message: "This post no longer exists." };
 
@@ -300,4 +305,13 @@ export async function uploadBlogImageAction(formData: FormData): Promise<BlogIma
     console.error("Failed to upload blog image", err);
     return { ok: false, error: "Couldn't upload the image. Please try again." };
   }
+}
+
+/**
+ * Preview only: runs the article HTML through the same sanitiser used on save, so the preview
+ * tab shows exactly what would be published. Stores nothing.
+ */
+export async function previewBlogHtmlAction(html: string): Promise<string> {
+  await requireAdmin();
+  return sanitizeBlogHtml(String(html ?? "").slice(0, BLOG_PREVIEW_HTML_MAX));
 }

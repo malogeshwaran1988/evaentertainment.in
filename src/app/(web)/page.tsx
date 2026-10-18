@@ -92,6 +92,7 @@ export default async function HomePage() {
                         src={card.image}
                         alt={card.alt}
                         loading="lazy"
+                        fetchPriority="low"
                         decoding="async"
                       />
                       <span className="eva-eq" aria-hidden="true">

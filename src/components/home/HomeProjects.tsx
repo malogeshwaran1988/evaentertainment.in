@@ -38,6 +38,7 @@ export default function HomeProjects({ projects }: { projects: PublicProject[] }
         alt=""
         aria-hidden="true"
         loading="lazy"
+        fetchPriority="low"
         decoding="async"
       />
       <div className="container">
@@ -68,6 +69,8 @@ export default function HomeProjects({ projects }: { projects: PublicProject[] }
                       alt={projectPosterAlt(project)}
                       fill
                       sizes="(min-width: 992px) 18vw, (min-width: 768px) 30vw, 42vw"
+                      loading="lazy"
+                      fetchPriority="low"
                     />
                   ) : (
                     <PosterPlaceholder title={project.title} />

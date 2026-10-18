@@ -1,20 +1,20 @@
 import type { Metadata } from "next";
-import { notFound, permanentRedirect } from "next/navigation";
+import { notFound, permanentRedirect, redirect } from "next/navigation";
 import JsonLd from "@@/components/common/JsonLd";
 import Link from "@@/components/common/NavLink";
-import PageHero from "@@/components/common/PageHero";
+import BlogArticleView from "@@/components/blog/BlogArticleView";
 import { DEFAULT_OG_IMAGE, SITE_NAME } from "@@/constants/constants";
 import { Routes } from "@@/constants/routes";
 import type { BlogPost } from "@@/data/blog";
 import {
   blogAbsoluteUrl,
   blogCoverAlt,
-  blogReadingMinutes,
   blogSeoDescription,
   blogSeoTitle,
   blogWordCount,
   formatBlogDate,
 } from "@@/lib/blog/seo";
+import { BLOG_ENABLED } from "@@/lib/blog/enabled";
 import { blogHref } from "@@/lib/blog/slug";
 import { findPublicBlogPost, getPublicBlogPosts } from "@@/lib/blog/store";
 import { EVA_ORG_ID, evaOrganizationLd } from "@@/lib/project-seo";
@@ -28,11 +28,15 @@ const ogImageFor = (p: BlogPost) =>
   p.cover ? `/og/blog/${p.slug}?v=${new Date(p.updatedAt).getTime().toString(36)}` : DEFAULT_OG_IMAGE;
 
 export async function generateStaticParams() {
+  if (!BLOG_ENABLED) return [];
   return (await getPublicBlogPosts()).map((p) => ({ slug: p.slug }));
 }
 
 /** Drafts, scheduled and unknown slugs all 404; old slugs redirect (see also src/proxy.ts). */
 async function load(slug: string): Promise<BlogPost> {
+  // Blog switched off: send every post URL to the "Coming soon" page (temporary, so nothing is
+  // cached as permanent and no thin/soft-404 post pages exist).
+  if (!BLOG_ENABLED) redirect(Routes.BLOG);
   const found = await findPublicBlogPost(slug);
   if (found?.redirectTo) permanentRedirect(blogHref(found.redirectTo));
   if (!found?.post) notFound();
@@ -40,6 +44,7 @@ async function load(slug: string): Promise<BlogPost> {
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  if (!BLOG_ENABLED) return { robots: STATUS_PAGE_ROBOTS };
   const found = await findPublicBlogPost((await params).slug);
   // Never index anything that isn't a live post (drafts, scheduled, missing).
   if (!found?.post) return { robots: STATUS_PAGE_ROBOTS };
@@ -101,61 +106,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
   return (
     <main id="main-content" tabIndex={-1} className="page-main">
       <JsonLd id="blog-post-jsonld" data={articleSchema} />
-      <PageHero
-        icon="icon-folded-newspaper"
-        className="eva-blog-hero"
-        title={post.title}
-        trail={[
-          { label: "Blog", href: Routes.BLOG },
-          { label: post.title, href: blogHref(post.slug) },
-        ]}
-      />
-      <section className="block block--darkbg eva-blog" aria-label={post.title}>
-        <div className="container">
-          <article className="eva-blog-article">
-            <p className="eva-blog-meta">
-              <span>{post.category}</span>
-              <span aria-hidden="true"> · </span>
-              <time dateTime={post.publishDate}>{formatBlogDate(post.publishDate)}</time>
-              <span aria-hidden="true"> · </span>
-              <span>By {post.author}</span>
-              <span aria-hidden="true"> · </span>
-              <span>{blogReadingMinutes(post.content)} min read</span>
-            </p>
-            {post.cover ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={post.cover}
-                alt={blogCoverAlt(post)}
-                width={1200}
-                height={630}
-                className="eva-blog-cover"
-                loading="eager"
-                fetchPriority="high"
-              />
-            ) : null}
-            <p className="eva-blog-lede">{post.excerpt}</p>
-            {/* Sanitised on save (src/lib/blog/sanitize.ts). */}
-            <div className="eva-blog-body" dangerouslySetInnerHTML={{ __html: post.content }} />
-            {post.tags.length ? (
-              <ul className="eva-blog-tags" aria-label="Tags">
-                {post.tags.map((t) => (
-                  <li key={t}>{t}</li>
-                ))}
-              </ul>
-            ) : null}
-            <div className="eva-blog-cta">
-              <p>Planning a dub, voice-over or mix? Talk to the {SITE_NAME} studio in Andheri West.</p>
-              <div className="eva-project-detail-cta">
-                <Link className="btn" href={Routes.CONTACT}>
-                  Contact us
-                </Link>
-                <Link className="btn btn--border" href={Routes.BOOK}>
-                  Book a session
-                </Link>
-              </div>
-            </div>
-          </article>
+      <BlogArticleView post={post}>
 
           {others.length ? (
             <nav className="eva-blog-more" aria-labelledby="blog-more-heading">
@@ -175,8 +126,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
               </p>
             </nav>
           ) : null}
-        </div>
-      </section>
+      </BlogArticleView>
     </main>
   );
 }

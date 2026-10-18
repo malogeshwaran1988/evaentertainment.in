@@ -33,6 +33,8 @@ export default function Footer() {
                 width={160}
                 height={45}
                 sizes="160px"
+                loading="lazy"
+                fetchPriority="low"
               />
             </Link>
             <div className="eva-footer-social" aria-label="Social media">

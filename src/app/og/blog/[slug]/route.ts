@@ -1,5 +1,6 @@
 import sharp from "sharp";
 import { blogImageFileName, readBlogImage } from "@@/lib/blog/images";
+import { BLOG_ENABLED } from "@@/lib/blog/enabled";
 import { findPublicBlogPost } from "@@/lib/blog/store";
 
 /** 1200×630 JPG share card from a post's cover. Linked with ?v=<updatedAt> so caches refresh. */
@@ -7,6 +8,7 @@ const W = 1200;
 const H = 630;
 
 export async function GET(_req: Request, { params }: { params: Promise<{ slug: string }> }) {
+  if (!BLOG_ENABLED) return new Response("Not found", { status: 404 });
   const { slug } = await params;
   const found = await findPublicBlogPost(slug);
   const name = blogImageFileName(found?.post?.cover);
@@ -18,7 +20,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ slug: s
     headers: {
       "Content-Type": "image/jpeg",
       "Content-Length": String(out.length),
-      "Cache-Control": "public, max-age=86400, s-maxage=31536000, stale-while-revalidate=86400",
+      "Cache-Control": "public, max-age=31536000, s-maxage=31536000, immutable",
     },
   });
 }
