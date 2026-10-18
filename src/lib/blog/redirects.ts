@@ -6,10 +6,10 @@ import { BLOG_BLOB_FILE, BLOG_DISK_FILE } from "@@/lib/blog/paths";
 
 /**
  * Old-slug → current-slug lookup for src/proxy.ts, which answers /blog/<old> with a real 301
- * (a redirect from a page would be a 308). Kept in memory briefly so most requests cost nothing;
+ * (a redirect from a page would be a 308). Kept in memory for 5 minutes and read with the Blob CDN cache, so requests rarely cost an operation;
  * the post page itself also redirects, which covers the few seconds after a rename.
  */
-const TTL_MS = 30_000;
+const TTL_MS = 5 * 60_000;
 
 type Lookup = { current: Set<string>; moved: Map<string, string> };
 

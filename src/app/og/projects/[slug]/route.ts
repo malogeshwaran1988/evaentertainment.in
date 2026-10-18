@@ -65,7 +65,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ slug: st
     headers: {
       "Content-Type": "image/jpeg",
       "Content-Length": String(out.length),
-      "Cache-Control": "public, max-age=86400, s-maxage=31536000, stale-while-revalidate=86400",
+      "Cache-Control": "public, max-age=31536000, s-maxage=31536000, immutable",
     },
   });
 }

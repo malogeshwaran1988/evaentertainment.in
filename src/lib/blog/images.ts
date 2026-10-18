@@ -1,4 +1,5 @@
 import "server-only";
+import { createHash } from "node:crypto";
 import { access, mkdir, readFile, unlink, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { BLOG_IMAGE_MAX_BYTES, BLOG_IMAGE_URL_PREFIX, type BlogPost } from "@@/data/blog";
@@ -7,7 +8,7 @@ import { blogImageBaseName } from "@@/lib/blog/seo";
 
 /**
  * Cover and in-article images. Same rules as project posters: 150 KB cap, type sniffed from the
- * bytes, branded file names (`…-eva-entertainment.avif`, -2/-3 on clash), a `?v=` version in the
+ * bytes, branded file names (`…-eva-entertainment-<hash8>.avif`, identical uploads share one file), a `?v=` version in the
  * stored URL, private Blob store on Vercel (`eva/blog/…`) and public/images/blog/ locally.
  */
 const blobKey = (name: string) => `blog/${name}`;
@@ -65,7 +66,6 @@ export function blogImagesOf(post: Pick<BlogPost, "cover" | "content">): Set<str
 }
 
 async function exists(name: string) {
-  if (USE_BLOB) return blobExists(blobKey(name));
   try {
     await access(diskPath(name));
     return true;
@@ -77,8 +77,8 @@ async function exists(name: string) {
 export type BlogImageResult = { ok: true; url: string } | { ok: false; error: string };
 
 /**
- * Saves an upload as `<stem>-eva-entertainment.<ext>`, taking -2, -3 … when the name is already
- * used (by any post, or a file uploaded for a post that hasn't been saved yet).
+ * Saves an upload as `<stem>-eva-entertainment-<hash8>.<ext>`; the same bytes reuse the stored file
+ * (cleanup only deletes files no post references, so sharing is safe).
  */
 export async function saveBlogImage(file: File, stem: string): Promise<BlogImageResult> {
   if (file.size > BLOG_IMAGE_MAX_BYTES) {
@@ -90,18 +90,25 @@ export async function saveBlogImage(file: File, stem: string): Promise<BlogImage
   const bytes = Buffer.from(await file.arrayBuffer());
   const ext = sniffImage(bytes);
   if (!ext) return { ok: false, error: "Use a JPG, PNG, WebP or AVIF image." };
-  const base = blogImageBaseName(stem);
-  let name = `${base}.${ext}`;
-  for (let n = 2; (await exists(name)) && n < 200; n++) name = `${base}-${n}.${ext}`;
+  // Content-addressed name: the same bytes always get the same name, so a re-upload is stored
+  // once, and no head() loop is needed to find a free "-2/-3" name (that loop cost up to 200
+  // Simple Operations per upload).
+  const hash = createHash("sha256").update(bytes).digest("hex").slice(0, 8);
+  const name = `${blogImageBaseName(stem)}-${hash}.${ext}`;
   if (USE_BLOB) {
-    await writeBlob(blobKey(name), bytes, {
-      contentType: CONTENT_TYPES[ext],
-      cacheControlMaxAge: ONE_YEAR,
-      allowOverwrite: false,
-    });
+    try {
+      await writeBlob(blobKey(name), bytes, {
+        contentType: CONTENT_TYPES[ext],
+        cacheControlMaxAge: ONE_YEAR,
+        allowOverwrite: false,
+      });
+    } catch (err) {
+      // Already stored (same name ⇒ same bytes): reuse it. Anything else is a real failure.
+      if (!(await blobExists(blobKey(name)))) throw err;
+    }
   } else {
     await mkdir(BLOG_IMAGE_DIR, { recursive: true });
-    await writeFile(diskPath(name), bytes, { flag: "wx" });
+    if (!(await exists(name))) await writeFile(diskPath(name), bytes);
   }
   return { ok: true, url: `${BLOG_IMAGE_URL_PREFIX}${name}?v=${Date.now().toString(36)}` };
 }

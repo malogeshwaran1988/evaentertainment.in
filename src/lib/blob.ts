@@ -15,7 +15,17 @@ export async function readBlob(pathname: string) {
 }
 
 /**
- * Reads a blob's text with the ETag that `writeBlob({ ifMatch })` expects. The download's
+ * Plain text read for the public (cached) path: one get() that Blob's CDN cache can answer, so a
+ * HIT costs no Simple Operation. No head(): the ETag is only needed when writing.
+ */
+export async function readBlobText(pathname: string): Promise<string | null> {
+  const result = await get(blobPath(pathname), { access: "private" });
+  if (!result || result.statusCode !== 200) return null;
+  return new Response(result.stream).text();
+}
+
+/**
+ * Write path only (admin saves). Reads a blob's text with the ETag that `writeBlob({ ifMatch })` expects. The download's
  * own `etag` header is a different format and never matches, so the ETag comes from head(),
  * read before the content: a save landing in between makes our write fail and retry.
  */

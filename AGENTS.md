@@ -29,6 +29,11 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 - **Max content width is 1536px site-wide** (`--eva-content-max` in `src/styles/globals.scss`). Header, footer and every section cap their inner content (`.container`, `.eva-header-bar`, footer inners) at it with the existing 15px side padding; full-bleed backgrounds stay viewport-wide. Use `.container` (or the variable) for new sections; never hard-code another max width. Admin is out of scope.
 
+## Vercel Blob quota (Hobby, mandatory)
+
+- Local dev/tests/builds use the disk store; remote Blob only on Vercel or with `BLOB_USE_REMOTE=1`.
+- Public reads go through the cached loaders (`unstable_cache`, tags in `src/lib/cache-tags.ts`, 1 day) with one `get()` and no `head()`; admin save actions call `updateTag()` and use the `*Fresh` readers. Never add `list()`/`head()` on a request path. Blob-backed image/OG routes must send `immutable` with a `?v=` versioned URL.
+
 ## SEO rules (mandatory)
 
 - **Whenever a page URL is added or changed, update the sitemap; it lists only index, follow pages.**

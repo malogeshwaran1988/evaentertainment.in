@@ -8,7 +8,9 @@ import {
   type BlogPost,
   type BlogPostInput,
 } from "@@/data/blog";
-import { BlobPreconditionFailedError, readBlobVersioned, USE_BLOB, writeBlob } from "@@/lib/blob";
+import { unstable_cache } from "next/cache";
+import { BlobPreconditionFailedError, readBlobText, readBlobVersioned, USE_BLOB, writeBlob } from "@@/lib/blob";
+import { BLOG_TAG, DATA_REVALIDATE_SECONDS } from "@@/lib/cache-tags";
 import { BLOG_BLOB_FILE, BLOG_DISK_FILE } from "@@/lib/blog/paths";
 
 /**
@@ -68,6 +70,19 @@ async function readSnapshot(): Promise<Snapshot> {
   }
 }
 
+/** Read path: cached (BLOG_TAG, 1 day), one Blob get on a miss, no head(). Writes use readSnapshot. */
+const readPosts = unstable_cache(
+  async (): Promise<BlogPost[]> => {
+    if (USE_BLOB) {
+      const text = await readBlobText(BLOG_BLOB_FILE);
+      return text === null ? [] : parsePosts(text);
+    }
+    return (await readSnapshot()).posts;
+  },
+  ["eva-blog-v1"],
+  { tags: [BLOG_TAG], revalidate: DATA_REVALIDATE_SECONDS },
+);
+
 function mutate<T>(fn: (posts: BlogPost[]) => { next: BlogPost[]; result: T }) {
   const run = writeQueue.then(async () => {
     for (let attempt = 1; ; attempt++) {
@@ -107,6 +122,12 @@ function assertSlugFree(posts: readonly BlogPost[], slug: string, exceptId?: str
 }
 
 export async function getBlogPosts(): Promise<BlogPost[]> {
+  const posts = await readPosts();
+  return [...posts].sort(compareBlogPosts);
+}
+
+/** Uncached read for admin save actions (slug checks, image cleanup) so they never act on stale data. */
+export async function getBlogPostsFresh(): Promise<BlogPost[]> {
   const { posts } = await readSnapshot();
   return [...posts].sort(compareBlogPosts);
 }
@@ -116,7 +137,7 @@ export async function getPublicBlogPosts(now = new Date()): Promise<BlogPost[]> 
 }
 
 export async function getBlogPost(id: string) {
-  return (await readSnapshot()).posts.find((p) => p.id === id) ?? null;
+  return (await readPosts()).find((p) => p.id === id) ?? null;
 }
 
 export type PublicBlogLookup =
@@ -126,7 +147,7 @@ export type PublicBlogLookup =
 
 /** A public post by its current slug, or the current slug when `slug` is one it used to have. */
 export async function findPublicBlogPost(slug: string, now = new Date()): Promise<PublicBlogLookup> {
-  const posts = (await readSnapshot()).posts.filter((p) => blogPostIsPublic(p, now));
+  const posts = (await readPosts()).filter((p) => blogPostIsPublic(p, now));
   const post = posts.find((p) => p.slug === slug);
   if (post) return { post };
   const moved = posts.find((p) => p.previousSlugs?.includes(slug));
