@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { Routes, SERVICE_SLUGS, serviceHref } from "@@/constants/routes";
 import { projectIsPublished } from "@@/data/projects";
 import STATIC_LASTMOD from "@@/data/static-lastmod.json";
+import { BLOG_ENABLED } from "@@/lib/blog/enabled";
 import { blogHref } from "@@/lib/blog/slug";
 import { getPublicBlogPosts } from "@@/lib/blog/store";
 import { getProjects } from "@@/lib/projects-store";
@@ -77,7 +78,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Only live posts (published and publish date reached); drafts and scheduled posts never appear.
   let posts: Awaited<ReturnType<typeof getPublicBlogPosts>> = [];
   try {
-    posts = await getPublicBlogPosts();
+    if (BLOG_ENABLED) posts = await getPublicBlogPosts();
   } catch (err) {
     console.error("[sitemap] blog unavailable", err);
   }

@@ -62,6 +62,8 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 ## Blog rules (mandatory)
 
+- **Public switch:** `NEXT_PUBLIC_BLOG_ENABLED` (`src/lib/blog/enabled.ts`), default off. Off: `/blog` renders "Coming soon" (200, `noindex, follow`), `/blog/<slug>` 307s to `/blog`, `/og/blog/*` 404s, no blog URLs in the sitemap; admin blog and `/preview/blog` keep working. To launch: set `NEXT_PUBLIC_BLOG_ENABLED=true` in Vercel (Production) and redeploy — it is baked in at build time.
+
 - Posts live in one JSON file (`blog.json`, Blob or `storage/`) via `src/lib/blog/store.ts`. Admin pages are addressed by post **id**, never slug.
 - Slugs: always go through `slugifyBlog` / `validateBlogSlug` (`src/lib/blog/slug.ts`) on client and server. Slugs are unique across current **and former** slugs.
 - Once a post has been published (`firstPublishedAt`), its slug is locked unless the editor explicitly unlocks it; the old slug is kept in `previousSlugs` and `/blog/<old>` 301s to the new URL in `src/proxy.ts` (page-level `permanentRedirect` is the fallback).

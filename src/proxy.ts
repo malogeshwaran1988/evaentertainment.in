@@ -4,6 +4,7 @@ import {
   AdminRoutes,
   verifyAdminSession,
 } from "@@/lib/admin-session";
+import { BLOG_ENABLED } from "@@/lib/blog/enabled";
 import { blogRedirectFor } from "@@/lib/blog/redirects";
 
 const BLOG_POST_PATH = /^\/blog\/([^/]+)$/;
@@ -13,6 +14,8 @@ export async function proxy(request: NextRequest) {
 
   const blogPost = BLOG_POST_PATH.exec(pathname);
   if (blogPost) {
+    // Blog off: the page itself sends every post URL to /blog ("Coming soon").
+    if (!BLOG_ENABLED) return NextResponse.next();
     let slug: string;
     try {
       slug = decodeURIComponent(blogPost[1]);

@@ -4,7 +4,9 @@ import Link from "@@/components/common/NavLink";
 import PageHero from "@@/components/common/PageHero";
 import { DEFAULT_OG_IMAGE, DEFAULT_OG_IMAGE_ALT, SITE_NAME } from "@@/constants/constants";
 import { Routes } from "@@/constants/routes";
+import BlogComingSoon from "@@/components/blog/BlogComingSoon";
 import { BLOG_SEO } from "@@/data/blog";
+import { BLOG_ENABLED } from "@@/lib/blog/enabled";
 import { imageLoading } from "@@/lib/image-loading";
 import { blogAbsoluteUrl, blogCoverAlt, formatBlogDate } from "@@/lib/blog/seo";
 import { blogHref } from "@@/lib/blog/slug";
@@ -17,6 +19,16 @@ export const revalidate = 3600;
 const BLOG_URL = absoluteUrl(Routes.BLOG);
 
 export async function generateMetadata(): Promise<Metadata> {
+  if (!BLOG_ENABLED) {
+    return buildPageMetadata({
+      title: "Blog – Coming Soon | EVA Entertainment",
+      description: BLOG_SEO.description,
+      url: BLOG_URL,
+      ogImage: DEFAULT_OG_IMAGE,
+      ogImageAlt: DEFAULT_OG_IMAGE_ALT,
+      noindex: true,
+    });
+  }
   const posts = await getPublicBlogPosts();
   return buildPageMetadata({
     ...BLOG_SEO,
@@ -29,6 +41,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function BlogPage() {
+  if (!BLOG_ENABLED) return <BlogComingSoon />;
   const posts = await getPublicBlogPosts();
   const schema = {
     "@context": "https://schema.org",

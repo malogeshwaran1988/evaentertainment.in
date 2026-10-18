@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { notFound, permanentRedirect } from "next/navigation";
+import { notFound, permanentRedirect, redirect } from "next/navigation";
 import JsonLd from "@@/components/common/JsonLd";
 import Link from "@@/components/common/NavLink";
 import BlogArticleView from "@@/components/blog/BlogArticleView";
@@ -14,6 +14,7 @@ import {
   blogWordCount,
   formatBlogDate,
 } from "@@/lib/blog/seo";
+import { BLOG_ENABLED } from "@@/lib/blog/enabled";
 import { blogHref } from "@@/lib/blog/slug";
 import { findPublicBlogPost, getPublicBlogPosts } from "@@/lib/blog/store";
 import { EVA_ORG_ID, evaOrganizationLd } from "@@/lib/project-seo";
@@ -27,11 +28,15 @@ const ogImageFor = (p: BlogPost) =>
   p.cover ? `/og/blog/${p.slug}?v=${new Date(p.updatedAt).getTime().toString(36)}` : DEFAULT_OG_IMAGE;
 
 export async function generateStaticParams() {
+  if (!BLOG_ENABLED) return [];
   return (await getPublicBlogPosts()).map((p) => ({ slug: p.slug }));
 }
 
 /** Drafts, scheduled and unknown slugs all 404; old slugs redirect (see also src/proxy.ts). */
 async function load(slug: string): Promise<BlogPost> {
+  // Blog switched off: send every post URL to the "Coming soon" page (temporary, so nothing is
+  // cached as permanent and no thin/soft-404 post pages exist).
+  if (!BLOG_ENABLED) redirect(Routes.BLOG);
   const found = await findPublicBlogPost(slug);
   if (found?.redirectTo) permanentRedirect(blogHref(found.redirectTo));
   if (!found?.post) notFound();
@@ -39,6 +44,7 @@ async function load(slug: string): Promise<BlogPost> {
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  if (!BLOG_ENABLED) return { robots: STATUS_PAGE_ROBOTS };
   const found = await findPublicBlogPost((await params).slug);
   // Never index anything that isn't a live post (drafts, scheduled, missing).
   if (!found?.post) return { robots: STATUS_PAGE_ROBOTS };

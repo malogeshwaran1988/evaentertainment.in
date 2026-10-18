@@ -5001,3 +5001,19 @@ html body .eva-hero-ctas .eva-hero-cta-secondary:hover {
   line-height: 1.5;
   text-align: center;
 }
+
+/* /blog "Coming soon" (BLOG_ENABLED off). */
+.eva-blog-soon {
+  max-width: 40em;
+  margin: 20px auto;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.84);
+}
+.eva-blog-soon h2 {
+  color: #fff;
+  margin-bottom: 12px;
+}
+.eva-blog-soon-cta {
+  justify-content: center;
+  margin-top: 24px;
+}
