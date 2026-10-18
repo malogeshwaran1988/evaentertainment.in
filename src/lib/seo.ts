@@ -11,6 +11,33 @@ type PageSeo = {
   noindex?: boolean;
 };
 
+/**
+ * Standard for every success / failure / error / confirmation / status / admin page:
+ * `noindex, follow`, and never listed in the sitemap. Use this (or buildStatusPageMetadata)
+ * so new status pages get it by default.
+ */
+export const STATUS_PAGE_ROBOTS: Metadata["robots"] = {
+  index: false,
+  follow: true,
+  googleBot: { index: false, follow: true },
+};
+
+/** Status/utility routes that must never be indexed or appear in sitemap.xml. */
+export const NOINDEX_ROUTES = ["/thank-you", "/login", "/admin"] as const;
+
+export function isNoindexRoute(path: string) {
+  return NOINDEX_ROUTES.some((r) => path === r || path.startsWith(`${r}/`));
+}
+
+/** Metadata for a status page (thank-you, sent, failed, error, not-found, confirmation …). */
+export function buildStatusPageMetadata(title: string, description?: string): Metadata {
+  return {
+    title: { absolute: title },
+    ...(description ? { description } : {}),
+    robots: STATUS_PAGE_ROBOTS,
+  };
+}
+
 const INDEXABLE: Metadata["robots"] = {
   index: true,
   follow: true,
@@ -35,7 +62,7 @@ export function buildPageMetadata({
     title: { absolute: title },
     description,
     alternates: { canonical: url },
-    robots: noindex ? { index: false, follow: true } : INDEXABLE,
+    robots: noindex ? STATUS_PAGE_ROBOTS : INDEXABLE,
     openGraph: {
       title,
       description,
