@@ -1,4 +1,8 @@
+import { randomUUID } from "node:crypto";
 import nodemailer from "nodemailer";
+import type Mail from "nodemailer/lib/mailer";
+
+export const MAIL_FROM_NAME = "EVA Entertainment Website";
 
 export function isValidEmail(email: string): boolean {
   if (email.length > 254 || /[\r\n<>,;"]/.test(email)) return false;
@@ -9,17 +13,45 @@ export function isValidEmail(email: string): boolean {
 const headerSafe = (v: string) =>
   v.replace(/[\u0000-\u001f\u007f]+/g, " ").trim();
 
-export async function sendMail(options: {
+type MailInput = {
   subject: string;
   text: string;
+  html?: string;
   replyTo?: string;
-}) {
+};
+
+/** Builds the nodemailer message (exported so tests can render it with jsonTransport). */
+export function buildMailOptions(options: MailInput): Mail.Options {
+  const user = process.env.SMTP_USER;
+  const to = process.env.CONTACT_TO || "info@evaentertainment.in";
+  const fromAddress = headerSafe(
+    process.env.SMTP_FROM || user || "info@lasmind.com",
+  ).replace(/^.*<([^>]+)>.*$/, "$1");
+  const domain = fromAddress.split("@")[1] || "evaentertainment.in";
+  const replyTo =
+    options.replyTo && isValidEmail(headerSafe(options.replyTo))
+      ? headerSafe(options.replyTo)
+      : undefined;
+
+  return {
+    from: { name: MAIL_FROM_NAME, address: fromAddress },
+    to,
+    replyTo,
+    subject: headerSafe(options.subject).slice(0, 200),
+    messageId: `<${randomUUID()}@${domain}>`,
+    date: new Date(),
+    disableFileAccess: true,
+    disableUrlAccess: true,
+    text: options.text,
+    html: options.html,
+  };
+}
+
+export async function sendMail(options: MailInput) {
   const host = process.env.SMTP_HOST;
   const port = Number(process.env.SMTP_PORT || 465);
   const user = process.env.SMTP_USER;
   const pass = process.env.SMTP_PASS;
-  const to = process.env.CONTACT_TO || "info@evaentertainment.in";
-  const from = process.env.SMTP_FROM || user || "noreply@evaentertainment.in";
 
   if (!host || !user || !pass) {
     // Local/dev without SMTP: accept and log. Production should set SMTP_*.
@@ -42,18 +74,7 @@ export async function sendMail(options: {
     auth: { user, pass },
   });
 
-  await transporter.sendMail({
-    from,
-    to,
-    replyTo:
-      options.replyTo && isValidEmail(headerSafe(options.replyTo))
-        ? headerSafe(options.replyTo)
-        : undefined,
-    subject: headerSafe(options.subject).slice(0, 200),
-    disableFileAccess: true,
-    disableUrlAccess: true,
-    text: options.text,
-  });
+  await transporter.sendMail(buildMailOptions(options));
 
   return { ok: true as const, mocked: false as const };
 }

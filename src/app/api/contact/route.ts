@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { isValidEmail, sendMail } from "@@/utils/mail";
+import { contactEmail } from "@@/utils/email-templates";
 import { cleanLine, cleanText, LIMITS } from "@@/lib/security/form-guard";
 import { guardFormRequest } from "@@/lib/security/form-request";
 
@@ -30,19 +31,8 @@ export async function POST(req: NextRequest) {
 
   try {
     await sendMail({
-      subject: "Contact Form from Eva Entertainment",
+      ...contactEmail({ name, lastname, email, phone, service, message }),
       replyTo: email,
-      text: [
-        "Here is what was sent:",
-        "",
-        `Name: ${name}${lastname ? ` ${lastname}` : ""}`,
-        `Email: ${email}`,
-        phone ? `Phone: ${phone}` : null,
-        service ? `Service Interest: ${service}` : null,
-        `Message: ${message}`,
-      ]
-        .filter(Boolean)
-        .join("\n"),
     });
     return NextResponse.json({ ok: true });
   } catch (err) {
