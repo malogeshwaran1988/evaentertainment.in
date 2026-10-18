@@ -9,6 +9,7 @@ export const Routes = {
   PRIVACY: "/privacy-policy",
   TERMS: "/terms-conditions",
   BLOG: "/blog",
+  CLIENTS: "/clients",
   /** Per-project detail: `/projects/<slug>`. */
   project: (slug: string) => `/projects/${slug}` as const,
   /** Blog post: `/blog/<slug>`. */
@@ -37,7 +38,7 @@ export const serviceHref = (slug: ServiceSlug) => `/${slug}`;
 export const WHAT_WE_DO_HREF = "/#what-we-do";
 
 /** Old URLs, permanently redirected to their replacements (see next.config.ts). */
-export const LEGACY_REDIRECTS: { from: string; to: string }[] = [
+export const LEGACY_REDIRECTS: { from: string; to: string; statusCode?: 301 }[] = [
   { from: "/about", to: Routes.ABOUT },
   { from: "/contact", to: Routes.CONTACT },
   { from: "/projects", to: Routes.PROJECTS },
@@ -46,6 +47,11 @@ export const LEGACY_REDIRECTS: { from: string; to: string }[] = [
   { from: "/privacy", to: Routes.PRIVACY },
   { from: "/terms", to: Routes.TERMS },
   { from: "/services", to: WHAT_WE_DO_HREF },
+  // Next matches redirect sources case-insensitively, so these also cover /OURCLIENTS, /Our-Clients …
+  // (never list a casing of /clients itself: that would loop).
+  ...["/our-clients", "/ourclients"].map(
+    (from) => ({ from, to: Routes.CLIENTS, statusCode: 301 as const }),
+  ),
 ];
 
 

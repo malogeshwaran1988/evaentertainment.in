@@ -5002,18 +5002,26 @@ html body .eva-hero-ctas .eva-hero-cta-secondary:hover {
   text-align: center;
 }
 
-/* /blog "Coming soon" (BLOG_ENABLED off). */
-.eva-blog-soon {
+/* Shared "Coming soon" page (src/components/common/ComingSoon.tsx). */
+.block.eva-coming-soon-hero {
+  margin-bottom: 0;
+}
+.block.eva-coming-soon-block {
+  margin-bottom: 0;
+  padding-top: 28px;
+  padding-bottom: 56px;
+}
+.eva-coming-soon {
   max-width: 40em;
   margin: 20px auto;
   text-align: center;
   color: rgba(255, 255, 255, 0.84);
 }
-.eva-blog-soon h2 {
+.eva-coming-soon h2 {
   color: #fff;
   margin-bottom: 12px;
 }
-.eva-blog-soon-cta {
+.eva-coming-soon-cta {
   justify-content: center;
   margin-top: 24px;
 }

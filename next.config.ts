@@ -48,11 +48,9 @@ const nextConfig: NextConfig = {
         destination: "https://evaentertainment.in/:path*",
         permanent: true,
       },
-      ...LEGACY_REDIRECTS.map(({ from, to }) => ({
-        source: from,
-        destination: to,
-        permanent: true,
-      })),
+      ...LEGACY_REDIRECTS.map(({ from, to, statusCode }) =>
+        statusCode ? { source: from, destination: to, statusCode } : { source: from, destination: to, permanent: true },
+      ),
     ];
   },
 
