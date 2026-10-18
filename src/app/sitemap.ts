@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { connection } from "next/server";
 import { Routes, SERVICE_SLUGS, serviceHref } from "@@/constants/routes";
+import { projectIsPublished } from "@@/data/projects";
 import { getProjects } from "@@/lib/projects-store";
 import { projectHref } from "@@/lib/project-seo";
 import { absoluteUrl } from "@@/lib/seo";
@@ -34,7 +35,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority,
   }));
 
-  const projects = await getProjects();
+  const projects = (await getProjects()).filter(projectIsPublished);
   const projectEntries: MetadataRoute.Sitemap = projects.map((project) => ({
     url: absoluteUrl(projectHref(project.slug)),
     lastModified: new Date(project.updatedAt || project.createdAt),

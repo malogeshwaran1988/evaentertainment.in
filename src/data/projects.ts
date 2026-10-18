@@ -54,12 +54,14 @@ export type Project = {
   audioHours?: number;
   /** "ongoing" (still being dubbed) or a release year like "2025". Older projects have none. */
   year?: string;
+  /** When false, hidden from the live site (admin still sees it). Missing → treat as true. */
+  published: boolean;
   createdAt: string;
   updatedAt: string;
 };
 
-/** What the website and `GET /api/projects` expose: no internal timestamps. */
-export type PublicProject = Omit<Project, "createdAt" | "updatedAt"> & {
+/** What the website and `GET /api/projects` expose: no internal timestamps or publish flag. */
+export type PublicProject = Omit<Project, "createdAt" | "updatedAt" | "published"> & {
   /** "Ongoing" or the release year; absent for older projects. */
   yearLabel?: string;
 };
@@ -75,7 +77,13 @@ export type ProjectInput = Pick<
   | "description"
   | "audioHours"
   | "year"
+  | "published"
 >;
+
+/** Older stored rows omit `published`; those stay live on the website. */
+export function projectIsPublished(project: { published?: boolean }) {
+  return project.published !== false;
+}
 
 /** Max length for the public project description (admin + store). */
 export const PROJECT_DESCRIPTION_MAX = 800;

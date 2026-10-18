@@ -1,7 +1,7 @@
 import type { ProjectInput } from "@@/data/projects";
 
-/** Written to projects.json the first time the store is read. */
-export const PROJECTS_SEED: ProjectInput[] = [
+/** Written to projects.json the first time the store is read. Seed rows default to published. */
+export const PROJECTS_SEED: Omit<ProjectInput, "published">[] = [
   {
     title: "Sardar 2",
     from: "Tamil",

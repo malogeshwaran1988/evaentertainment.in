@@ -1,6 +1,7 @@
 import "server-only";
 import {
   PROJECT_YEAR_ONGOING,
+  projectIsPublished,
   projectYearLabel,
   type Project,
   type PublicProject,
@@ -39,14 +40,14 @@ function toPublic({
 }
 
 /**
- * Projects as the website shows them: ongoing first, then newest year (see compareProjects).
+ * Projects as the website shows them: published only, ongoing first, then newest year.
  * Shared by the pages and `GET /api/projects` so they always agree.
  */
 export async function getPublicProjects({
   limit,
   status,
 }: { limit?: number; status?: PublicProjectStatus } = {}) {
-  let projects = await getProjects();
+  let projects = (await getProjects()).filter(projectIsPublished);
   if (status) {
     const ongoing = status === "ongoing";
     projects = projects.filter((p) => (p.year === PROJECT_YEAR_ONGOING) === ongoing);

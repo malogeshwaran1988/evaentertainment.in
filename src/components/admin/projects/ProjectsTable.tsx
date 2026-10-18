@@ -134,6 +134,16 @@ export default function ProjectsTable({ projects }: { projects: Project[] }) {
         cell: ({ getValue }) => <Badge variant="secondary">{getValue<string>()}</Badge>,
       },
       {
+        id: "published",
+        header: "Visibility",
+        cell: ({ row }) =>
+          row.original.published !== false ? (
+            <Badge variant="secondary">Public</Badge>
+          ) : (
+            <Badge variant="outline">Private</Badge>
+          ),
+      },
+      {
         id: "year",
         header: "Year",
         cell: ({ row }) =>
