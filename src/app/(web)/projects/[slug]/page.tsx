@@ -152,27 +152,6 @@ export default async function ProjectDetailPage({
 
       <section className="block block--darkbg eva-project-detail" aria-label={project.title}>
         <div className="container eva-project-detail-inner">
-          {prev ? (
-            <Link
-              className="eva-project-side-nav eva-project-side-nav--prev"
-              href={Routes.project(prev.slug)}
-              aria-label={`Previous project: ${prev.title}`}
-            >
-              <span aria-hidden="true">‹</span>
-              <span className="eva-project-side-nav-text">Previous project</span>
-            </Link>
-          ) : null}
-          {next ? (
-            <Link
-              className="eva-project-side-nav eva-project-side-nav--next"
-              href={Routes.project(next.slug)}
-              aria-label={`Next project: ${next.title}`}
-            >
-              <span className="eva-project-side-nav-text">Next project</span>
-              <span aria-hidden="true">›</span>
-            </Link>
-          ) : null}
-
           <div className="row gutter-30 align-items-start">
             <div className="col-md-5">
               <div className="eva-project-detail-poster">

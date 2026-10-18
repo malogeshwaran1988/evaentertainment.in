@@ -2606,49 +2606,6 @@ body:not(.page-blog) .block--darkbg .eva-project-title,
   gap: 12px;
 }
 
-.eva-project-side-nav {
-  display: none;
-  position: absolute;
-  top: 18%;
-  z-index: 3;
-  align-items: center;
-  gap: 8px;
-  max-width: 140px;
-  padding: 12px 14px;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  background: rgba(11, 13, 16, 0.72);
-  color: #fff;
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  text-decoration: none;
-  transition: background 0.2s ease, border-color 0.2s ease;
-}
-
-.eva-project-side-nav:hover,
-.eva-project-side-nav:focus-visible {
-  background: rgba(112, 182, 21, 0.2);
-  border-color: rgba(112, 182, 21, 0.55);
-  color: #fff;
-  outline: 0;
-}
-
-.eva-project-side-nav--prev {
-  left: 0;
-  transform: translateX(-50%);
-}
-
-.eva-project-side-nav--next {
-  right: 0;
-  transform: translateX(50%);
-}
-
-.eva-project-side-nav span[aria-hidden="true"] {
-  font-size: 22px;
-  line-height: 1;
-}
-
 .eva-project-explore {
   margin-top: 56px;
   padding-top: 40px;
@@ -2660,7 +2617,7 @@ body:not(.page-blog) .block--darkbg .eva-project-title,
   flex-wrap: wrap;
   justify-content: space-between;
   gap: 12px;
-  margin-bottom: 28px;
+  margin-top: 28px;
 }
 
 .eva-project-explore-adj {
@@ -2784,7 +2741,7 @@ body:not(.page-blog) .block--darkbg .eva-project-title,
   display: flex;
   flex-direction: column;
   gap: 8px;
-  width: 112px;
+  width: 128px;
   flex: 0 0 auto;
   color: #fff;
   text-decoration: none;
@@ -2803,6 +2760,8 @@ body:not(.page-blog) .block--darkbg .eva-project-title,
 .eva-project-explore-thumb-media {
   position: relative;
   display: block;
+  width: 100%;
+  min-height: 168px;
   aspect-ratio: 2 / 3;
   overflow: hidden;
   background: #13161d;
@@ -2821,12 +2780,6 @@ body:not(.page-blog) .block--darkbg .eva-project-title,
   font-size: 12px;
   font-weight: 600;
   line-height: 1.35;
-}
-
-@media (min-width: 1200px) {
-  .eva-project-side-nav {
-    display: inline-flex;
-  }
 }
 
 @media (max-width: 991px) {

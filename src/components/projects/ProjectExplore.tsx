@@ -16,8 +16,48 @@ type ProjectExploreProps = {
   next: ProjectNavNeighbor | null;
 };
 
+function AdjacentLink({
+  neighbor,
+  direction,
+}: {
+  neighbor: ProjectNavNeighbor | null;
+  direction: "prev" | "next";
+}) {
+  const isPrev = direction === "prev";
+  const label = isPrev ? "Previous" : "Next";
+
+  if (!neighbor) {
+    return (
+      <span
+        className={`eva-project-explore-adj eva-project-explore-adj--${direction} eva-project-explore-adj--disabled`}
+        aria-disabled="true"
+      >
+        {isPrev ? <span aria-hidden="true">‹</span> : null}
+        <span className="eva-project-explore-adj-label">{label}</span>
+        {!isPrev ? <span aria-hidden="true">›</span> : null}
+      </span>
+    );
+  }
+
+  return (
+    <Link
+      className={`eva-project-explore-adj eva-project-explore-adj--${direction}`}
+      href={Routes.project(neighbor.slug)}
+      aria-label={`${label} project: ${neighbor.title}`}
+    >
+      {isPrev ? <span aria-hidden="true">‹</span> : null}
+      <span className="eva-project-explore-adj-label">
+        {label}
+        <span className="eva-project-explore-adj-title">{neighbor.title}</span>
+      </span>
+      {!isPrev ? <span aria-hidden="true">›</span> : null}
+    </Link>
+  );
+}
+
 export default function ProjectExplore({ projects, prev, next }: ProjectExploreProps) {
   const scrollerRef = useRef<HTMLUListElement>(null);
+  const hasThumbs = projects.length > 0;
 
   const scrollBy = (dir: -1 | 1) => {
     const el = scrollerRef.current;
@@ -27,45 +67,13 @@ export default function ProjectExplore({ projects, prev, next }: ProjectExploreP
   };
 
   return (
-    <section className="eva-project-explore" aria-labelledby="eva-project-explore-title">
-      <div className="eva-project-explore-nav" aria-label="Adjacent projects">
-        {prev ? (
-          <Link
-            className="eva-project-explore-adj eva-project-explore-adj--prev"
-            href={Routes.project(prev.slug)}
-          >
-            <span aria-hidden="true">‹</span>
-            <span className="eva-project-explore-adj-label">
-              Previous
-              <span className="eva-project-explore-adj-title">{prev.title}</span>
-            </span>
-          </Link>
-        ) : (
-          <span className="eva-project-explore-adj eva-project-explore-adj--disabled" aria-disabled="true">
-            <span aria-hidden="true">‹</span>
-            <span className="eva-project-explore-adj-label">Previous</span>
-          </span>
-        )}
-        {next ? (
-          <Link
-            className="eva-project-explore-adj eva-project-explore-adj--next"
-            href={Routes.project(next.slug)}
-          >
-            <span className="eva-project-explore-adj-label">
-              Next
-              <span className="eva-project-explore-adj-title">{next.title}</span>
-            </span>
-            <span aria-hidden="true">›</span>
-          </Link>
-        ) : (
-          <span className="eva-project-explore-adj eva-project-explore-adj--disabled" aria-disabled="true">
-            <span className="eva-project-explore-adj-label">Next</span>
-            <span aria-hidden="true">›</span>
-          </span>
-        )}
-      </div>
-
-      {projects.length > 0 ? (
+    <section
+      className="eva-project-explore"
+      {...(hasThumbs
+        ? { "aria-labelledby": "eva-project-explore-title" }
+        : { "aria-label": "Adjacent projects" })}
+    >
+      {hasThumbs ? (
         <>
           <div className="eva-project-explore-head">
             <h2 id="eva-project-explore-title" className="eva-project-explore-title">
@@ -97,7 +105,7 @@ export default function ProjectExplore({ projects, prev, next }: ProjectExploreP
                           src={project.poster}
                           alt={projectPosterAlt(project)}
                           fill
-                          sizes="120px"
+                          sizes="140px"
                           loading="lazy"
                           unoptimized={project.poster.startsWith(POSTER_URL_PREFIX)}
                         />
@@ -121,6 +129,11 @@ export default function ProjectExplore({ projects, prev, next }: ProjectExploreP
           </div>
         </>
       ) : null}
+
+      <div className="eva-project-explore-nav" aria-label="Adjacent projects">
+        <AdjacentLink neighbor={prev} direction="prev" />
+        <AdjacentLink neighbor={next} direction="next" />
+      </div>
     </section>
   );
 }
