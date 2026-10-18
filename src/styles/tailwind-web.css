@@ -1,0 +1,16 @@
+/*
+  Tailwind v4 for the public site. Loaded before globals.scss (which Sass compiles),
+  in the same spot the old `@tailwind utilities;` line sat.
+  - No preflight: the legacy EVA CSS owns base styles (was `corePlugins.preflight: false`).
+  - Not wrapped in cascade layers, so utilities keep the v3 cascade against globals.scss.
+  - Scans src/app and src/components, like the v3 `content` globs.
+  - Admin UI has its own stylesheet (src/styles/admin.css).
+*/
+@import "tailwindcss/theme.css";
+@import "tailwindcss/utilities.css" source(none);
+
+@source "../app";
+@source "../components";
+
+/* Legacy theme class names that v4's open-ended scales would now turn into utilities. */
+@source not inline("inset-125");

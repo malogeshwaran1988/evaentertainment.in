@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import "@@/styles/tailwind-web.css";
 import "@@/styles/globals.scss";
 import Header from "@@/components/common/Header";
 import Footer from "@@/components/common/Footer";

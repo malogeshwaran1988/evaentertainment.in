@@ -18,8 +18,8 @@ import {
 import { cn } from "@@/lib/utils";
 
 const TEXTAREA = cn(
-  "flex w-full rounded-md border border-input bg-transparent px-3 py-2 text-base shadow-sm placeholder:text-muted-foreground md:text-sm dark:bg-input/30",
-  "focus-visible:border-ring focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50",
+  "flex w-full rounded-md border border-input bg-transparent px-3 py-2 text-base shadow-xs placeholder:text-muted-foreground md:text-sm dark:bg-input/30",
+  "focus-visible:border-ring focus-visible:outline-hidden focus-visible:ring-[3px] focus-visible:ring-ring/50",
   "aria-invalid:border-destructive",
 );
 

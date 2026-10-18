@@ -118,7 +118,7 @@ export default function ProjectsTable({ projects }: { projects: Project[] }) {
               onClick={() => setViewing(row.original)}
               aria-label={`View ${row.original.title}`}
               data-view-project={row.original.id}
-              className="rounded-sm text-left font-medium text-foreground hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className="rounded-sm text-left font-medium text-foreground hover:underline focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring"
             >
               {row.original.title}
             </button>
@@ -188,7 +188,7 @@ export default function ProjectsTable({ projects }: { projects: Project[] }) {
           }
           const short = text.length > 60 ? `${text.slice(0, 60).trimEnd()}…` : text;
           return (
-            <span className="line-clamp-2 max-w-[14rem] text-muted-foreground" title={text}>
+            <span className="line-clamp-2 max-w-56 text-muted-foreground" title={text}>
               {short}
             </span>
           );
