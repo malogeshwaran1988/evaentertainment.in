@@ -14,7 +14,9 @@ npm run lint
 
 ## Environment
 
-Copy `.env.example` to `.env.local` and set SMTP credentials for contact/booking mail. In development, if SMTP is unset, submissions are logged to the server console instead of failing.
+Copy `.env.example` to `.env.local` and set SMTP credentials for contact/booking mail (`SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `SMTP_FROM`, `CONTACT_TO`). Gmail / Google Workspace uses `smtp.gmail.com` on port `465` with an App Password. In development, if SMTP is unset, submissions are logged to the server console instead of failing.
+
+**Production (Vercel):** set the same SMTP and `CONTACT_TO` variables in the Vercel project (Production and Preview), then redeploy so contact/booking API routes can send mail. Never commit real passwords — keep them in `.env.local` and the Vercel dashboard only.
 
 ## Admin panel
 
