@@ -26,6 +26,8 @@ import { sanitizeBlogHtml } from "@@/lib/blog/sanitize";
 import { blogHref, slugifyBlog, uniqueBlogSlug, validateBlogSlug } from "@@/lib/blog/slug";
 import * as store from "@@/lib/blog/store";
 
+const BLOG_PREVIEW_HTML_MAX = 400_000;
+
 type FieldKey = keyof BlogPostInput | "slug";
 
 export type BlogFormState = {
@@ -300,4 +302,13 @@ export async function uploadBlogImageAction(formData: FormData): Promise<BlogIma
     console.error("Failed to upload blog image", err);
     return { ok: false, error: "Couldn't upload the image. Please try again." };
   }
+}
+
+/**
+ * Preview only: runs the article HTML through the same sanitiser used on save, so the preview
+ * tab shows exactly what would be published. Stores nothing.
+ */
+export async function previewBlogHtmlAction(html: string): Promise<string> {
+  await requireAdmin();
+  return sanitizeBlogHtml(String(html ?? "").slice(0, BLOG_PREVIEW_HTML_MAX));
 }

@@ -82,7 +82,7 @@ export default function BlogEditorInner({
           value={value}
           onChange={onChange}
           placeholder="Write the article…"
-          height={520}
+          height={480}
           disabled={disabled}
           onImageUpload={async (file) => ({ url: await onImageUpload(file), fallback: false })}
         />

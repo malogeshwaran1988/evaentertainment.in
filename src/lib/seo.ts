@@ -23,7 +23,7 @@ export const STATUS_PAGE_ROBOTS: Metadata["robots"] = {
 };
 
 /** Status/utility routes that must never be indexed or appear in sitemap.xml. */
-export const NOINDEX_ROUTES = ["/thank-you", "/login", "/admin"] as const;
+export const NOINDEX_ROUTES = ["/thank-you", "/login", "/admin", "/preview"] as const;
 
 export function isNoindexRoute(path: string) {
   return NOINDEX_ROUTES.some((r) => path === r || path.startsWith(`${r}/`));
