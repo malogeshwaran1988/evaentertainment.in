@@ -1,6 +1,7 @@
 import { randomUUID } from "node:crypto";
 import nodemailer from "nodemailer";
 import type Mail from "nodemailer/lib/mailer";
+import { EMAIL_LOGO_CID, EMAIL_LOGO_PNG_BASE64 } from "./email-logo";
 
 export const MAIL_FROM_NAME = "EVA Entertainment Website";
 
@@ -49,6 +50,18 @@ export function buildMailOptions(options: MailInput): Mail.Options {
     text: options.text,
     html: options.html,
     headers: options.headers,
+    // Inline logo: referenced as cid:eva-logo by every template; only attached when used.
+    attachments: options.html?.includes(`cid:${EMAIL_LOGO_CID}`)
+      ? [
+          {
+            filename: "eva-logo.png",
+            content: Buffer.from(EMAIL_LOGO_PNG_BASE64, "base64"),
+            contentType: "image/png",
+            cid: EMAIL_LOGO_CID,
+            contentDisposition: "inline",
+          },
+        ]
+      : undefined,
   };
 }
 

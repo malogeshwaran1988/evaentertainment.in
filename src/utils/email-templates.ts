@@ -2,11 +2,12 @@
  * Branded internal notification emails for the Contact and Book Studio Session forms.
  *
  * Bulletproof HTML: 600px table layout, inline CSS only, system fonts, MSO conditionals + VML
- * button for Outlook desktop, dark-mode-safe colours, logo hosted on our own domain (never
- * attached / base64), and a plain-text part. Every user value is HTML-escaped; the only links
+ * button for Outlook desktop, dark-mode-safe colours, logo embedded as a CID inline
+ * attachment (cid:eva-logo, added in mail.ts) so it shows offline and is not a remote image, and a plain-text part. Every user value is HTML-escaped; the only links
  * built from user input are mailto: (validated email) and tel: (digits only).
  */
 import { APP_BASE_URL, SITE_NAME } from "@@/constants/constants";
+import { EMAIL_LOGO_CID } from "./email-logo";
 
 /** EVA logo colours (sampled from public/images/common/eva-logo.avif) + site CTA green. */
 export const EMAIL_BRAND = {
@@ -21,7 +22,7 @@ export const EMAIL_BRAND = {
 } as const;
 
 export const EMAIL_LOGO = {
-  src: `${APP_BASE_URL}/images/email/eva-logo.png`,
+  src: `cid:${EMAIL_LOGO_CID}`,
   width: 160,
   height: 80,
 } as const;
@@ -106,7 +107,7 @@ function layout(o: { title: string; preheader: string; rows: string; footer?: st
 <!--[if mso]><table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0"><tr><td><![endif]-->
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:600px;width:100%;">
 <tr><td bgcolor="${B.ink}" align="left" style="background-color:${B.ink};padding:20px 28px;border-radius:8px 8px 0 0;border-bottom:4px solid ${B.gold};">
-<img src="${EMAIL_LOGO.src}" width="${EMAIL_LOGO.width}" height="${EMAIL_LOGO.height}" alt="${escapeHtml(SITE_NAME)}" style="display:block;border:0;outline:none;text-decoration:none;width:${EMAIL_LOGO.width}px;height:${EMAIL_LOGO.height}px;font-family:${FONT};font-size:24px;line-height:30px;font-weight:800;color:${B.gold};">
+<img src="${EMAIL_LOGO.src}" width="${EMAIL_LOGO.width}" height="${EMAIL_LOGO.height}" alt="${escapeHtml(SITE_NAME)}" style="display:block;border:0;outline:none;text-decoration:none;width:${EMAIL_LOGO.width}px;max-width:100%;height:${EMAIL_LOGO.height}px;overflow:hidden;word-break:break-word;font-family:${FONT};font-size:18px;line-height:24px;font-weight:800;letter-spacing:0.3px;color:${B.gold};text-align:left;">
 </td></tr>
 ${o.rows}<tr><td bgcolor="${B.ink}" style="background-color:${B.ink};padding:18px 28px;border-radius:0 0 8px 8px;font-family:${FONT};font-size:12px;line-height:18px;color:#C9CDD3;">
 ${o.footer ?? `Sent by the ${escapeHtml(SITE_NAME)} website form at`} <a href="${APP_BASE_URL}" style="color:#C9CDD3;text-decoration:underline;">evaentertainment.in</a>. Andheri West, Mumbai.
