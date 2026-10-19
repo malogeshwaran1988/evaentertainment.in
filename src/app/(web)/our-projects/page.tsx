@@ -5,7 +5,7 @@ import { absoluteUrl, buildPageMetadata } from "@@/lib/seo";
 import { connection } from "next/server";
 import { SvgIcon } from "@@/components/common/Icons";
 import ProjectsGallery from "@@/components/projects/ProjectsGallery";
-import ProjectImpactStrip from "@@/components/projects/ProjectImpactStrip";
+import ProjectImpactStrip, { IMPACT_STRIP_ENABLED } from "@@/components/projects/ProjectImpactStrip";
 import { getPublicProjects } from "@@/lib/projects-public";
 import {
   projectAbsolutePosterUrl,
@@ -71,11 +71,13 @@ export default async function ProjectsPage() {
         className="eva-projects-hero"
       />
 
-      <ProjectImpactStrip
-        stats={impact}
-        className="block block--darkbg eva-impact--projects"
-        showCta={false}
-      />
+      {IMPACT_STRIP_ENABLED ? (
+        <ProjectImpactStrip
+          stats={impact}
+          className="block block--darkbg eva-impact--projects"
+          showCta={false}
+        />
+      ) : null}
 
       <section
         className="block block--darkbg eva-projects"

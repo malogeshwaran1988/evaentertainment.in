@@ -7,6 +7,13 @@ import {
   type ProjectImpactStats,
 } from "@@/lib/project-stats";
 
+/**
+ * "Stories brought home in every language" (hours / days / languages) is hidden for now on the
+ * home and Our Projects pages until the hours are filled in and the stale-number issue is fixed.
+ * Set to `true` to bring it back; nothing else needs to change.
+ */
+export const IMPACT_STRIP_ENABLED = false;
+
 type ProjectImpactStripProps = {
   stats: ProjectImpactStats;
   className?: string;

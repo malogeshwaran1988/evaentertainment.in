@@ -94,8 +94,6 @@ export const HERO_SLIDES = [
         role: "h1" as const,
         className: "h-gradient",
         text: "EVA Entertainment",
-        /** Rendered inside the H1 (small line under the brand) for a keyword-rich heading. */
-        tagline: "Hindi Dubbing Studio in Mumbai for South Indian Films",
       },
       {
         role: "title" as const,
