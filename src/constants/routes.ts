@@ -4,7 +4,6 @@ export const Routes = {
   PROJECTS: "/our-projects",
   EQUIPMENT: "/studio-equipment",
   CONTACT: "/contact-us",
-  BOOK: "/book-studio-session",
   THANK_YOU: "/thank-you",
   PRIVACY: "/privacy-policy",
   TERMS: "/terms-conditions",
@@ -43,7 +42,10 @@ export const LEGACY_REDIRECTS: { from: string; to: string; statusCode?: 301 }[] 
   { from: "/contact", to: Routes.CONTACT },
   { from: "/projects", to: Routes.PROJECTS },
   { from: "/equipment", to: Routes.EQUIPMENT },
-  { from: "/book", to: Routes.BOOK },
+  // Studio booking page removed (Oct 2026): enquiries go through the contact form.
+  ...["/book", "/book-studio-session"].map(
+    (from) => ({ from, to: Routes.CONTACT, statusCode: 301 as const }),
+  ),
   { from: "/privacy", to: Routes.PRIVACY },
   { from: "/terms", to: Routes.TERMS },
   { from: "/services", to: WHAT_WE_DO_HREF },

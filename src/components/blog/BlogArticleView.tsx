@@ -80,9 +80,6 @@ export default function BlogArticleView({
                 <Link className="btn" href={Routes.CONTACT}>
                   Contact us
                 </Link>
-                <Link className="btn btn--border" href={Routes.BOOK}>
-                  Book a session
-                </Link>
               </div>
             </div>
           </article>

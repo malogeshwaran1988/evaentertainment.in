@@ -1,5 +1,5 @@
 /**
- * Branded internal notification emails for the Contact and Book Studio Session forms.
+ * Branded internal notification email for the Contact form.
  *
  * Bulletproof HTML: 600px table layout, inline CSS only, system fonts, MSO conditionals + VML
  * button for Outlook desktop, dark-mode-safe colours, logo embedded as a CID inline
@@ -30,7 +30,7 @@ export const EMAIL_LOGO = {
 export type EmailField = { label: string; value: string; kind?: "email" | "tel" };
 
 export type InquiryEmail = {
-  /** "New contact enquiry", "New studio booking request" … */
+  /** "New contact enquiry" … */
   heading: string;
   intro: string;
   fields: EmailField[];
@@ -199,59 +199,14 @@ export function contactEmail(c: ContactInput) {
   return { subject: `New contact enquiry from ${fullName}`, html, text };
 }
 
-export type BookingInput = {
-  name: string;
-  lastname?: string;
-  email: string;
-  phone?: string;
-  address?: string;
-  city?: string;
-  service: string;
-  hours?: string;
-  date?: string;
-  time?: string;
-  language?: string;
-  notes?: string;
-};
-
-/** Booking form "hours" option values map to these labels (see BookingForm HOURS). */
-const HOURS_LABEL: Record<string, string> = { "1": "1 hour", "2": "2 hours", "3": "4 hours", "4": "6 hours" };
-const hoursLabel = (v?: string) => (v ? (HOURS_LABEL[v] ?? v) : "");
-
-export function bookingEmail(b: BookingInput) {
-  const fullName = [b.name, b.lastname].filter(Boolean).join(" ");
-  const { html, text } = renderInquiryEmail({
-    heading: "New studio session request",
-    intro: `${fullName} asked to book a studio session through the website.`,
-    fields: [
-      { label: "Name", value: fullName },
-      { label: "Email", value: b.email, kind: "email" },
-      { label: "Phone", value: b.phone ?? "", kind: "tel" },
-      { label: "Service", value: b.service },
-      { label: "Preferred date", value: b.date ?? "" },
-      { label: "Preferred time", value: b.time ?? "" },
-      { label: "Duration", value: hoursLabel(b.hours) },
-      { label: "Language(s)", value: b.language ?? "" },
-      { label: "Address", value: b.address ?? "" },
-      { label: "City / Country", value: b.city ?? "" },
-    ],
-    message: b.notes || undefined,
-    messageLabel: "Notes",
-    replyName: fullName,
-    replyEmail: b.email,
-  });
-  const when = b.date ? ` for ${b.date}` : "";
-  return { subject: `Studio session request from ${fullName}${when}`, html, text };
-}
-
 /* ------------------------------------------------------------------------------------------------
- * Client auto-acknowledgement. Echoes NO user free text except the (escaped, ≤40 char) first name
- * and, for bookings, the requested date. The only links are fixed (mailto:info@… and the site).
+ * Client auto-acknowledgement. Echoes NO user free text except the (escaped, ≤40 char) first
+ * name. The only links are fixed (mailto:info@… and the site).
  * --------------------------------------------------------------------------------------------- */
 
 export const ACK_CONTACT_EMAIL = "info@evaentertainment.in";
 
-export type AckInput = { kind: "contact" | "booking"; firstName: string; date?: string };
+export type AckInput = { kind: "contact"; firstName: string };
 
 const ackSafe = (v: string | undefined, max: number) =>
   (v ?? "").replace(/[\u0000-\u001f\u007f<>]+/g, " ").replace(/\s+/g, " ").trim().slice(0, max).trim();
@@ -261,26 +216,14 @@ const p = (html: string, extra = "") =>
 
 export function ackEmail(a: AckInput) {
   const first = ackSafe(a.firstName.split(/\s+/)[0], 40) || "there";
-  const date = a.kind === "booking" ? ackSafe(a.date, 40) : "";
-  const subject =
-    a.kind === "booking"
-      ? "We've received your studio session request – EVA Entertainment"
-      : "Thank you for contacting EVA Entertainment";
-  const heading = a.kind === "booking" ? "Studio session request received" : "Thank you for your enquiry";
+  const subject = "Thank you for contacting EVA Entertainment";
+  const heading = "Thank you for your enquiry";
   const mail = `mailto:${ACK_CONTACT_EMAIL}`;
-
-  const dateRow = date
-    ? `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 18px;"><tr>
-<td style="background-color:#F7F8FA;border-left:4px solid ${B.green};padding:12px 16px;font-family:${FONT};font-size:15px;line-height:22px;color:${B.text};">
-<span style="color:${B.muted};font-weight:600;">Requested date/time:</span> ${escapeHtml(date)}
-</td></tr></table>`
-    : "";
 
   const rows = `<tr><td bgcolor="#FFFFFF" style="background-color:#FFFFFF;padding:30px 28px 10px;">
 <h1 style="margin:0 0 18px;font-family:${FONT};font-size:22px;line-height:30px;font-weight:700;color:${B.text};">${escapeHtml(heading)}</h1>
 ${p(`Dear ${escapeHtml(first)},`)}
 ${p("Thank you for contacting EVA Entertainment. We have received your enquiry and a member of our team will get back to you within one business day.")}
-${dateRow}
 ${p(`If your project is urgent, please reply to this email or write to <a href="${mail}" style="color:${B.text};text-decoration:underline;">${ACK_CONTACT_EMAIL}</a>.`)}
 </td></tr>
 <tr><td bgcolor="#FFFFFF" align="left" style="background-color:#FFFFFF;padding:4px 28px 18px;">
@@ -303,7 +246,6 @@ ${p(`<strong>Team EVA Entertainment</strong><br><span style="color:${B.muted};fo
     `Dear ${first},`,
     "",
     "Thank you for contacting EVA Entertainment. We have received your enquiry and a member of our team will get back to you within one business day.",
-    ...(date ? ["", `Requested date/time: ${date}`] : []),
     "",
     `If your project is urgent, please reply to this email or write to ${ACK_CONTACT_EMAIL}.`,
     "",

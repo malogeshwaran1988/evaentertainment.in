@@ -15,7 +15,6 @@ const ROUTES = {
   "/about-us": ["src/app/(web)/about-us", "src/data/about.ts"],
   "/studio-equipment": ["src/app/(web)/studio-equipment", "src/data/equipment.ts"],
   "/contact-us": ["src/app/(web)/contact-us", "src/data/contact.ts"],
-  "/book-studio-session": ["src/app/(web)/book-studio-session", "src/data/booking.ts"],
   "/privacy-policy": ["src/app/(web)/privacy-policy", "src/data/privacy.ts"],
   "/terms-conditions": ["src/app/(web)/terms-conditions", "src/data/terms.ts"],
   "service:*": ["src/app/(web)/[service]", "src/data/services.ts", "src/components/services"],

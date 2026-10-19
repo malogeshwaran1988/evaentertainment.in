@@ -271,70 +271,6 @@ textarea:focus-visible {
   object-position: left top;
 }
 
-.booking-modal-backdrop {
-  position: fixed;
-  inset: 0;
-  z-index: 10000;
-  background: rgba(0, 0, 0, 0.75);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1rem;
-  overflow-y: auto;
-}
-
-.booking-modal-panel {
-  background: #1a1a1a;
-  max-width: 720px;
-  width: 100%;
-  padding: 2rem;
-  position: relative;
-  max-height: 90vh;
-  overflow-y: auto;
-}
-
-.booking-modal-close {
-  position: absolute;
-  top: 12px;
-  right: 16px;
-  background: transparent;
-  border: 0;
-  color: #fff;
-  font-size: 1.5rem;
-  cursor: pointer;
-  line-height: 1;
-}
-
-.form-popup.booking-form-panel {
-  display: block;
-  width: 100%;
-  max-width: 900px;
-  margin: 0 auto;
-}
-
-.booking-form-panel .form-btn-wrap {
-  text-align: center;
-  margin-top: 12px;
-}
-
-.booking-form-panel .select-wrapper select.input-custom,
-.booking-form-panel .select-wrapper select {
-  padding-right: 56px;
-}
-
-.block.booking-page-section {
-  margin-bottom: 0;
-  padding-top: 60px;
-  padding-bottom: 60px;
-}
-
-@media (max-width: 767px) {
-  .block.booking-page-section {
-    padding-top: 40px;
-    padding-bottom: 40px;
-  }
-}
-
 /*
  * Hero slide lines: one standard for h1, title and subtitle lines. Every line is
  * a black box with the same side padding (so text edges align) and one gap.
@@ -1123,7 +1059,6 @@ body .block.block--full.no-pad-gutter > .container.container--bleed {
   }
 }
 
-
 .header.is-sticky .header-wrap {
   transition: transform 0.25s ease;
   z-index: 1000;
@@ -1196,18 +1131,6 @@ body .block.block--full.no-pad-gutter > .container.container--bleed {
 .block.bottom-80 {
   bottom: auto;
   top: auto;
-}
-
-/* Sitewide booking CTA — Glory white look; light top pad under dark pages */
-.booking-cta {
-  padding-top: 48px;
-  background: transparent;
-}
-
-@media (max-width: 767px) {
-  .booking-cta {
-    padding-top: 32px;
-  }
 }
 
 /* ---- AVR-style footer grid (EVA brand colors / footer-bg) ---- */
@@ -1452,54 +1375,7 @@ body .block.block--full.no-pad-gutter > .container.container--bleed {
   max-width: 100%;
 }
 
-@media (max-width: 991px) {
-  .booking-cta .row {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
-
-  .booking-cta .col-md-8,
-  .booking-cta .col-md-4 {
-    width: 100%;
-    float: none;
-  }
-
-  .booking-cta .p--lg.text-left {
-    text-align: center;
-  }
-
-  .booking-cta .divider {
-    height: 8px;
-  }
-
-  .booking-cta .col-md-4 {
-    margin-top: 12px;
-  }
-
-  .form-popup.booking-form-panel {
-    padding-left: 12px;
-    padding-right: 12px;
-  }
-}
-
 @media (max-width: 767px) {
-  .booking-cta .divider {
-    height: 8px;
-  }
-
-  .booking-cta .col-md-4 {
-    margin-top: 12px;
-  }
-
-  .booking-cta h2 {
-    margin-bottom: 12px;
-  }
-
-  .booking-cta .p--lg {
-    margin-bottom: 0;
-  }
 
   /* Keep service card “Offering” eyebrow inside the card on mobile.
      Higher specificity than Glory custom.css (loads after globals). */
@@ -1544,27 +1420,6 @@ body .block.block--full.no-pad-gutter > .container.container--bleed {
     box-sizing: border-box;
   }
 
-  .form-popup.booking-form-panel .form-popup-inside {
-    margin-left: 16px;
-    margin-right: 16px;
-  }
-
-  .form-popup.booking-form-panel .form-row {
-    flex-direction: column;
-  }
-
-  .form-popup.booking-form-panel .form-row > .form-group {
-    width: 100%;
-    max-width: 100%;
-    min-width: 0;
-    margin-left: 0;
-    margin-right: 0;
-  }
-
-  .form-popup.booking-form-panel .form-row > .form-group + .form-group {
-    margin-top: 12px;
-  }
-
   .services-grid {
     margin-left: 0;
     margin-right: 0;
@@ -1591,17 +1446,6 @@ body .block.block--full.no-pad-gutter > .container.container--bleed {
 
   body {
     overflow-x: hidden;
-  }
-}
-
-@media (max-width: 479px) {
-  .booking-cta {
-    padding-top: 32px;
-  }
-
-  .form-popup.booking-form-panel .form-popup-inside {
-    margin-left: 10px;
-    margin-right: 10px;
   }
 }
 
@@ -2830,6 +2674,18 @@ body:not(.page-blog) .block--darkbg .eva-project-title,
     grid-column: 2;
     grid-row: 1;
     margin: 0;
+    /* Details column vertically centred beside the poster (Bootstrap 3 cols float otherwise). */
+    display: flex;
+    align-items: center;
+  }
+
+  .eva-project-detail-main::before,
+  .eva-project-detail-main::after {
+    content: none;
+  }
+
+  .eva-project-detail-main .eva-project-detail-poster {
+    margin-bottom: 0;
   }
 
   .eva-project-adj-nav--stack {
@@ -3348,7 +3204,6 @@ body:not(.page-blog) .block--darkbg .eva-project-dialog-title,
     transform: none;
   }
 }
-
 
 /* ---- Image effects: decorative animation layers over photos (see src/data/image-fx.ts) ---- */
 .eva-fx-host {
@@ -4389,31 +4244,7 @@ body:not(.page-blog) .block--darkbg h3.eva-service-ideal-title,
   }
 }
 
-/* ---- SEO additions: home H1 tagline, project page content, trailer ---- */
-.mainSlider .slide-content h1 .eva-hero-h1-tagline {
-  display: block;
-  margin-top: 0.6em;
-  font-size: clamp(14px, 1.6vw, 20px);
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  line-height: 1.3;
-  color: #fff;
-  -webkit-text-fill-color: #fff;
-  background: none;
-  text-transform: none;
-}
-.mainSlider .slide-content h1 .eva-hero-h1-tagline::before {
-  content: none;
-}
-
-.eva-project-detail-links {
-  margin-top: 12px;
-  font-size: 14px;
-  opacity: 0.85;
-}
-.eva-project-detail-links a {
-  text-decoration: underline;
-}
+/* ---- SEO additions: project page content, trailer ---- */
 
 .eva-project-content {
   max-width: 860px;
@@ -4624,13 +4455,6 @@ html body .form-custom .errorform {
 .eva-enquiry-required-note span {
   color: #1a1a1a;
   font-weight: 700;
-}
-.form-popup.booking-form-panel .eva-enquiry-required-note {
-  margin-top: -4px;
-}
-.form-popup.booking-form-panel label.label {
-  display: block;
-  margin-bottom: 4px;
 }
 
 /* Loading state: busy forms dim slightly and the submit shows progress (Doherty threshold). */
@@ -5226,9 +5050,7 @@ h2.eva-coming-soon-title {
 }
 /* Busy submit button: dark so both brand colours read; full opacity (it is a status, not "off"). */
 .eva-enquiry-submit[aria-busy="true"],
-.eva-enquiry-submit[aria-busy="true"]:disabled,
-.booking-form-panel .btn[aria-busy="true"],
-.booking-form-panel .btn[aria-busy="true"]:disabled {
+.eva-enquiry-submit[aria-busy="true"]:disabled {
   background: #13161d;
   color: #fff;
   opacity: 1;
@@ -5244,10 +5066,6 @@ form[aria-busy="true"] textarea {
 .eva-sending-label {
   color: #fff;
   letter-spacing: 0.04em;
-}
-.booking-form-panel textarea.textarea-custom {
-  width: 100%;
-  min-height: 110px;
 }
 .eva-thank-you {
   max-width: 640px;

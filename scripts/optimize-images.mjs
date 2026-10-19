@@ -18,7 +18,6 @@ const OG_IMAGES = {
   projects: "services/equipment-03",
   equipment: "equipment/equipment-06",
   contact: "services/equipment-02",
-  book: "home/slide-2",
   "dubbing-studio-mumbai": "services/equipment-01",
   "voice-over-studio-mumbai": "services/equipment-02",
   "foley-recording-mumbai": "services/equipment-03",
