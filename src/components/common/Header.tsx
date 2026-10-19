@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "@@/components/common/NavLink";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { LOGO_ALT } from "@@/constants/constants";
+import { LOGO_ALT, SITE_NAME } from "@@/constants/constants";
 import { NAV_ITEMS, Routes, serviceHref, type NavItem, type ServiceSlug } from "@@/constants/routes";
 
 const SCROLL_TOP_THRESHOLD = 80;
@@ -141,6 +141,7 @@ export function Header({ serviceNames }: { serviceNames: Record<ServiceSlug, str
                 loading="eager"
                 sizes="160px"
               />
+              <span className="sr-only">{SITE_NAME} home</span>
             </Link>
           </div>
 

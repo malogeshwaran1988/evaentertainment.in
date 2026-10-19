@@ -17,7 +17,6 @@ import {
   normalizeProjectCategory,
   PROJECT_DESCRIPTION_MAX,
   PROJECT_LANGUAGES,
-  PROJECT_SYNOPSIS_MAX,
   PROJECT_YEAR_MIN,
   PROJECT_YEAR_ONGOING,
   projectNameKey,
@@ -25,7 +24,6 @@ import {
   type ProjectInput,
 } from "@@/data/projects";
 import { APP_BASE_URL } from "@@/constants/constants";
-import { formatFaqs } from "@@/lib/project-content";
 import { CsvError, parseCsv, toCsv } from "@@/lib/admin/csv";
 import { parseProjectForm } from "@@/lib/admin/project-validation";
 
@@ -46,21 +44,6 @@ export const PROJECT_CSV_COLUMNS: readonly Column[] = [
   { key: "description", help: `Optional public blurb, max ${PROJECT_DESCRIPTION_MAX} characters.` },
   { key: "posterUrl", help: "Optional http(s) image URL. Fetched and converted to AVIF. If it fails, the row is imported unpublished without a poster." },
   { key: "posterAlt", help: "Optional poster ALT name, max 150 characters (only kept when a poster is saved)." },
-  { key: "synopsis", help: `Optional, max ${PROJECT_SYNOPSIS_MAX} characters.` },
-  { key: "director", help: "Optional, max 120 characters." },
-  { key: "cast", help: 'Lead cast separated by ";" (max 20 names, 80 characters each).' },
-  { key: "originalRelease", help: "Optional YYYY, YYYY-MM or YYYY-MM-DD." },
-  { key: "productionHouse", help: "Optional, max 120 characters." },
-  { key: "trailerUrl", help: "Optional YouTube link (youtube.com/watch?v=… or youtu.be/…)." },
-  { key: "whereToWatch", help: "Optional platform / channel, max 200 characters." },
-  { key: "evaLipSync", help: "EVA work: true or false." },
-  { key: "evaSongs", help: "EVA work: true or false." },
-  { key: "evaMix", help: 'EVA work: mix, e.g. "5.1 and stereo" (max 80).' },
-  { key: "evaVoiceArtists", help: "EVA work: whole number 1–999." },
-  { key: "evaDubbingDirector", help: "EVA work: dubbing director (max 120)." },
-  { key: "evaNotes", help: "EVA work: notes (max 1500)." },
-  { key: "voiceCast", help: 'Items "Role — Artist" separated by ";" (max 40).' },
-  { key: "faqs", help: 'Lines "Q: …" then "A: …" in one quoted cell; blank line between FAQs (max 10).' },
 ];
 
 export const PROJECT_CSV_HEADER = PROJECT_CSV_COLUMNS.map((c) => c.key);
@@ -132,13 +115,6 @@ function recordToFormData(rec: Record<string, string>) {
   bool("published", "published");
   fd.set("description", rec.description ?? "");
   fd.set("posterAlt", rec.posterAlt ?? "");
-  for (const k of ["synopsis", "director", "originalRelease", "productionHouse", "trailerUrl", "whereToWatch", "evaMix", "evaVoiceArtists", "evaDubbingDirector", "evaNotes", "faqs"]) {
-    set(k, rec[k] ?? "");
-  }
-  set("cast", splitList(rec.cast ?? "").join("\n"));
-  set("voiceCast", splitList(rec.voiceCast ?? "").join("\n"));
-  bool("evaLipSync", "evaLipSync");
-  bool("evaSongs", "evaSongs");
   const posterUrl = (rec.posterUrl ?? "").trim();
   if (posterUrl) {
     try {
@@ -229,21 +205,6 @@ export function projectToCsvRow(p: Project): string[] {
     description: p.description ?? "",
     posterUrl: p.poster ? new URL(p.poster, APP_BASE_URL).toString() : "",
     posterAlt: p.posterAlt ?? "",
-    synopsis: p.synopsis ?? "",
-    director: p.director ?? "",
-    cast: (p.cast ?? []).join("; "),
-    originalRelease: p.originalRelease ?? "",
-    productionHouse: p.productionHouse ?? "",
-    trailerUrl: p.trailerUrl ?? "",
-    whereToWatch: p.whereToWatch ?? "",
-    evaLipSync: bool(p.evaWork?.lipSync),
-    evaSongs: bool(p.evaWork?.songs),
-    evaMix: p.evaWork?.mix ?? "",
-    evaVoiceArtists: p.evaWork?.voiceArtists ? String(p.evaWork.voiceArtists) : "",
-    evaDubbingDirector: p.evaWork?.dubbingDirector ?? "",
-    evaNotes: p.evaWork?.notes ?? "",
-    voiceCast: (p.voiceCast ?? []).map((v) => `${v.role} — ${v.artist}`).join("; "),
-    faqs: formatFaqs(p.faqs),
   };
   return PROJECT_CSV_HEADER.map((k) => values[k] ?? "");
 }
@@ -266,12 +227,6 @@ export function projectCsvTemplate() {
     description: "Short public description.",
     posterUrl: "https://example.org/poster.jpg",
     posterAlt: "",
-    cast: "Actor One; Actor Two",
-    originalRelease: `${new Date().getFullYear()}-01-15`,
-    evaLipSync: "true",
-    evaSongs: "false",
-    voiceCast: "Hero — Artist Name; Heroine — Artist Name",
-    faqs: "Q: Is it lip-synced?\nA: Yes.",
   };
   return toCsv([PROJECT_CSV_HEADER, PROJECT_CSV_HEADER.map((k) => example[k] ?? "")]);
 }

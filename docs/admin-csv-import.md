@@ -7,6 +7,7 @@ On **/admin/projects**: **Export CSV** downloads every project in this format; *
 - New rows are unpublished unless `published` is `true`. A `posterUrl` is fetched (SSRF-safe server fetch) and converted to AVIF in the browser, one at a time; if that fails the row is imported **unpublished without a poster** and reported.
 - Limits: 1 MB, 200 rows. One read + one write of projects.json per import (plus one write per poster).
 - UTF-8 (BOM ok), RFC 4180 quoting; rows starting with `#` are ignored. Header names are case-insensitive (`sourceLanguage`/`targetLanguages` accepted as aliases).
+- The old page-content columns (synopsis, director, cast, originalRelease, productionHouse, trailerUrl, whereToWatch, eva*, voiceCast, faqs) were removed with the form section; project SEO is generated automatically. Such stored values are ignored at read time (not deleted).
 - Stored projects with an old category are mapped the same way when read (projects.json itself is not rewritten).
 - Round trip: an exported row re-imports to identical data (blocked only by the duplicate-title check, and by a missing `year` on older projects, which the form requires too). Test: `node scripts/test-project-csv.mjs`.
 
@@ -25,18 +26,3 @@ On **/admin/projects**: **Export CSV** downloads every project in this format; *
 | `description` | no | Optional public blurb, max 800 characters. |
 | `posterUrl` | no | Optional http(s) image URL. Fetched and converted to AVIF. If it fails, the row is imported unpublished without a poster. |
 | `posterAlt` | no | Optional poster ALT name, max 150 characters (only kept when a poster is saved). |
-| `synopsis` | no | Optional, max 2000 characters. |
-| `director` | no | Optional, max 120 characters. |
-| `cast` | no | Lead cast separated by ";" (max 20 names, 80 characters each). |
-| `originalRelease` | no | Optional YYYY, YYYY-MM or YYYY-MM-DD. |
-| `productionHouse` | no | Optional, max 120 characters. |
-| `trailerUrl` | no | Optional YouTube link (youtube.com/watch?v=… or youtu.be/…). |
-| `whereToWatch` | no | Optional platform / channel, max 200 characters. |
-| `evaLipSync` | no | EVA work: true or false. |
-| `evaSongs` | no | EVA work: true or false. |
-| `evaMix` | no | EVA work: mix, e.g. "5.1 and stereo" (max 80). |
-| `evaVoiceArtists` | no | EVA work: whole number 1–999. |
-| `evaDubbingDirector` | no | EVA work: dubbing director (max 120). |
-| `evaNotes` | no | EVA work: notes (max 1500). |
-| `voiceCast` | no | Items "Role — Artist" separated by ";" (max 40). |
-| `faqs` | no | Lines "Q: …" then "A: …" in one quoted cell; blank line between FAQs (max 10). |
