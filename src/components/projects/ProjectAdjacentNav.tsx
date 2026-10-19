@@ -20,22 +20,7 @@ function AdjacentLink({
   const isPrev = direction === "prev";
   const label = isPrev ? "Previous" : "Next";
 
-  if (!neighbor) {
-    return (
-      <span
-        className={`eva-project-adj eva-project-adj--${direction} eva-project-adj--disabled`}
-      >
-        {isPrev ? <span aria-hidden="true">‹</span> : null}
-        <span className="eva-project-adj-label">
-          {label}
-          <span className="eva-project-adj-title">
-            {isPrev ? "Start of the list" : "End of the list"}
-          </span>
-        </span>
-        {!isPrev ? <span aria-hidden="true">›</span> : null}
-      </span>
-    );
-  }
+  if (!neighbor) return null;
 
   return (
     <Link
@@ -58,6 +43,7 @@ export default function ProjectAdjacentNav({
   next,
   variant,
 }: ProjectAdjacentNavProps) {
+  if (!prev && !next) return null;
   return (
     <nav
       className={`eva-project-adj-nav eva-project-adj-nav--${variant}`}

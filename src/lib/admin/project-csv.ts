@@ -13,6 +13,8 @@
 import {
   PROJECT_AUDIO_HOURS_MAX,
   PROJECT_CATEGORIES,
+  PROJECT_SERVICES,
+  normalizeProjectCategory,
   PROJECT_DESCRIPTION_MAX,
   PROJECT_LANGUAGES,
   PROJECT_SYNOPSIS_MAX,
@@ -35,8 +37,9 @@ type Column = { key: string; required?: boolean; help: string };
 export const PROJECT_CSV_COLUMNS: readonly Column[] = [
   { key: "title", required: true, help: "Project name, max 120 characters. Must be unique (also against existing projects)." },
   { key: "from", required: true, help: `Source language. One of: ${PROJECT_LANGUAGES.join(", ")}.` },
-  { key: "to", required: true, help: `Target languages separated by ";" (e.g. Hindi;Telugu). Same list; can't include the source language.` },
-  { key: "category", required: true, help: `One of: ${PROJECT_CATEGORIES.join(", ")}.` },
+  { key: "to", help: `Optional target languages separated by ";" (e.g. Hindi;Telugu). Blank = worked on in its own language. Can't include the source language.` },
+  { key: "category", required: true, help: `One of: ${PROJECT_CATEGORIES.join(", ")}. Old values Dubbing, Voice Over and Subtitling are read as Movie Dubbing (Voice Over / Subtitling also tick that service).` },
+  { key: "services", help: `Optional, separated by ";". Any of: ${PROJECT_SERVICES.join(", ")}.` },
   { key: "year", required: true, help: `"ongoing" or a year from ${PROJECT_YEAR_MIN} to the current year.` },
   { key: "audioHours", help: `Optional finished audio hours: above 0, at most ${PROJECT_AUDIO_HOURS_MAX}, one decimal place.` },
   { key: "published", help: "true or false. Blank = false (imported as unpublished)." },
@@ -117,7 +120,12 @@ function recordToFormData(rec: Record<string, string>) {
   set("title", rec.title ?? "");
   set("from", canonical(PROJECT_LANGUAGES, rec.from ?? ""));
   for (const l of splitList(rec.to ?? "")) fd.append("to", canonical(PROJECT_LANGUAGES, l));
-  set("category", canonical(PROJECT_CATEGORIES, rec.category ?? ""));
+  {
+    const legacy = normalizeProjectCategory({ category: (rec.category ?? "").trim(), services: [] as string[] });
+    set("category", canonical(PROJECT_CATEGORIES, legacy.category));
+    const services = [...splitList(rec.services ?? "").map((s) => canonical(PROJECT_SERVICES, s)), ...(legacy.services ?? [])];
+    for (const s of new Set(services)) fd.append("services", s);
+  }
   const year = (rec.year ?? "").trim();
   set("year", year.toLowerCase() === PROJECT_YEAR_ONGOING ? PROJECT_YEAR_ONGOING : year);
   fd.set("audioHours", rec.audioHours ?? "");
@@ -214,6 +222,7 @@ export function projectToCsvRow(p: Project): string[] {
     from: p.from,
     to: p.to.join(";"),
     category: p.category,
+    services: (p.services ?? []).join(";"),
     year: p.year ?? "",
     audioHours: p.audioHours !== undefined ? String(p.audioHours) : "",
     published: bool(p.published !== false),
@@ -250,6 +259,7 @@ export function projectCsvTemplate() {
     from: "Telugu",
     to: "Hindi",
     category: "Movie Dubbing",
+    services: "Lip-Sync Dubbing;5.1 Mixing & Mastering",
     year: String(new Date().getFullYear()),
     audioHours: "2.5",
     published: "false",

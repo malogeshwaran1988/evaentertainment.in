@@ -26,6 +26,7 @@ import {
 import {
   PROJECT_AUDIO_HOURS_MAX,
   PROJECT_CATEGORIES,
+  PROJECT_SERVICES,
   PROJECT_DESCRIPTION_MAX,
   PROJECT_LANGUAGES,
   PROJECT_YEAR_ONGOING,
@@ -96,7 +97,11 @@ export default function ProjectForm({ action, initial, submitLabel }: ProjectFor
   );
   const [from, setFrom] = useState<ProjectLanguage | "">(initial?.from ?? "");
   const [to, setTo] = useState<ProjectLanguage[]>(initial?.to ?? []);
-  const [category, setCategory] = useState(initial?.category ?? PROJECT_CATEGORIES[0]);
+  const [category, setCategory] = useState<string>(
+    (PROJECT_CATEGORIES as readonly string[]).includes(initial?.category ?? "")
+      ? (initial?.category as string)
+      : PROJECT_CATEGORIES[0],
+  );
   const [year, setYear] = useState(initial?.year ?? "");
   const [published, setPublished] = useState(initial?.published !== false);
   const [yearOptions] = useState(projectYearOptions);
@@ -215,7 +220,7 @@ export default function ProjectForm({ action, initial, submitLabel }: ProjectFor
 
   const orderedTo = PROJECT_LANGUAGES.filter((l) => to.includes(l));
   const previewTitle = title.trim() || "Project Name";
-  const seoPreviewReady = Boolean(from && orderedTo.length);
+  const seoPreviewReady = Boolean(from);
   const seoPreviewProject = seoPreviewReady
     ? {
         title: previewTitle,
@@ -501,9 +506,10 @@ export default function ProjectForm({ action, initial, submitLabel }: ProjectFor
           className="space-y-3"
           aria-describedby={errors.to ? "to-error" : "to-hint"}
         >
-          <legend className="text-sm font-medium leading-none">Dubbed into</legend>
+          <legend className="text-sm font-medium leading-none">Dubbed into (optional)</legend>
           <p id="to-hint" className="text-sm text-muted-foreground">
-            Choose every language this project was dubbed into.
+            Choose every language this project was dubbed into. Leave empty if the work was in
+            its own language; the site then shows just the source language.
           </p>
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
             {PROJECT_LANGUAGES.map((lang) => {
@@ -530,6 +536,29 @@ export default function ProjectForm({ action, initial, submitLabel }: ProjectFor
             })}
           </div>
           <FieldError id="to-error" message={errors.to} />
+        </fieldset>
+
+        <fieldset className="space-y-3" aria-describedby={errors.services ? "services-error" : "services-hint"}>
+          <legend className="text-sm font-medium leading-none">Services (optional)</legend>
+          <p id="services-hint" className="text-sm text-muted-foreground">
+            What EVA delivered. Shown as tags on the public project page.
+          </p>
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+            {PROJECT_SERVICES.map((svc, i) => (
+              <div key={svc} className="flex items-center gap-2">
+                <Checkbox
+                  id={`svc-${i}`}
+                  name="services"
+                  value={svc}
+                  defaultChecked={initial?.services?.includes(svc)}
+                />
+                <Label htmlFor={`svc-${i}`} className="font-normal">
+                  {svc}
+                </Label>
+              </div>
+            ))}
+          </div>
+          <FieldError id="services-error" message={errors.services} />
         </fieldset>
 
         <ProjectContentFields initial={initial} errors={errors} description={description} />

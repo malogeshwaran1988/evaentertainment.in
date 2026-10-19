@@ -133,11 +133,11 @@ export async function updateProjectAction(
     if (duplicate) return duplicate;
 
     const projects = await store.getProjectsFresh();
-    const slug = uniqueProjectSlug(
-      { title: data.title, to: data.to },
-      projects,
-      id,
-    );
+    // Clearing "Dubbed into" never renames an existing page.
+    const slug =
+      data.to.length === 0 && existing.slug
+        ? existing.slug
+        : uniqueProjectSlug({ title: data.title, to: data.to }, projects, id);
     let poster = existing.poster;
     const file = posterFile(formData);
     const ctx = posterNameCtx(data);

@@ -36,7 +36,7 @@ export default function ProjectCardPreview({
   className,
 }: ProjectCardPreviewProps) {
   const name = title.trim();
-  const languages = from && to.length ? projectLanguageLine({ from, to }) : "";
+  const languages = from ? projectLanguageLine({ from, to }) : "";
 
   return (
     <div className={cn("flex justify-center rounded-lg bg-[#181818] p-6", RALEWAY, className)}>

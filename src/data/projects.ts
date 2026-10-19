@@ -17,16 +17,45 @@ export const PROJECT_LANGUAGES = [
   "Telugu",
   "Malayalam",
   "Kannada",
+  "Marathi",
 ] as const;
 
 export type ProjectLanguage = (typeof PROJECT_LANGUAGES)[number];
 
-export const PROJECT_CATEGORIES = [
-  "Movie Dubbing",
-  "Dubbing",
+export const PROJECT_CATEGORIES = ["Movie Dubbing", "TV Series", "Documentary"] as const;
+export type ProjectCategory = (typeof PROJECT_CATEGORIES)[number];
+
+/** Services a project can list; names match the service pages in src/data/services.ts. */
+export const PROJECT_SERVICES = [
+  "Lip-Sync Dubbing",
   "Voice Over",
+  "Foley Recording",
+  "5.1 Mixing & Mastering",
   "Subtitling",
+  "Song Recording",
+  "Translation",
 ] as const;
+export type ProjectService = (typeof PROJECT_SERVICES)[number];
+
+/**
+ * Old category values, mapped at read time (stored JSON is not rewritten).
+ * "Voice Over" / "Subtitling" were really services, so they become a Movie Dubbing
+ * project with that service ticked.
+ */
+export const LEGACY_PROJECT_CATEGORIES: Record<string, { category: ProjectCategory; service?: ProjectService }> = {
+  Dubbing: { category: "Movie Dubbing" },
+  "Voice Over": { category: "Movie Dubbing", service: "Voice Over" },
+  Subtitling: { category: "Movie Dubbing", service: "Subtitling" },
+};
+
+/** Map a stored project's legacy category to the current set; adds the implied service. */
+export function normalizeProjectCategory<T extends { category: string; services?: string[] }>(p: T): T {
+  const legacy = LEGACY_PROJECT_CATEGORIES[p.category?.trim()];
+  if (!legacy) return p;
+  const services = [...(p.services ?? [])];
+  if (legacy.service && !services.includes(legacy.service)) services.push(legacy.service);
+  return { ...p, category: legacy.category, ...(services.length ? { services } : {}) };
+}
 
 /** Server safety cap. The admin UI converts posters client-side to AVIF under 149 KB first. */
 export const POSTER_MAX_BYTES = 150 * 1024;
@@ -44,6 +73,8 @@ export type Project = {
   from: ProjectLanguage;
   to: ProjectLanguage[];
   category: string;
+  /** EVA services delivered on this project (optional, default empty). */
+  services?: string[];
   /** Seeded: a /public path. Uploaded: "/images/our-projects/<name>?v=<version>". */
   poster?: string;
   /** Typed ALT only; public pages render SEO ALT via projectSeoAlt. */
@@ -117,6 +148,7 @@ export type ProjectInput = Pick<
   | "from"
   | "to"
   | "category"
+  | "services"
   | "poster"
   | "posterAlt"
   | "description"
@@ -172,7 +204,9 @@ export function projectNameKey(title: string) {
 }
 
 export function projectLanguageLine(project: Pick<Project, "from" | "to">) {
-  const targets = project.to;
+  const targets = project.to ?? [];
+  // No target: worked on in its own language, so the label is just the source.
+  if (targets.length === 0) return project.from;
   const list =
     targets.length <= 1
       ? targets.join("")

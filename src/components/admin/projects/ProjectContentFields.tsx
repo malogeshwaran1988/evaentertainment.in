@@ -38,6 +38,11 @@ export function IndexBadge({ words }: { words: number }) {
  * Optional per-film page content. Fields are plain form inputs (read by the server action);
  * local state only drives the live word count / index badge.
  */
+const CONTENT_ERROR_KEYS = [
+  "synopsis", "director", "cast", "originalRelease", "productionHouse", "evaWork",
+  "voiceCast", "trailerUrl", "whereToWatch", "faqs",
+] as const;
+
 export default function ProjectContentFields({
   initial,
   errors,
@@ -82,6 +87,10 @@ export default function ProjectContentFields({
     [v, description],
   );
 
+  const [open, setOpen] = useState(false);
+  const hasContentError = CONTENT_ERROR_KEYS.some((k) => Boolean((errors as Record<string, unknown>)[k]));
+  const contentOpen = open || hasContentError;
+
   const text = (k: keyof typeof v, label: string, hint?: string, placeholder?: string, err?: string) => (
     <div className="space-y-2">
       <Label htmlFor={k}>{label}</Label>
@@ -104,6 +113,19 @@ export default function ProjectContentFields({
       <legend className="flex flex-wrap items-center gap-2 px-1 text-sm font-medium">
         Page content (SEO) <IndexBadge words={words} />
       </legend>
+      {/* Disclosure: collapsed by default, forced open when a field inside has an error.
+          Collapsed fields stay in the DOM (hidden) so they still submit. */}
+      <button
+        type="button"
+        className="inline-flex min-h-10 items-center gap-2 rounded-md text-sm font-medium underline-offset-4 hover:underline focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring"
+        aria-expanded={contentOpen}
+        aria-controls="project-content-panel"
+        onClick={() => setOpen((o) => !o)}
+      >
+        <span aria-hidden="true">{contentOpen ? "▾" : "▸"}</span>
+        {contentOpen ? "Hide page content fields" : "Show page content fields"}
+      </button>
+      <div id="project-content-panel" className="space-y-5" hidden={!contentOpen}>
       <p className="text-sm text-muted-foreground">
         All optional. Write in your own words (don&apos;t copy Wikipedia/IMDb). Pages with fewer than{" "}
         {PROJECT_INDEX_MIN_WORDS} words here (including the description) stay out of Google until
@@ -143,6 +165,7 @@ export default function ProjectContentFields({
       {area("voiceCast", "Hindi voice cast", 4, "One per line: Role — Voice artist", "Surya — Rajesh Kumar")}
       {text("trailerUrl", "Dubbed trailer (YouTube link)", undefined, "https://www.youtube.com/watch?v=…", errors.trailerUrl)}
       {area("faqs", "FAQs", 6, "Blocks of “Q: …” and “A: …”, separated by a blank line.", "Q: Who dubbed the film in Hindi?\nA: …")}
+      </div>
     </fieldset>
   );
 }
