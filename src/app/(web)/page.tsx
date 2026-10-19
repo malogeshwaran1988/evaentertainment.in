@@ -16,6 +16,18 @@ import {
   WHAT_WE_DO,
 } from "@@/data/home";
 import { getPublicProjects } from "@@/lib/projects-public";
+import { getProjects } from "@@/lib/projects-store";
+import { PROJECT_YEAR_ONGOING, projectIsPublished, type Project } from "@@/data/projects";
+
+/** Home slider order: ongoing first, then year newest to oldest, ties by most recently updated. */
+function compareHome(a: Project, b: Project) {
+  const rank = (p: Project) =>
+    p.year === PROJECT_YEAR_ONGOING ? Infinity : p.year && !Number.isNaN(Number(p.year)) ? Number(p.year) : -Infinity;
+  const ra = rank(a);
+  const rb = rank(b);
+  if (ra !== rb) return rb > ra ? 1 : -1;
+  return (b.updatedAt ?? "").localeCompare(a.updatedAt ?? "");
+}
 import { aggregateProjectImpact } from "@@/lib/project-stats";
 
 const EQ_BARS = Array.from({ length: 16 }, (_, i) => i);
@@ -24,7 +36,14 @@ export default async function HomePage() {
   // Read at request time: projects change from the admin panel without a redeploy.
   await connection();
   const { projects: allProjects } = await getPublicProjects();
-  const projects = allProjects.slice(0, HOME_PROJECTS_LIMIT);
+  // Same cached reader (no extra Blob reads); only these 10 are serialised to the client.
+  const homeIds = (await getProjects())
+    .filter(projectIsPublished)
+    .sort(compareHome)
+    .slice(0, HOME_PROJECTS_LIMIT)
+    .map((p) => p.id);
+  const byId = new Map(allProjects.map((p) => [p.id, p]));
+  const projects = homeIds.flatMap((id) => byId.get(id) ?? []);
   const impact = aggregateProjectImpact(allProjects);
   const orgSchema = {
     "@context": "https://schema.org",

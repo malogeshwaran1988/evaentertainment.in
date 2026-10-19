@@ -28,7 +28,7 @@ export const HOME_INTRO =
   "The EVA Entertainment Recording Studio is the brainchild of Sound who understand that the best art comes from the best environment.";
 
 /** How many posters the home strip shows (keep out of client modules — server imports can see `0`). */
-export const HOME_PROJECTS_LIMIT = 6;
+export const HOME_PROJECTS_LIMIT = 10;
 
 export const SERVICE_CARDS = [
   {
