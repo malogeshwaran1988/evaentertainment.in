@@ -83,7 +83,10 @@ export function VisibilityBadge({ published }: { published: boolean }) {
 
 const CATEGORY: Record<string, { tone: StatusTone; icon: Icon }> = {
   "Movie Dubbing": { tone: "violet", icon: Clapperboard },
-  Dubbing: { tone: "sky", icon: Languages },
+  "TV Series": { tone: "sky", icon: Languages },
+  Documentary: { tone: "teal", icon: Captions },
+  // Legacy values (mapped at read time, kept so any stray value still renders).
+  Dubbing: { tone: "violet", icon: Clapperboard },
   "Voice Over": { tone: "rose", icon: Mic },
   Subtitling: { tone: "teal", icon: Captions },
 };

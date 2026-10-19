@@ -35,7 +35,22 @@ for (const f of ["published", "posterUrl", "category", "year", "audioHours"]) as
 assert.match(r.rows[2].errors.join(), /same name as row 2/);
 assert.match(r.rows[3].errors.join(), /existing project/);
 assert.match(validateProjectCsv(head + "S,Tamil,Tamil,Dubbing,ongoing,,,", []).rows[0].errors.join(), /^to: Target languages/);
-assert.equal(validateProjectCsv("title,from\nx,Tamil", []).ok, false); // missing required columns
+assert.equal(validateProjectCsv("title,from\nx,Tamil", []).ok, false);
+// "to" is optional: blank = worked on in its own language.
+{
+  const nt = validateProjectCsv(head + "Own Lang,Tamil,,TV Series,ongoing,,,", []);
+  assert.deepEqual(nt.rows[0].errors, []);
+  assert.deepEqual(nt.rows[0].data.to, []);
+  assert.equal(nt.rows[0].data.category, "TV Series");
+}
+// Legacy categories map at read time; Voice Over / Subtitling tick the service.
+{
+  const lg = validateProjectCsv("title,from,to,category,year,services\nL1,Tamil,Hindi,Subtitling,ongoing,translation;Bogus\nL2,Tamil,Hindi,Voice Over,ongoing,", []);
+  assert.match(lg.rows[0].errors.join(), /services/); // Bogus rejected
+  assert.deepEqual(lg.rows[1].errors, []);
+  assert.equal(lg.rows[1].data.category, "Movie Dubbing");
+  assert.deepEqual(lg.rows[1].data.services, ["Voice Over"]);
+} // missing required columns
 const many = head + Array.from({ length: 201 }, (_, i) => `T${i},Tamil,Hindi,Dubbing,ongoing,,,`).join("\n");
 assert.equal(validateProjectCsv(many, []).ok, false);
 
@@ -45,7 +60,7 @@ assert.ok(r.ok && r.rows[0].errors.length === 0, JSON.stringify(r));
 
 // Round trip: every field of a full project survives export → validate unchanged
 const full = {
-  id: "1", slug: "s", title: "Thank You, \"Dear\"", from: "Telugu", to: ["Tamil", "Hindi"], category: "Movie Dubbing",
+  id: "1", slug: "s", title: "Thank You, \"Dear\"", from: "Telugu", to: ["Tamil", "Hindi"], category: "Movie Dubbing", services: ["Lip-Sync Dubbing", "5.1 Mixing & Mastering"],
   poster: "/images/our-projects/a.avif?v=2", posterAlt: "Alt", description: "Line one,\nline two", audioHours: 12.5,
   year: "2025", published: true, synopsis: "Syn", director: "Dir", cast: ["A One", "B Two"], originalRelease: "2025-03",
   productionHouse: "PH", trailerUrl: "https://youtu.be/dQw4w9WgXcQ", whereToWatch: "ETV Win",
@@ -62,7 +77,7 @@ const expected = { ...full };
 for (const k of ["id", "slug", "poster", "createdAt", "updatedAt"]) delete expected[k];
 assert.deepEqual(strip(r.rows[0].data), expected);
 assert.equal(r.rows[0].posterUrl, "https://evaentertainment.in/images/our-projects/a.avif?v=2");
-assert.deepEqual(strip(r.rows[1].data), { title: "Min", from: "Tamil", to: ["Hindi"], category: "Dubbing", year: "ongoing", published: false });
+assert.deepEqual(strip(r.rows[1].data), { title: "Min", from: "Tamil", to: ["Hindi"], category: "Movie Dubbing", year: "ongoing", published: false });
 
 // Real data round trip: local storage/projects.json if present, else the seed projects.
 const store = path.join(root, process.env.EVA_DATA_DIR || "storage", "projects.json");
@@ -81,3 +96,10 @@ assert.deepEqual(failing.map((x) => `${x.title}: ${x.errors}`), []);
 console.log(`round trip of ${real.length} ${source} projects: ok (${real.length - withYear.length} without a year flagged "year", same as the form)`);
 assert.equal(PROJECT_CSV_HEADER[0], "title");
 console.log("project CSV tests passed");
+// Marathi is accepted as source and target.
+{
+  const mr = validateProjectCsv("title,from,to,category,year\nMr,marathi,Hindi,Movie Dubbing,ongoing\nMr2,Hindi,Marathi,Movie Dubbing,ongoing", []);
+  assert.deepEqual(mr.rows.map((x) => x.errors), [[], []]);
+  assert.equal(mr.rows[0].data.from, "Marathi");
+  console.log("marathi: ok");
+}

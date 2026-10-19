@@ -28,6 +28,7 @@ export default async function EditProjectPage({
           from: project.from,
           to: project.to,
           category: project.category,
+          services: project.services,
           poster: project.poster,
           posterAlt: project.posterAlt,
           description: project.description,

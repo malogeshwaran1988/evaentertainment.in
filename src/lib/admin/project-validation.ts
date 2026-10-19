@@ -6,6 +6,7 @@ import { z } from "zod";
 import {
   PROJECT_AUDIO_HOURS_MAX,
   PROJECT_CATEGORIES,
+  PROJECT_SERVICES,
   PROJECT_DESCRIPTION_MAX,
   PROJECT_LANGUAGES,
   PROJECT_SYNOPSIS_MAX,
@@ -68,9 +69,9 @@ const projectSchema = z
     }),
     from: z.enum(PROJECT_LANGUAGES, { error: "Choose the source language." }),
     to: z
-      .array(z.enum(PROJECT_LANGUAGES))
-      .min(1, "Choose at least one target language."),
+      .array(z.enum(PROJECT_LANGUAGES), { error: "Choose valid target languages." }),
     category: z.enum(PROJECT_CATEGORIES, { error: "Choose a category." }),
+    services: z.array(z.enum(PROJECT_SERVICES, { error: "Choose services from the list." })),
     year: z
       .string({ error: YEAR_ERROR })
       .refine(
@@ -154,14 +155,21 @@ export function parseProjectForm(
     from: formData.get("from"),
     to: formData.getAll("to"),
     category: formData.get("category"),
+    services: formData.getAll("services"),
     year: formData.get("year") ?? undefined,
     published: formData.get("published") === "on",
   });
   if (result.success) {
     // Keep target languages in the canonical PROJECT_LANGUAGES order.
+    // "Dubbed into" is optional (a project can be worked on in its own language).
     const to = PROJECT_LANGUAGES.filter((l) => result.data.to.includes(l));
+    const services = PROJECT_SERVICES.filter((s) => result.data.services.includes(s));
     if (Object.keys(extra.errors).length) return { fieldErrors: extra.errors };
-    return { data: { ...result.data, to, ...extra.content } satisfies ProjectInput };
+    const { services: _s, ...rest } = result.data;
+    void _s;
+    return {
+      data: { ...rest, to, ...(services.length ? { services } : {}), ...extra.content } satisfies ProjectInput,
+    };
   }
   const fieldErrors: ProjectFieldErrors = { ...extra.errors };
   for (const issue of result.error.issues) {

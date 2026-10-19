@@ -11,6 +11,7 @@ import {
 } from "@@/data/projects";
 import { PROJECTS_SEED } from "@@/data/projects-seed";
 import { unstable_cache } from "next/cache";
+import { normalizeProjectCategory } from "@@/data/projects";
 import { BlobPreconditionFailedError, readBlobText, readBlobVersioned, USE_BLOB, writeBlob } from "@@/lib/blob";
 import { DATA_REVALIDATE_SECONDS, PROJECTS_TAG } from "@@/lib/cache-tags";
 import { projectPageSlugBase, uniqueProjectSlug, uniqueSlug } from "@@/lib/project-seo";
@@ -32,7 +33,8 @@ const serialize = (projects: Project[]) => `${JSON.stringify(projects, null, 2)}
 
 function parseProjects(raw: string): Project[] {
   const parsed = JSON.parse(raw);
-  return Array.isArray(parsed) ? (parsed as Project[]) : [];
+  // Legacy categories (Dubbing, Voice Over, Subtitling) are mapped here at read time.
+  return Array.isArray(parsed) ? (parsed as Project[]).map(normalizeProjectCategory) : [];
 }
 
 /** Ensure every project has a unique public slug and a published flag; returns whether anything changed. */

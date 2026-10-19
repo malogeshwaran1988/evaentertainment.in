@@ -11,7 +11,8 @@ import ProjectExplore from "@@/components/projects/ProjectExplore";
 import ProjectTrailer from "@@/components/projects/ProjectTrailer";
 import { projectIsIndexable, youtubeId } from "@@/lib/project-content";
 import { APP_BASE_URL, SITE_NAME } from "@@/constants/constants";
-import { Routes } from "@@/constants/routes";
+import { Routes, serviceHref } from "@@/constants/routes";
+import { SERVICES } from "@@/data/services";
 import {
   PROJECT_YEAR_ONGOING,
   PROJECTS_OG_IMAGE,
@@ -98,10 +99,17 @@ export default async function ProjectDetailPage({
   const url = absoluteUrl(projectHref(project.slug));
   const posterUrl = projectAbsolutePosterUrl(project.poster);
   const seoAlt = projectPosterAlt(project);
-  const workType = project.category === "Movie Dubbing" ? "Movie" : "CreativeWork";
+  const workType =
+    project.category === "Movie Dubbing" ? "Movie" : project.category === "TV Series" ? "TVSeries" : "CreativeWork";
+  // Service tags link to the matching service page when one exists (names match src/data/services.ts).
+  const serviceTags = (project.services ?? []).map((name) => {
+    const svc = SERVICES.find((s) => s.name === name);
+    return { name, href: svc ? serviceHref(svc.slug) : undefined };
+  });
   const yearChip = projectYearChip(project);
   const trailerId = youtubeId(project.trailerUrl);
-  const mainTarget = project.to[0];
+  // No target language: sections read "Voice cast" / "Trailer".
+  const mainTarget = project.to[0] ?? "";
   const releaseYear = project.originalRelease?.slice(0, 4);
   const ew = project.evaWork;
   const evaDid = [
@@ -134,19 +142,21 @@ export default async function ProjectDetailPage({
     ...(project.productionHouse
       ? { productionCompany: { "@type": "Organization", name: project.productionHouse } }
       : {}),
-    workTranslation: project.to.map((lang) => ({
+    ...(project.to.length ? { workTranslation: project.to.map((lang) => ({
       "@type": workType,
       name: `${project.title} (${lang})`,
       inLanguage: lang,
       translator: { "@id": EVA_ORG_ID },
-    })),
+    })) } : {}),
     contributor: { "@id": EVA_ORG_ID },
     ...(trailerId
       ? {
           trailer: {
             "@type": "VideoObject",
-            name: `${project.title} – ${mainTarget} dubbed trailer`,
-            description: `${mainTarget} dubbed trailer of ${project.title}, dubbed by ${SITE_NAME}.`,
+            name: `${project.title} – ${mainTarget ? `${mainTarget} dubbed ` : ""}trailer`,
+            description: mainTarget
+              ? `${mainTarget} dubbed trailer of ${project.title}, dubbed by ${SITE_NAME}.`
+              : `Trailer of ${project.title}, with audio work by ${SITE_NAME}.`,
             thumbnailUrl: `https://i.ytimg.com/vi/${trailerId}/hqdefault.jpg`,
             embedUrl: `https://www.youtube-nocookie.com/embed/${trailerId}`,
             contentUrl: `https://www.youtube.com/watch?v=${trailerId}`,
@@ -263,6 +273,15 @@ export default async function ProjectDetailPage({
                     </li>
                   ) : null}
                 </ul>
+                {serviceTags.length ? (
+                  <ul className="eva-project-detail-chips eva-project-services" aria-label="Services delivered">
+                    {serviceTags.map((t) => (
+                      <li key={t.name} className="eva-project-detail-chip">
+                        {t.href ? <Link href={t.href}>{t.name}</Link> : t.name}
+                      </li>
+                    ))}
+                  </ul>
+                ) : null}
                 <p className="eva-project-detail-brand">Dubbed by {SITE_NAME}</p>
                 {project.description ? (
                   <p className="eva-project-detail-desc">{project.description}</p>
@@ -315,7 +334,7 @@ export default async function ProjectDetailPage({
 
             {project.voiceCast?.length ? (
               <section aria-labelledby="pc-voices">
-                <h2 id="pc-voices" className="h--md">{mainTarget} voice cast</h2>
+                <h2 id="pc-voices" className="h--md">{mainTarget ? `${mainTarget} voice cast` : "Voice cast"}</h2>
                 <dl className="eva-project-facts">
                   {project.voiceCast.map((v) => (
                     <div key={`${v.role}-${v.artist}`} className="eva-project-fact">
@@ -329,8 +348,8 @@ export default async function ProjectDetailPage({
 
             {trailerId ? (
               <section aria-labelledby="pc-trailer">
-                <h2 id="pc-trailer" className="h--md">{mainTarget} dubbed trailer</h2>
-                <ProjectTrailer id={trailerId} title={`${project.title} – ${mainTarget} dubbed trailer`} />
+                <h2 id="pc-trailer" className="h--md">{mainTarget ? `${mainTarget} dubbed trailer` : "Trailer"}</h2>
+                <ProjectTrailer id={trailerId} title={`${project.title} – ${mainTarget ? `${mainTarget} dubbed trailer` : "trailer"}`} />
               </section>
             ) : null}
 
@@ -338,7 +357,10 @@ export default async function ProjectDetailPage({
               <section aria-labelledby="pc-watch">
                 <h2 id="pc-watch" className="h--md">Where to watch</h2>
                 <p>
-                  The {project.to.join(" / ")} version{releaseYear ? ` of this ${releaseYear} film` : ""} is available on{" "}
+                  {project.to.length
+                    ? `The ${project.to.join(" / ")} version${releaseYear ? ` of this ${releaseYear} film` : ""}`
+                    : `This ${releaseYear ? `${releaseYear} ` : ""}film`}{" "}
+                  is available on{" "}
                   {project.whereToWatch}.
                 </p>
               </section>

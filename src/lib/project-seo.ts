@@ -75,6 +75,8 @@ export function projectPageSlugBase(input: {
   to: readonly ProjectLanguage[];
 }): string {
   const title = slugifyAscii(input.title) || "project";
+  // No target language: just the title (only affects new slugs; stored slugs are kept).
+  if (!input.to?.length) return title;
   const targets = targetsSlug(input.to);
   const base = `${title}-${targets}-dubbing`;
   return base.replace(/-+/g, "-").replace(/^-|-$/g, "");
@@ -176,6 +178,7 @@ export function projectSeoTitle(
       : project.year === PROJECT_YEAR_ONGOING
         ? " (Ongoing)"
         : "";
+  if (!project.to.length) return `${project.title} (${project.from})${yearPart} | ${SITE_NAME}`;
   return `${project.title} ${project.from} to ${targets} Dubbing${yearPart} | ${SITE_NAME}`;
 }
 
@@ -192,11 +195,16 @@ export function projectSeoDescription(
   }
   const synopsis = project.synopsis?.trim();
   if (synopsis) {
-    const lead = `${project.title} (${project.from} to ${targetsPhrase(project.to)} dubbing by ${SITE_NAME}): `;
+    const lead = project.to.length
+      ? `${project.title} (${project.from} to ${targetsPhrase(project.to)} dubbing by ${SITE_NAME}): `
+      : `${project.title} (${project.from}, ${SITE_NAME}): `;
     const full = `${lead}${synopsis}`;
     return full.length <= META_DESC_MAX ? full : `${full.slice(0, META_DESC_MAX - 1).trimEnd()}…`;
   }
   const targets = targetsPhrase(project.to);
+  if (!project.to.length) {
+    return `${project.title} (${project.from}) – audio work by ${SITE_NAME}, a dubbing studio in Andheri, Mumbai.`;
+  }
   return `${project.title} was dubbed from ${project.from} into ${targets} by ${SITE_NAME}, a dubbing studio in Andheri, Mumbai.`;
 }
 
@@ -211,7 +219,7 @@ export function projectDubbingLine(
       : project.year
         ? projectYearLabel(project.year)
         : "";
-  return [`${project.from} → ${targets}`, project.category, year]
+  return [targets ? `${project.from} → ${targets}` : project.from, project.category, year]
     .filter(Boolean)
     .join(" · ");
 }
@@ -219,7 +227,7 @@ export function projectDubbingLine(
 export function projectLanguageChip(
   project: Pick<Project, "from" | "to">,
 ): string {
-  return `${project.from} → ${project.to.join(", ")}`;
+  return project.to.length ? `${project.from} → ${project.to.join(", ")}` : project.from;
 }
 
 export function projectYearChip(
