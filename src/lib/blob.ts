@@ -9,7 +9,9 @@ export { BlobPreconditionFailedError };
 
 /** Returns null when the blob doesn't exist. */
 export async function readBlob(pathname: string) {
-  const result = await get(blobPath(pathname), { access: "private" });
+  // useCache: false: only runs on a Next data-cache miss (after an admin save), so it must
+  // bypass the Blob CDN cache or the site/sitemap could rebuild from a stale copy.
+  const result = await get(blobPath(pathname), { access: "private", useCache: false });
   if (!result || result.statusCode !== 200) return null;
   return { stream: result.stream, contentType: result.blob.contentType, size: result.blob.size };
 }

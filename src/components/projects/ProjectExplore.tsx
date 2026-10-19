@@ -69,6 +69,7 @@ export default function ProjectExplore({ projects }: ProjectExploreProps) {
                     <PosterPlaceholder title={project.title} />
                   )}
                 </span>
+                <span className="sr-only">{project.title}</span>
               </Link>
             </li>
           ))}

@@ -36,6 +36,7 @@ export default function Footer() {
                 loading="lazy"
                 fetchPriority="low"
               />
+              <span className="sr-only">{SITE_NAME} home</span>
             </Link>
             <div className="eva-footer-social" aria-label="Social media">
               {SOCIAL_LINKS.map((s) => (
@@ -46,7 +47,10 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={`${SITE_NAME} on ${s.label} (opens in new tab)`}
-                />
+                >
+                  {/* Text fallback so crawlers/audits see non-empty anchor text. */}
+                  <span className="sr-only">{`${SITE_NAME} on ${s.label}`}</span>
+                </a>
               ))}
             </div>
           </div>

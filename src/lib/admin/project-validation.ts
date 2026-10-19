@@ -9,12 +9,10 @@ import {
   PROJECT_SERVICES,
   PROJECT_DESCRIPTION_MAX,
   PROJECT_LANGUAGES,
-  PROJECT_SYNOPSIS_MAX,
   PROJECT_YEAR_MIN,
   PROJECT_YEAR_ONGOING,
   type ProjectInput,
 } from "@@/data/projects";
-import { parseFaqs, parseLines, parseVoiceCast, youtubeId } from "@@/lib/project-content";
 
 export type ProjectFieldErrors = Partial<Record<keyof ProjectInput, string>>;
 
@@ -89,58 +87,13 @@ const projectSchema = z
     message: "Target languages can't include the source language.",
   });
 
-const str = (formData: FormData, key: string, max: number) =>
-  String(formData.get(key) ?? "")
-    .replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, "")
-    .trim()
-    .slice(0, max);
-
-/** Optional per-film page content. Empty fields become undefined so stored rows stay lean. */
-function parseContent(formData: FormData) {
-  const errors: ProjectFieldErrors = {};
-  const synopsisRaw = String(formData.get("synopsis") ?? "").trim();
-  if (synopsisRaw.length > PROJECT_SYNOPSIS_MAX) {
-    errors.synopsis = `Keep the synopsis under ${PROJECT_SYNOPSIS_MAX} characters.`;
-  }
-  const originalRelease = str(formData, "originalRelease", 10);
-  if (originalRelease && !/^\d{4}(-\d{2}(-\d{2})?)?$/.test(originalRelease)) {
-    errors.originalRelease = "Use YYYY, YYYY-MM or YYYY-MM-DD.";
-  }
-  const trailerUrl = str(formData, "trailerUrl", 300);
-  if (trailerUrl && !youtubeId(trailerUrl)) {
-    errors.trailerUrl = "Paste a YouTube video link (youtube.com/watch?v=… or youtu.be/…).";
-  }
-  const voiceArtistsRaw = str(formData, "evaVoiceArtists", 6);
-  const voiceArtists = voiceArtistsRaw ? Number(voiceArtistsRaw) : undefined;
-  if (voiceArtists !== undefined && (!Number.isInteger(voiceArtists) || voiceArtists < 1 || voiceArtists > 999)) {
-    errors.evaWork = "Voice artists must be a whole number from 1 to 999.";
-  }
-  const evaWork = {
-    ...(formData.get("evaLipSync") === "on" ? { lipSync: true } : {}),
-    ...(formData.get("evaSongs") === "on" ? { songs: true } : {}),
-    ...(str(formData, "evaMix", 80) ? { mix: str(formData, "evaMix", 80) } : {}),
-    ...(voiceArtists ? { voiceArtists } : {}),
-    ...(str(formData, "evaDubbingDirector", 120)
-      ? { dubbingDirector: str(formData, "evaDubbingDirector", 120) }
-      : {}),
-    ...(str(formData, "evaNotes", 1500) ? { notes: str(formData, "evaNotes", 1500) } : {}),
-  };
-  const cast = parseLines(String(formData.get("cast") ?? ""), 20, 80);
-  const voiceCast = parseVoiceCast(String(formData.get("voiceCast") ?? ""));
-  const faqs = parseFaqs(String(formData.get("faqs") ?? ""));
-  const content = {
-    synopsis: synopsisRaw.replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, "") || undefined,
-    director: str(formData, "director", 120) || undefined,
-    cast: cast.length ? cast : undefined,
-    originalRelease: originalRelease || undefined,
-    productionHouse: str(formData, "productionHouse", 120) || undefined,
-    evaWork: Object.keys(evaWork).length ? evaWork : undefined,
-    voiceCast: voiceCast.length ? voiceCast : undefined,
-    trailerUrl: trailerUrl || undefined,
-    whereToWatch: str(formData, "whereToWatch", 200) || undefined,
-    faqs: faqs.length ? faqs : undefined,
-  };
-  return { content, errors };
+/**
+ * The "Page content (SEO)" fields were removed from the form; project SEO is generated
+ * automatically. Any such fields in a submission are ignored.
+ */
+function parseContent(_formData: FormData) {
+  void _formData;
+  return { content: {} as Partial<ProjectInput>, errors: {} as ProjectFieldErrors };
 }
 
 export function parseProjectForm(

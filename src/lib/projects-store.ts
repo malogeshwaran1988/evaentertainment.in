@@ -34,7 +34,7 @@ const serialize = (projects: Project[]) => `${JSON.stringify(projects, null, 2)}
 function parseProjects(raw: string): Project[] {
   const parsed = JSON.parse(raw);
   // Legacy categories (Dubbing, Voice Over, Subtitling) are mapped here at read time.
-  return Array.isArray(parsed) ? (parsed as Project[]).map(normalizeProjectCategory) : [];
+  return Array.isArray(parsed) ? (parsed as Project[]).map((p) => dropStoredContent(normalizeProjectCategory(p))) : [];
 }
 
 /** Ensure every project has a unique public slug and a published flag; returns whether anything changed. */
@@ -215,6 +215,13 @@ export function createProject(input: ProjectInput & { slug: string }) {
     dropEmptyContent(project);
     return { next: [...projects, project], result: project };
   });
+}
+
+/** The page-content (SEO) fields are no longer edited; stored values are ignored at read time. */
+function dropStoredContent(project: Project): Project {
+  const copy = { ...project };
+  for (const key of PROJECT_CONTENT_KEYS) delete copy[key];
+  return copy;
 }
 
 /** Keeps stored rows lean: unset optional page-content fields are removed, not saved as undefined. */

@@ -62,10 +62,7 @@ assert.ok(r.ok && r.rows[0].errors.length === 0, JSON.stringify(r));
 const full = {
   id: "1", slug: "s", title: "Thank You, \"Dear\"", from: "Telugu", to: ["Tamil", "Hindi"], category: "Movie Dubbing", services: ["Lip-Sync Dubbing", "5.1 Mixing & Mastering"],
   poster: "/images/our-projects/a.avif?v=2", posterAlt: "Alt", description: "Line one,\nline two", audioHours: 12.5,
-  year: "2025", published: true, synopsis: "Syn", director: "Dir", cast: ["A One", "B Two"], originalRelease: "2025-03",
-  productionHouse: "PH", trailerUrl: "https://youtu.be/dQw4w9WgXcQ", whereToWatch: "ETV Win",
-  evaWork: { lipSync: true, songs: true, mix: "5.1 and stereo", voiceArtists: 12, dubbingDirector: "DD", notes: "N" },
-  voiceCast: [{ role: "Hero", artist: "Artist A" }], faqs: [{ q: "Q1?", a: "A1." }, { q: "Q2?", a: "A2." }],
+  year: "2025", published: true,
   createdAt: "", updatedAt: "",
 };
 const minimal = { id: "2", slug: "m", title: "Min", from: "Tamil", to: ["Hindi"], category: "Dubbing", year: "ongoing", published: false, createdAt: "", updatedAt: "" };
