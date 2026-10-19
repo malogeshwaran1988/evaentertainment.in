@@ -1,43 +1,67 @@
 "use client";
 
 import Image from "next/image";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { BATCH_SIZE, LoadMore, useBatchReveal } from "@@/components/common/BatchReveal";
 import Link from "@@/components/common/NavLink";
 import { NoScriptLinks } from "@@/components/projects/PosterBatchGrid";
 import { PosterPlaceholder, YearBadge } from "@@/components/projects/ProjectPoster";
 import { Routes } from "@@/constants/routes";
 import {
-
   projectLanguageLine,
   type PublicProject,
   type ProjectLanguage,
 } from "@@/data/projects";
+import {
+  FILTER_ALL,
+  facetOptions,
+  matchesFacets,
+  sanitizeFacets,
+  type ProjectFacets,
+} from "@@/lib/project-filters";
 import { gridImageLoading } from "@@/lib/image-loading";
 import { projectPosterAlt } from "@@/lib/project-seo";
 
-type Filter = "All" | ProjectLanguage;
-
 type ProjectsGalleryProps = {
   projects: PublicProject[];
-  languages: readonly ProjectLanguage[];
+  /** Kept for API compatibility; options are now derived from the data. */
+  languages?: readonly ProjectLanguage[];
 };
 
-export default function ProjectsGallery({
-  projects,
-  languages,
-}: ProjectsGalleryProps) {
-  const [filter, setFilter] = useState<Filter>("All");
+const NONE: ProjectFacets = { language: FILTER_ALL, category: FILTER_ALL };
 
-  const usedLanguages = languages.filter((l) =>
-    projects.some((p) => p.from === l || p.to.includes(l)),
-  );
-  const filters: Filter[] = ["All", ...usedLanguages];
+export default function ProjectsGallery({ projects }: ProjectsGalleryProps) {
+  const [rawFacets, setFacets] = useState<ProjectFacets>(NONE);
 
-  const visible =
-    filter === "All"
-      ? projects
-      : projects.filter((p) => p.from === filter || p.to.includes(filter));
+  // Read ?language=&category= once on mount; unknown or empty values fall back to All.
+  useEffect(() => {
+    const q = new URLSearchParams(window.location.search);
+    const initial = {
+      language: q.get("language")?.trim() || FILTER_ALL,
+      category: q.get("category")?.trim() || FILTER_ALL,
+    };
+    if (initial.language !== FILTER_ALL || initial.category !== FILTER_ALL) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- one-time sync from the URL
+      setFacets(initial);
+    }
+  }, []);
+
+  const facets = useMemo(() => sanitizeFacets(projects, rawFacets), [projects, rawFacets]);
+  const options = useMemo(() => facetOptions(projects, facets), [projects, facets]);
+
+  const update = (next: Partial<ProjectFacets>) => {
+    const merged = sanitizeFacets(projects, { ...facets, ...next });
+    setFacets(merged);
+    const url = new URL(window.location.href);
+    for (const key of ["language", "category"] as const) {
+      if (merged[key] === FILTER_ALL) url.searchParams.delete(key);
+      else url.searchParams.set(key, merged[key]);
+    }
+    window.history.replaceState(window.history.state, "", url);
+  };
+
+  const filter = `${facets.language}|${facets.category}`;
+  const visible = projects.filter((p) => matchesFacets(p, facets));
 
   const { shown, hasMore, more, announce } = useBatchReveal(visible.length, BATCH_SIZE, filter);
   const gridRef = useRef<HTMLUListElement>(null);
@@ -55,30 +79,51 @@ export default function ProjectsGallery({
 
   return (
     <>
-      <div
-        className="eva-projects-filters"
-        role="group"
-        aria-label="Filter projects by language"
-      >
-        {filters.map((f) => (
-          <button
-            key={f}
-            type="button"
-            className="eva-projects-filter"
-            aria-pressed={filter === f}
-            onClick={() => setFilter(f)}
-          >
-            {f}
-          </button>
-        ))}
-      </div>
+      {options.languages.length > 1 || facets.language !== FILTER_ALL ? (
+        <div
+          className="eva-projects-filters"
+          role="group"
+          aria-label="Filter projects by original language"
+        >
+          {[FILTER_ALL, ...options.languages].map((f) => (
+            <button
+              key={f}
+              type="button"
+              className="eva-projects-filter"
+              aria-pressed={facets.language === f}
+              onClick={() => update({ language: f })}
+            >
+              {f === FILTER_ALL ? "All" : f}
+            </button>
+          ))}
+        </div>
+      ) : null}
+      {options.categories.length > 1 || facets.category !== FILTER_ALL ? (
+        <div
+          className="eva-projects-filters"
+          role="group"
+          aria-label="Filter projects by category"
+        >
+          {[FILTER_ALL, ...options.categories].map((f) => (
+            <button
+              key={f}
+              type="button"
+              className="eva-projects-filter"
+              aria-pressed={facets.category === f}
+              onClick={() => update({ category: f })}
+            >
+              {f === FILTER_ALL ? "All categories" : f}
+            </button>
+          ))}
+        </div>
+      ) : null}
 
       <p className="sr-only" aria-live="polite">
         {visible.length} {visible.length === 1 ? "project" : "projects"} shown
       </p>
 
       {visible.length === 0 ? (
-        <p className="eva-projects-empty">No {filter} projects to show yet.</p>
+        <p className="eva-projects-empty">No projects match these filters.</p>
       ) : (
         <>
         <ul className="eva-projects-grid" ref={gridRef}>
@@ -112,7 +157,7 @@ export default function ProjectsGallery({
             </li>
           ))}
         </ul>
-        {filter === "All" ? (
+        {filter === `${FILTER_ALL}|${FILTER_ALL}` ? (
           <NoScriptLinks
             items={visible
               .slice(BATCH_SIZE)
