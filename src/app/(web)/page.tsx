@@ -5,7 +5,7 @@ import InViewFx from "@@/components/common/InViewFx";
 import JsonLd from "@@/components/common/JsonLd";
 import HeroSlider from "@@/components/home/HeroSlider";
 import HomeProjects from "@@/components/home/HomeProjects";
-import ProjectImpactStrip from "@@/components/projects/ProjectImpactStrip";
+import ProjectImpactStrip, { IMPACT_STRIP_ENABLED } from "@@/components/projects/ProjectImpactStrip";
 import ServiceCardGrid from "@@/components/services/ServiceCardGrid";
 import { APP_BASE_URL, CONTACT, POSTAL_ADDRESS, SITE_NAME, SOCIAL_LINKS } from "@@/constants/constants";
 import {
@@ -42,7 +42,9 @@ export default async function HomePage() {
     <main id="main-content" tabIndex={-1} className="page-main home-page">
       <JsonLd id="home-localbusiness-jsonld" data={orgSchema} />
       <HeroSlider />
-      <ProjectImpactStrip stats={impact} className="block block--darkbg" />
+      {IMPACT_STRIP_ENABLED ? (
+        <ProjectImpactStrip stats={impact} className="block block--darkbg" />
+      ) : null}
       <HomeProjects projects={projects} />
 
       <section

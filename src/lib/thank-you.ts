@@ -1,8 +1,8 @@
 import { Routes } from "@@/constants/routes";
 
 /** Which form sent the visitor to /thank-you. */
-export type ThankYouType = "contact" | "booking";
-export const THANK_YOU_TYPES: readonly ThankYouType[] = ["contact", "booking"];
+export type ThankYouType = "contact";
+export const THANK_YOU_TYPES: readonly ThankYouType[] = ["contact"];
 
 const KEY = "eva:thank-you";
 /** A submit "ticket" is valid this long; after that /thank-you shows the neutral view. */

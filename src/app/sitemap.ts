@@ -33,7 +33,6 @@ const ENTRIES: Entry[] = [
   [Routes.ABOUT, "monthly", 0.8],
   [Routes.EQUIPMENT, "monthly", 0.7],
   [Routes.CONTACT, "monthly", 0.8],
-  [Routes.BOOK, "monthly", 0.8],
   [Routes.CLIENTS, "monthly", 0.7],
   [Routes.PRIVACY, "yearly", 0.3],
   [Routes.TERMS, "yearly", 0.3],

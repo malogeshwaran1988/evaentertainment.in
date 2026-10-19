@@ -222,7 +222,7 @@ export const SERVICES: Service[] = [
     seo: {
       title: "Song Recording Studio in Mumbai (Andheri) | EVA Entertainment",
       description:
-        "Song recording studio in Andheri, Mumbai for vocals and instruments, with mixing and mastering under one roof. Book a session with EVA Entertainment.",
+        "Song recording studio in Andheri, Mumbai for vocals and instruments, with mixing and mastering under one roof. Contact EVA Entertainment to plan your session.",
     },
     image: "/images/home/slide-2.avif",
     alt: "Recording studio control room with mixing console",
@@ -241,7 +241,7 @@ export const SERVICES: Service[] = [
     ],
     idealFor: ["Singers and bands", "Film and album songs", "Jingles for ads", "Covers and demos", "Devotional music", "Podcasts and narration"],
     faqs: [
-      { q: "How do I book a recording session?", a: "Use the Book a Studio Session page to send your preferred date and time, and we will confirm availability." },
+      { q: "How do I book a recording session?", a: "Use the Contact Us page to send your preferred date and time, and we will confirm availability." },
       { q: "Can you mix and master my song too?", a: "Yes. We can mix and master the song in the same studio after recording." },
       { q: "Do you record jingles for ads?", a: "Yes. We record jingles and songs for ad films as well as film and independent music." },
     ],

@@ -13,9 +13,7 @@ function SlideLine({
   className,
   text,
   line,
-  tagline,
 }: {
-  tagline?: string;
   role: "h1" | "title" | "subtitle";
   className: string;
   text: string;
@@ -32,12 +30,6 @@ function SlideLine({
     return (
       <h1 className={className || undefined} style={style}>
         {content}
-        {tagline ? (
-          <>
-            {" "}
-            <small className="eva-hero-h1-tagline">{tagline}</small>
-          </>
-        ) : null}
       </h1>
     );
   }
@@ -159,7 +151,6 @@ export default function HeroSlider() {
                           role={line.role}
                           className={line.className}
                           text={line.text}
-                          tagline={"tagline" in line ? line.tagline : undefined}
                         />
                       ))}
                       {/*
@@ -167,11 +158,11 @@ export default function HeroSlider() {
                         first viewport. One primary (Von Restorff) + one secondary. Inert on hidden slides.
                       */}
                       <div className="eva-hero-ctas" inert={i !== index}>
-                        <Link href={Routes.BOOK} className="btn btn--lg">
-                          <span>Book a session</span>
-                        </Link>
-                        <Link href={Routes.PROJECTS} className="btn btn--lg btn--border eva-hero-cta-secondary">
+                        <Link href={Routes.PROJECTS} className="btn btn--lg">
                           <span>See our projects</span>
+                        </Link>
+                        <Link href={Routes.CONTACT} className="btn btn--lg btn--border eva-hero-cta-secondary">
+                          <span>Contact us</span>
                         </Link>
                       </div>
                     </div>

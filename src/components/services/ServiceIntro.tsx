@@ -41,13 +41,7 @@ export default function ServiceIntro({ service }: { service: Service }) {
               ) : null}
             </div>
             <div className="eva-service-actions">
-              <Link href={Routes.BOOK} className="btn">
-                <span>
-                  <i className="icon-mic-3" aria-hidden="true" />
-                  Book a session
-                </span>
-              </Link>
-              <Link href={Routes.CONTACT} className="btn btn--border">
+              <Link href={Routes.CONTACT} className="btn">
                 <span>
                   <i className="icon icon-mail" aria-hidden="true" />
                   Get a quote

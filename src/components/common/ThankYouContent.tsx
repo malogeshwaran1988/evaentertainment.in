@@ -11,10 +11,6 @@ const COPY: Record<ThankYouType, { heading: string; body: string }> = {
     heading: "Thank you for contacting us",
     body: "We have received your enquiry and a member of our team will get back to you within one business day. A confirmation has been sent to your email.",
   },
-  booking: {
-    heading: "Your studio session request is in",
-    body: "We have received your booking request and will confirm the date and time with you within one business day. A confirmation has been sent to your email.",
-  },
 };
 
 const noop = () => () => {};
@@ -36,15 +32,11 @@ export default function ThankYouContent({ type }: { type: ThankYouType | null })
       <div className="eva-thank-you">
         <h2 className="h--md">Looking to get in touch?</h2>
         <p className="p--lg">
-          Send us a message or book a studio session, and we will get back to you within one business
-          day.
+          Send us a message and we will get back to you within one business day.
         </p>
         <div className="eva-service-actions eva-thank-you-actions">
           <Link href={Routes.CONTACT} className="btn">
             <span>Contact us</span>
-          </Link>
-          <Link href={Routes.BOOK} className="btn btn--border">
-            <span>Book a studio session</span>
           </Link>
         </div>
       </div>
@@ -67,8 +59,8 @@ export default function ThankYouContent({ type }: { type: ThankYouType | null })
         <Link href={Routes.HOME} className="btn btn--border">
           <span>Back to Home</span>
         </Link>
-        <Link href={type === "booking" ? Routes.PROJECTS : WHAT_WE_DO_HREF} className="btn">
-          <span>{type === "booking" ? "See our projects" : "Explore our services"}</span>
+        <Link href={WHAT_WE_DO_HREF} className="btn">
+          <span>Explore our services</span>
         </Link>
       </div>
     </div>

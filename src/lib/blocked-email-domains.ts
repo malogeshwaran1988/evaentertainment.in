@@ -1,6 +1,6 @@
 /**
  * Hand-maintained list of disposable / test email domains rejected by the public forms
- * (contact + book-studio-session). Shared by the client (instant feedback) and the server
+ * (contact form). Shared by the client (instant feedback) and the server
  * (authoritative). A domain also blocks all its subdomains. Keep entries lowercase.
  */
 export const BLOCKED_EMAIL_DOMAINS: readonly string[] = [

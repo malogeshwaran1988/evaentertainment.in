@@ -2,15 +2,13 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useMemo, useState, useTransition } from "react";
+import { useEffect, useMemo, useState, useTransition } from "react";
 import {
   flexRender,
   getCoreRowModel,
-  getFilteredRowModel,
   getPaginationRowModel,
   useReactTable,
   type ColumnDef,
-  type FilterFn,
 } from "@tanstack/react-table";
 import { Eye, Film, MoreHorizontal, Pencil, Search, Trash2 } from "lucide-react";
 import { toast } from "sonner";
@@ -54,15 +52,20 @@ import {
   TableRow,
 } from "@@/components/ui/table";
 import {
-  PROJECT_CATEGORIES,
-  PROJECT_LANGUAGES,
   projectLanguageLine,
   projectYearLabel,
   type Project,
 } from "@@/data/projects";
 import { projectEditPath } from "@@/lib/admin-session";
+import {
+  FILTER_ALL,
+  facetOptions,
+  matchesFacets,
+  matchesSearch,
+  sanitizeFacets,
+} from "@@/lib/project-filters";
 
-const ALL = "all";
+const ALL = FILTER_ALL;
 
 const dateFormat = new Intl.DateTimeFormat("en-IN", {
   day: "2-digit",
@@ -70,13 +73,11 @@ const dateFormat = new Intl.DateTimeFormat("en-IN", {
   year: "numeric",
 });
 
-/** Matches the public gallery filter: a language counts if it is the source or a target. */
-const languageFilter: FilterFn<Project> = (row, _id, value: string) =>
-  value === ALL || row.original.from === value || row.original.to.includes(value as Project["from"]);
 
 export default function ProjectsTable({ projects }: { projects: Project[] }) {
   const router = useRouter();
   const [search, setSearch] = useState("");
+  const [query, setQuery] = useState("");
   const [language, setLanguage] = useState<string>(ALL);
   const [category, setCategory] = useState<string>(ALL);
   const [visibility, setVisibility] = useState<string>(ALL);
@@ -129,7 +130,6 @@ export default function ProjectsTable({ projects }: { projects: Project[] }) {
         id: "languages",
         header: "Languages",
         accessorFn: (p) => projectLanguageLine(p),
-        filterFn: languageFilter,
         cell: ({ getValue }) => (
           <span className="text-muted-foreground">{getValue<string>()}</span>
         ),
@@ -246,37 +246,50 @@ export default function ProjectsTable({ projects }: { projects: Project[] }) {
     [],
   );
 
+  // Debounce typing so large lists stay responsive.
+  useEffect(() => {
+    const t = setTimeout(() => setQuery(search), 200);
+    return () => clearTimeout(t);
+  }, [search]);
+
+  // Facets: options come from the projects actually present; stale selections fall back to All.
+  const facets = useMemo(
+    () => sanitizeFacets(projects, { language, category }),
+    [projects, language, category],
+  );
+  const options = useMemo(() => facetOptions(projects, facets), [projects, facets]);
+
+  // Filter before handing rows to the table. The old TanStack global filter only ran
+  // when its value was non-empty and is cached on the filter state, so title search
+  // never reliably re-ran; plain memoised filtering is predictable.
+  const filtered = useMemo(
+    () =>
+      projects.filter((p) => {
+        if (!matchesSearch(p, query)) return false;
+        if (!matchesFacets(p, facets)) return false;
+        if (visibility !== ALL && (p.published !== false ? "public" : "private") !== visibility) return false;
+        if (seo !== ALL) {
+          const ok = projectUniqueWordCount(p) >= PROJECT_INDEX_MIN_WORDS;
+          if ((ok ? "indexable" : "thin") !== seo) return false;
+        }
+        return true;
+      }),
+    [projects, query, facets, visibility, seo],
+  );
+
   const table = useReactTable({
-    data: projects,
+    data: filtered,
     columns,
-    state: {
-      // Re-run the global filter whenever any select changes.
-      globalFilter: `${search}\u0000${category}\u0000${visibility}\u0000${seo}`,
-      columnFilters: [{ id: "languages", value: language }],
-      pagination,
-    },
-    globalFilterFn: (row, _id, value: string) => {
-      const p = row.original;
-      const query = value.split("\u0000")[0].trim().toLowerCase();
-      if (query && !p.title.toLowerCase().includes(query)) return false;
-      if (category !== ALL && p.category !== category) return false;
-      if (visibility !== ALL && (p.published !== false ? "public" : "private") !== visibility) return false;
-      if (seo !== ALL) {
-        const ok = projectUniqueWordCount(p) >= PROJECT_INDEX_MIN_WORDS;
-        if ((ok ? "indexable" : "thin") !== seo) return false;
-      }
-      return true;
-    },
+    state: { pagination },
     onPaginationChange: setPagination,
     getCoreRowModel: getCoreRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     autoResetPageIndex: false,
   });
 
-  const filteredCount = table.getFilteredRowModel().rows.length;
+  const filteredCount = filtered.length;
   const filtersActive =
-    search !== "" || language !== ALL || category !== ALL || visibility !== ALL || seo !== ALL;
+    search !== "" || facets.language !== ALL || facets.category !== ALL || visibility !== ALL || seo !== ALL;
   const resetPage = () => setPagination((p) => ({ ...p, pageIndex: 0 }));
 
   const confirmDelete = () => {
@@ -301,8 +314,8 @@ export default function ProjectsTable({ projects }: { projects: Project[] }) {
           />
           <Input
             type="search"
-            placeholder="Search by title"
-            aria-label="Search projects by title"
+            placeholder="Search title, language, category"
+            aria-label="Search projects by title, language or category"
             className="h-10 pl-8"
             value={search}
             onChange={(e) => {
@@ -311,33 +324,23 @@ export default function ProjectsTable({ projects }: { projects: Project[] }) {
             }}
           />
         </div>
-        <Select
-          value={language}
-          onValueChange={(v) => {
+        <FilterSelect
+          label="Filter by original language"
+          value={facets.language}
+          onChange={(v) => {
             setLanguage(v);
             resetPage();
           }}
-        >
-          <SelectTrigger className="h-10 w-full sm:w-44" aria-label="Filter by language">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value={ALL}>All languages</SelectItem>
-            {PROJECT_LANGUAGES.map((l) => (
-              <SelectItem key={l} value={l}>
-                {l}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+          options={[[ALL, "All languages"], ...options.languages.map((l) => [l, `From ${l}`] as [string, string])]}
+        />
         <FilterSelect
           label="Filter by category"
-          value={category}
+          value={facets.category}
           onChange={(v) => {
             setCategory(v);
             resetPage();
           }}
-          options={[[ALL, "All categories"], ...PROJECT_CATEGORIES.map((c) => [c, c] as [string, string])]}
+          options={[[ALL, "All categories"], ...options.categories.map((c) => [c, c] as [string, string])]}
         />
         <FilterSelect
           label="Filter by visibility"
@@ -372,6 +375,7 @@ export default function ProjectsTable({ projects }: { projects: Project[] }) {
             className="h-10 sm:ml-auto"
             onClick={() => {
               setSearch("");
+              setQuery("");
               setLanguage(ALL);
               setCategory(ALL);
               setVisibility(ALL);

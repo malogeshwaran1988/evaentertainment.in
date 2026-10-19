@@ -14,9 +14,9 @@ npm run lint
 
 ## Environment
 
-Copy `.env.example` to `.env.local` and set SMTP credentials for contact/booking mail (`SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `SMTP_FROM`, `CONTACT_TO`). Gmail / Google Workspace uses `smtp.gmail.com` on port `465` with an App Password. In development, if SMTP is unset, submissions are logged to the server console instead of failing.
+Copy `.env.example` to `.env.local` and set SMTP credentials for contact-form mail (`SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `SMTP_FROM`, `CONTACT_TO`). Gmail / Google Workspace uses `smtp.gmail.com` on port `465` with an App Password. In development, if SMTP is unset, submissions are logged to the server console instead of failing.
 
-**Production (Vercel):** set the same SMTP and `CONTACT_TO` variables in the Vercel project (Production and Preview), then redeploy so contact/booking API routes can send mail. Never commit real passwords — keep them in `.env.local` and the Vercel dashboard only.
+**Production (Vercel):** set the same SMTP and `CONTACT_TO` variables in the Vercel project (Production and Preview), then redeploy so the contact API route can send mail. Never commit real passwords — keep them in `.env.local` and the Vercel dashboard only.
 
 ## Admin panel
 
@@ -34,17 +34,17 @@ Copy `.env.example` to `.env.local` and set SMTP credentials for contact/booking
 
 All paths live in `src/constants/routes.ts`; the sitemap, menu, footer and redirects read from it.
 
-- `/`, `/about-us`, `/our-projects`, `/studio-equipment`, `/contact-us`, `/book-studio-session`, `/thank-you`, `/privacy-policy`, `/terms-conditions`. Admin (`/login`, `/admin`) is noindex.
+- `/`, `/about-us`, `/our-projects`, `/studio-equipment`, `/contact-us`, `/thank-you`, `/privacy-policy`, `/terms-conditions`. Admin (`/login`, `/admin`) is noindex.
 - One page per service, built from `src/data/services.ts` by `src/app/(web)/[service]/page.tsx`: `/dubbing-studio`, `/voice-over-studio`, `/foley-recording`, `/5-1-mixing-studio`, `/subtitling-services`, `/song-recording-studio`, `/translation-services`, `/stock-music-library`.
 - There is no services overview page: the SERVICES menu item is a dropdown of the service pages, and its link (plus the old `/services` URL) goes to the home page's What We Do section (`/#what-we-do`).
-- Old URLs (`/about`, `/contact`, `/projects`, `/equipment`, `/book`, `/privacy`, `/terms`, `/services`) permanently redirect to the new ones (`LEGACY_REDIRECTS`).
+- Old URLs (`/about`, `/contact`, `/projects`, `/equipment`, `/privacy`, `/terms`, `/services`) permanently redirect to the new ones, and the removed booking page (`/book`, `/book-studio-session`) 301s to `/contact-us` (`LEGACY_REDIRECTS`).
 - `GET /api/projects` is the public, read-only projects list.
 
 ## Structure
 
 - `src/app/(web)/` — public marketing routes (own root layout with Glory CSS)
 - `src/app/(admin)/` — `/login` and `/admin/*` (own root layout with shadcn/ui)
-- `src/app/api/contact` & `booking` — form handlers
+- `src/app/api/contact` — contact form handler
 - `src/data/` — page copy + SEO constants
 - `src/components/` — Header, Footer, forms, hero slider
 - `public/` — legacy CSS, images, fonts, media

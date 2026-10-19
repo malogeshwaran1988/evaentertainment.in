@@ -10,8 +10,6 @@ import ProjectAdjacentNav from "@@/components/projects/ProjectAdjacentNav";
 import ProjectExplore from "@@/components/projects/ProjectExplore";
 import ProjectTrailer from "@@/components/projects/ProjectTrailer";
 import { projectIsIndexable, youtubeId } from "@@/lib/project-content";
-import { languageHubHref } from "@@/lib/project-links";
-import { serviceHref } from "@@/constants/routes";
 import { APP_BASE_URL, SITE_NAME } from "@@/constants/constants";
 import { Routes } from "@@/constants/routes";
 import {
@@ -233,7 +231,7 @@ export default async function ProjectDetailPage({
         <div className="container eva-project-detail-inner">
           <div className="eva-project-detail-stage">
             <ProjectAdjacentNav prev={prevNav} next={nextNav} variant="side" />
-            <div className="row gutter-30 align-items-start eva-project-detail-main">
+            <div className="row gutter-30 eva-project-detail-main">
               <div className="col-md-5">
                 <div className="eva-project-detail-poster">
                   {project.poster ? (
@@ -268,23 +266,9 @@ export default async function ProjectDetailPage({
                 {project.description ? (
                   <p className="eva-project-detail-desc">{project.description}</p>
                 ) : null}
-                <p className="eva-project-detail-links">
-                  More: <Link href={serviceHref("dubbing-studio")}>Lip-sync dubbing studio in Mumbai</Link>
-                  {project.to.map((t) => (
-                    <span key={t}>
-                      {" · "}
-                      <Link href={languageHubHref(project.from, t)}>
-                        {project.from} to {t} dubbing projects
-                      </Link>
-                    </span>
-                  ))}
-                </p>
                 <div className="eva-project-detail-cta">
                   <Link className="btn" href={Routes.CONTACT}>
                     Contact us
-                  </Link>
-                  <Link className="btn btn--border" href={Routes.BOOK}>
-                    Book a session
                   </Link>
                 </div>
                 <ProjectAdjacentNav prev={prevNav} next={nextNav} variant="stack" />
