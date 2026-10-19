@@ -73,8 +73,9 @@ function neighbors(projects: Project[], slug: string) {
   const index = projects.findIndex((p) => p.slug === slug);
   if (index < 0) return { prev: null, next: null, others: projects };
   return {
-    prev: index > 0 ? projects[index - 1] : null,
-    next: index < projects.length - 1 ? projects[index + 1] : null,
+    // Loop around the ends; with a single project there is nowhere to go.
+    prev: projects.length > 1 ? projects[(index - 1 + projects.length) % projects.length] : null,
+    next: projects.length > 1 ? projects[(index + 1) % projects.length] : null,
     others: projects.filter((p) => p.slug !== slug),
   };
 }

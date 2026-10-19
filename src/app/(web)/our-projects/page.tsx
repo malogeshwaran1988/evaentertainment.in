@@ -13,7 +13,6 @@ import {
 } from "@@/lib/project-seo";
 import { aggregateProjectImpact } from "@@/lib/project-stats";
 import {
-  PROJECT_LANGUAGES,
   PROJECT_YEAR_ONGOING,
   PROJECTS_OG_IMAGE,
   PROJECTS_OG_IMAGE_ALT,
@@ -28,11 +27,40 @@ export const metadata = buildPageMetadata({
   ogImageAlt: PROJECTS_OG_IMAGE_ALT,
 });
 
-export default async function ProjectsPage() {
+/** Languages by published project count (desc), ties alphabetical. */
+function rankLanguages(projects: { from: string }[]) {
+  const counts = new Map<string, number>();
+  for (const p of projects) if (p.from) counts.set(p.from, (counts.get(p.from) ?? 0) + 1);
+  return [...counts.entries()]
+    .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+    .map(([language, count]) => ({ language, count }));
+}
+
+export default async function ProjectsPage({
+  searchParams,
+}: {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+}) {
   // Read at request time: projects.json lives on the server and changes from the admin panel.
   await connection();
-  const { projects } = await getPublicProjects();
-  const impact = aggregateProjectImpact(projects);
+  // Same cached reader as before (unstable_cache), so no extra Blob reads per request.
+  const { projects: allProjects } = await getPublicProjects();
+  const impact = aggregateProjectImpact(allProjects);
+
+  // Only the selected language tab is rendered and serialised; other tabs load on click.
+  const ranked = rankLanguages(allProjects);
+  const top = ranked[0]?.language;
+  const raw = (await searchParams).language;
+  const requested = (Array.isArray(raw) ? raw[0] : raw)?.trim();
+  const selected = ranked.find((r) => r.language === requested)?.language ?? top ?? "";
+  const projects = allProjects.filter((p) => p.from === selected);
+  const tabs = ranked.map((r) => ({
+    ...r,
+    href: r.language === top ? Routes.PROJECTS : `${Routes.PROJECTS}?language=${encodeURIComponent(r.language)}`,
+  }));
+  const otherLinks = allProjects
+    .filter((p) => p.from !== selected)
+    .map((p) => ({ id: p.id, href: projectHref(p.slug), title: p.title }));
   const schema = {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
@@ -84,7 +112,7 @@ export default async function ProjectsPage() {
         aria-label="Project portfolio"
       >
         <div className="container">
-          <ProjectsGallery projects={projects} languages={PROJECT_LANGUAGES} />
+          <ProjectsGallery projects={projects} tabs={tabs} selected={selected} otherLinks={otherLinks} />
         </div>
       </section>
     </main>
