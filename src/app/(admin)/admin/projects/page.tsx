@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Plus } from "lucide-react";
+import ProjectCsvImport, { ExportProjectsCsvButton } from "@@/components/admin/projects/ProjectCsvImport";
 import ProjectsTable from "@@/components/admin/projects/ProjectsTable";
 import PageHeader from "@@/components/admin/ui/PageHeader";
 import { Button } from "@@/components/ui/button";
@@ -20,12 +21,16 @@ export default async function AdminProjectsPage() {
         title="Our Projects"
         description="Projects listed on the public Our Projects page."
         actions={
+          <>
+          <ExportProjectsCsvButton projects={projects} />
+          <ProjectCsvImport />
           <Button asChild>
             <Link href={AdminRoutes.PROJECTS_NEW}>
               <Plus />
               Add project
             </Link>
           </Button>
+          </>
         }
       />
       <ProjectsTable projects={projects} />

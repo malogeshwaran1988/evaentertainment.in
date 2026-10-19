@@ -151,12 +151,14 @@ const readAll = unstable_cache(readAllUncached, ["eva-projects-v1"], {
   revalidate: DATA_REVALIDATE_SECONDS,
 });
 
-function mutate<T>(fn: (projects: Project[]) => { next: Project[]; result: T }) {
+type MutateResult<T> = { next: Project[]; result: T };
+
+function mutate<T>(fn: (projects: Project[]) => MutateResult<T> | Promise<MutateResult<T>>) {
   const run = writeQueue.then(async () => {
     for (let attempt = 1; ; attempt++) {
       const { projects, etag } = await readSnapshot();
       const { projects: normalized } = ensureProjectSlugs(projects);
-      const { next, result } = fn(normalized);
+      const { next, result } = await fn(normalized);
       try {
         await writeAll(next, etag);
         return result;
@@ -219,6 +221,38 @@ function dropEmptyContent(project: Project) {
     const v = project[key];
     if (v === undefined || v === "" || (Array.isArray(v) && v.length === 0)) delete project[key];
   }
+}
+
+/**
+ * Bulk create (CSV import): one read and one write of projects.json for the whole batch.
+ * `build` gets the current projects (fresh, inside the write queue) and returns the inputs to add,
+ * or throws to abort without writing. It may run again on a Blob version conflict.
+ */
+export function createProjects<T>(
+  build: (projects: Project[]) => Promise<{ inputs: (ProjectInput & { slug: string })[]; result: T }>,
+) {
+  return mutate(async (projects) => {
+    const { inputs, result } = await build(projects);
+    const base = Date.now();
+    const added = inputs.map((input, i) => {
+      // Later rows get later timestamps so ties keep CSV order (newest added first in the list).
+      const at = new Date(base + i).toISOString();
+      const project: Project = {
+        ...input,
+        published: input.published === true,
+        id: randomUUID(),
+        createdAt: at,
+        updatedAt: at,
+      };
+      if (!project.poster) delete project.poster;
+      if (!project.posterAlt) delete project.posterAlt;
+      if (!project.description) delete project.description;
+      if (!project.audioHours) delete project.audioHours;
+      dropEmptyContent(project);
+      return project;
+    });
+    return { next: [...projects, ...added], result: { added, result } };
+  });
 }
 
 /** Optional fields are final values: pass `undefined` to clear them. */
