@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "@@/components/common/NavLink";
 import PageHero from "@@/components/common/PageHero";
 import { DEFAULT_OG_IMAGE, DEFAULT_OG_IMAGE_ALT } from "@@/constants/constants";
 import { Routes } from "@@/constants/routes";
@@ -72,14 +71,6 @@ export default function ClientsPage() {
               </li>
             ))}
           </ul>
-          <div className="eva-clients-cta">
-            <Link className="btn" href={Routes.PROJECTS}>
-              <span>Our projects</span>
-            </Link>
-            <Link className="btn btn--border" href={Routes.CONTACT}>
-              <span>Contact us</span>
-            </Link>
-          </div>
         </div>
       </section>
     </main>
