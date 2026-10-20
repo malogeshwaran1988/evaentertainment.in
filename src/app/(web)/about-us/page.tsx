@@ -1,3 +1,4 @@
+import FounderSection from "@@/components/about/FounderSection";
 import JsonLd from "@@/components/common/JsonLd";
 import PageHero from "@@/components/common/PageHero";
 import { Routes } from "@@/constants/routes";
@@ -76,6 +77,8 @@ export default function AboutPage() {
           ))}
         </div>
       </section>
+
+      <FounderSection />
     </main>
   );
 }
