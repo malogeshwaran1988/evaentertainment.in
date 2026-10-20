@@ -17,17 +17,18 @@ export const metadata: Metadata = buildPageMetadata({
   ogImageAlt: DEFAULT_OG_IMAGE_ALT,
 });
 
-type Client = { name: string; src: string; width: number; height: number };
+/** shape: "wide" wordmarks (default), "square" icons, "tall" stacked marks — sizes the logo box for even optical weight. */
+type Client = { name: string; src: string; width: number; height: number; shape?: "square" | "tall" };
 
 /** Logos live in /public/images/clients (AVIF, ≤600px wide, transparent where the source allows). */
 const CLIENTS: Client[] = [
-  { name: "JioCinema", src: "/images/clients/jiocinema.avif", width: 300, height: 300 },
-  { name: "Angel TV", src: "/images/clients/angel.avif", width: 346, height: 300 },
-  { name: "ETV Bal Bharat", src: "/images/clients/etv-bal-bharat.avif", width: 454, height: 300 },
-  { name: "Sony Pictures Networks", src: "/images/clients/sony-pictures-networks.avif", width: 261, height: 300 },
+  { name: "JioCinema", src: "/images/clients/jiocinema.avif", width: 300, height: 300, shape: "square" },
+  { name: "Angel TV", src: "/images/clients/angel.avif", width: 346, height: 300, shape: "square" },
+  { name: "ETV Bal Bharat", src: "/images/clients/etv-bal-bharat.avif", width: 454, height: 300, shape: "square" },
+  { name: "Sony Pictures Networks", src: "/images/clients/sony-pictures-networks.avif", width: 261, height: 300, shape: "tall" },
   { name: "Viacom18", src: "/images/clients/viacom18.avif", width: 600, height: 115 },
   { name: "MX Player MX Gold", src: "/images/clients/mx-gold.avif", width: 600, height: 147 },
-  { name: "Storytel", src: "/images/clients/storytel.avif", width: 492, height: 300 },
+  { name: "Storytel", src: "/images/clients/storytel.avif", width: 492, height: 300, shape: "square" },
   { name: "Jumbaya", src: "/images/clients/jumbaya.avif", width: 600, height: 195 },
 ];
 
@@ -58,7 +59,7 @@ export default function ClientsPage() {
           </div>
           <ul className="eva-clients-grid" aria-label="Our clients">
             {CLIENTS.map((client, i) => (
-              <li key={client.src} className="eva-clients-item">
+              <li key={client.src} className={`eva-clients-item${client.shape ? ` eva-clients-item--${client.shape}` : ""}`}>
                 {/* eslint-disable-next-line @next/next/no-img-element -- pre-optimised AVIF, served as-is */}
                 <img
                   src={client.src}
