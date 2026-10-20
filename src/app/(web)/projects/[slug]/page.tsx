@@ -101,7 +101,7 @@ export default async function ProjectDetailPage({
   const posterUrl = projectAbsolutePosterUrl(project.poster);
   const seoAlt = projectPosterAlt(project);
   const workType =
-    project.category === "Movie Dubbing" ? "Movie" : project.category === "TV Series" ? "TVSeries" : "CreativeWork";
+    project.category === "Movie Dubbing" ? "Movie" : project.category === "TV Series" ? "TVSeries" : project.category === "Song Recording" ? "MusicRecording" : "CreativeWork";
   // Service tags link to the matching service page when one exists (names match src/data/services.ts).
   const serviceTags = (project.services ?? []).map((name) => {
     const svc = SERVICES.find((s) => s.name === name);

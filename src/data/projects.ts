@@ -22,7 +22,7 @@ export const PROJECT_LANGUAGES = [
 
 export type ProjectLanguage = (typeof PROJECT_LANGUAGES)[number];
 
-export const PROJECT_CATEGORIES = ["Movie Dubbing", "TV Series", "Documentary"] as const;
+export const PROJECT_CATEGORIES = ["Movie Dubbing", "TV Series", "Documentary", "Song Recording"] as const;
 export type ProjectCategory = (typeof PROJECT_CATEGORIES)[number];
 
 /** Services a project can list; names match the service pages in src/data/services.ts. */

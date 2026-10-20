@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import ComingSoon from "@@/components/common/ComingSoon";
+import PageHero from "@@/components/common/PageHero";
 import { DEFAULT_OG_IMAGE, DEFAULT_OG_IMAGE_ALT } from "@@/constants/constants";
 import { Routes } from "@@/constants/routes";
 import { absoluteUrl, buildPageMetadata } from "@@/lib/seo";
@@ -16,25 +16,64 @@ export const metadata: Metadata = buildPageMetadata({
   ogImageAlt: DEFAULT_OG_IMAGE_ALT,
 });
 
+/** shape: "wide" wordmarks (default), "square" icons, "tall" stacked marks — sizes the logo box for even optical weight. */
+type Client = { name: string; src: string; width: number; height: number; shape?: "square" | "tall" };
+
+/** Logos live in /public/images/clients (AVIF, ≤600px wide, transparent where the source allows). */
+const CLIENTS: Client[] = [
+  { name: "JioCinema", src: "/images/clients/jiocinema.avif", width: 300, height: 300, shape: "square" },
+  { name: "Angel TV", src: "/images/clients/angel.avif", width: 346, height: 300, shape: "square" },
+  { name: "ETV Bal Bharat", src: "/images/clients/etv-bal-bharat.avif", width: 454, height: 300, shape: "square" },
+  { name: "Sony Pictures Networks", src: "/images/clients/sony-pictures-networks.avif", width: 261, height: 300, shape: "tall" },
+  { name: "Viacom18", src: "/images/clients/viacom18.avif", width: 600, height: 115 },
+  { name: "MX Player MX Gold", src: "/images/clients/mx-gold.avif", width: 600, height: 147 },
+  { name: "Storytel", src: "/images/clients/storytel.avif", width: 492, height: 300, shape: "square" },
+  { name: "Jumbaya", src: "/images/clients/jumbaya.avif", width: 600, height: 195 },
+];
+
 export default function ClientsPage() {
   return (
-    <ComingSoon
-      icon="icon-people"
-      title="Our Clients"
-      subtitle="The studios, platforms and producers we work with"
-      href={Routes.CLIENTS}
-      introHeading="Trusted by studios, platforms and producers"
-      intro={
-        <p>
-          From our studio in Andheri West, Mumbai, EVA Entertainment dubs, records and mixes films, web
-          series, animation and advertising for production houses, OTT platforms, broadcasters and
-          independent creators. Our clients come to us for natural-sounding Hindi and regional dubbing,
-          experienced voice artists, careful lip-sync and a dependable delivery schedule, and many have
-          worked with us across several seasons and releases.
-        </p>
-      }
-      message="Our client showcase is on its way"
-      detail="Meanwhile, browse the films and series we have dubbed, or talk to us about your next project."
-    />
+    <main id="main-content" tabIndex={-1} className="page-main">
+      <PageHero
+        icon="icon-people"
+        className="eva-coming-soon-hero"
+        title="Our Clients"
+        subtitle="The studios, platforms and producers we work with"
+        trail={[{ label: "Our Clients", href: Routes.CLIENTS }]}
+        schema={false}
+      />
+      <section className="block eva-clients-block" aria-labelledby="clients-heading">
+        <div className="container">
+          <div className="eva-coming-soon-intro">
+            <h2 id="clients-heading">
+              <i className="icon icon-like" aria-hidden="true" />
+              Trusted by <span>studios, platforms and producers</span>
+            </h2>
+            <p>
+              From our studio in Andheri West, Mumbai, EVA Entertainment dubs, records and mixes films, web
+              series, animation and advertising for production houses, OTT platforms, broadcasters and
+              independent creators. Our clients come to us for natural-sounding Hindi and regional dubbing,
+              experienced voice artists, careful lip-sync and a dependable delivery schedule, and many have
+              worked with us across several seasons and releases.
+            </p>
+          </div>
+          <ul className="eva-clients-grid" aria-label="Our clients">
+            {CLIENTS.map((client, i) => (
+              <li key={client.src} className={`eva-clients-item${client.shape ? ` eva-clients-item--${client.shape}` : ""}`}>
+                {/* eslint-disable-next-line @next/next/no-img-element -- pre-optimised AVIF, served as-is */}
+                <img
+                  src={client.src}
+                  alt={`${client.name} logo`}
+                  width={client.width}
+                  height={client.height}
+                  loading={i < 4 ? "eager" : "lazy"}
+                  decoding="async"
+                />
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+    </main>
   );
 }

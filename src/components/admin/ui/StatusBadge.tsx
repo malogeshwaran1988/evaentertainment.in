@@ -85,6 +85,7 @@ const CATEGORY: Record<string, { tone: StatusTone; icon: Icon }> = {
   "Movie Dubbing": { tone: "violet", icon: Clapperboard },
   "TV Series": { tone: "sky", icon: Languages },
   Documentary: { tone: "teal", icon: Captions },
+  "Song Recording": { tone: "rose", icon: Mic },
   // Legacy values (mapped at read time, kept so any stray value still renders).
   Dubbing: { tone: "violet", icon: Clapperboard },
   "Voice Over": { tone: "rose", icon: Mic },

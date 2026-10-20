@@ -63,7 +63,7 @@ export const SERVICE_CARDS = [
     eyebrow: "Voice",
     title: "Translation",
     description:
-      "facilities deliver audio production, creative sound design and studio direction for...",
+      "Our facilities deliver audio production, creative sound design and studio direction for every language.",
   },
   {
     href: serviceHref("stock-music-library"),

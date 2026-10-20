@@ -3932,10 +3932,228 @@ body:not(.page-blog) .block--darkbg h3.eva-service-ideal-title,
   }
 }
 
-.block.eva-equipment-section {
+/* /studio-equipment: built on the shared system (.block, .container, .title-wrap, h2 + green
+   i.icon, h2 > span, h3, .p--lg/.p--sm, .theme-color, .block--darkbg #181818, green #70b615).
+   main is flex-1 in the layout, so the last section stretches to the footer (no white gap). */
+.flex-1:has(> .page-main.eva-equipment-page) {
+  display: flex;
+  flex-direction: column;
+}
+.page-main.eva-equipment-page {
+  display: flex;
+  flex: 1 0 auto;
+  flex-direction: column;
+}
+.eva-equipment-page .block.eva-equipment-intro-block { padding-top: 80px; }
+.eva-equipment-page .block.eva-equipment-features-block {
+  flex: 1 0 auto;
   margin-bottom: 0;
   padding-top: 80px;
   padding-bottom: 80px;
+}
+.eva-equipment-intro { max-width: 980px; margin-inline: auto; }
+.eva-equipment-intro h2 i.icon { color: #70b615; }
+.eva-equipment-intro p { margin-bottom: 16px; }
+.eva-equipment-intro p:last-child { margin-bottom: 0; }
+.eva-equipment-features-block .eva-equipment-intro p { color: rgba(255, 255, 255, 0.8); }
+
+/* Highlights: same card language as .eva-service-point, on the light section */
+.eva-equipment-highlights {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 24px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.eva-equipment-highlights li {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 28px 24px;
+  border: 1px solid #e7e7e7;
+  border-top: 3px solid #70b615;
+  border-radius: 12px;
+  background: #f7f7f7;
+}
+.eva-equipment-highlights .icon { margin-bottom: 8px; font-size: 34px; line-height: 1; color: #70b615; }
+.eva-equipment-highlights .heading-as-h4 { display: block; margin: 0; color: #13161d; }
+.eva-equipment-highlight-label { display: block; font-size: 16px; line-height: 24px; color: #4a4f57; }
+
+/* Feature rows on the dark band */
+.eva-equipment-features {
+  display: flex;
+  flex-direction: column;
+  gap: 105px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.eva-equipment-feature {
+  display: grid;
+  grid-template-columns: minmax(0, 58fr) minmax(0, 42fr);
+  gap: 64px;
+  align-items: center;
+}
+.eva-equipment-feature:nth-child(even) { grid-template-columns: minmax(0, 42fr) minmax(0, 58fr); }
+.eva-equipment-feature:nth-child(even) .eva-equipment-figure { order: 2; }
+.eva-equipment-figure { margin: 0; }
+.eva-equipment-figure figcaption { margin-top: 12px; font-size: 13px; line-height: 1.5; color: rgba(255, 255, 255, 0.55); }
+.eva-equipment-figure figcaption a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+.eva-equipment-text h3 { margin-bottom: 20px; }
+.eva-equipment-text p { color: rgba(255, 255, 255, 0.8); }
+.eva-equipment-text .eva-equipment-role { margin: 0 0 12px; letter-spacing: 0.12em; font-weight: 600; color: #70b615; }
+.eva-equipment-workflow { margin-top: 20px; padding-left: 18px; border-left: 3px solid #70b615; }
+.eva-equipment-note { margin: 80px 0 0; color: rgba(255, 255, 255, 0.55); }
+.eva-equipment-features-block a:focus-visible { outline: 2px solid #70b615; outline-offset: 2px; }
+@media (max-width: 1199px) {
+  .eva-equipment-highlights { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 991px) {
+  .eva-equipment-page .block.eva-equipment-intro-block { padding-top: 56px; }
+  .eva-equipment-page .block.eva-equipment-features-block { padding-top: 56px; padding-bottom: 56px; }
+  .eva-equipment-features { gap: 75px; }
+  .eva-equipment-feature,
+  .eva-equipment-feature:nth-child(even) { grid-template-columns: 1fr; gap: 28px; }
+  .eva-equipment-feature:nth-child(even) .eva-equipment-figure { order: 0; }
+  .eva-equipment-note { margin-top: 56px; }
+}
+@media (max-width: 479px) {
+  .eva-equipment-highlights { grid-template-columns: 1fr; gap: 16px; }
+}
+
+/* "Live" photo overlays. Positions are % of the uncropped 4:3 image; the overlay layer lives
+   inside .eva-live-stage with the <img>, so the Ken Burns transform moves both together.
+   Only transform/opacity animate; everything pauses while the row is off screen. */
+.eva-live {
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #101114;
+  box-shadow: 0 24px 48px -24px rgba(0, 0, 0, 0.7);
+  isolation: isolate;
+}
+.eva-live-stage {
+  position: relative;
+  transform-origin: 50% 50%;
+  animation: eva-kenburns 16s ease-in-out infinite alternate;
+  will-change: transform;
+}
+.eva-live--alt .eva-live-stage { animation-name: eva-kenburns-alt; animation-duration: 14s; }
+.eva-live-stage img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; }
+.eva-live-layer { position: absolute; inset: 0; pointer-events: none; }
+.eva-live-glow {
+  position: absolute; inset: 0;
+  background: radial-gradient(circle at var(--gx) var(--gy), rgba(255, 214, 150, 0.22), transparent 40%);
+  animation: eva-glow 6s ease-in-out infinite;
+}
+.eva-live-sheen {
+  position: absolute; top: -10%; bottom: -10%; left: 0; width: 30%;
+  background: linear-gradient(100deg, transparent, rgba(255, 250, 235, 0.16), transparent);
+  transform: translateX(-160%) skewX(-12deg);
+  animation: eva-sheen 10s ease-in-out infinite;
+}
+.eva-live--alt .eva-live-sheen { animation-delay: 4s; }
+/* Rings: an emitter box sized to the cone/grille, centred on it */
+.eva-live-emitter { position: absolute; aspect-ratio: 1; transform: translate(-50%, -50%); }
+.eva-live-emitter i {
+  position: absolute; inset: 0;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 248, 230, 0.7);
+  opacity: 0;
+  transform: scale(0.85);
+  animation: eva-ring 3s cubic-bezier(0.2, 0.6, 0.3, 1) infinite;
+}
+.eva-live-emitter i:nth-child(2) { animation-delay: -1s; }
+.eva-live-emitter i:nth-child(3) { animation-delay: -2s; }
+.eva-live--speaker .eva-live-emitter i { border-color: rgba(152, 210, 70, 0.75); animation-name: eva-cone; animation-duration: 1.8s; }
+.eva-live--speaker .eva-live-emitter i:nth-child(2) { animation-delay: -0.6s; }
+.eva-live--speaker .eva-live-emitter i:nth-child(3) { animation-delay: -1.2s; }
+/* 5.1 surround: each channel fires in turn (L C R Rs Ls), 1.2s apart, 6s loop */
+.eva-live--surround .eva-live-emitter i {
+  border-color: rgba(152, 210, 70, 0.85);
+  animation-name: eva-surround;
+  animation-duration: 6s;
+  animation-timing-function: ease-out;
+  animation-delay: calc(var(--i) * 1.2s);
+}
+.eva-live--surround .eva-live-emitter i:nth-child(2) { animation-delay: calc(var(--i) * 1.2s + 0.25s); }
+.eva-live--surround .eva-live-emitter i:nth-child(3) { animation-delay: calc(var(--i) * 1.2s + 0.5s); }
+.eva-live-lfe {
+  position: absolute; aspect-ratio: 3 / 1;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, rgba(112, 182, 21, 0.38), transparent 70%);
+  opacity: 0;
+  animation: eva-lfe 3s ease-in-out infinite;
+}
+.eva-live-sweet {
+  position: absolute; width: 14px; height: 14px; margin: -7px 0 0 -7px;
+  border-radius: 50%;
+  background: rgba(255, 248, 230, 0.9);
+  box-shadow: 0 0 0 4px rgba(112, 182, 21, 0.35), 0 0 18px rgba(112, 182, 21, 0.6);
+  animation: eva-rec 1.2s ease-in-out infinite;
+}
+.eva-live-led {
+  position: absolute; width: 14px; height: 14px; margin: -7px 0 0 -7px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(190, 255, 120, 0.95), rgba(112, 182, 21, 0) 70%);
+  animation: eva-rec 2.4s ease-in-out infinite;
+}
+.eva-live-rec {
+  position: absolute; top: 16px;
+  display: inline-flex; align-items: center; gap: 7px; padding: 5px 11px;
+  border-radius: 999px; background: rgba(15, 15, 14, 0.6);
+  font-size: 11px; font-weight: 600; letter-spacing: 0.16em; line-height: 1; color: #fff;
+}
+.eva-live-rec--tr { right: 16px; }
+.eva-live-rec--tl { left: 16px; }
+.eva-live-rec b {
+  width: 8px; height: 8px; border-radius: 50%; background: #e5322d;
+  box-shadow: 0 0 8px rgba(229, 50, 45, 0.8);
+  animation: eva-rec 1.6s ease-in-out infinite;
+}
+.eva-live-legend {
+  position: absolute; right: 16px; bottom: 16px;
+  display: inline-flex; align-items: center; gap: 4px; padding: 6px 10px;
+  border-radius: 999px; background: rgba(15, 15, 14, 0.65);
+  font-size: 11px; font-weight: 600; letter-spacing: 0.08em; line-height: 1; color: #fff;
+}
+.eva-live-legend strong { margin-right: 6px; color: #70b615; font-weight: 700; }
+.eva-live-legend em {
+  padding: 3px 5px; border-radius: 4px; font-style: normal; opacity: 0.45;
+  animation: eva-chan 6s linear infinite;
+  animation-delay: calc(var(--i) * 1.2s);
+}
+.eva-live-legend em.eva-live-legend-lfe { animation: eva-lfe-label 3s ease-in-out infinite; }
+/* Run only while on screen */
+.eva-reveal[data-inview="false"] .eva-live *,
+.eva-reveal[data-inview="false"] .eva-live-stage { animation-play-state: paused; }
+@media (max-width: 767px) {
+  .eva-live-rec, .eva-live-legend { font-size: 10px; }
+  .eva-live-emitter i { border-width: 1.5px; }
+}
+@keyframes eva-kenburns { from { transform: scale(1) translate(0, 0); } to { transform: scale(1.08) translate(-1.5%, -1%); } }
+@keyframes eva-kenburns-alt { from { transform: scale(1.08) translate(1.5%, -1%); } to { transform: scale(1) translate(0, 0); } }
+@keyframes eva-glow { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
+@keyframes eva-sheen { 0%, 55% { transform: translateX(-160%) skewX(-12deg); } 85%, 100% { transform: translateX(420%) skewX(-12deg); } }
+@keyframes eva-rec { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+@keyframes eva-ring { 0% { opacity: 0; transform: scale(0.85); } 15% { opacity: 0.9; } 100% { opacity: 0; transform: scale(1.9); } }
+@keyframes eva-cone { 0% { opacity: 0; transform: scale(0.9); } 12% { opacity: 0.85; } 100% { opacity: 0; transform: scale(1.7); } }
+@keyframes eva-surround { 0% { opacity: 0; transform: scale(0.9); } 4% { opacity: 0.95; } 22% { opacity: 0; transform: scale(2.4); } 100% { opacity: 0; transform: scale(2.4); } }
+@keyframes eva-chan { 0%, 20% { opacity: 1; background: #70b615; } 21%, 100% { opacity: 0.45; background: transparent; } }
+@keyframes eva-lfe { 0%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(0.9); } 35% { opacity: 1; transform: translate(-50%, -50%) scale(1.05); } }
+@keyframes eva-lfe-label { 0%, 100% { opacity: 0.45; } 35% { opacity: 1; } }
+
+/* Fade-up on scroll (only armed by JS once below the fold) */
+.eva-reveal[data-reveal] { transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1); }
+.eva-reveal[data-reveal="pending"] { opacity: 0; transform: translateY(32px); }
+@media (prefers-reduced-motion: reduce) {
+  .eva-reveal[data-reveal] { opacity: 1; transform: none; transition: none; }
+  .eva-live-stage, .eva-live *, .eva-live-stage * { animation: none !important; transition: none !important; }
+  .eva-live-stage { transform: none; }
+  .eva-live-sheen, .eva-live-emitter, .eva-live-lfe { display: none; }
+  .eva-live-legend em { opacity: 0.8; }
 }
 
 .eva-thank-you-actions {
@@ -5133,4 +5351,327 @@ form[aria-busy="true"] textarea {
 .eva-project-services a:focus-visible {
   outline: 2px solid #fff;
   outline-offset: 2px;
+}
+
+/* /clients: section spacing matches .eva-coming-soon-block (72/88 → 56/64 → 40/48); 1536px grid; fixed logo box per card. */
+.block.eva-clients-block {
+  margin-bottom: 0;
+  padding-top: 72px;
+  padding-bottom: 88px;
+  background: #fff;
+  color: #13161d;
+}
+.eva-clients-block .eva-coming-soon-intro h2 { line-height: 1.2; }
+.eva-clients-block .eva-coming-soon-intro h2 i.icon { color: #70b615; }
+.eva-clients-block .eva-coming-soon-intro {
+  margin-bottom: 48px;
+}
+.eva-clients-block > .container {
+  max-width: 1536px;
+  margin-inline: auto;
+  padding-inline: 32px;
+}
+@media (max-width: 767px) {
+  .eva-clients-block > .container { padding-inline: 16px; }
+}
+.eva-clients-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  width: 100%;
+  max-width: 1536px;
+  margin: 0 auto;
+  padding: 0;
+  list-style: none;
+}
+.eva-clients-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 128px;
+  padding: 24px;
+  background: #fff;
+  border: 1px solid #e6e8ec;
+  border-radius: 10px;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+.eva-clients-item:hover {
+  box-shadow: 0 8px 24px rgba(19, 22, 29, 0.08);
+  transform: translateY(-2px);
+}
+/* Optical normalisation: wide wordmarks get a wider/shorter box, square marks a narrower/shorter one. */
+.eva-clients-item img {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 75%;
+  max-height: 56px;
+  object-fit: contain;
+}
+.eva-clients-item--square img { max-height: 64px; max-width: 55%; }
+.eva-clients-item--tall img { max-height: 72px; max-width: 60%; }
+.eva-clients-cta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 48px;
+}
+@media (min-width: 768px) {
+  .eva-clients-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+  .eva-clients-item { height: 152px; padding: 28px; }
+  .eva-clients-item img { max-height: 60px; }
+  .eva-clients-item--square img { max-height: 72px; }
+  .eva-clients-item--tall img { max-height: 80px; }
+}
+@media (min-width: 1200px) {
+  .eva-clients-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; }
+  .eva-clients-item { height: 168px; padding: 32px; }
+  .eva-clients-item img { max-height: 64px; }
+  .eva-clients-item--square img { max-height: 76px; }
+  .eva-clients-item--tall img { max-height: 84px; }
+}
+@media (max-width: 991px) {
+  .block.eva-clients-block { padding-top: 56px; padding-bottom: 64px; }
+  .eva-clients-block .eva-coming-soon-intro { margin-bottom: 40px; }
+  .eva-clients-cta { margin-top: 40px; }
+}
+@media (max-width: 767px) {
+  .block.eva-clients-block { padding-top: 40px; padding-bottom: 48px; }
+  .eva-clients-block .eva-coming-soon-intro { margin-bottom: 32px; }
+  .eva-clients-block .eva-coming-soon-intro p { font-size: 16px; }
+  .eva-clients-cta { margin-top: 32px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .eva-clients-item { transition: none; }
+  .eva-clients-item:hover { transform: none; }
+}
+
+/* Desktop nav breathing room: wider gaps, slight tracking, active underline set lower. Stays one line 1025-1280px. */
+@media (min-width: 1025px) {
+  .eva-header-bar .header-menu .menu {
+    flex-wrap: nowrap !important;
+    gap: 0 20px !important;
+  }
+  .eva-header-bar .header-menu .menu > li > a {
+    padding: 0.5rem 0.15rem 0.35rem !important;
+    font-size: 14px !important;
+    letter-spacing: 0.06em !important;
+    border-bottom: 0 !important;
+    position: relative;
+    text-underline-offset: 0;
+  }
+  .eva-header-bar .header-menu .menu > li > a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 2px;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.7);
+    transform: scaleX(0);
+    transition: transform 0.2s ease;
+  }
+  .eva-header-bar .header-menu .menu > li.active > a::after,
+  .eva-header-bar .header-menu .menu > li > a:hover::after {
+    transform: scaleX(1);
+  }
+  .eva-header-bar .header-menu .menu > li > a:focus-visible::after { transform: scaleX(0); }
+}
+@media (min-width: 1200px) {
+  .eva-header-bar .header-menu .menu { gap: 0 26px !important; }
+}
+@media (min-width: 1440px) {
+  .eva-header-bar .header-menu .menu { gap: 0 32px !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .eva-header-bar .header-menu .menu > li > a::after { transition: none; }
+}
+
+/* Home services grid: image-matched "live" overlays (ServicesGrid.tsx).
+   .svc-frame keeps the image's own aspect ratio (cover-style centred crop on mobile), and
+   .svc-stage carries the drift + hover tilt for both the <img> and the overlay layer, so the
+   overlays stay locked to the devices. Only transform/opacity/scale animate; paused off screen. */
+.service-item-photo.svc-live { position: relative; overflow: hidden; }
+.svc-frame {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: var(--ar);
+}
+.svc-stage {
+  position: absolute;
+  inset: 0;
+  display: block;
+  animation: eva-fx-drift-img 14s ease-in-out infinite alternate;
+  transition: transform 0.3s ease 0.1s;
+}
+.service-item-photo.svc-live .svc-stage img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  animation: none;
+  transform: none;
+  transition: none;
+}
+.service-item:hover .svc-live .svc-stage,
+.service-item:focus-visible .svc-live .svc-stage { transform: scale(1.149) rotate(2deg); }
+.service-item:hover .service-item-photo.svc-live img { transform: none; }
+.svc-layer { position: absolute; inset: 0; pointer-events: none; }
+.svc-layer > span { position: absolute; }
+
+/* Rings (mic grille, ear cups, monitors) */
+.svc-rings { aspect-ratio: 1; transform: translate(-50%, -50%); }
+.svc-rings i {
+  position: absolute; inset: 0;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255, 248, 230, 0.75);
+  opacity: 0;
+  animation: svc-ring 3s cubic-bezier(0.2, 0.6, 0.3, 1) infinite;
+}
+.svc-rings i:nth-child(2) { animation-delay: -1s; }
+.svc-rings i:nth-child(3) { animation-delay: -2s; }
+.svc-rings--late i { animation-delay: -1.5s; }
+.svc-rings--late i:nth-child(2) { animation-delay: -0.5s; }
+.svc-rings--late i:nth-child(3) { animation-delay: -2.5s; }
+.svc-rings--seq i {
+  border-color: rgba(152, 210, 70, 0.85);
+  animation-name: svc-surround;
+  animation-duration: 4.8s;
+  animation-delay: calc(var(--i) * 1.2s);
+}
+.svc-rings--seq i:nth-child(2) { animation-delay: calc(var(--i) * 1.2s + 0.3s); }
+
+/* Dubbing: voice waveform */
+.svc-voice { display: flex; align-items: center; gap: 6%; height: 14%; transform: translateY(-50%); }
+.svc-voice i {
+  flex: 1; height: 100%; border-radius: 2px;
+  background: rgba(152, 210, 70, 0.85);
+  transform: scaleY(0.2);
+  animation: svc-bar 0.9s ease-in-out infinite alternate;
+  animation-delay: calc(var(--i) * -0.13s);
+}
+
+/* 5.1: console glow */
+.svc-glow-spot {
+  aspect-ratio: 3 / 1; transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(112, 182, 21, 0.28), transparent 70%);
+  animation: svc-pulse 4.8s ease-in-out infinite;
+}
+
+/* Foley: red buttons + fader caps */
+.svc-btn {
+  aspect-ratio: 1.7; transform: translate(-50%, -50%) rotate(-22deg);
+  border-radius: 30%;
+  background: radial-gradient(ellipse, rgba(255, 190, 190, 0.95), rgba(255, 60, 60, 0.5) 45%, transparent 72%);
+  opacity: 0;
+  animation: svc-blink 3.5s ease-in-out infinite;
+  animation-delay: calc(var(--i) * 0.35s);
+}
+.svc-cap {
+  aspect-ratio: 1.6; transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(255, 248, 230, 0.55), transparent 65%);
+  opacity: 0;
+  animation: svc-cap 5s ease-in-out infinite;
+  animation-delay: calc(var(--i) * 0.8s);
+}
+
+/* Translation: script glyphs */
+.svc-glyph {
+  transform: translate(-50%, -50%);
+  font-family: "Noto Sans", system-ui, sans-serif;
+  font-size: clamp(14px, 1.6vw, 26px);
+  line-height: 1;
+  color: rgba(152, 210, 70, 0.9);
+  opacity: 0;
+  animation: svc-glyph 7.5s ease-in-out infinite;
+  animation-delay: calc(var(--i) * 1.5s);
+}
+
+/* Stock library: meters + scrolling waveform on the screens */
+.svc-meters { display: flex; align-items: flex-end; gap: 6%; }
+.svc-meters i {
+  flex: 1; height: 100%;
+  background: linear-gradient(to top, #70b615 0 65%, #e8d27a 65% 88%, #e06a4b 88%);
+  opacity: 0.85;
+  transform-origin: bottom; transform: scaleY(0.3);
+  animation: svc-bar 1s ease-in-out infinite alternate;
+  animation-delay: calc(var(--i) * -0.17s);
+}
+.svc-meters i:nth-child(3n) { animation-duration: 0.7s; }
+.svc-scroll, .svc-track { overflow: hidden; }
+.svc-scroll > span {
+  position: absolute; inset: 0 -100% 0 0;
+  background: repeating-linear-gradient(90deg,
+    rgba(152, 210, 70, 0.8) 0 2px, transparent 2px 5px);
+  -webkit-mask: linear-gradient(transparent 20%, #000 35% 65%, transparent 80%);
+  mask: linear-gradient(transparent 20%, #000 35% 65%, transparent 80%);
+  animation: svc-scroll 6s linear infinite;
+}
+
+/* Subtitling: typed subtitle lines + playhead */
+.svc-subs { display: flex; flex-direction: column; align-items: center; gap: 0.35vw; transform: translate(-50%, -50%); }
+.svc-subs i {
+  display: block; width: var(--w); height: 0.42vw; min-height: 3px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.45);
+  transform-origin: left; transform: scaleX(0);
+  animation: svc-type 5s steps(14, end) infinite;
+}
+.svc-subs i:nth-child(2) { animation-name: svc-type-2; }
+.svc-track > span {
+  position: absolute; inset: 0;
+  animation: svc-playhead 5s linear infinite;
+}
+.svc-track > span::before {
+  content: "";
+  position: absolute; top: 0; bottom: 0; left: 0;
+  width: 2px;
+  background: #70b615;
+  box-shadow: 0 0 8px rgba(112, 182, 21, 0.9);
+}
+
+/* Only while on screen (InViewFx sets data-inview) */
+.svc-live:not([data-inview]) .svc-stage,
+.svc-live:not([data-inview]) .svc-layer * { animation-play-state: paused; }
+
+/* Captions: consistent width, no clipped lines */
+.services-grid .service-item-description span {
+  max-width: 36ch;
+  margin-left: auto;
+  text-align: right;
+  white-space: normal;
+}
+
+@media (max-width: 767px) {
+  /* Cover-style centred crop: frame is at least 300px tall, stage keeps the image ratio */
+  .page-main .service-item-photo.svc-live { min-height: 0; }
+  .svc-frame {
+    width: max(100%, calc(300px * var(--arn)));
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .services-grid .service-item-description span { max-width: 100%; }
+}
+
+@keyframes svc-ring { 0% { opacity: 0; transform: scale(0.8); } 15% { opacity: 0.85; } 100% { opacity: 0; transform: scale(1.8); } }
+@keyframes svc-surround { 0% { opacity: 0; transform: scale(0.9); } 5% { opacity: 0.9; } 25%, 100% { opacity: 0; transform: scale(2.4); } }
+@keyframes svc-bar { from { transform: scaleY(0.15); } to { transform: scaleY(1); } }
+@keyframes svc-pulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
+@keyframes svc-blink { 0%, 100% { opacity: 0; } 20%, 35% { opacity: 1; } }
+@keyframes svc-cap { 0%, 100% { opacity: 0; transform: translate(-50%, -50%) translate(-6%, 3%); } 30%, 55% { opacity: 1; } 80% { opacity: 0; transform: translate(-50%, -50%) translate(8%, -4%); } }
+@keyframes svc-glyph { 0% { opacity: 0; transform: translate(-50%, -30%); } 15%, 45% { opacity: 0.9; } 60%, 100% { opacity: 0; transform: translate(-50%, -110%); } }
+@keyframes svc-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@keyframes svc-type { 0% { transform: scaleX(0); } 25%, 85% { transform: scaleX(1); opacity: 1; } 95%, 100% { transform: scaleX(1); opacity: 0; } }
+@keyframes svc-type-2 { 0%, 25% { transform: scaleX(0); } 50%, 85% { transform: scaleX(1); opacity: 1; } 95%, 100% { transform: scaleX(1); opacity: 0; } }
+@keyframes svc-playhead { from { transform: translateX(0); } to { transform: translateX(100%); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .svc-stage, .svc-layer * { animation: none !important; transition: none !important; }
+  .svc-layer { display: none; }
+  .service-item:hover .svc-live .svc-stage { transform: none; }
 }

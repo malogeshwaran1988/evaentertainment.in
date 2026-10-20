@@ -1,0 +1,129 @@
+/* Sitewide Contact CTA: contained card on a band that blends with neighbouring sections. */
+.cta.cta {
+  padding: 64px 0;
+  margin: 0;
+  background: transparent;
+
+  :global(body:has(.eva-404)) & {
+    display: none;
+  }
+}
+
+.inner {
+  max-width: 1536px;
+}
+
+.card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 64px;
+  padding: 56px 64px;
+  background: #f7f7f7;
+  border: 1px solid #e7e7e7;
+  border-top: 3px solid #70b615;
+  border-radius: 14px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 8px 24px rgba(0, 0, 0, 0.05);
+}
+
+.copy {
+  flex: 1 1 auto;
+  min-width: 0;
+
+  h2 {
+    margin: 0 0 20px;
+  }
+
+  p {
+    margin: 0;
+    max-width: 56ch;
+    line-height: 1.65;
+    text-align: left;
+    color: #4a4f57;
+  }
+}
+
+.action {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+
+  :global(.btn) {
+    margin: 0;
+  }
+
+  p {
+    margin: 0;
+    text-align: center;
+  }
+}
+
+@media (max-width: 991px) {
+  .cta.cta {
+    padding: 48px 0;
+  }
+
+  .card {
+    flex-direction: column;
+    text-align: center;
+    gap: 24px;
+    padding: 40px 32px;
+  }
+
+  .copy p {
+    text-align: center;
+    margin-inline: auto;
+  }
+}
+
+@media (max-width: 767px) {
+  .cta.cta {
+    padding: 32px 0;
+  }
+
+  .card {
+    padding: 32px 20px;
+    border-radius: 12px;
+  }
+
+  .action {
+    width: 100%;
+
+    :global(.btn) {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+}
+
+/* Animated language word: stacked in one grid cell (stable width = longest word). */
+.cycle {
+  display: inline-grid;
+  vertical-align: bottom;
+  overflow: hidden;
+  color: #70b615;
+}
+
+.word {
+  grid-area: 1 / 1;
+  opacity: 0;
+  transform: translateY(60%);
+  transition: opacity 0.45s ease, transform 0.45s ease;
+}
+
+.wordActive {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .word {
+    transition: none;
+  }
+}
+
+.lead.lead {
+  color: inherit;
+}

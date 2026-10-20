@@ -33,8 +33,8 @@ export type ServiceSlug = (typeof SERVICE_SLUGS)[number];
 
 export const serviceHref = (slug: ServiceSlug) => `/${slug}`;
 
-/** "What We Do" section on the home page, which lists every service. */
-export const WHAT_WE_DO_HREF = "/#what-we-do";
+/** Services hub: the home page lists every service in its "What We Do" section (no #fragment URLs). */
+export const WHAT_WE_DO_HREF = "/";
 
 /** Old URLs, permanently redirected to their replacements (see next.config.ts). */
 export const LEGACY_REDIRECTS: { from: string; to: string; statusCode?: 301 }[] = [
@@ -69,7 +69,8 @@ export type NavItem = { label: string; href: string; children?: readonly Service
 export const NAV_ITEMS: NavItem[] = [
   { label: "HOME", href: Routes.HOME },
   { label: "ABOUT", href: Routes.ABOUT },
-  { label: "SERVICES", href: WHAT_WE_DO_HREF, children: SERVICE_SLUGS },
+  // Parent links to the flagship service page: "/" would duplicate HOME (React key clash) and # URLs are not allowed.
+  { label: "SERVICES", href: serviceHref("dubbing-studio"), children: SERVICE_SLUGS },
   { label: "OUR PROJECTS", href: Routes.PROJECTS },
   { label: "OUR CLIENTS", href: Routes.CLIENTS },
   { label: "EQUIPMENT", href: Routes.EQUIPMENT },
