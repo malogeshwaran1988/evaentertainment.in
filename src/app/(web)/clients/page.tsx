@@ -22,13 +22,13 @@ type Client = { name: string; src: string; width: number; height: number };
 /** Logos live in /public/images/clients (AVIF, ≤600px wide, transparent where the source allows). */
 const CLIENTS: Client[] = [
   { name: "JioCinema", src: "/images/clients/jiocinema.avif", width: 300, height: 300 },
-  { name: "Angel TV", src: "/images/clients/angel.avif", width: 344, height: 300 },
+  { name: "Angel TV", src: "/images/clients/angel.avif", width: 346, height: 300 },
   { name: "ETV Bal Bharat", src: "/images/clients/etv-bal-bharat.avif", width: 454, height: 300 },
   { name: "Sony Pictures Networks", src: "/images/clients/sony-pictures-networks.avif", width: 261, height: 300 },
   { name: "Viacom18", src: "/images/clients/viacom18.avif", width: 600, height: 115 },
-  { name: "MX Player MX Gold", src: "/images/clients/mx-gold.avif", width: 600, height: 153 },
+  { name: "MX Player MX Gold", src: "/images/clients/mx-gold.avif", width: 600, height: 147 },
   { name: "Storytel", src: "/images/clients/storytel.avif", width: 492, height: 300 },
-  { name: "Jumbaya", src: "/images/clients/jumbaya.avif", width: 600, height: 216 },
+  { name: "Jumbaya", src: "/images/clients/jumbaya.avif", width: 600, height: 195 },
 ];
 
 export default function ClientsPage() {
