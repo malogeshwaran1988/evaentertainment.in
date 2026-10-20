@@ -109,3 +109,33 @@
     }
   }
 }
+
+/* Animated language word: stacked in one grid cell (stable width = longest word). */
+.cycle {
+  display: inline-grid;
+  vertical-align: bottom;
+  overflow: hidden;
+  color: #79b51c;
+}
+
+.word {
+  grid-area: 1 / 1;
+  opacity: 0;
+  transform: translateY(60%);
+  transition: opacity 0.45s ease, transform 0.45s ease;
+}
+
+.wordActive {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .word {
+    transition: none;
+  }
+}
+
+.lead.lead {
+  color: inherit;
+}

@@ -4,6 +4,7 @@ import Link from "@@/components/common/NavLink";
 import { usePathname } from "next/navigation";
 import { Routes } from "@@/constants/routes";
 import styles from "./ContactCta.module.scss";
+import CtaLanguageCycle from "./CtaLanguageCycle";
 
 /** Paths (and prefixes) where the sitewide Contact CTA is hidden. 404 is hidden via CSS (`.eva-404`). */
 const HIDDEN_PREFIXES = [Routes.CONTACT, Routes.THANK_YOU, "/preview"];
@@ -12,7 +13,11 @@ const HIDDEN_PREFIXES = [Routes.CONTACT, Routes.THANK_YOU, "/preview"];
  * Sitewide Contact Us CTA ("Make your film speak Hindi") — the original Glory booking card design
  * (restored from BookingCta, removed in 5fd2ad2), repurposed to point at the Contact page.
  */
-export default function ContactCta() {
+export default function ContactCta({
+  languages = ["Hindi"],
+}: {
+  languages?: string[];
+}) {
   const pathname = usePathname() ?? "";
   if (
     HIDDEN_PREFIXES.some((p) => pathname === p || pathname.startsWith(`${p}/`))
@@ -28,7 +33,13 @@ export default function ContactCta() {
         <div className={styles.card}>
           <div className={styles.copy}>
             <h2 id="eva-contact-cta-title">
-              Make your film <span>speak Hindi</span>
+              <span className="sr-only">
+                Make your film speak {languages.join(", ")}
+              </span>
+              <span className={styles.lead} aria-hidden="true">
+                Make your film speak{" "}
+              </span>
+              <CtaLanguageCycle languages={languages} />
             </h2>
             <p className="p--lg">
               Lip-sync dubbing, voice-over, 5.1 mixing and subtitling from our

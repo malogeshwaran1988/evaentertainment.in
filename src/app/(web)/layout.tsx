@@ -3,7 +3,7 @@ import "@@/styles/tailwind-web.css";
 import "@@/styles/globals.scss";
 import Header from "@@/components/common/Header";
 import Footer from "@@/components/common/Footer";
-import ContactCta from "@@/components/common/ContactCta";
+import ContactCtaServer from "@@/components/common/ContactCtaServer";
 import GoToTopButton from "@@/components/common/GoToTopButton";
 import BodyClass from "@@/components/common/BodyClass";
 import CookieConsent from "@@/components/common/CookieConsent";
@@ -80,7 +80,7 @@ export default function WebLayout({
           </a>
           <Header serviceNames={SERVICE_NAMES} />
           <div className="flex-1">{children}</div>
-          <ContactCta />
+          <ContactCtaServer />
           <GoToTopButton />
           <Footer />
         </div>
