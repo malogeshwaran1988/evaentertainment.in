@@ -42,6 +42,8 @@ assert.equal(validateProjectCsv("title,from\nx,Tamil", []).ok, false);
   assert.deepEqual(nt.rows[0].errors, []);
   assert.deepEqual(nt.rows[0].data.to, []);
   assert.equal(nt.rows[0].data.category, "TV Series");
+  const sr = validateProjectCsv(head + "Song,Tamil,,song recording,ongoing,,,", []);
+  assert.equal(sr.rows[0].data.category, "Song Recording");
 }
 // Legacy categories map at read time; Voice Over / Subtitling tick the service.
 {

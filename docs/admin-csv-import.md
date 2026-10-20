@@ -18,7 +18,7 @@ On **/admin/projects**: **Export CSV** downloads every project in this format; *
 | `title` | yes | Project name, max 120 characters. Must be unique (also against existing projects). |
 | `from` | yes | Source language. One of: English, Tamil, Hindi, Telugu, Malayalam, Kannada, Marathi. |
 | `to` | no | Optional target languages separated by ";" (e.g. Hindi;Telugu). Blank = worked on in its own language (the site shows just the source language). Can't include the source language. |
-| `category` | yes | One of: Movie Dubbing, TV Series, Documentary. Old values are still accepted: Dubbing → Movie Dubbing; Voice Over / Subtitling → Movie Dubbing with that service ticked. |
+| `category` | yes | One of: Movie Dubbing, TV Series, Documentary, Song Recording. Old values are still accepted: Dubbing → Movie Dubbing; Voice Over / Subtitling → Movie Dubbing with that service ticked. |
 | `services` | no | Optional, separated by ";". Any of: Lip-Sync Dubbing, Voice Over, Foley Recording, 5.1 Mixing & Mastering, Subtitling, Song Recording, Translation. |
 | `year` | yes | "ongoing" or a year from 1990 to the current year. |
 | `audioHours` | no | Optional finished audio hours: above 0, at most 10000, one decimal place. |
