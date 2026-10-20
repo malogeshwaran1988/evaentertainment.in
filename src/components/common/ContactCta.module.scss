@@ -8,9 +8,9 @@
     display: none;
   }
 
-  /* Dark pages (equipment): band continues the dark section into the footer. */
+  /* Equipment page: band continues the warm cream section into the footer. */
   :global(body:has(.eva-equipment-page)) & {
-    background: #0e0e10;
+    background: #f6f1e7;
   }
 }
 
@@ -30,15 +30,9 @@
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 8px 24px rgba(0, 0, 0, 0.05);
 
   :global(body:has(.eva-equipment-page)) & {
-    background: #18181b;
-    border-color: rgba(255, 255, 255, 0.09);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
-    color: #f2f2f2;
-
-    h2,
-    p {
-      color: #f2f2f2;
-    }
+    background: #fffdf8;
+    border-color: #e8dfcf;
+    box-shadow: 0 1px 2px rgba(60, 40, 10, 0.04), 0 8px 24px rgba(60, 40, 10, 0.06);
   }
 }
 
