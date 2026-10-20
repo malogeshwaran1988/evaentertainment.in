@@ -33,8 +33,8 @@ export type ServiceSlug = (typeof SERVICE_SLUGS)[number];
 
 export const serviceHref = (slug: ServiceSlug) => `/${slug}`;
 
-/** "What We Do" section on the home page, which lists every service. */
-export const WHAT_WE_DO_HREF = "/#what-we-do";
+/** Services hub: the home page lists every service in its "What We Do" section (no #fragment URLs). */
+export const WHAT_WE_DO_HREF = "/";
 
 /** Old URLs, permanently redirected to their replacements (see next.config.ts). */
 export const LEGACY_REDIRECTS: { from: string; to: string; statusCode?: 301 }[] = [
