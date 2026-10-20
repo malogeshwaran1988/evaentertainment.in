@@ -1,0 +1,64 @@
+/* Sitewide Contact CTA — Glory white card look (ex .booking-cta), scoped module. */
+.cta {
+  padding-top: 48px;
+  padding-bottom: 80px;
+  background: transparent;
+
+  :global(body:has(.eva-404)) & {
+    display: none;
+  }
+}
+
+.inner {
+  max-width: 1536px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+}
+
+.copy {
+  flex: 1 1 66%;
+  min-width: 0;
+
+  h2 {
+    margin-bottom: 16px;
+  }
+
+  p {
+    margin-bottom: 0;
+    text-align: left;
+  }
+}
+
+.action {
+  flex: 0 0 auto;
+  text-align: center;
+
+  p {
+    margin: 12px 0 0;
+  }
+}
+
+@media (max-width: 991px) {
+  .inner {
+    flex-direction: column;
+    text-align: center;
+    gap: 20px;
+  }
+
+  .copy p {
+    text-align: center;
+  }
+}
+
+@media (max-width: 767px) {
+  .cta {
+    padding-top: 32px;
+    padding-bottom: 56px;
+  }
+
+  .copy h2 {
+    margin-bottom: 12px;
+  }
+}
