@@ -7,11 +7,6 @@
   :global(body:has(.eva-404)) & {
     display: none;
   }
-
-  /* Equipment page: band continues the warm cream section into the footer. */
-  :global(body:has(.eva-equipment-page)) & {
-    background: #f6f1e7;
-  }
 }
 
 .inner {
@@ -24,16 +19,11 @@
   justify-content: space-between;
   gap: 64px;
   padding: 56px 64px;
-  background: #f5f5f3;
-  border: 1px solid #e6e6e2;
+  background: #f7f7f7;
+  border: 1px solid #e7e7e7;
+  border-top: 3px solid #70b615;
   border-radius: 14px;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 8px 24px rgba(0, 0, 0, 0.05);
-
-  :global(body:has(.eva-equipment-page)) & {
-    background: #fffdf8;
-    border-color: #e8dfcf;
-    box-shadow: 0 1px 2px rgba(60, 40, 10, 0.04), 0 8px 24px rgba(60, 40, 10, 0.06);
-  }
 }
 
 .copy {
@@ -42,7 +32,6 @@
 
   h2 {
     margin: 0 0 20px;
-    line-height: 1.15;
   }
 
   p {
@@ -50,7 +39,7 @@
     max-width: 56ch;
     line-height: 1.65;
     text-align: left;
-    opacity: 0.8;
+    color: #4a4f57;
   }
 }
 
@@ -114,7 +103,7 @@
   display: inline-grid;
   vertical-align: bottom;
   overflow: hidden;
-  color: #79b51c;
+  color: #70b615;
 }
 
 .word {

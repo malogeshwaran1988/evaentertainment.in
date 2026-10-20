@@ -3,9 +3,10 @@ import styles from "./FounderSection.module.scss";
 
 export default function FounderSection() {
   return (
-    <section className={styles.founder} aria-labelledby="founder-heading">
-      <div className={styles.inner}>
-        <h2 id="founder-heading" className={styles.heading}>
+    <section className={`block ${styles.founder}`} aria-labelledby="founder-heading">
+      <div className="container">
+        <h2 id="founder-heading" className={`text-center ${styles.heading}`}>
+          <i className="icon icon-user" aria-hidden="true" />
           {FOUNDER.sectionTitle}
         </h2>
         <div className={styles.card}>
@@ -23,26 +24,28 @@ export default function FounderSection() {
             {FOUNDER.linkedinUrl ? (
               <a
                 href={FOUNDER.linkedinUrl}
-                className={styles.linkedin}
+                className={`btn ${styles.linkedin}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={`${FOUNDER.name} on LinkedIn (opens in a new tab)`}
               >
-                <i className="icon icon-linkedin-logo" aria-hidden="true" />
-                View LinkedIn profile
+                <span>
+                  <i className="icon icon-linkedin-logo" aria-hidden="true" />
+                  View LinkedIn profile
+                </span>
               </a>
             ) : null}
           </div>
           <div>
             <h3 className={styles.name}>{FOUNDER.name}</h3>
-            <p className={styles.role}>{FOUNDER.title}</p>
+            <p className={`p--lg theme-color ${styles.role}`}>{FOUNDER.title}</p>
             {FOUNDER.bio.map((p) => (
               <p key={p.slice(0, 40)}>{p}</p>
             ))}
             <ul className={styles.highlights}>
               {FOUNDER.highlights.map((h) => (
                 <li key={h.label}>
-                  <strong>{h.value}</strong>
+                  <strong className="heading-as-h4">{h.value}</strong>{" "}
                   <span>{h.label}</span>
                 </li>
               ))}

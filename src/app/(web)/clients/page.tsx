@@ -45,8 +45,9 @@ export default function ClientsPage() {
       <section className="block eva-clients-block" aria-labelledby="clients-heading">
         <div className="container">
           <div className="eva-coming-soon-intro">
-            <h2 id="clients-heading" className="h--md">
-              Trusted by studios, platforms and producers
+            <h2 id="clients-heading">
+              <i className="icon icon-like" aria-hidden="true" />
+              Trusted by <span>studios, platforms and producers</span>
             </h2>
             <p>
               From our studio in Andheri West, Mumbai, EVA Entertainment dubs, records and mixes films, web

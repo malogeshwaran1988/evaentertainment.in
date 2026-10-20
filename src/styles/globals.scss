@@ -3932,8 +3932,9 @@ body:not(.page-blog) .block--darkbg h3.eva-service-ideal-title,
   }
 }
 
-/* /studio-equipment: light, editorial "studio experience" layout. main is flex-1 in the
-   layout, so the cream section stretches to the footer (no white gap on tall screens). */
+/* /studio-equipment: built on the shared system (.block, .container, .title-wrap, h2 + green
+   i.icon, h2 > span, h3, .p--lg/.p--sm, .theme-color, .block--darkbg #181818, green #70b615).
+   main is flex-1 in the layout, so the last section stretches to the footer (no white gap). */
 .flex-1:has(> .page-main.eva-equipment-page) {
   display: flex;
   flex-direction: column;
@@ -3942,96 +3943,48 @@ body:not(.page-blog) .block--darkbg h3.eva-service-ideal-title,
   display: flex;
   flex: 1 0 auto;
   flex-direction: column;
-  background: #faf7f0;
 }
-.eva-equipment-section {
+.eva-equipment-page .block.eva-equipment-intro-block { padding-top: 80px; }
+.eva-equipment-page .block.eva-equipment-features-block {
   flex: 1 0 auto;
-  padding: 96px 0 112px;
-  background: linear-gradient(180deg, #fbf8f2 0%, #f6f1e7 100%);
-  color: #2b2a27;
+  margin-bottom: 0;
+  padding-top: 80px;
+  padding-bottom: 80px;
 }
-.eva-equipment-inner {
-  max-width: 1536px;
-  margin-inline: auto;
-  padding-inline: 32px;
-}
-.eva-equipment-eyebrow,
-.eva-equipment-role {
-  margin: 0 0 14px;
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: #4f7f10;
-}
-.eva-equipment-intro {
-  display: grid;
-  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
-  column-gap: 64px;
-  align-items: start;
-}
-.eva-equipment-intro .eva-equipment-eyebrow { grid-column: 1 / -1; }
-.eva-equipment-section h2 {
-  margin: 0;
-  font-size: clamp(30px, 3.2vw, 46px);
-  font-weight: 300;
-  line-height: 1.15;
-  letter-spacing: -0.01em;
-  color: #1d1c1a;
-}
-.eva-equipment-intro-copy p {
-  margin: 0 0 16px;
-  font-size: 17px;
-  line-height: 1.8;
-  color: #4a4740;
-}
+.eva-equipment-intro { max-width: 980px; margin-inline: auto; }
+.eva-equipment-intro h2 i.icon { color: #70b615; }
+.eva-equipment-intro p { margin-bottom: 16px; }
+.eva-equipment-intro p:last-child { margin-bottom: 0; }
+.eva-equipment-features-block .eva-equipment-intro p { color: rgba(255, 255, 255, 0.8); }
+
+/* Highlights: same card language as .eva-service-point, on the light section */
 .eva-equipment-highlights {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  margin: 64px 0 0;
+  gap: 24px;
+  margin: 0;
   padding: 0;
   list-style: none;
-  border-top: 1px solid #e4dccb;
-  border-bottom: 1px solid #e4dccb;
 }
 .eva-equipment-highlights li {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
   padding: 28px 24px;
+  border: 1px solid #e7e7e7;
+  border-top: 3px solid #70b615;
+  border-radius: 12px;
+  background: #f7f7f7;
 }
-.eva-equipment-highlights li + li { border-left: 1px solid #e4dccb; }
-.eva-equipment-highlight-value {
-  font-size: clamp(22px, 2vw, 30px);
-  font-weight: 300;
-  color: #1d1c1a;
-}
-.eva-equipment-highlight-label {
-  font-size: 14px;
-  color: #6b665b;
-}
-.eva-equipment-experience {
-  max-width: 760px;
-  margin: 96px auto 72px;
-  text-align: center;
-}
-.eva-equipment-section h3 {
-  margin: 0 0 16px;
-  font-size: clamp(24px, 2.2vw, 34px);
-  font-weight: 400;
-  line-height: 1.25;
-  color: #1d1c1a;
-}
-.eva-equipment-experience p {
-  margin: 0;
-  font-size: 17px;
-  line-height: 1.8;
-  color: #4a4740;
-}
+.eva-equipment-highlights .icon { margin-bottom: 8px; font-size: 34px; line-height: 1; color: #70b615; }
+.eva-equipment-highlights .heading-as-h4 { display: block; margin: 0; color: #13161d; }
+.eva-equipment-highlight-label { display: block; font-size: 16px; line-height: 24px; color: #4a4f57; }
+
+/* Feature rows on the dark band */
 .eva-equipment-features {
   display: flex;
   flex-direction: column;
-  gap: 112px;
+  gap: 105px;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -4039,176 +3992,168 @@ body:not(.page-blog) .block--darkbg h3.eva-service-ideal-title,
 .eva-equipment-feature {
   display: grid;
   grid-template-columns: minmax(0, 58fr) minmax(0, 42fr);
-  gap: 72px;
+  gap: 64px;
   align-items: center;
 }
+.eva-equipment-feature:nth-child(even) { grid-template-columns: minmax(0, 42fr) minmax(0, 58fr); }
 .eva-equipment-feature:nth-child(even) .eva-equipment-figure { order: 2; }
 .eva-equipment-figure { margin: 0; }
-.eva-equipment-photo {
+.eva-equipment-figure figcaption { margin-top: 12px; font-size: 13px; line-height: 1.5; color: rgba(255, 255, 255, 0.55); }
+.eva-equipment-figure figcaption a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+.eva-equipment-text h3 { margin-bottom: 20px; }
+.eva-equipment-text p { color: rgba(255, 255, 255, 0.8); }
+.eva-equipment-text .eva-equipment-role { margin: 0 0 12px; letter-spacing: 0.12em; font-weight: 600; color: #70b615; }
+.eva-equipment-workflow { margin-top: 20px; padding-left: 18px; border-left: 3px solid #70b615; }
+.eva-equipment-note { margin: 80px 0 0; color: rgba(255, 255, 255, 0.55); }
+.eva-equipment-features-block a:focus-visible { outline: 2px solid #70b615; outline-offset: 2px; }
+@media (max-width: 1199px) {
+  .eva-equipment-highlights { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 991px) {
+  .eva-equipment-page .block.eva-equipment-intro-block { padding-top: 56px; }
+  .eva-equipment-page .block.eva-equipment-features-block { padding-top: 56px; padding-bottom: 56px; }
+  .eva-equipment-features { gap: 75px; }
+  .eva-equipment-feature,
+  .eva-equipment-feature:nth-child(even) { grid-template-columns: 1fr; gap: 28px; }
+  .eva-equipment-feature:nth-child(even) .eva-equipment-figure { order: 0; }
+  .eva-equipment-note { margin-top: 56px; }
+}
+@media (max-width: 479px) {
+  .eva-equipment-highlights { grid-template-columns: 1fr; gap: 16px; }
+}
+
+/* "Live" photo overlays. Positions are % of the uncropped 4:3 image; the overlay layer lives
+   inside .eva-live-stage with the <img>, so the Ken Burns transform moves both together.
+   Only transform/opacity animate; everything pauses while the row is off screen. */
+.eva-live {
+  position: relative;
   overflow: hidden;
-  border-radius: 6px;
-  background: #e9e2d3;
-  box-shadow: 0 30px 60px -30px rgba(43, 36, 20, 0.35), 0 2px 6px rgba(43, 36, 20, 0.06);
+  border-radius: 12px;
+  background: #101114;
+  box-shadow: 0 24px 48px -24px rgba(0, 0, 0, 0.7);
+  isolation: isolate;
 }
-.eva-equipment-photo img {
-  display: block;
-  width: 100%;
-  height: auto;
-  aspect-ratio: 4 / 3;
-  object-fit: cover;
-  transition: transform 1.2s cubic-bezier(0.2, 0.7, 0.2, 1);
+.eva-live-stage {
+  position: relative;
+  transform-origin: 50% 50%;
+  animation: eva-kenburns 16s ease-in-out infinite alternate;
+  will-change: transform;
 }
-.eva-equipment-figure figcaption {
-  margin-top: 12px;
-  font-size: 12.5px;
-  line-height: 1.5;
-  color: #847e70;
-}
-.eva-equipment-figure figcaption a {
-  color: inherit;
-  text-decoration: underline;
-  text-underline-offset: 2px;
-}
-.eva-equipment-role span {
-  margin-right: 12px;
-  color: #b1a88f;
-}
-.eva-equipment-desc {
-  margin: 0 0 20px;
-  font-size: 17px;
-  line-height: 1.8;
-  color: #4a4740;
-}
-.eva-equipment-workflow {
-  margin: 0;
-  padding-left: 18px;
-  border-left: 2px solid #70b615;
-  font-size: 15.5px;
-  line-height: 1.7;
-  color: #3a3832;
-}
-.eva-equipment-workflow strong { font-weight: 600; color: #1d1c1a; }
-.eva-equipment-note {
-  margin: 96px 0 0;
-  text-align: center;
-  font-size: 13px;
-  color: #847e70;
-}
-.eva-equipment-section a:focus-visible {
-  outline: 2px solid #4f7f10;
-  outline-offset: 2px;
-}
-/* "Live" photo overlays: transform/opacity only; paused unless the row is on screen. */
-.eva-equipment-photo.eva-live { position: relative; isolation: isolate; }
-.eva-live img { animation: eva-kenburns 16s ease-in-out infinite alternate; will-change: transform; }
-.eva-live--alt img { animation-name: eva-kenburns-alt; animation-duration: 14s; }
-.eva-live-layer { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+.eva-live--alt .eva-live-stage { animation-name: eva-kenburns-alt; animation-duration: 14s; }
+.eva-live-stage img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; }
+.eva-live-layer { position: absolute; inset: 0; pointer-events: none; }
 .eva-live-glow {
-  position: absolute; inset: -20%;
-  background: radial-gradient(circle at var(--focus-x) var(--focus-y), rgba(255, 214, 150, 0.28), transparent 45%);
-  mix-blend-mode: soft-light;
+  position: absolute; inset: 0;
+  background: radial-gradient(circle at var(--gx) var(--gy), rgba(255, 214, 150, 0.22), transparent 40%);
   animation: eva-glow 6s ease-in-out infinite;
 }
 .eva-live-sheen {
-  position: absolute; top: -10%; bottom: -10%; left: 0; width: 35%;
-  background: linear-gradient(100deg, transparent, rgba(255, 250, 235, 0.22), transparent);
+  position: absolute; top: -10%; bottom: -10%; left: 0; width: 30%;
+  background: linear-gradient(100deg, transparent, rgba(255, 250, 235, 0.16), transparent);
   transform: translateX(-160%) skewX(-12deg);
-  animation: eva-sheen 9s ease-in-out infinite;
+  animation: eva-sheen 10s ease-in-out infinite;
 }
 .eva-live--alt .eva-live-sheen { animation-delay: 4s; }
-.eva-live-meter {
-  position: absolute; left: 20px; bottom: 20px;
-  display: flex; align-items: flex-end; gap: 4px;
-  height: 46px; padding: 8px 10px;
-  border-radius: 6px; background: rgba(15, 15, 14, 0.45); backdrop-filter: blur(4px);
+/* Rings: an emitter box sized to the cone/grille, centred on it */
+.eva-live-emitter { position: absolute; aspect-ratio: 1; transform: translate(-50%, -50%); }
+.eva-live-emitter i {
+  position: absolute; inset: 0;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 248, 230, 0.7);
+  opacity: 0;
+  transform: scale(0.85);
+  animation: eva-ring 3s cubic-bezier(0.2, 0.6, 0.3, 1) infinite;
 }
-.eva-live-meter i {
-  display: block; width: 4px; height: 100%; border-radius: 2px;
-  background: linear-gradient(to top, #70b615 0 65%, #e8d27a 65% 88%, #e06a4b 88%);
-  transform-origin: bottom; transform: scaleY(0.3);
-  animation: eva-meter 1.1s ease-in-out infinite alternate;
+.eva-live-emitter i:nth-child(2) { animation-delay: -1s; }
+.eva-live-emitter i:nth-child(3) { animation-delay: -2s; }
+.eva-live--speaker .eva-live-emitter i { border-color: rgba(152, 210, 70, 0.75); animation-name: eva-cone; animation-duration: 1.8s; }
+.eva-live--speaker .eva-live-emitter i:nth-child(2) { animation-delay: -0.6s; }
+.eva-live--speaker .eva-live-emitter i:nth-child(3) { animation-delay: -1.2s; }
+/* 5.1 surround: each channel fires in turn (L C R Rs Ls), 1.2s apart, 6s loop */
+.eva-live--surround .eva-live-emitter i {
+  border-color: rgba(152, 210, 70, 0.85);
+  animation-name: eva-surround;
+  animation-duration: 6s;
+  animation-timing-function: ease-out;
+  animation-delay: calc(var(--i) * 1.2s);
 }
-.eva-live-meter i:nth-child(3n) { animation-duration: 0.8s; }
-.eva-live-meter i:nth-child(4n + 1) { animation-duration: 1.4s; }
+.eva-live--surround .eva-live-emitter i:nth-child(2) { animation-delay: calc(var(--i) * 1.2s + 0.25s); }
+.eva-live--surround .eva-live-emitter i:nth-child(3) { animation-delay: calc(var(--i) * 1.2s + 0.5s); }
+.eva-live-lfe {
+  position: absolute; aspect-ratio: 3 / 1;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, rgba(112, 182, 21, 0.38), transparent 70%);
+  opacity: 0;
+  animation: eva-lfe 3s ease-in-out infinite;
+}
+.eva-live-sweet {
+  position: absolute; width: 14px; height: 14px; margin: -7px 0 0 -7px;
+  border-radius: 50%;
+  background: rgba(255, 248, 230, 0.9);
+  box-shadow: 0 0 0 4px rgba(112, 182, 21, 0.35), 0 0 18px rgba(112, 182, 21, 0.6);
+  animation: eva-rec 1.2s ease-in-out infinite;
+}
+.eva-live-led {
+  position: absolute; width: 14px; height: 14px; margin: -7px 0 0 -7px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(190, 255, 120, 0.95), rgba(112, 182, 21, 0) 70%);
+  animation: eva-rec 2.4s ease-in-out infinite;
+}
 .eva-live-rec {
-  position: absolute; top: 18px; left: 18px;
-  display: inline-flex; align-items: center; gap: 7px; padding: 5px 10px;
-  border-radius: 999px; background: rgba(15, 15, 14, 0.5);
-  font-size: 11px; font-weight: 600; letter-spacing: 0.16em; color: #fbf6ea;
+  position: absolute; top: 16px;
+  display: inline-flex; align-items: center; gap: 7px; padding: 5px 11px;
+  border-radius: 999px; background: rgba(15, 15, 14, 0.6);
+  font-size: 11px; font-weight: 600; letter-spacing: 0.16em; line-height: 1; color: #fff;
 }
+.eva-live-rec--tr { right: 16px; }
+.eva-live-rec--tl { left: 16px; }
 .eva-live-rec b {
   width: 8px; height: 8px; border-radius: 50%; background: #e5322d;
   box-shadow: 0 0 8px rgba(229, 50, 45, 0.8);
   animation: eva-rec 1.6s ease-in-out infinite;
 }
-.eva-live-rings { position: absolute; left: var(--focus-x); top: var(--focus-y); width: 0; height: 0; }
-.eva-live-rings i {
-  position: absolute; left: -60px; top: -60px; width: 120px; height: 120px;
-  border-radius: 50%; border: 1.5px solid rgba(255, 248, 230, 0.55);
-  opacity: 0; transform: scale(0.4);
-  animation: eva-ring 3.6s cubic-bezier(0.2, 0.6, 0.3, 1) infinite;
+.eva-live-legend {
+  position: absolute; right: 16px; bottom: 16px;
+  display: inline-flex; align-items: center; gap: 4px; padding: 6px 10px;
+  border-radius: 999px; background: rgba(15, 15, 14, 0.65);
+  font-size: 11px; font-weight: 600; letter-spacing: 0.08em; line-height: 1; color: #fff;
 }
-.eva-live--pulse .eva-live-rings i { border-color: rgba(152, 210, 70, 0.6); animation-duration: 2.4s; }
-.eva-live-rings i:nth-child(2) { animation-delay: -1.2s; }
-.eva-live-rings i:nth-child(3) { animation-delay: -2.4s; }
-.eva-live--pulse .eva-live-rings i:nth-child(2) { animation-delay: -0.8s; }
-.eva-live--pulse .eva-live-rings i:nth-child(3) { animation-delay: -1.6s; }
+.eva-live-legend strong { margin-right: 6px; color: #70b615; font-weight: 700; }
+.eva-live-legend em {
+  padding: 3px 5px; border-radius: 4px; font-style: normal; opacity: 0.45;
+  animation: eva-chan 6s linear infinite;
+  animation-delay: calc(var(--i) * 1.2s);
+}
+.eva-live-legend em.eva-live-legend-lfe { animation: eva-lfe-label 3s ease-in-out infinite; }
 /* Run only while on screen */
-.eva-reveal[data-inview="false"] .eva-live img,
-.eva-reveal[data-inview="false"] .eva-live-layer * { animation-play-state: paused; }
-@media (hover: hover) and (min-width: 992px) {
-  .eva-live-layer { transition: transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1); }
-  .eva-equipment-feature:hover .eva-live-layer { transform: scale(1.02); }
-}
+.eva-reveal[data-inview="false"] .eva-live *,
+.eva-reveal[data-inview="false"] .eva-live-stage { animation-play-state: paused; }
 @media (max-width: 767px) {
-  .eva-live-rings i { left: -40px; top: -40px; width: 80px; height: 80px; }
-  .eva-live-meter { height: 36px; left: 12px; bottom: 12px; }
+  .eva-live-rec, .eva-live-legend { font-size: 10px; }
+  .eva-live-emitter i { border-width: 1.5px; }
 }
-@keyframes eva-kenburns { from { transform: scale(1.02) translate(0, 0); } to { transform: scale(1.12) translate(-2%, -1.5%); } }
-@keyframes eva-kenburns-alt { from { transform: scale(1.12) translate(2%, -1%); } to { transform: scale(1.02) translate(0, 0); } }
-@keyframes eva-glow { 0%, 100% { opacity: 0.55; } 50% { opacity: 1; } }
+@keyframes eva-kenburns { from { transform: scale(1) translate(0, 0); } to { transform: scale(1.08) translate(-1.5%, -1%); } }
+@keyframes eva-kenburns-alt { from { transform: scale(1.08) translate(1.5%, -1%); } to { transform: scale(1) translate(0, 0); } }
+@keyframes eva-glow { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
 @keyframes eva-sheen { 0%, 55% { transform: translateX(-160%) skewX(-12deg); } 85%, 100% { transform: translateX(420%) skewX(-12deg); } }
-@keyframes eva-meter { from { transform: scaleY(0.15); } to { transform: scaleY(1); } }
-@keyframes eva-rec { 0%, 100% { opacity: 1; } 50% { opacity: 0.25; } }
-@keyframes eva-ring { 0% { opacity: 0; transform: scale(0.4); } 15% { opacity: 0.9; } 100% { opacity: 0; transform: scale(1.6); } }
-@media (prefers-reduced-motion: reduce) {
-  .eva-live img, .eva-live-layer, .eva-live-layer * { animation: none !important; transition: none !important; }
-  .eva-live img { transform: none; }
-  .eva-live-sheen, .eva-live-rings { display: none; }
-  .eva-live-meter i { transform: scaleY(0.6); }
-}
+@keyframes eva-rec { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+@keyframes eva-ring { 0% { opacity: 0; transform: scale(0.85); } 15% { opacity: 0.9; } 100% { opacity: 0; transform: scale(1.9); } }
+@keyframes eva-cone { 0% { opacity: 0; transform: scale(0.9); } 12% { opacity: 0.85; } 100% { opacity: 0; transform: scale(1.7); } }
+@keyframes eva-surround { 0% { opacity: 0; transform: scale(0.9); } 4% { opacity: 0.95; } 22% { opacity: 0; transform: scale(2.4); } 100% { opacity: 0; transform: scale(2.4); } }
+@keyframes eva-chan { 0%, 20% { opacity: 1; background: #70b615; } 21%, 100% { opacity: 0.45; background: transparent; } }
+@keyframes eva-lfe { 0%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(0.9); } 35% { opacity: 1; transform: translate(-50%, -50%) scale(1.05); } }
+@keyframes eva-lfe-label { 0%, 100% { opacity: 0.45; } 35% { opacity: 1; } }
 
 /* Fade-up on scroll (only armed by JS once below the fold) */
-.eva-reveal[data-reveal] {
-  transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
-}
-.eva-reveal[data-reveal="pending"] {
-  opacity: 0;
-  transform: translateY(32px);
-}
+.eva-reveal[data-reveal] { transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1); }
+.eva-reveal[data-reveal="pending"] { opacity: 0; transform: translateY(32px); }
 @media (prefers-reduced-motion: reduce) {
   .eva-reveal[data-reveal] { opacity: 1; transform: none; transition: none; }
-  .eva-equipment-photo img { transition: none; }
-  .eva-equipment-feature:hover .eva-equipment-photo img { transform: none; }
-}
-@media (max-width: 991px) {
-  .eva-equipment-section { padding: 64px 0 80px; }
-  .eva-equipment-intro { grid-template-columns: 1fr; row-gap: 24px; }
-  .eva-equipment-highlights { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .eva-equipment-highlights li:nth-child(3) { border-left: 0; }
-  .eva-equipment-highlights li:nth-child(n + 3) { border-top: 1px solid #e4dccb; }
-  .eva-equipment-experience { margin: 64px auto 48px; }
-  .eva-equipment-features { gap: 72px; }
-  .eva-equipment-feature { grid-template-columns: 1fr; gap: 28px; }
-  .eva-equipment-feature:nth-child(even) .eva-equipment-figure { order: 0; }
-  .eva-equipment-note { margin-top: 64px; }
-}
-@media (max-width: 767px) {
-  .eva-equipment-section { padding: 48px 0 64px; }
-  .eva-equipment-inner { padding-inline: 20px; }
-  .eva-equipment-highlights { margin-top: 40px; }
-  .eva-equipment-highlights li { padding: 20px 14px; }
-  .eva-equipment-features { gap: 56px; }
+  .eva-live-stage, .eva-live *, .eva-live-stage * { animation: none !important; transition: none !important; }
+  .eva-live-stage { transform: none; }
+  .eva-live-sheen, .eva-live-emitter, .eva-live-lfe { display: none; }
+  .eva-live-legend em { opacity: 0.8; }
 }
 
 .eva-thank-you-actions {
@@ -5416,6 +5361,8 @@ form[aria-busy="true"] textarea {
   background: #fff;
   color: #13161d;
 }
+.eva-clients-block .eva-coming-soon-intro h2 { line-height: 1.2; }
+.eva-clients-block .eva-coming-soon-intro h2 i.icon { color: #70b615; }
 .eva-clients-block .eva-coming-soon-intro {
   margin-bottom: 48px;
 }

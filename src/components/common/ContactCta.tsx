@@ -49,7 +49,7 @@ export default function ContactCta({
           <div className={styles.action}>
             <Link href={Routes.CONTACT} className="btn btn--lg">
               <span>
-                <i className="icon-mail" aria-hidden="true" />
+                <i className="icon icon-mail" aria-hidden="true" />
                 Get My Dubbing Quote
               </span>
             </Link>

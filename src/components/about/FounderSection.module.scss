@@ -1,25 +1,19 @@
 .founder {
-  padding: 48px 0;
-}
-.inner {
-  max-width: 1536px;
-  margin: 0 auto;
-  padding: 0 24px;
+  /* spacing comes from the shared .block */
 }
 .heading {
-  text-align: center;
-  margin: 0 0 32px;
+  :global(i.icon) { color: #70b615; }
 }
 .card {
   display: grid;
   grid-template-columns: 280px 1fr;
   gap: 48px;
   align-items: start;
-  background: #fff;
-  border: 1px solid #e6e6e6;
-  border-radius: 16px;
+  background: #f7f7f7;
+  border: 1px solid #e7e7e7;
+  border-top: 3px solid #70b615;
+  border-radius: 12px;
   padding: 40px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
 }
 .media {
   display: flex;
@@ -35,20 +29,11 @@
   border-radius: 50%;
 }
 .linkedin {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 20px;
-  border-radius: 999px;
-  background: #0a66c2;
-  color: #fff !important;
-  font-weight: 600;
-  text-decoration: none;
-  &:hover { background: #084e96; }
+  margin: 0;
   &:focus-visible { outline: 3px solid #70b615; outline-offset: 3px; }
 }
-.name { margin: 0 0 4px; }
-.role { margin: 0 0 20px; color: #70b615; font-weight: 600; }
+.name { margin: 0 0 8px; }
+.role { margin: 0 0 20px; }
 .highlights {
   list-style: none;
   padding: 0;
@@ -57,12 +42,13 @@
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 16px;
   li {
-    background: #f6f7f4;
+    background: #fff;
+    border: 1px solid #e7e7e7;
     border-radius: 12px;
     padding: 16px;
   }
-  strong { display: block; font-size: 1.15em; }
-  span { color: #666; font-size: 0.9em; }
+  strong { display: block; margin: 0 0 4px; color: #13161d; }
+  span { display: block; color: #4a4f57; font-size: 16px; line-height: 24px; }
 }
 .work { margin: 0; }
 @media (max-width: 991px) {

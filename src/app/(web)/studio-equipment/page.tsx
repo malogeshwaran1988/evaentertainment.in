@@ -1,8 +1,8 @@
-import type React from "react";
 import JsonLd from "@@/components/common/JsonLd";
 import PageHero from "@@/components/common/PageHero";
 import { Routes } from "@@/constants/routes";
 import { buildPageMetadata } from "@@/lib/seo";
+import LivePhoto from "@@/components/equipment/LivePhoto";
 import Reveal from "@@/components/equipment/Reveal";
 import {
   EQUIPMENT_CONTENT,
@@ -40,29 +40,39 @@ export default function EquipmentPage() {
         className="bottom-null"
       />
 
-      <section className="eva-equipment-section" aria-labelledby="equipment-heading">
-        <div className="eva-equipment-inner">
-          <div className="eva-equipment-intro">
-            <p className="eva-equipment-eyebrow">{EQUIPMENT_EXPERIENCE.eyebrow}</p>
-            <h2 id="equipment-heading">{EQUIPMENT_CONTENT.heading}</h2>
-            <div className="eva-equipment-intro-copy">
-              {EQUIPMENT_CONTENT.paragraphs.map((p) => (
-                <p key={p.slice(0, 40)}>{p}</p>
-              ))}
-            </div>
+      <section className="block eva-equipment-intro-block" aria-labelledby="equipment-heading">
+        <div className="container">
+          <div className="title-wrap text-center eva-equipment-intro">
+            <h2 id="equipment-heading">
+              <i className="icon icon-mic-2" aria-hidden="true" />
+              Equipment at <span>EVA Entertainment</span>
+            </h2>
+            {EQUIPMENT_CONTENT.paragraphs.map((p, i) => (
+              <p key={p.slice(0, 40)} className={i === 0 ? "p--lg" : undefined}>
+                {p}
+              </p>
+            ))}
           </div>
 
           <ul className="eva-equipment-highlights" aria-label="Studio highlights">
             {EQUIPMENT_EXPERIENCE.highlights.map((h) => (
               <li key={h.label}>
-                <span className="eva-equipment-highlight-value">{h.value}</span>
+                <i className={`icon ${h.icon}`} aria-hidden="true" />
+                <span className="heading-as-h4">{h.value}</span>{" "}
                 <span className="eva-equipment-highlight-label">{h.label}</span>
               </li>
             ))}
           </ul>
+        </div>
+      </section>
 
-          <div className="eva-equipment-experience">
-            <h3>{EQUIPMENT_EXPERIENCE.heading}</h3>
+      <section className="block block--darkbg eva-equipment-features-block" aria-labelledby="equipment-experience-heading">
+        <div className="container">
+          <div className="title-wrap text-center eva-equipment-intro">
+            <h2 id="equipment-experience-heading">
+              <i className="icon icon-music-equalizer" aria-hidden="true" />
+              {EQUIPMENT_EXPERIENCE.heading}
+            </h2>
             <p>{EQUIPMENT_EXPERIENCE.intro}</p>
           </div>
 
@@ -70,50 +80,7 @@ export default function EquipmentPage() {
             {EQUIPMENT_ITEMS.map((item, index) => (
               <Reveal as="li" key={item.id} className="eva-equipment-feature">
                 <figure className="eva-equipment-figure">
-                  <div
-                    className={`eva-equipment-photo eva-live eva-live--${item.overlay}${index % 2 ? " eva-live--alt" : ""}`}
-                    style={
-                      {
-                        "--focus-x": `${item.focus.x}%`,
-                        "--focus-y": `${item.focus.y}%`,
-                      } as React.CSSProperties
-                    }
-                  >
-                    {/* eslint-disable-next-line @next/next/no-img-element -- pre-optimised AVIF, served as-is */}
-                    <img
-                      src={item.image}
-                      alt={item.alt}
-                      width={item.width}
-                      height={item.height}
-                      loading={index === 0 ? "eager" : "lazy"}
-                      decoding="async"
-                      sizes="(min-width: 992px) 56vw, 100vw"
-                    />
-                    <div className="eva-live-layer" aria-hidden="true">
-                      <span className="eva-live-glow" />
-                      <span className="eva-live-sheen" />
-                      {item.overlay === "meter" && (
-                        <span className="eva-live-meter">
-                          {Array.from({ length: 14 }, (_, i) => (
-                            <i key={i} style={{ animationDelay: `${-((i * 37) % 11) / 10}s` }} />
-                          ))}
-                        </span>
-                      )}
-                      {item.overlay === "rec" && (
-                        <span className="eva-live-rec">
-                          <b />
-                          REC
-                        </span>
-                      )}
-                      {item.overlay !== "meter" && (
-                        <span className="eva-live-rings">
-                          <i />
-                          <i />
-                          <i />
-                        </span>
-                      )}
-                    </div>
-                  </div>
+                  <LivePhoto item={item} eager={index === 0} alt={index % 2 === 1} />
                   <figcaption>
                     {item.caption}. Photo:{" "}
                     <a href={item.credit.source} target="_blank" rel="noopener noreferrer">
@@ -123,21 +90,18 @@ export default function EquipmentPage() {
                   </figcaption>
                 </figure>
                 <div className="eva-equipment-text">
-                  <p className="eva-equipment-role">
-                    <span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
-                    {item.role}
-                  </p>
+                  <p className="p--sm text-uppercase theme-color eva-equipment-role">{item.role}</p>
                   <h3>{item.name}</h3>
-                  <p className="eva-equipment-desc">{item.description}</p>
+                  <p>{item.description}</p>
                   <p className="eva-equipment-workflow">
-                    <strong>At EVA: </strong>
+                    <strong className="theme-color">At EVA: </strong>
                     {item.workflow}
                   </p>
                 </div>
               </Reveal>
             ))}
           </ol>
-          <p className="eva-equipment-note">
+          <p className="p--sm text-center eva-equipment-note">
             Photos are representative of the equipment we use and are not pictures of our own studio.
           </p>
         </div>
