@@ -9,7 +9,7 @@ import styles from "./ContactCta.module.scss";
 const HIDDEN_PREFIXES = [Routes.CONTACT, Routes.THANK_YOU, "/preview"];
 
 /**
- * Sitewide Contact Us CTA ("Need a Quality Sound?") — the original Glory booking card design
+ * Sitewide Contact Us CTA ("Make your film speak Hindi") — the original Glory booking card design
  * (restored from BookingCta, removed in 5fd2ad2), repurposed to point at the Contact page.
  */
 export default function ContactCta() {
@@ -21,21 +21,21 @@ export default function ContactCta() {
       <div className={`container ${styles.inner}`}>
         <div className={styles.copy}>
           <h2 id="eva-contact-cta-title">
-            Need a <span>Quality</span> Sound?
+            Make your film <span>speak Hindi</span>
           </h2>
           <p className="p--lg">
-            Dubbing, voice-over, translation or mixing — tell us about your project and our
-            studio team will get back to you.
+            Lip-sync dubbing, voice-over, 5.1 mixing and subtitling from our Andheri West
+            studio, trusted by Sony Pictures Networks, Viacom18 and JioCinema.
           </p>
         </div>
         <div className={styles.action}>
           <Link href={Routes.CONTACT} className="btn btn--lg">
             <span>
               <i className="icon-mail" aria-hidden="true" />
-              Contact Us
+              Get My Dubbing Quote
             </span>
           </Link>
-          <p className="p--sm">We usually reply within one working day.</p>
+          <p className="p--sm">13+ years in Hindi dubbing · 41 projects delivered</p>
         </div>
       </div>
     </section>
