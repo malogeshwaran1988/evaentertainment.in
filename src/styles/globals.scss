@@ -5487,3 +5487,191 @@ form[aria-busy="true"] textarea {
 @media (prefers-reduced-motion: reduce) {
   .eva-header-bar .header-menu .menu > li > a::after { transition: none; }
 }
+
+/* Home services grid: image-matched "live" overlays (ServicesGrid.tsx).
+   .svc-frame keeps the image's own aspect ratio (cover-style centred crop on mobile), and
+   .svc-stage carries the drift + hover tilt for both the <img> and the overlay layer, so the
+   overlays stay locked to the devices. Only transform/opacity/scale animate; paused off screen. */
+.service-item-photo.svc-live { position: relative; overflow: hidden; }
+.svc-frame {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: var(--ar);
+}
+.svc-stage {
+  position: absolute;
+  inset: 0;
+  display: block;
+  animation: eva-fx-drift-img 14s ease-in-out infinite alternate;
+  transition: transform 0.3s ease 0.1s;
+}
+.service-item-photo.svc-live .svc-stage img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  animation: none;
+  transform: none;
+  transition: none;
+}
+.service-item:hover .svc-live .svc-stage,
+.service-item:focus-visible .svc-live .svc-stage { transform: scale(1.149) rotate(2deg); }
+.service-item:hover .service-item-photo.svc-live img { transform: none; }
+.svc-layer { position: absolute; inset: 0; pointer-events: none; }
+.svc-layer > span { position: absolute; }
+
+/* Rings (mic grille, ear cups, monitors) */
+.svc-rings { aspect-ratio: 1; transform: translate(-50%, -50%); }
+.svc-rings i {
+  position: absolute; inset: 0;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255, 248, 230, 0.75);
+  opacity: 0;
+  animation: svc-ring 3s cubic-bezier(0.2, 0.6, 0.3, 1) infinite;
+}
+.svc-rings i:nth-child(2) { animation-delay: -1s; }
+.svc-rings i:nth-child(3) { animation-delay: -2s; }
+.svc-rings--late i { animation-delay: -1.5s; }
+.svc-rings--late i:nth-child(2) { animation-delay: -0.5s; }
+.svc-rings--late i:nth-child(3) { animation-delay: -2.5s; }
+.svc-rings--seq i {
+  border-color: rgba(152, 210, 70, 0.85);
+  animation-name: svc-surround;
+  animation-duration: 4.8s;
+  animation-delay: calc(var(--i) * 1.2s);
+}
+.svc-rings--seq i:nth-child(2) { animation-delay: calc(var(--i) * 1.2s + 0.3s); }
+
+/* Dubbing: voice waveform */
+.svc-voice { display: flex; align-items: center; gap: 6%; height: 14%; transform: translateY(-50%); }
+.svc-voice i {
+  flex: 1; height: 100%; border-radius: 2px;
+  background: rgba(152, 210, 70, 0.85);
+  transform: scaleY(0.2);
+  animation: svc-bar 0.9s ease-in-out infinite alternate;
+  animation-delay: calc(var(--i) * -0.13s);
+}
+
+/* 5.1: console glow */
+.svc-glow-spot {
+  aspect-ratio: 3 / 1; transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(112, 182, 21, 0.28), transparent 70%);
+  animation: svc-pulse 4.8s ease-in-out infinite;
+}
+
+/* Foley: red buttons + fader caps */
+.svc-btn {
+  aspect-ratio: 1.7; transform: translate(-50%, -50%) rotate(-22deg);
+  border-radius: 30%;
+  background: radial-gradient(ellipse, rgba(255, 190, 190, 0.95), rgba(255, 60, 60, 0.5) 45%, transparent 72%);
+  opacity: 0;
+  animation: svc-blink 3.5s ease-in-out infinite;
+  animation-delay: calc(var(--i) * 0.35s);
+}
+.svc-cap {
+  aspect-ratio: 1.6; transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(255, 248, 230, 0.55), transparent 65%);
+  opacity: 0;
+  animation: svc-cap 5s ease-in-out infinite;
+  animation-delay: calc(var(--i) * 0.8s);
+}
+
+/* Translation: script glyphs */
+.svc-glyph {
+  transform: translate(-50%, -50%);
+  font-family: "Noto Sans", system-ui, sans-serif;
+  font-size: clamp(14px, 1.6vw, 26px);
+  line-height: 1;
+  color: rgba(152, 210, 70, 0.9);
+  opacity: 0;
+  animation: svc-glyph 7.5s ease-in-out infinite;
+  animation-delay: calc(var(--i) * 1.5s);
+}
+
+/* Stock library: meters + scrolling waveform on the screens */
+.svc-meters { display: flex; align-items: flex-end; gap: 6%; }
+.svc-meters i {
+  flex: 1; height: 100%;
+  background: linear-gradient(to top, #70b615 0 65%, #e8d27a 65% 88%, #e06a4b 88%);
+  opacity: 0.85;
+  transform-origin: bottom; transform: scaleY(0.3);
+  animation: svc-bar 1s ease-in-out infinite alternate;
+  animation-delay: calc(var(--i) * -0.17s);
+}
+.svc-meters i:nth-child(3n) { animation-duration: 0.7s; }
+.svc-scroll, .svc-track { overflow: hidden; }
+.svc-scroll > span {
+  position: absolute; inset: 0 -100% 0 0;
+  background: repeating-linear-gradient(90deg,
+    rgba(152, 210, 70, 0.8) 0 2px, transparent 2px 5px);
+  -webkit-mask: linear-gradient(transparent 20%, #000 35% 65%, transparent 80%);
+  mask: linear-gradient(transparent 20%, #000 35% 65%, transparent 80%);
+  animation: svc-scroll 6s linear infinite;
+}
+
+/* Subtitling: typed subtitle lines + playhead */
+.svc-subs { display: flex; flex-direction: column; align-items: center; gap: 0.35vw; transform: translate(-50%, -50%); }
+.svc-subs i {
+  display: block; width: var(--w); height: 0.42vw; min-height: 3px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.45);
+  transform-origin: left; transform: scaleX(0);
+  animation: svc-type 5s steps(14, end) infinite;
+}
+.svc-subs i:nth-child(2) { animation-name: svc-type-2; }
+.svc-track > span {
+  position: absolute; inset: 0;
+  animation: svc-playhead 5s linear infinite;
+}
+.svc-track > span::before {
+  content: "";
+  position: absolute; top: 0; bottom: 0; left: 0;
+  width: 2px;
+  background: #70b615;
+  box-shadow: 0 0 8px rgba(112, 182, 21, 0.9);
+}
+
+/* Only while on screen (InViewFx sets data-inview) */
+.svc-live:not([data-inview]) .svc-stage,
+.svc-live:not([data-inview]) .svc-layer * { animation-play-state: paused; }
+
+/* Captions: consistent width, no clipped lines */
+.services-grid .service-item-description span {
+  max-width: 36ch;
+  margin-left: auto;
+  text-align: right;
+  white-space: normal;
+}
+
+@media (max-width: 767px) {
+  /* Cover-style centred crop: frame is at least 300px tall, stage keeps the image ratio */
+  .page-main .service-item-photo.svc-live { min-height: 0; }
+  .svc-frame {
+    width: max(100%, calc(300px * var(--arn)));
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .services-grid .service-item-description span { max-width: 100%; }
+}
+
+@keyframes svc-ring { 0% { opacity: 0; transform: scale(0.8); } 15% { opacity: 0.85; } 100% { opacity: 0; transform: scale(1.8); } }
+@keyframes svc-surround { 0% { opacity: 0; transform: scale(0.9); } 5% { opacity: 0.9; } 25%, 100% { opacity: 0; transform: scale(2.4); } }
+@keyframes svc-bar { from { transform: scaleY(0.15); } to { transform: scaleY(1); } }
+@keyframes svc-pulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
+@keyframes svc-blink { 0%, 100% { opacity: 0; } 20%, 35% { opacity: 1; } }
+@keyframes svc-cap { 0%, 100% { opacity: 0; transform: translate(-50%, -50%) translate(-6%, 3%); } 30%, 55% { opacity: 1; } 80% { opacity: 0; transform: translate(-50%, -50%) translate(8%, -4%); } }
+@keyframes svc-glyph { 0% { opacity: 0; transform: translate(-50%, -30%); } 15%, 45% { opacity: 0.9; } 60%, 100% { opacity: 0; transform: translate(-50%, -110%); } }
+@keyframes svc-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@keyframes svc-type { 0% { transform: scaleX(0); } 25%, 85% { transform: scaleX(1); opacity: 1; } 95%, 100% { transform: scaleX(1); opacity: 0; } }
+@keyframes svc-type-2 { 0%, 25% { transform: scaleX(0); } 50%, 85% { transform: scaleX(1); opacity: 1; } 95%, 100% { transform: scaleX(1); opacity: 0; } }
+@keyframes svc-playhead { from { transform: translateX(0); } to { transform: translateX(100%); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .svc-stage, .svc-layer * { animation: none !important; transition: none !important; }
+  .svc-layer { display: none; }
+  .service-item:hover .svc-live .svc-stage { transform: none; }
+}
