@@ -5134,3 +5134,54 @@ form[aria-busy="true"] textarea {
   outline: 2px solid #fff;
   outline-offset: 2px;
 }
+
+/* /clients logo grid: white cards, logos contained, 2 → 3 → 4 columns, inside the 1536px container. */
+.eva-clients-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  max-width: 1536px;
+  margin: 0 auto;
+  padding: 0;
+  list-style: none;
+}
+.eva-clients-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 16 / 9;
+  padding: 24px;
+  background: #fff;
+  border: 1px solid #e6e8ec;
+  border-radius: 10px;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+.eva-clients-item:hover {
+  box-shadow: 0 8px 24px rgba(19, 22, 29, 0.08);
+  transform: translateY(-2px);
+}
+.eva-clients-item img {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+.eva-clients-cta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 48px;
+}
+@media (min-width: 768px) {
+  .eva-clients-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+}
+@media (min-width: 1200px) {
+  .eva-clients-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .eva-clients-item { transition: none; }
+  .eva-clients-item:hover { transform: none; }
+}
