@@ -14,28 +14,39 @@ const HIDDEN_PREFIXES = [Routes.CONTACT, Routes.THANK_YOU, "/preview"];
  */
 export default function ContactCta() {
   const pathname = usePathname() ?? "";
-  if (HIDDEN_PREFIXES.some((p) => pathname === p || pathname.startsWith(`${p}/`))) return null;
+  if (
+    HIDDEN_PREFIXES.some((p) => pathname === p || pathname.startsWith(`${p}/`))
+  )
+    return null;
 
   return (
-    <section className={`block ${styles.cta}`} aria-labelledby="eva-contact-cta-title">
+    <section
+      className={`block ${styles.cta}`}
+      aria-labelledby="eva-contact-cta-title"
+    >
       <div className={`container ${styles.inner}`}>
-        <div className={styles.copy}>
-          <h2 id="eva-contact-cta-title">
-            Make your film <span>speak Hindi</span>
-          </h2>
-          <p className="p--lg">
-            Lip-sync dubbing, voice-over, 5.1 mixing and subtitling from our Andheri West
-            studio, trusted by Sony Pictures Networks, Viacom18 and JioCinema.
-          </p>
-        </div>
-        <div className={styles.action}>
-          <Link href={Routes.CONTACT} className="btn btn--lg">
-            <span>
-              <i className="icon-mail" aria-hidden="true" />
-              Get My Dubbing Quote
-            </span>
-          </Link>
-          <p className="p--sm">13+ years in Hindi dubbing · 41 projects delivered</p>
+        <div className={styles.card}>
+          <div className={styles.copy}>
+            <h2 id="eva-contact-cta-title">
+              Make your film <span>speak Hindi</span>
+            </h2>
+            <p className="p--lg">
+              Lip-sync dubbing, voice-over, 5.1 mixing and subtitling from our
+              Andheri West studio, trusted by Sony Pictures Networks, Viacom18
+              and JioCinema.
+            </p>
+          </div>
+          <div className={styles.action}>
+            <Link href={Routes.CONTACT} className="btn btn--lg">
+              <span>
+                <i className="icon-mail" aria-hidden="true" />
+                Get My Dubbing Quote
+              </span>
+            </Link>
+            <p className="p--sm">
+              13+ years in Hindi dubbing · 41 projects delivered
+            </p>
+          </div>
         </div>
       </div>
     </section>
