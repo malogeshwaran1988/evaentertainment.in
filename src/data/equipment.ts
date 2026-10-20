@@ -47,6 +47,10 @@ export type EquipmentItem = {
   /** Generic caption: these are representative photos, not EVA's own rooms. */
   caption: string;
   credit: { author: string; license: string; source: string };
+  /** Decorative "live" overlay: level meters, REC + sound rings, or speaker pulse. */
+  overlay: "meter" | "rec" | "pulse";
+  /** Where the rings sit on the photo, in % (x, y). */
+  focus: { x: number; y: number };
 };
 
 /** Representative photos from Wikimedia Commons (licences below); not photos of EVA's studio. */
@@ -63,6 +67,8 @@ export const EQUIPMENT_ITEMS: EquipmentItem[] = [
     width: 1400,
     height: 1050,
     caption: "A Pro Tools 5.1 mixing room in a professional studio",
+    overlay: "meter",
+    focus: { x: 50, y: 50 },
     credit: {
       author: "Will Fisher",
       license: "CC BY-SA 2.0",
@@ -82,6 +88,8 @@ export const EQUIPMENT_ITEMS: EquipmentItem[] = [
     width: 1400,
     height: 1050,
     caption: "A Neumann microphone in a professional recording studio",
+    overlay: "rec",
+    focus: { x: 40, y: 32 },
     credit: {
       author: "Will Fisher",
       license: "CC BY-SA 2.0",
@@ -101,6 +109,8 @@ export const EQUIPMENT_ITEMS: EquipmentItem[] = [
     width: 1400,
     height: 1050,
     caption: "A Rode microphone with pop and reflection filters in a vocal booth",
+    overlay: "rec",
+    focus: { x: 50, y: 48 },
     credit: {
       author: "Tim Sheerman-Chase",
       license: "CC BY 2.0",
@@ -120,6 +130,8 @@ export const EQUIPMENT_ITEMS: EquipmentItem[] = [
     width: 1400,
     height: 1050,
     caption: "A Genelec active studio monitor",
+    overlay: "pulse",
+    focus: { x: 47, y: 40 },
     credit: {
       author: "Tumi-1983",
       license: "CC BY-SA 3.0",
@@ -138,6 +150,8 @@ export const EQUIPMENT_ITEMS: EquipmentItem[] = [
     width: 1400,
     height: 1050,
     caption: "Yamaha studio monitors on a mixing console in a professional control room",
+    overlay: "pulse",
+    focus: { x: 22, y: 31 },
     credit: {
       author: "Audio Mix House",
       license: "CC BY 2.0",

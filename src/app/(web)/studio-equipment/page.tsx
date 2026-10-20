@@ -1,3 +1,4 @@
+import type React from "react";
 import JsonLd from "@@/components/common/JsonLd";
 import PageHero from "@@/components/common/PageHero";
 import { Routes } from "@@/constants/routes";
@@ -69,7 +70,15 @@ export default function EquipmentPage() {
             {EQUIPMENT_ITEMS.map((item, index) => (
               <Reveal as="li" key={item.id} className="eva-equipment-feature">
                 <figure className="eva-equipment-figure">
-                  <div className="eva-equipment-photo">
+                  <div
+                    className={`eva-equipment-photo eva-live eva-live--${item.overlay}${index % 2 ? " eva-live--alt" : ""}`}
+                    style={
+                      {
+                        "--focus-x": `${item.focus.x}%`,
+                        "--focus-y": `${item.focus.y}%`,
+                      } as React.CSSProperties
+                    }
+                  >
                     {/* eslint-disable-next-line @next/next/no-img-element -- pre-optimised AVIF, served as-is */}
                     <img
                       src={item.image}
@@ -80,6 +89,30 @@ export default function EquipmentPage() {
                       decoding="async"
                       sizes="(min-width: 992px) 56vw, 100vw"
                     />
+                    <div className="eva-live-layer" aria-hidden="true">
+                      <span className="eva-live-glow" />
+                      <span className="eva-live-sheen" />
+                      {item.overlay === "meter" && (
+                        <span className="eva-live-meter">
+                          {Array.from({ length: 14 }, (_, i) => (
+                            <i key={i} style={{ animationDelay: `${-((i * 37) % 11) / 10}s` }} />
+                          ))}
+                        </span>
+                      )}
+                      {item.overlay === "rec" && (
+                        <span className="eva-live-rec">
+                          <b />
+                          REC
+                        </span>
+                      )}
+                      {item.overlay !== "meter" && (
+                        <span className="eva-live-rings">
+                          <i />
+                          <i />
+                          <i />
+                        </span>
+                      )}
+                    </div>
                   </div>
                   <figcaption>
                     {item.caption}. Photo:{" "}

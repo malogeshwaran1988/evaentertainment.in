@@ -18,8 +18,16 @@ export default function Reveal({
   useEffect(() => {
     const el = ref.current;
     if (!el || typeof IntersectionObserver === "undefined") return;
+    // Keep data-inview in sync so CSS animations only run while on screen.
+    const live = new IntersectionObserver(
+      ([entry]) => {
+        el.dataset.inview = entry.isIntersecting ? "true" : "false";
+      },
+      { threshold: 0 },
+    );
+    live.observe(el);
     const rect = el.getBoundingClientRect();
-    if (rect.top < window.innerHeight * 0.9) return; // already on screen: no animation
+    if (rect.top < window.innerHeight * 0.9) return () => live.disconnect(); // already on screen
     el.dataset.reveal = "pending";
     const io = new IntersectionObserver(
       (entries) => {
@@ -33,7 +41,10 @@ export default function Reveal({
       { rootMargin: "0px 0px -10% 0px", threshold: 0.1 },
     );
     io.observe(el);
-    return () => io.disconnect();
+    return () => {
+      io.disconnect();
+      live.disconnect();
+    };
   }, []);
 
   return (
