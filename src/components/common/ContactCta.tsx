@@ -42,9 +42,8 @@ export default function ContactCta({
               <CtaLanguageCycle languages={languages} />
             </h2>
             <p className="p--lg">
-              Lip-sync dubbing, voice-over, 5.1 mixing and subtitling from our
-              Andheri West studio, trusted by Sony Pictures Networks, Viacom18
-              and JioCinema.
+              Experienced voice artists, frame-accurate sync and a final quality
+              review on every reel, delivered on schedule and ready for release.
             </p>
           </div>
           <div className={styles.action}>
@@ -55,7 +54,7 @@ export default function ContactCta({
               </span>
             </Link>
             <p className="p--sm">
-              13+ years in Hindi dubbing · 41 projects delivered
+              13+ years of studio experience
             </p>
           </div>
         </div>
