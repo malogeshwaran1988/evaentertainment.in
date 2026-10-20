@@ -50,11 +50,58 @@
   strong { display: block; margin: 0 0 4px; color: #13161d; }
   span { display: block; color: #4a4f57; font-size: 16px; line-height: 24px; }
 }
-.work { margin: 0; }
+.recent { margin-top: 48px; }
+.recentHeading {
+  text-align: center;
+  margin: 0 0 24px;
+  :global(i.icon) { color: #70b615; }
+}
+.recentList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 24px;
+}
+.recentItem {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+  &:hover .recentTitle, &:focus-visible .recentTitle { color: #70b615; }
+  &:focus-visible { outline: 3px solid #70b615; outline-offset: 3px; border-radius: 8px; }
+}
+.recentPoster {
+  position: relative;
+  display: block;
+  aspect-ratio: 2 / 3;
+  overflow: hidden;
+  border-radius: 8px;
+  background: #e7e7e7;
+  img { object-fit: cover; }
+}
+.recentTitle {
+  display: block;
+  margin-top: 8px;
+  font-weight: 600;
+  text-align: center;
+  color: #13161d;
+}
 @media (max-width: 991px) {
   .card { grid-template-columns: 1fr; gap: 32px; padding: 28px; }
   .media { justify-self: center; }
   .photo { max-width: 220px; }
+}
+@media (max-width: 991px) {
+  .recentList {
+    grid-auto-flow: column;
+    grid-template-columns: none;
+    grid-auto-columns: minmax(140px, 40%);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 8px;
+    li { scroll-snap-align: start; }
+  }
 }
 @media (max-width: 575px) {
   .highlights { grid-template-columns: 1fr; }

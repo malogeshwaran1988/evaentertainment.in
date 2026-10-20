@@ -5,7 +5,6 @@
  * - Name, Mumbai and "Proprietor @ EVA Entertainment since Jun 2018", skills in sound engineering:
  *   https://www.linkedin.com/in/felix-anthony-5b1114173/
  * - Name as the studio contact: https://evaentertainment.in/ (footer)
- * - Notable work: titles on https://evaentertainment.in/our-projects
  *
  * Placeholders: the photo is an initials avatar (replace public/images/about/founder.avif
  * with an approved photo). The bio is written only from the facts above; replace it with
@@ -28,5 +27,20 @@ export const FOUNDER = {
     { value: "Sound engineering", label: "Core expertise" },
     { value: "Mumbai", label: "Andheri West studio" },
   ],
-  notableWork: ["Mass Jathara", "Thammudu", "Annapoorni", "Tenant"],
-} as const;
+  /** Project ids to show under the card, in order. Empty = the latest 5 published automatically. */
+  featuredProjectIds: [] as string[],
+};
+
+export type FounderContent = {
+  name: string;
+  title: string;
+  photo: string;
+  photoAlt: string;
+  linkedinUrl: string;
+  bio: string[];
+  highlights: { value: string; label: string }[];
+  featuredProjectIds: string[];
+};
+
+export const FOUNDER_HIGHLIGHTS_MAX = 3;
+export const FOUNDER_FEATURED_MAX = 5;

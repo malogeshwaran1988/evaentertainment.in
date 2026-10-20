@@ -1,7 +1,16 @@
+import Image from "next/image";
+import Link from "@@/components/common/NavLink";
+import { PosterPlaceholder } from "@@/components/projects/ProjectPoster";
+import { Routes } from "@@/constants/routes";
 import { FOUNDER } from "@@/data/founder";
+import { getFounderWork } from "@@/lib/founder-work";
+import { getFounder } from "@@/lib/founder-store";
+import { projectPosterAlt } from "@@/lib/project-seo";
 import styles from "./FounderSection.module.scss";
 
-export default function FounderSection() {
+export default async function FounderSection() {
+  const founder = await getFounder();
+  const work = await getFounderWork(founder.featuredProjectIds);
   return (
     <section className={`block ${styles.founder}`} aria-labelledby="founder-heading">
       <div className="container">
@@ -13,21 +22,21 @@ export default function FounderSection() {
           <div className={styles.media}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={FOUNDER.photo}
-              alt={FOUNDER.photoAlt}
+              src={founder.photo}
+              alt={founder.photoAlt}
               className={styles.photo}
               width={280}
               height={280}
               loading="lazy"
               decoding="async"
             />
-            {FOUNDER.linkedinUrl ? (
+            {founder.linkedinUrl ? (
               <a
-                href={FOUNDER.linkedinUrl}
+                href={founder.linkedinUrl}
                 className={`btn ${styles.linkedin}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label={`${FOUNDER.name} on LinkedIn (opens in a new tab)`}
+                aria-label={`${founder.name} on LinkedIn (opens in a new tab)`}
               >
                 <span>
                   <i className="icon icon-linkedin-logo" aria-hidden="true" />
@@ -37,27 +46,52 @@ export default function FounderSection() {
             ) : null}
           </div>
           <div>
-            <h3 className={styles.name}>{FOUNDER.name}</h3>
-            <p className={`p--lg theme-color ${styles.role}`}>{FOUNDER.title}</p>
-            {FOUNDER.bio.map((p) => (
+            <h3 className={styles.name}>{founder.name}</h3>
+            <p className={`p--lg theme-color ${styles.role}`}>{founder.title}</p>
+            {founder.bio.filter(Boolean).map((p) => (
               <p key={p.slice(0, 40)}>{p}</p>
             ))}
             <ul className={styles.highlights}>
-              {FOUNDER.highlights.map((h) => (
+              {founder.highlights.map((h) => (
                 <li key={h.label}>
                   <strong className="heading-as-h4">{h.value}</strong>{" "}
                   <span>{h.label}</span>
                 </li>
               ))}
             </ul>
-            {FOUNDER.notableWork.length > 0 ? (
-              <p className={styles.work}>
-                <strong>Recent Hindi dubbing work: </strong>
-                {FOUNDER.notableWork.join(", ")}
-              </p>
-            ) : null}
           </div>
         </div>
+        {work.length > 0 ? (
+          <div className={styles.recent}>
+            <h3 id="founder-work-heading" className={styles.recentHeading}>
+              <i className="icon icon-promotion-1" aria-hidden="true" />
+              Recent work
+            </h3>
+            <ul className={styles.recentList} aria-labelledby="founder-work-heading">
+              {work.map((p) => (
+                <li key={p.id}>
+                  <Link href={Routes.project(p.slug)} className={styles.recentItem}>
+                    <span className={styles.recentPoster}>
+                      {p.poster ? (
+                        <Image
+                          src={p.poster}
+                          alt={projectPosterAlt(p)}
+                          fill
+                          sizes="(min-width: 992px) 200px, 40vw"
+                          loading="lazy"
+                          fetchPriority="low"
+                        />
+                      ) : (
+                        <PosterPlaceholder title={p.title} />
+                      )}
+                    </span>
+                    <span className={styles.recentTitle}>{p.title}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : null}
       </div>
     </section>
   );
