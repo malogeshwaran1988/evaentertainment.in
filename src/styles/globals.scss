@@ -3932,8 +3932,8 @@ body:not(.page-blog) .block--darkbg h3.eva-service-ideal-title,
   }
 }
 
-/* /studio-equipment: main is flex-1 in the layout, so on tall screens it grew past the
-   section and showed its white background above the footer. Let the dark section fill it. */
+/* /studio-equipment: light, editorial "studio experience" layout. main is flex-1 in the
+   layout, so the cream section stretches to the footer (no white gap on tall screens). */
 .flex-1:has(> .page-main.eva-equipment-page) {
   display: flex;
   flex-direction: column;
@@ -3942,117 +3942,194 @@ body:not(.page-blog) .block--darkbg h3.eva-service-ideal-title,
   display: flex;
   flex: 1 0 auto;
   flex-direction: column;
+  background: #faf7f0;
 }
-.block.eva-equipment-section {
+.eva-equipment-section {
   flex: 1 0 auto;
-  margin-bottom: 0;
-  padding-top: 72px;
-  padding-bottom: 88px;
-  background-attachment: scroll;
-  box-shadow: inset 0 0 0 100vmax rgba(10, 10, 12, 0.82);
+  padding: 96px 0 112px;
+  background: linear-gradient(180deg, #fbf8f2 0%, #f6f1e7 100%);
+  color: #2b2a27;
 }
 .eva-equipment-inner {
   max-width: 1536px;
   margin-inline: auto;
   padding-inline: 32px;
 }
-.eva-equipment-intro {
-  max-width: 70ch;
-  margin-bottom: 48px;
-}
-.eva-equipment-intro h2 {
-  margin: 0 0 20px;
-}
-.eva-equipment-intro p {
+.eva-equipment-eyebrow,
+.eva-equipment-role {
   margin: 0 0 14px;
-  font-size: 17px;
-  line-height: 1.7;
-  color: rgba(255, 255, 255, 0.86);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #4f7f10;
 }
-.eva-equipment-grid {
+.eva-equipment-intro {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 24px;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  column-gap: 64px;
+  align-items: start;
+}
+.eva-equipment-intro .eva-equipment-eyebrow { grid-column: 1 / -1; }
+.eva-equipment-section h2 {
+  margin: 0;
+  font-size: clamp(30px, 3.2vw, 46px);
+  font-weight: 300;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: #1d1c1a;
+}
+.eva-equipment-intro-copy p {
+  margin: 0 0 16px;
+  font-size: 17px;
+  line-height: 1.8;
+  color: #4a4740;
+}
+.eva-equipment-highlights {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin: 64px 0 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid #e4dccb;
+  border-bottom: 1px solid #e4dccb;
+}
+.eva-equipment-highlights li {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 28px 24px;
+}
+.eva-equipment-highlights li + li { border-left: 1px solid #e4dccb; }
+.eva-equipment-highlight-value {
+  font-size: clamp(22px, 2vw, 30px);
+  font-weight: 300;
+  color: #1d1c1a;
+}
+.eva-equipment-highlight-label {
+  font-size: 14px;
+  color: #6b665b;
+}
+.eva-equipment-experience {
+  max-width: 760px;
+  margin: 96px auto 72px;
+  text-align: center;
+}
+.eva-equipment-section h3 {
+  margin: 0 0 16px;
+  font-size: clamp(24px, 2.2vw, 34px);
+  font-weight: 400;
+  line-height: 1.25;
+  color: #1d1c1a;
+}
+.eva-equipment-experience p {
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.8;
+  color: #4a4740;
+}
+.eva-equipment-features {
+  display: flex;
+  flex-direction: column;
+  gap: 112px;
   margin: 0;
   padding: 0;
   list-style: none;
 }
-.eva-equipment-card {
-  display: flex;
-  flex-direction: column;
+.eva-equipment-feature {
+  display: grid;
+  grid-template-columns: minmax(0, 58fr) minmax(0, 42fr);
+  gap: 72px;
+  align-items: center;
+}
+.eva-equipment-feature:nth-child(even) .eva-equipment-figure { order: 2; }
+.eva-equipment-figure { margin: 0; }
+.eva-equipment-photo {
   overflow: hidden;
-  background: #18181a;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
-  transition: transform 0.2s ease, border-color 0.2s ease;
+  border-radius: 6px;
+  background: #e9e2d3;
+  box-shadow: 0 30px 60px -30px rgba(43, 36, 20, 0.35), 0 2px 6px rgba(43, 36, 20, 0.06);
 }
-.eva-equipment-card:hover {
-  transform: translateY(-2px);
-  border-color: rgba(255, 255, 255, 0.22);
-}
-.eva-equipment-media {
-  position: relative;
-  aspect-ratio: 4 / 3;
-  overflow: hidden;
-  background: #181818;
-}
-.eva-equipment-media img {
-  position: absolute;
-  inset: 0;
+.eva-equipment-photo img {
   display: block;
   width: 100%;
-  height: 100%;
-}
-.eva-equipment-media--product img {
-  inset: 20px;
-  width: calc(100% - 40px);
-  height: calc(100% - 40px);
-  object-fit: contain;
-}
-.eva-equipment-media--photo img {
+  height: auto;
+  aspect-ratio: 4 / 3;
   object-fit: cover;
+  transition: transform 1.2s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
-.eva-equipment-body {
-  padding: 18px 20px 22px;
+.eva-equipment-feature:hover .eva-equipment-photo img { transform: scale(1.03); }
+.eva-equipment-figure figcaption {
+  margin-top: 12px;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: #847e70;
 }
-.eva-equipment-body h3,
-body:not(.page-blog) .block--darkbg .eva-equipment-body h3 {
-  margin: 0 0 6px;
-  font-size: 18px;
-  line-height: 1.3;
-  color: #fff;
+.eva-equipment-figure figcaption a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
-.equiment-bg .eva-equipment-body p {
+.eva-equipment-role span {
+  margin-right: 12px;
+  color: #b1a88f;
+}
+.eva-equipment-desc {
+  margin: 0 0 20px;
+  font-size: 17px;
+  line-height: 1.8;
+  color: #4a4740;
+}
+.eva-equipment-workflow {
   margin: 0;
-  font-size: 15px;
-  line-height: 1.55;
-  color: rgba(255, 255, 255, 0.72);
+  padding-left: 18px;
+  border-left: 2px solid #70b615;
+  font-size: 15.5px;
+  line-height: 1.7;
+  color: #3a3832;
 }
-@media (min-width: 768px) {
-  .eva-equipment-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.eva-equipment-workflow strong { font-weight: 600; color: #1d1c1a; }
+.eva-equipment-note {
+  margin: 96px 0 0;
+  text-align: center;
+  font-size: 13px;
+  color: #847e70;
 }
-@media (min-width: 1200px) {
-  .eva-equipment-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+.eva-equipment-section a:focus-visible {
+  outline: 2px solid #4f7f10;
+  outline-offset: 2px;
+}
+/* Fade-up on scroll (only armed by JS once below the fold) */
+.eva-reveal[data-reveal] {
+  transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.eva-reveal[data-reveal="pending"] {
+  opacity: 0;
+  transform: translateY(32px);
+}
+@media (prefers-reduced-motion: reduce) {
+  .eva-reveal[data-reveal] { opacity: 1; transform: none; transition: none; }
+  .eva-equipment-photo img { transition: none; }
+  .eva-equipment-feature:hover .eva-equipment-photo img { transform: none; }
 }
 @media (max-width: 991px) {
-  .block.eva-equipment-section {
-    padding-top: 56px;
-    padding-bottom: 64px;
-  }
+  .eva-equipment-section { padding: 64px 0 80px; }
+  .eva-equipment-intro { grid-template-columns: 1fr; row-gap: 24px; }
+  .eva-equipment-highlights { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .eva-equipment-highlights li:nth-child(3) { border-left: 0; }
+  .eva-equipment-highlights li:nth-child(n + 3) { border-top: 1px solid #e4dccb; }
+  .eva-equipment-experience { margin: 64px auto 48px; }
+  .eva-equipment-features { gap: 72px; }
+  .eva-equipment-feature { grid-template-columns: 1fr; gap: 28px; }
+  .eva-equipment-feature:nth-child(even) .eva-equipment-figure { order: 0; }
+  .eva-equipment-note { margin-top: 64px; }
 }
 @media (max-width: 767px) {
-  .block.eva-equipment-section {
-    padding-top: 40px;
-    padding-bottom: 48px;
-  }
-  .eva-equipment-inner { padding-inline: 16px; }
-}
-@media (max-width: 479px) {
-  .eva-equipment-grid { grid-template-columns: 1fr; }
-  .eva-equipment-intro { margin-bottom: 32px; }
-  .eva-equipment-grid {
-    gap: 16px;
-  }
+  .eva-equipment-section { padding: 48px 0 64px; }
+  .eva-equipment-inner { padding-inline: 20px; }
+  .eva-equipment-highlights { margin-top: 40px; }
+  .eva-equipment-highlights li { padding: 20px 14px; }
+  .eva-equipment-features { gap: 56px; }
 }
 
 .eva-thank-you-actions {

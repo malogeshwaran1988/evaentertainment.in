@@ -20,68 +20,129 @@ export const EQUIPMENT_CONTENT = {
   ],
 };
 
+export const EQUIPMENT_EXPERIENCE = {
+  eyebrow: "The studio experience",
+  heading: "A calm, quiet room built around your voice",
+  intro:
+    "Every session runs through the same professional chain: isolated booths for the artist, studio-grade microphones, accurate monitoring and a Pro Tools workflow our engineers have refined over more than a decade.",
+  highlights: [
+    { value: "13+", label: "Years of industry experience" },
+    { value: "Soundproof", label: "Separate studios for artists" },
+    { value: "5.1", label: "Surround mixing" },
+    { value: "Multi-track", label: "Digital recording facility" },
+  ],
+};
+
 export type EquipmentItem = {
   id: string;
+  /** Small label above the name, e.g. the stage of the workflow. */
+  role: string;
   name: string;
   description: string;
+  workflow: string;
   image: string;
   alt: string;
   width: number;
   height: number;
-  /** "photo" fills the frame; "product" is a cut-out shown whole. */
-  fit: "photo" | "product";
+  /** Generic caption: these are representative photos, not EVA's own rooms. */
+  caption: string;
+  credit: { author: string; license: string; source: string };
 };
 
-/** Generic brand labels only: images are representative, not a claim of exact models. */
+/** Representative photos from Wikimedia Commons (licences below); not photos of EVA's studio. */
 export const EQUIPMENT_ITEMS: EquipmentItem[] = [
   {
     id: "pro-tools",
+    role: "Recording & editing",
     name: "Avid Pro Tools",
-    description: "Industry-standard recording and editing, with extra plug-ins for mixing and clean-up.",
-    image: "/images/equipment/pro-tools.avif",
-    alt: "Pro Tools editing window showing multitrack audio waveforms",
-    width: 800,
-    height: 400,
-    fit: "photo",
+    description:
+      "The industry-standard workstation for film and television audio, extended with extra plug-ins for mixing, clean-up and finishing.",
+    workflow: "Every take is recorded, edited, synced to picture and mixed in Pro Tools, up to 5.1 delivery.",
+    image: "/images/equipment/pro-tools-studio.avif",
+    alt: "Control room with a Pro Tools console, studio monitors and a large mixing desk",
+    width: 1400,
+    height: 1050,
+    caption: "A Pro Tools 5.1 mixing room in a professional studio",
+    credit: {
+      author: "Will Fisher",
+      license: "CC BY-SA 2.0",
+      source:
+        "https://commons.wikimedia.org/wiki/File:5.1_mixing_room_for_Radio,_TV,_and_Film_production,_equipt_with_AVID_Pro_Tools_including_ICON_D-Command_-_Control_Room_B,_In_Your_Ear_Studios.jpg",
+    },
   },
   {
     id: "neumann",
+    role: "Dialogue & vocals",
     name: "Neumann studio microphones",
-    description: "Large-diaphragm condenser mics for clear, natural dialogue and vocals.",
-    image: "/images/equipment/neumann.avif",
-    alt: "Neumann large-diaphragm condenser studio microphone",
-    width: 205,
-    height: 720,
-    fit: "product",
+    description:
+      "Large-diaphragm condenser microphones known for a clear, natural and detailed sound that flatters every voice.",
+    workflow: "Our first choice for lip-sync dubbing, where every breath and nuance of the performance matters.",
+    image: "/images/equipment/neumann-studio.avif",
+    alt: "Neumann condenser microphone in a shock mount, close up in a recording studio",
+    width: 1400,
+    height: 1050,
+    caption: "A Neumann microphone in a professional recording studio",
+    credit: {
+      author: "Will Fisher",
+      license: "CC BY-SA 2.0",
+      source:
+        "https://commons.wikimedia.org/wiki/File:Neumann_U87_Condenser_Microphone_-_Studio_A,_In_Your_Ear_Studios.jpg",
+    },
   },
   {
     id: "rode",
+    role: "Voice-over",
     name: "Rode microphones",
-    description: "Low-noise condenser mics with pop filters for voice-over and dubbing sessions.",
-    image: "/images/equipment/rode.avif",
-    alt: "Rode condenser microphone in a shock mount with pop filter",
-    width: 398,
-    height: 453,
-    fit: "product",
+    description:
+      "Low-noise condenser microphones paired with pop filters for a clean, consistent voice in every line.",
+    workflow: "Used in our soundproof booths for voice-over, narration and long dubbing sessions.",
+    image: "/images/equipment/rode-studio.avif",
+    alt: "Rode condenser microphone with a pop filter and acoustic reflection filter",
+    width: 1400,
+    height: 1050,
+    caption: "A Rode microphone with pop and reflection filters in a vocal booth",
+    credit: {
+      author: "Tim Sheerman-Chase",
+      license: "CC BY 2.0",
+      source:
+        "https://commons.wikimedia.org/wiki/File:Condenser_Microphone_with_Pop_Filter_and_Reflection_Filter.jpg",
+    },
   },
   {
     id: "genelec",
+    role: "Monitoring",
     name: "Genelec studio monitors",
-    description: "Accurate active monitors for precise mixing and quality checks.",
-    image: "/images/equipment/genelec.avif",
-    alt: "Genelec active studio monitor speaker",
-    width: 701,
-    height: 720,
-    fit: "product",
+    description:
+      "Precise active monitors that reveal exactly what is in the mix, with nothing added and nothing hidden.",
+    workflow: "Engineers mix and quality-check every reel on Genelec monitors before delivery.",
+    image: "/images/equipment/genelec-studio.avif",
+    alt: "Close-up of a Genelec active studio monitor",
+    width: 1400,
+    height: 1050,
+    caption: "A Genelec active studio monitor",
+    credit: {
+      author: "Tumi-1983",
+      license: "CC BY-SA 3.0",
+      source: "https://commons.wikimedia.org/wiki/File:Genelec_8030A_activespeaker.jpg",
+    },
   },
   {
     id: "yamaha",
+    role: "Reference listening",
     name: "Yamaha studio monitors",
-    description: "Flat-response speakers for a second, honest reference while mixing.",
-    image: "/images/equipment/yamaha.avif",
-    alt: "Yamaha studio monitor speaker with white woofer",
-    width: 491,
-    height: 720,
-    fit: "product",
+    description:
+      "Honest, flat-response speakers that show how a mix will translate to everyday listening.",
+    workflow: "A second reference so dialogue, music and effects sit right on any screen or speaker.",
+    image: "/images/equipment/yamaha-studio.avif",
+    alt: "Yamaha studio monitor on top of a mixing console in a control room",
+    width: 1400,
+    height: 1050,
+    caption: "Yamaha studio monitors on a mixing console in a professional control room",
+    credit: {
+      author: "Audio Mix House",
+      license: "CC BY 2.0",
+      source:
+        "https://commons.wikimedia.org/wiki/File:Yamaha_NS-10_monitor_at_Audio_Mix_House,_Studio_C_(13430679745).jpg",
+    },
   },
 ];
