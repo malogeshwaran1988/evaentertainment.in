@@ -3932,10 +3932,127 @@ body:not(.page-blog) .block--darkbg h3.eva-service-ideal-title,
   }
 }
 
+/* /studio-equipment: main is flex-1 in the layout, so on tall screens it grew past the
+   section and showed its white background above the footer. Let the dark section fill it. */
+.flex-1:has(> .page-main.eva-equipment-page) {
+  display: flex;
+  flex-direction: column;
+}
+.page-main.eva-equipment-page {
+  display: flex;
+  flex: 1 0 auto;
+  flex-direction: column;
+}
 .block.eva-equipment-section {
+  flex: 1 0 auto;
   margin-bottom: 0;
-  padding-top: 80px;
-  padding-bottom: 80px;
+  padding-top: 72px;
+  padding-bottom: 88px;
+  background-attachment: scroll;
+  box-shadow: inset 0 0 0 100vmax rgba(10, 10, 12, 0.82);
+}
+.eva-equipment-inner {
+  max-width: 1536px;
+  margin-inline: auto;
+  padding-inline: 32px;
+}
+.eva-equipment-intro {
+  max-width: 70ch;
+  margin-bottom: 48px;
+}
+.eva-equipment-intro h2 {
+  margin: 0 0 20px;
+}
+.eva-equipment-intro p {
+  margin: 0 0 14px;
+  font-size: 17px;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.86);
+}
+.eva-equipment-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.eva-equipment-card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: #18181a;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+.eva-equipment-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.22);
+}
+.eva-equipment-media {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: #181818;
+}
+.eva-equipment-media img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.eva-equipment-media--product img {
+  inset: 20px;
+  width: calc(100% - 40px);
+  height: calc(100% - 40px);
+  object-fit: contain;
+}
+.eva-equipment-media--photo img {
+  object-fit: cover;
+}
+.eva-equipment-body {
+  padding: 18px 20px 22px;
+}
+.eva-equipment-body h3,
+body:not(.page-blog) .block--darkbg .eva-equipment-body h3 {
+  margin: 0 0 6px;
+  font-size: 18px;
+  line-height: 1.3;
+  color: #fff;
+}
+.equiment-bg .eva-equipment-body p {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.72);
+}
+@media (min-width: 768px) {
+  .eva-equipment-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (min-width: 1200px) {
+  .eva-equipment-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+}
+@media (max-width: 991px) {
+  .block.eva-equipment-section {
+    padding-top: 56px;
+    padding-bottom: 64px;
+  }
+}
+@media (max-width: 767px) {
+  .block.eva-equipment-section {
+    padding-top: 40px;
+    padding-bottom: 48px;
+  }
+  .eva-equipment-inner { padding-inline: 16px; }
+}
+@media (max-width: 479px) {
+  .eva-equipment-grid { grid-template-columns: 1fr; }
+  .eva-equipment-intro { margin-bottom: 32px; }
+  .eva-equipment-grid {
+    gap: 16px;
+  }
 }
 
 .eva-thank-you-actions {

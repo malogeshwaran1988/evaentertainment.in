@@ -4,6 +4,7 @@ import { Routes } from "@@/constants/routes";
 import { buildPageMetadata } from "@@/lib/seo";
 import {
   EQUIPMENT_CONTENT,
+  EQUIPMENT_ITEMS,
   EQUIPMENT_OG_IMAGE,
   EQUIPMENT_OG_IMAGE_ALT,
   EQUIPMENT_PAGE_URL,
@@ -27,7 +28,7 @@ export default function EquipmentPage() {
   };
 
   return (
-    <main id="main-content" tabIndex={-1} className="page-main">
+    <main id="main-content" tabIndex={-1} className="page-main eva-equipment-page">
       <link
         rel="preload"
         as="image"
@@ -42,19 +43,43 @@ export default function EquipmentPage() {
         className="bottom-null"
       />
 
-      <section className="block equiment-bg eva-equipment-section">
-        <div className="container">
-          <h2 className="heading-as-h4" style={{ marginBottom: 30 }}>
-            {EQUIPMENT_CONTENT.heading}
-          </h2>
-          <div className="row">
-            <div className="divider visible-xs visible-sm" />
-            <div className="col-md-7">
-              {EQUIPMENT_CONTENT.paragraphs.map((p) => (
-                <p key={p.slice(0, 40)}>{p}</p>
-              ))}
-            </div>
+      <section
+        className="block equiment-bg eva-equipment-section"
+        aria-labelledby="equipment-heading"
+      >
+        <div className="eva-equipment-inner">
+          <div className="eva-equipment-intro">
+            <h2 id="equipment-heading" className="heading-as-h4">
+              {EQUIPMENT_CONTENT.heading}
+            </h2>
+            {EQUIPMENT_CONTENT.paragraphs.map((p) => (
+              <p key={p.slice(0, 40)}>{p}</p>
+            ))}
           </div>
+
+          <ul className="eva-equipment-grid" aria-label="Studio equipment">
+            {EQUIPMENT_ITEMS.map((item) => (
+              <li key={item.id} className="eva-equipment-card">
+                <div
+                  className={`eva-equipment-media eva-equipment-media--${item.fit}`}
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element -- pre-optimised AVIF, served as-is */}
+                  <img
+                    src={item.image}
+                    alt={item.alt}
+                    width={item.width}
+                    height={item.height}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </div>
+                <div className="eva-equipment-body">
+                  <h3>{item.name}</h3>
+                  <p>{item.description}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
     </main>
