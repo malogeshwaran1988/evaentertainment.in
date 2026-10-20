@@ -69,7 +69,8 @@ export type NavItem = { label: string; href: string; children?: readonly Service
 export const NAV_ITEMS: NavItem[] = [
   { label: "HOME", href: Routes.HOME },
   { label: "ABOUT", href: Routes.ABOUT },
-  { label: "SERVICES", href: WHAT_WE_DO_HREF, children: SERVICE_SLUGS },
+  // Parent links to the flagship service page: "/" would duplicate HOME (React key clash) and # URLs are not allowed.
+  { label: "SERVICES", href: serviceHref("dubbing-studio"), children: SERVICE_SLUGS },
   { label: "OUR PROJECTS", href: Routes.PROJECTS },
   { label: "OUR CLIENTS", href: Routes.CLIENTS },
   { label: "EQUIPMENT", href: Routes.EQUIPMENT },
