@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { Routes } from "@@/constants/routes";
 import styles from "./ContactCta.module.scss";
 import CtaLanguageCycle from "./CtaLanguageCycle";
+import { getYearsOfExperienceLabel } from "@@/constants/experience";
 
 /** Paths (and prefixes) where the sitewide Contact CTA is hidden. 404 is hidden via CSS (`.eva-404`). */
 const HIDDEN_PREFIXES = [Routes.CONTACT, Routes.THANK_YOU, "/preview"];
@@ -53,8 +54,8 @@ export default function ContactCta({
                 Get My Dubbing Quote
               </span>
             </Link>
-            <p className="p--sm">
-              13+ years of studio experience
+            <p className="p--sm" suppressHydrationWarning>
+              {getYearsOfExperienceLabel()} years of studio experience
             </p>
           </div>
         </div>

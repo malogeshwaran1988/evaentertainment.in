@@ -1,4 +1,5 @@
 import { APP_BASE_URL } from "@@/constants/constants";
+import { getYearsOfExperience, getYearsOfExperienceLabel } from "@@/constants/experience";
 
 export const EQUIPMENT_PAGE_URL = `${APP_BASE_URL}/studio-equipment`;
 export const EQUIPMENT_OG_IMAGE = "/images/og/equipment.jpg";
@@ -16,7 +17,7 @@ export const EQUIPMENT_CONTENT = {
   paragraphs: [
     "We use Pro Tools with extra plug-ins, Neumann and Rode microphones, and Genelec and Yamaha speakers.",
     "The studio is designed to allow flexibility to accommodate the demands of various audio recording situations.",
-    "With over 13 years of industry experience, our engineers are capable of meeting the needs of your recording project - however large or small. With state-of-the-art equipment, separate soundproof studios for artists and multi-track digital recording facility, we undertake all types of recordings, dubbing etc.",
+    `With over ${getYearsOfExperience()} years of industry experience, our engineers are capable of meeting the needs of your recording project - however large or small. With state-of-the-art equipment, separate soundproof studios for artists and multi-track digital recording facility, we undertake all types of recordings, dubbing etc.`,
   ],
 };
 
@@ -25,7 +26,7 @@ export const EQUIPMENT_EXPERIENCE = {
   intro:
     "Every session runs through the same professional chain: isolated booths for the artist, studio-grade microphones, accurate monitoring and a Pro Tools workflow our engineers have refined over more than a decade.",
   highlights: [
-    { icon: "icon-clock", value: "13+ years", label: "Of industry experience" },
+    { icon: "icon-clock", value: `${getYearsOfExperienceLabel()} years`, label: "Of industry experience" },
     { icon: "icon-mic-3", value: "Soundproof", label: "Separate studios for artists" },
     { icon: "icon-sound-on", value: "5.1", label: "Surround mixing" },
     { icon: "icon-music-equalizer", value: "Multi-track", label: "Digital recording facility" },

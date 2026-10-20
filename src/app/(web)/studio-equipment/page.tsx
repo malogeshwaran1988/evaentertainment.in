@@ -14,6 +14,9 @@ import {
   EQUIPMENT_SEO,
 } from "@@/data/equipment";
 
+/** Re-render daily so the auto-computed years-of-experience figure stays current. */
+export const revalidate = 86400;
+
 export const metadata = buildPageMetadata({
   ...EQUIPMENT_SEO,
   url: EQUIPMENT_PAGE_URL,
