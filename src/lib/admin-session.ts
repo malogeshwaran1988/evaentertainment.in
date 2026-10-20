@@ -9,6 +9,7 @@ export const AdminRoutes = {
   PROFILE: "/admin/profile",
   BLOG: "/admin/blog",
   BLOG_NEW: "/admin/blog/new",
+  FOUNDER: "/admin/founder",
 } as const;
 
 export const projectEditPath = (id: string) =>
