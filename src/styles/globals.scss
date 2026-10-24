@@ -5213,3 +5213,28 @@ button.eva-svc-poster { width: 100%; padding: 0; border: 0; background: none; te
 html:not(.eva-bg-ready) .home-page > .eva-what-we-do {
   background-image: none;
 }
+
+/* ---- Header legibility over any background (light or dark sections) ----
+   The bar used to be fully transparent, so white nav text vanished over white
+   sections. A near-opaque dark bar keeps white nav (>= 15:1) and the green
+   CTA readable everywhere; blur softens content passing underneath. */
+.header .header-wrap,
+.header.header--transparent .header-wrap,
+.header.is-sticky .header-wrap {
+  background: rgba(18, 18, 20, 0.92) !important;
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.header.is-sticky .header-wrap {
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.28);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .header .header-wrap,
+  .header.is-sticky .header-wrap {
+    transition: none;
+  }
+}
