@@ -10,7 +10,16 @@ export type ServiceVideo = {
 };
 /** Optional sound effect looped in sync with a ServiceVideo; muted until the visitor turns it on. */
 export type ServiceSfx = { webm: string; m4a: string; label: string };
-export type ServicePhoto = { src: string; alt: string; fx: ImageFx; video?: ServiceVideo; sfx?: ServiceSfx; showcase?: "voices" };
+export type ServicePhoto = {
+  src: string;
+  alt: string;
+  fx: ImageFx;
+  video?: ServiceVideo;
+  sfx?: ServiceSfx;
+  showcase?: "voices";
+  /** Crisp HTML overlay drawn over the photo (see components/services). */
+  overlay?: "translation-delivery";
+};
 
 const photo = (id: string, alt: string): ServicePhoto => ({
   src: `/images/services/svc-${id}.avif`,
@@ -65,7 +74,12 @@ export const SERVICE_MEDIA: Record<string, ServicePhoto> = {
   "sub-workflow": photo("sub-workflow", "Indian subtitler timing an English subtitle to the dialogue waveform on a subtitle timeline, with cue blocks and timecodes under a web series scene"),
   "sub-formats": photo("sub-formats", "Laptop exporting SRT, VTT and STL subtitle files beside a hard drive, with an Indian TV series playing with Hindi subtitles on the wall TV"),
   "tr-transcreation": photo("tr-transcreation", "Indian writers reworking dialogue together around a table with notes and a laptop"),
-  "translation-lead": photo("translation-lead", "Indian translator adapting a film script on a laptop beside a picture monitor"),
+  "translation-lead": {
+    src: "/images/services/svc-translation-delivery.avif",
+    alt: "Indian script writer in a Mumbai studio adapting a printed script into Hindi subtitles on a subtitle editor, with a film playing with Hindi subtitles on the wall TV and a streaming grid of movies and series beside it",
+    fx: { width: 1440, height: 1080, items: [] },
+    overlay: "translation-delivery",
+  },
   "vo-studio": photo("vo-studio", "Indian voice-over artist reading a script at a microphone in a soundproof booth"),
   "vo-voices": {
     src: "/media/voices/male-poster.avif",

@@ -1,0 +1,123 @@
+// Same cover-crop maths as .eva-fx-stage so every item stays on the spot it was measured on.
+.stage {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 1;
+  width: max(100cqw, 100cqh * 1.3333);
+  aspect-ratio: 4 / 3;
+  translate: -50% -50%;
+  container-type: inline-size;
+  pointer-events: none;
+
+  @media (min-width: 768px) {
+    top: 0;
+    left: 0;
+    translate: none;
+  }
+}
+
+// Subtitle band of the wall TV (screen spans x 58–97%, picture bottom ~44%).
+.subtitle {
+  position: absolute;
+  top: 38.6%;
+  left: 77.6%;
+  translate: -50% 0;
+  padding: 0.25cqw 0.8cqw;
+  background: rgba(0, 0, 0, 0.72);
+  color: #fff;
+  font-size: 1.75cqw;
+  font-weight: 600;
+  line-height: 1.3;
+  white-space: nowrap;
+
+  span {
+    display: inline-block;
+    clip-path: inset(0 100% 0 0);
+    animation: type 6s steps(24, end) infinite;
+  }
+}
+
+// Text cursor on the subtitle editor's cue track.
+.cursor {
+  position: absolute;
+  top: 58%;
+  left: 52.5%;
+  width: 0.22cqw;
+  height: 2.4cqw;
+  background: #fff;
+  animation: blink 1s steps(2, jump-none) infinite;
+}
+
+// Soft highlight on the streaming grid, as if a new title just landed.
+.tile {
+  position: absolute;
+  top: 32%;
+  left: 13.5%;
+  width: 4cqw;
+  height: 5cqw;
+  border-radius: 0.3cqw;
+  box-shadow: 0 0 0 0.25cqw rgba(140, 200, 60, 0.9), 0 0 2cqw rgba(140, 200, 60, 0.6);
+  animation: pulse 6s ease-in-out infinite;
+}
+
+.chips {
+  position: absolute;
+  right: 3%;
+  bottom: 4%;
+  display: flex;
+  gap: 0.8cqw;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    padding: 0.5cqw 1.2cqw;
+    border-radius: 2cqw;
+    background: rgba(17, 17, 17, 0.82);
+    border: 1px solid rgba(140, 200, 60, 0.85);
+    color: #fff;
+    font-size: 1.7cqw;
+    font-weight: 600;
+    animation: chip 6s ease-in-out infinite;
+    animation-delay: calc(var(--i) * 0.6s);
+  }
+}
+
+@keyframes type {
+  0%,
+  8% { clip-path: inset(0 100% 0 0); }
+  45%,
+  90% { clip-path: inset(0 0 0 0); }
+  100% { clip-path: inset(0 0 0 0); opacity: 0; }
+}
+
+@keyframes blink {
+  0% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+@keyframes pulse {
+  0%,
+  100% { opacity: 0; }
+  50% { opacity: 1; }
+}
+
+@keyframes chip {
+  0%,
+  100% { border-color: rgba(140, 200, 60, 0.4); }
+  20% { border-color: rgba(140, 200, 60, 1); background: rgba(60, 90, 20, 0.9); }
+  40% { border-color: rgba(140, 200, 60, 0.4); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .subtitle span,
+  .cursor,
+  .tile,
+  .chips li {
+    animation: none;
+  }
+
+  .subtitle span { clip-path: none; }
+  .tile { opacity: 0; }
+}

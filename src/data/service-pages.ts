@@ -1392,7 +1392,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
           },
           {
             t: "p",
-            text: "Subtitles are limited by reading speed and line length, so translation here means condensing without losing meaning. Our subtitlers translate and time together. See [subtitling services](/subtitling-services).",
+            text: "Subtitles for movies, TV series and web series are limited by reading speed and line length, so translation here means condensing without losing meaning. Our subtitlers translate and time together. See [subtitling services](/subtitling-services).",
           },
         ],
       },

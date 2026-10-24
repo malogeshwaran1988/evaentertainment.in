@@ -227,10 +227,6 @@ export const PHOTO_FX: Record<string, ImageFx> = {
     { kind: "glow", x: 80, y: 20, size: 10, color: WARM, delay: 1 },
     { kind: "playhead", x: 25, y: 70, w: 18, h: 12 },
   ]),
-  "translation-lead": P([
-    { kind: "cursor", x: 63, y: 58, h: 4 },
-    { kind: "caption", x: 76, y: 46, w: 18, h: 2 },
-  ]),
   "vo-studio": P([
     { kind: "waves", x: 72, y: 55, size: 12, side: "left" },
     { kind: "glow", x: 77, y: 25, size: 18, color: BLUE, delay: 0.5 },
