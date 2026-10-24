@@ -31,19 +31,17 @@ export const SERVICE_MEDIA: Record<string, ServicePhoto> = {
   "foley-lead": photo("foley-lead", "Foley artist in rubber boots performing footsteps on a Foley pit", "M.m.mayer", "CC BY-SA 3.0", "wiki/File:Ger%C3%A4uschemacher.jpg"),
   "foley-what": {
     src: "/media/foley/ball-poster.avif",
-    alt: "Foley artist in a studio dropping a ball that bounces across the wooden floor in front of a microphone",
-    fx: { width: 4, height: 3, items: [] },
-    video: { webm: "/media/foley/ball.webm", mp4: "/media/foley/ball.mp4" },
-    // Synthesised in-house with ffmpeg (no third-party audio), timed to the bounces in the clip.
-    sfx: { webm: "/media/foley/ball-sfx.webm", m4a: "/media/foley/ball-sfx.m4a", label: "ball bounce sound" },
+    alt: "Foley artist in a studio dropping a red ball that bounces on a wooden Foley table in front of a microphone",
+    fx: { width: 16, height: 9, items: [] },
+    // Sound generated together with the picture, so each bounce lands on its impact frame.
+    video: { webm: "/media/foley/ball.webm", mp4: "/media/foley/ball.mp4", audio: "ball bounce sound" },
   },
   "foley-studio": {
     src: "/media/foley/glass-poster.avif",
-    alt: "A glass dropped beside a condenser microphone shattering on the studio floor",
-    fx: { width: 4, height: 3, items: [] },
-    video: { webm: "/media/foley/glass.webm", mp4: "/media/foley/glass.mp4" },
-    // Synthesised in-house with ffmpeg (no third-party audio), timed to the impact in the clip.
-    sfx: { webm: "/media/foley/glass-sfx.webm", m4a: "/media/foley/glass-sfx.m4a", label: "glass breaking sound" },
+    alt: "Foley artist dropping a glass that shatters on a concrete surface beside a condenser microphone",
+    fx: { width: 16, height: 9, items: [] },
+    // Sound generated together with the picture, so the shatter lands on the impact frame.
+    video: { webm: "/media/foley/glass.webm", mp4: "/media/foley/glass.mp4", audio: "glass breaking sound" },
   },
   "mix-problems": photo("mix-problems", "Engineer working at a large analogue mixing console in a control room", "Matt Girling", "CC BY-SA 3.0", "w/index.php?curid=24442256"),
   "mix51-lead": photo("mix51-lead", "Dolby Atmos mix room with a mixing console and surround and ceiling speakers", "TVN Group", "CC BY-SA 4.0", "wiki/File:2017_03_31_Dolby_Atmos_Studio_TVN_Group.jpg"),
