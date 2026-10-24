@@ -1,3 +1,4 @@
+import { inline } from "@@/components/services/RichText";
 import type { Service } from "@@/data/services";
 
 export default function ServiceFaq({ faqs }: { faqs: Service["faqs"] }) {
@@ -12,7 +13,7 @@ export default function ServiceFaq({ faqs }: { faqs: Service["faqs"] }) {
           {faqs.map((faq, i) => (
             <details key={faq.q} className="eva-faq-item" open={i === 0}>
               <summary>{faq.q}</summary>
-              <p>{faq.a}</p>
+              <p>{inline(faq.a)}</p>
             </details>
           ))}
         </div>
