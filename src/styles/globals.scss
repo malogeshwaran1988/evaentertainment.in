@@ -5771,6 +5771,8 @@ form[aria-busy="true"] textarea {
 .eva-svc-photo-stage { position: absolute; inset: 0; animation: eva-kenburns 16s ease-in-out infinite alternate; will-change: transform; }
 .eva-svc-photo--alt .eva-svc-photo-stage { animation-name: eva-kenburns-alt; }
 .eva-svc-photo-stage img { object-fit: cover; }
+.eva-svc-photo-stage:has(.eva-svc-video) { animation: none; }
+.eva-svc-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; background: #181818; }
 .eva-reveal[data-inview="false"] .eva-svc-photo-stage,
 .eva-reveal[data-inview="false"] .eva-svc-photo-stage * { animation-play-state: paused; }
 .eva-svc-figure.eva-equipment-figure figcaption { color: #666; }

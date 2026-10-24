@@ -1,7 +1,8 @@
 import { HERO_FX, PHOTO_FX, SERVICE_FX, type ImageFx } from "@@/data/image-fx";
 
 export type PhotoCredit = { author: string; license: string; source: string };
-export type ServicePhoto = { src: string; alt: string; fx: ImageFx; credit?: PhotoCredit };
+export type ServiceVideo = { webm: string; mp4: string };
+export type ServicePhoto = { src: string; alt: string; fx: ImageFx; credit?: PhotoCredit; video?: ServiceVideo };
 
 const C = "https://commons.wikimedia.org/";
 const photo = (id: string, alt: string, author: string, license: string, source: string): ServicePhoto => ({
@@ -18,7 +19,12 @@ export const SERVICE_MEDIA: Record<string, ServicePhoto> = {
   workstation: { src: "/images/services/equipment-03.avif", alt: "Editing workstation with audio and video timelines on screen", fx: SERVICE_FX.workstation },
   preamps: { src: "/images/services/equipment-02.avif", alt: "Rack of microphone preamps used for voice recording", fx: SERVICE_FX.preamps },
   "dub-studio": photo("dub-studio", "Dubbing booth with a picture monitor, a condenser microphone and a script stand", "Andres Moreno", "CC BY 2.0", "wiki/File:Sala_de_doblaje.jpg"),
-  "dub-why": photo("dub-why", "Voice actor reading a script at a studio microphone in front of a screen", "Padan Art Group", "CC BY-SA 4.0", "w/index.php?curid=175169277"),
+  "dub-why": {
+    src: "/media/dubbing/lipsync-poster.avif",
+    alt: "Voice actor with headphones at a studio microphone, matching an emotional actor's lip movements on a projected screen",
+    fx: { width: 960, height: 720, items: [] },
+    video: { webm: "/media/dubbing/lipsync.webm", mp4: "/media/dubbing/lipsync.mp4" },
+  },
   "foley-lead": photo("foley-lead", "Foley artist in rubber boots performing footsteps on a Foley pit", "M.m.mayer", "CC BY-SA 3.0", "wiki/File:Ger%C3%A4uschemacher.jpg"),
   "foley-what": photo("foley-what", "Foley artist performing a sound close to a microphone in a Foley room", "Vancouver Film School", "CC BY 2.0", "wiki/File:Foley_Room_at_the_Sound_Design_Campus.jpg"),
   "foley-studio": photo("foley-studio", "Water poured into a glass in front of a condenser microphone to record Foley", "Hens Zimmerman", "CC BY 2.0", "wiki/File:Foleying_the_water_sound.jpg"),

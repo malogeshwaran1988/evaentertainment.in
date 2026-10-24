@@ -133,10 +133,6 @@ export const PHOTO_FX: Record<string, ImageFx> = {
     { kind: "waves", x: 55, y: 26, size: 14 },
     { kind: "glow", x: 15, y: 28, size: 16, color: WARM },
   ]),
-  "dub-why": P([
-    { kind: "waves", x: 67, y: 58, size: 13, side: "left" },
-    { kind: "glow", x: 34, y: 37, size: 12, color: BLUE, delay: 0.8 },
-  ]),
   "foley-lead": P([
     { kind: "pulse", x: 52, y: 55, size: 8 },
     { kind: "pulse", x: 60, y: 86, size: 8, delay: 0.6 },
