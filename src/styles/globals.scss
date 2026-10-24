@@ -5953,3 +5953,46 @@ button.eva-svc-poster { width: 100%; padding: 0; border: 0; background: none; te
 @media (prefers-reduced-motion: reduce) {
   .eva-poster-modal, .eva-poster-modal-box { animation: none; }
 }
+
+/* Service media: sound toggle (same look as the 5.1 SurroundExperience sound button) and voice showcase */
+.eva-media-sound {
+  position: absolute; z-index: 3; left: 12px; bottom: 12px;
+  min-height: 44px; min-width: 44px; display: inline-flex; align-items: center; gap: 8px; cursor: pointer;
+  font: 700 14px Raleway, sans-serif; color: #fff; background: rgba(0, 0, 0, 0.6); border: 2px solid rgba(255, 255, 255, 0.55);
+  border-radius: 999px; padding: 8px 16px;
+  &:hover, &:focus-visible { border-color: #70b615; color: #b6ff52; outline: none; box-shadow: 0 0 0 3px rgba(112, 182, 21, 0.45); }
+  &[aria-pressed="true"] { background: #70b615; border-color: #70b615; color: #111;
+    &:hover, &:focus-visible { color: #111; } }
+}
+.eva-voices { position: absolute; inset: 0; background: #181818; }
+.eva-voices-clip { opacity: 0; transition: opacity 0.6s ease; }
+.eva-voices-clip.is-active { opacity: 1; }
+.eva-voices-bar {
+  position: absolute; z-index: 3; left: 0; right: 0; bottom: 0; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 10px;
+  padding: 28px 12px 12px; background: linear-gradient(to top, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+}
+.eva-voices-pills { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+.eva-voices-pill {
+  min-height: 44px; display: inline-flex; align-items: center; gap: 6px; cursor: pointer; padding: 2px 16px 2px 4px;
+  font: 700 14px Raleway, sans-serif; color: #fff; background: rgba(0, 0, 0, 0.6); border: 2px solid rgba(255, 255, 255, 0.55); border-radius: 999px;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  &:hover, &:focus-visible { border-color: #70b615; color: #b6ff52; outline: none; box-shadow: 0 0 0 3px rgba(112, 182, 21, 0.45); }
+  &.is-active { border-color: #70b615; }
+  &[aria-pressed="true"] { background: #70b615; color: #111; &:hover, &:focus-visible { color: #111; } }
+}
+.eva-voices-ring { display: inline-flex; }
+.eva-voices-ring svg { transform: rotate(-90deg); }
+.eva-voices-ring path { transform: rotate(90deg); transform-origin: 18px 18px; }
+.eva-voices-ring-bg { fill: none; stroke: rgba(255, 255, 255, 0.25); stroke-width: 3; }
+.eva-voices-ring-fg { fill: none; stroke: #b6ff52; stroke-width: 3; stroke-linecap: round; transition: stroke-dashoffset 0.25s linear; }
+.eva-voices-pill[aria-pressed="true"] .eva-voices-ring-fg { stroke: #111; }
+.eva-voices-pill[aria-pressed="true"] .eva-voices-ring-bg { stroke: rgba(0, 0, 0, 0.25); }
+.eva-voices-pause { position: static; }
+@media (max-width: 480px) {
+  .eva-voices-pill, .eva-media-sound { font-size: 13px; }
+  .eva-voices-pill { padding-right: 12px; }
+  .eva-voices-bar { padding-top: 16px; gap: 6px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .eva-voices-clip, .eva-voices-ring-fg, .eva-voices-pill { transition: none; }
+}

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import ImageEffects from "@@/components/common/ImageEffects";
 import ServiceVideo from "@@/components/services/ServiceVideo";
+import VoiceShowcase from "@@/components/services/VoiceShowcase";
 import LivePhoto from "@@/components/equipment/LivePhoto";
 import { EQUIPMENT_ITEMS } from "@@/data/equipment";
 import { SERVICE_MEDIA } from "@@/data/service-media";
@@ -32,8 +33,10 @@ export default function ServiceMedia({ media, alt }: { media: string; alt: boole
         style={{ aspectRatio: `${m.fx.width} / ${m.fx.height}` }}
       >
         <div className="eva-svc-photo-stage">
-          {m.video ? (
-            <ServiceVideo video={m.video} poster={m.src} label={m.alt} />
+          {m.showcase === "voices" ? (
+            <VoiceShowcase />
+          ) : m.video ? (
+            <ServiceVideo video={m.video} poster={m.src} label={m.alt} sfx={m.sfx} />
           ) : (
             <>
               <Image src={m.src} alt={m.alt} fill sizes="(min-width: 992px) 55vw, 100vw" loading="lazy" />

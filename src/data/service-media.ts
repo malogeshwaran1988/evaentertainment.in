@@ -2,7 +2,9 @@ import { HERO_FX, PHOTO_FX, SERVICE_FX, type ImageFx } from "@@/data/image-fx";
 
 export type PhotoCredit = { author: string; license: string; source: string };
 export type ServiceVideo = { webm: string; mp4: string };
-export type ServicePhoto = { src: string; alt: string; fx: ImageFx; credit?: PhotoCredit; video?: ServiceVideo };
+/** Optional sound effect looped in sync with a ServiceVideo; muted until the visitor turns it on. */
+export type ServiceSfx = { webm: string; m4a: string; label: string };
+export type ServicePhoto = { src: string; alt: string; fx: ImageFx; credit?: PhotoCredit; video?: ServiceVideo; sfx?: ServiceSfx; showcase?: "voices" };
 
 const C = "https://commons.wikimedia.org/";
 const photo = (id: string, alt: string, author: string, license: string, source: string): ServicePhoto => ({
@@ -26,8 +28,22 @@ export const SERVICE_MEDIA: Record<string, ServicePhoto> = {
     video: { webm: "/media/dubbing/lipsync.webm", mp4: "/media/dubbing/lipsync.mp4" },
   },
   "foley-lead": photo("foley-lead", "Foley artist in rubber boots performing footsteps on a Foley pit", "M.m.mayer", "CC BY-SA 3.0", "wiki/File:Ger%C3%A4uschemacher.jpg"),
-  "foley-what": photo("foley-what", "Foley artist performing a sound close to a microphone in a Foley room", "Vancouver Film School", "CC BY 2.0", "wiki/File:Foley_Room_at_the_Sound_Design_Campus.jpg"),
-  "foley-studio": photo("foley-studio", "Water poured into a glass in front of a condenser microphone to record Foley", "Hens Zimmerman", "CC BY 2.0", "wiki/File:Foleying_the_water_sound.jpg"),
+  "foley-what": {
+    src: "/media/foley/ball-poster.avif",
+    alt: "Foley artist in a studio dropping a ball that bounces across the wooden floor in front of a microphone",
+    fx: { width: 4, height: 3, items: [] },
+    video: { webm: "/media/foley/ball.webm", mp4: "/media/foley/ball.mp4" },
+    // Synthesised in-house with ffmpeg (no third-party audio), timed to the bounces in the clip.
+    sfx: { webm: "/media/foley/ball-sfx.webm", m4a: "/media/foley/ball-sfx.m4a", label: "ball bounce sound" },
+  },
+  "foley-studio": {
+    src: "/media/foley/glass-poster.avif",
+    alt: "A glass dropped beside a condenser microphone shattering on the studio floor",
+    fx: { width: 4, height: 3, items: [] },
+    video: { webm: "/media/foley/glass.webm", mp4: "/media/foley/glass.mp4" },
+    // Synthesised in-house with ffmpeg (no third-party audio), timed to the impact in the clip.
+    sfx: { webm: "/media/foley/glass-sfx.webm", m4a: "/media/foley/glass-sfx.m4a", label: "glass breaking sound" },
+  },
   "mix-problems": photo("mix-problems", "Engineer working at a large analogue mixing console in a control room", "Matt Girling", "CC BY-SA 3.0", "w/index.php?curid=24442256"),
   "mix51-lead": photo("mix51-lead", "Dolby Atmos mix room with a mixing console and surround and ceiling speakers", "TVN Group", "CC BY-SA 4.0", "wiki/File:2017_03_31_Dolby_Atmos_Studio_TVN_Group.jpg"),
   "song-lead": photo("song-lead", "Singer with headphones smiling at a large-diaphragm microphone in a vocal booth", "Gabriela Jelonek", "CC BY-SA 4.0", "w/index.php?curid=129542105"),
@@ -42,5 +58,10 @@ export const SERVICE_MEDIA: Record<string, ServicePhoto> = {
   "tr-transcreation": photo("tr-transcreation", "Team arranging sticky notes on a table while reworking ideas", "Steveonmz", "CC BY-SA 4.0", "w/index.php?curid=61093066"),
   "translation-lead": photo("translation-lead", "Names handwritten in several Indian scripts", "Ramphrados", "CC BY-SA 3.0", "wiki/File:11_language_signature.JPG"),
   "vo-studio": photo("vo-studio", "Voice-over artist in a booth reading a script to picture", "Zingezang", "CC BY-SA 4.0", "wiki/File:Peter_de_Kroon_Voice-over.jpg"),
-  "vo-voices": photo("vo-voices", "Voice artist with headphones speaking into a studio microphone", "GrantBarrett", "CC BY-SA 4.0", "w/index.php?curid=124426332"),
+  "vo-voices": {
+    src: "/media/voices/male-poster.avif",
+    alt: "Indian voice artists, a man, a woman and a child, speaking at a studio microphone",
+    fx: { width: 4, height: 3, items: [] },
+    showcase: "voices",
+  },
 };
