@@ -1,6 +1,9 @@
 import Image from "next/image";
 import Link from "@@/components/common/NavLink";
 import ImageEffects from "@@/components/common/ImageEffects";
+import ServiceVideo from "@@/components/services/ServiceVideo";
+import TranslationDelivery from "@@/components/services/TranslationDelivery";
+import { SERVICE_MEDIA } from "@@/data/service-media";
 import InViewFx from "@@/components/common/InViewFx";
 import { inline } from "@@/components/services/RichText";
 import { Routes } from "@@/constants/routes";
@@ -16,6 +19,8 @@ export default function ServiceLead({
   service: Service;
   page: ServicePageContent;
 }) {
+  const media = Object.values(SERVICE_MEDIA).find((m) => m.src === service.image);
+  const video = media?.video;
   return (
     <section
       className="block bottom-null eva-svc-lead"
@@ -24,15 +29,22 @@ export default function ServiceLead({
       <div className="container">
         <div className="row row--half">
           <InViewFx className="half-bg-right eva-fx-host eva-fx-lazy">
-            <Image
-              src={service.image}
-              alt={service.alt}
-              fill
-              {...imageLoading(0)}
-              sizes="(min-width: 768px) 50vw, 100vw"
-              className="eva-half-bg-img"
-            />
-            <ImageEffects fx={service.fx} anchor="top-left" />
+            {video ? (
+              <ServiceVideo video={video} poster={service.image} label={service.alt} />
+            ) : (
+              <>
+                <Image
+                  src={service.image}
+                  alt={service.alt}
+                  fill
+                  {...imageLoading(0)}
+                  sizes="(min-width: 768px) 50vw, 100vw"
+                  className="eva-half-bg-img"
+                />
+                <ImageEffects fx={service.fx} anchor="top-left" />
+                {media?.overlay === "translation-delivery" ? <TranslationDelivery /> : null}
+              </>
+            )}
           </InViewFx>
           <div className="col-sm-6">
             <h2

@@ -1,7 +1,13 @@
 import { PHOTO_FX, SERVICE_FX, type ImageFx } from "@@/data/image-fx";
 
 /** `audio` labels a clip that carries its own soundtrack; it plays muted until the visitor turns sound on. */
-export type ServiceVideo = { webm: string; mp4: string; audio?: string };
+export type ServiceVideo = {
+  webm: string;
+  mp4: string;
+  audio?: string;
+  /** Try to play with sound when in view; if the browser blocks it, play muted with a pulsing "Tap for sound" button. */
+  autoSound?: boolean;
+};
 /** Optional sound effect looped in sync with a ServiceVideo; muted until the visitor turns it on. */
 export type ServiceSfx = { webm: string; m4a: string; label: string };
 export type ServicePhoto = { src: string; alt: string; fx: ImageFx; video?: ServiceVideo; sfx?: ServiceSfx; showcase?: "voices" };
@@ -25,7 +31,13 @@ export const SERVICE_MEDIA: Record<string, ServicePhoto> = {
     fx: { width: 960, height: 720, items: [] },
     video: { webm: "/media/dubbing/lipsync.webm", mp4: "/media/dubbing/lipsync.mp4", audio: "voice actor dubbing the scene" },
   },
-  "foley-lead": photo("foley-lead", "Indian Foley artist stepping on a gravel pit in a small Mumbai studio while recording footsteps"),
+  "foley-lead": {
+    src: "/media/foley/foley-lead-poster.avif",
+    alt: "Indian Foley artist in sandals stepping on gravel and wooden boards under a microphone, as the camera slowly reveals Foley props on the studio shelves",
+    fx: { width: 4, height: 3, items: [] },
+    // Footstep sounds placed on the measured foot impact frames.
+    video: { webm: "/media/foley/foley-lead.webm", mp4: "/media/foley/foley-lead.mp4", audio: "footstep sounds", autoSound: true },
+  },
   "foley-what": {
     src: "/media/foley/ball-poster.avif",
     alt: "Foley artist in a studio dropping a red ball that bounces on a wooden Foley table in front of a microphone",
