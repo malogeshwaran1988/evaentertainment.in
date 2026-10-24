@@ -1411,25 +1411,14 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
         blocks: [
           {
             t: "p",
-            text: "Our core pairs are the ones we dub every week:",
-          },
-          {
-            t: "ul",
-            items: [
-              "Telugu to Hindi",
-              "Tamil to Hindi",
-              "Malayalam to Hindi",
-              "Kannada to Hindi",
-              "English to Hindi",
-              "Telugu to Tamil (for example, the film Jack was dubbed from Telugu into Tamil and Hindi)",
-            ],
+            text: "Our core pairs are the ones we dub every week. Pick a pair to see it in the studio.",
           },
           {
             t: "p",
             text: "Every script is translated or reviewed by a native speaker of the target language.",
           },
         ],
-        media: "tr-languages",
+        media: "lang-pairs",
       },
       {
         heading: "How we work",

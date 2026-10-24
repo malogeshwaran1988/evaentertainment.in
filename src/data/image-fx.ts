@@ -214,10 +214,6 @@ export const PHOTO_FX: Record<string, ImageFx> = {
     { kind: "playhead", x: 67, y: 76, w: 30, h: 18 },
     { kind: "glow", x: 75, y: 40, size: 14, color: BLUE, delay: 0.6 },
   ]),
-  "tr-languages": P([
-    { kind: "cursor", x: 66, y: 70, h: 3 },
-    { kind: "glow", x: 90, y: 40, size: 8, color: WARM, delay: 0.5 },
-  ]),
   "tr-transcreation": P([
     { kind: "glow", x: 30, y: 30, size: 14, color: WARM },
     { kind: "glow", x: 80, y: 20, size: 10, color: WARM, delay: 1 },

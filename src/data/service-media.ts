@@ -62,7 +62,6 @@ export const SERVICE_MEDIA: Record<string, ServicePhoto> = {
   "stock-voice": photo("stock-voice", "Two Indian voice artists recording a conversation at microphones in a small studio"),
   "sub-south": photo("sub-south", "Small preview theatre showing a South Indian film with subtitles on the screen"),
   "sub-together": photo("sub-together", "Indian editors checking subtitles against the film on an editing workstation"),
-  "tr-languages": photo("tr-languages", "Indian translator writing a script by hand in several Indian languages"),
   "tr-transcreation": photo("tr-transcreation", "Indian writers reworking dialogue together around a table with notes and a laptop"),
   "translation-lead": photo("translation-lead", "Indian translator adapting a film script on a laptop beside a picture monitor"),
   "vo-studio": photo("vo-studio", "Indian voice-over artist reading a script at a microphone in a soundproof booth"),

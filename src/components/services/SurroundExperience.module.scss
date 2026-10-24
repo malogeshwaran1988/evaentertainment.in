@@ -68,9 +68,9 @@ $green: #70b615;
   .wrap[data-stage="#{$i}"] .cap[data-i="#{$i}"] { opacity: 1; transform: none; }
 }
 .foot { position: absolute; z-index: 2; left: 3vw; right: 3vw; bottom: 18px; margin: 0; font-size: 14px; color: #e8e8e8; text-shadow: 0 1px 6px #000; }
-.link { color: #8fd63a; font-weight: 700; text-decoration: underline; }
+.link { /* colours come from shared .link-on-dark */ }
 .credit { margin: 0; padding: 6px; text-align: center; font-size: 11px; color: #bbb;
-  a { color: #ddd; text-decoration: underline; } }
+}
 
 /* Speaker sound rings. The layer copies the video's object-fit: cover box so % positions stay on the cones. */
 .scene { container-type: size; }

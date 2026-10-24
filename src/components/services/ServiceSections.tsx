@@ -7,6 +7,8 @@ import type { RichBlock, ServicePageSection } from "@@/data/service-page-types";
 
 // Only the 5.1 page uses it: split into its own chunk (still server-rendered) so other service pages skip its JS.
 const SurroundExperience = dynamic(() => import("@@/components/services/SurroundExperience"));
+// Only the translation page uses it.
+const LanguagePairs = dynamic(() => import("@@/components/services/LanguagePairs"));
 
 const slugify = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 
@@ -68,6 +70,27 @@ export default function ServiceSections({ sections }: { sections: ServicePageSec
   return sections.map((section) => {
     const id = `svc-${slugify(section.heading)}`;
     if (section.heading === "The mixing room" && section.media === "live:pro-tools") return <SurroundExperience key={id} headingId={id} />;
+    if (section.media === "lang-pairs") {
+      // First paragraph sits above the pairs; the rest follows them.
+      const intro = section.blocks.slice(0, 1);
+      const outro = section.blocks.slice(1);
+      return (
+        <section key={id} className="block eva-svc-section" aria-labelledby={id}>
+          <div className="container">
+            <Reveal className="eva-svc-copy eva-svc-copy--narrow">
+              <Heading id={id} icon={section.icon} text={section.heading} />
+              <Blocks blocks={intro} />
+            </Reveal>
+            <LanguagePairs />
+            {outro.length ? (
+              <div className="eva-svc-copy eva-svc-copy--narrow eva-lang-after">
+                <Blocks blocks={outro} />
+              </div>
+            ) : null}
+          </div>
+        </section>
+      );
+    }
     const cards = section.media ? null : toCards(section.blocks);
     if (cards) {
       const CardList = cards.steps ? "ol" : "ul";

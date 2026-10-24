@@ -2793,3 +2793,29 @@ body.page-blog .block.single-post {
 	        height: auto;
 	    }
 }
+
+/* Links on dark surfaces: keep a light hover (the global a:hover sets #13161d, unreadable on dark).
+   Use .link-on-dark on any link over a dark background. Green #abee2d on #0b0b0b = 14.6:1, white = 19.6:1. */
+.link-on-dark,
+.link-on-dark:visited {
+  color: #abee2d;
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+.link-on-dark:hover,
+.link-on-dark:focus,
+.eva-svc-cta-contact a:hover,
+.eva-svc-cta-contact a:focus {
+  color: #fff;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+}
+.link-on-dark:focus-visible,
+.eva-svc-cta-contact a:focus-visible,
+.block--darkbg a:focus-visible {
+  outline: 2px solid #abee2d;
+  outline-offset: 3px;
+  border-radius: 2px;
+}

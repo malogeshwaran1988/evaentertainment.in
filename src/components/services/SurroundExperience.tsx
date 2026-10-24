@@ -395,11 +395,11 @@ export default function SurroundExperience({ headingId }: { headingId: string })
 
       <p className={s.foot}>
         Pro Tools mixing, Genelec and Yamaha monitoring and a recording booth next door for pickups during the mix.{" "}
-        <Link href="/studio-equipment" className={s.link}>See the full studio equipment list</Link>
+        <Link href="/studio-equipment" className={`link-on-dark ${s.link}`}>See the full studio equipment list</Link>
       </p>
 
       {STUDIO.credit ? (
-        <p className={s.credit}><a href={STUDIO.credit.href} target="_blank" rel="noopener noreferrer">{STUDIO.credit.text}</a></p>
+        <p className={s.credit}><a className="link-on-dark" href={STUDIO.credit.href} target="_blank" rel="noopener noreferrer">{STUDIO.credit.text}</a></p>
       ) : null}
     </section>
   );
