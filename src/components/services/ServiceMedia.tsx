@@ -17,20 +17,13 @@ export default function ServiceMedia({ media, alt }: { media: string; alt: boole
     return (
       <figure className="eva-equipment-figure eva-svc-figure">
         <LivePhoto item={item} eager={false} alt={alt} />
-        <figcaption>
-          {item.caption}. Photo:{" "}
-          <a href={item.credit.source} target="_blank" rel="noopener noreferrer">
-            {item.credit.author}, {item.credit.license}
-            <span className="sr-only"> (opens in a new tab)</span>
-          </a>
-        </figcaption>
       </figure>
     );
   }
   const m = SERVICE_MEDIA[media];
   if (!m) return null;
   return (
-    <figure className={`eva-svc-figure${m.credit ? " eva-equipment-figure" : ""}`}>
+    <figure className="eva-svc-figure">
       <div
         className={`eva-svc-photo eva-fx-host${alt ? " eva-svc-photo--alt" : ""}`}
         style={{ aspectRatio: `${m.fx.width} / ${m.fx.height}` }}
@@ -48,15 +41,6 @@ export default function ServiceMedia({ media, alt }: { media: string; alt: boole
           )}
         </div>
       </div>
-      {m.credit && (
-        <figcaption>
-          Photo:{" "}
-          <a href={m.credit.source} target="_blank" rel="noopener noreferrer">
-            {m.credit.author}, {m.credit.license}
-            <span className="sr-only"> (opens in a new tab)</span>
-          </a>
-        </figcaption>
-      )}
     </figure>
   );
 }

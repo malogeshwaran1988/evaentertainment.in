@@ -44,9 +44,6 @@ export type EquipmentItem = {
   alt: string;
   width: number;
   height: number;
-  /** Generic caption: these are representative photos, not EVA's own rooms. */
-  caption: string;
-  credit: { author: string; license: string; source: string };
   /**
    * Decorative "live" overlay, measured on the 1400x1050 (4:3, uncropped) source.
    * Emitter x/y = centre in % of image width/height; d = diameter in % of image width.
@@ -64,7 +61,7 @@ export type EquipmentItem = {
   };
 };
 
-/** Representative photos from Wikimedia Commons (licences below); not photos of EVA's studio. */
+/** Original studio images showing the equipment we use. */
 export const EQUIPMENT_ITEMS: EquipmentItem[] = [
   {
     id: "pro-tools",
@@ -74,28 +71,21 @@ export const EQUIPMENT_ITEMS: EquipmentItem[] = [
       "The industry-standard workstation for film and television audio, extended with extra plug-ins for mixing, clean-up and finishing.",
     workflow: "Every take is recorded, edited, synced to picture and mixed in Pro Tools, up to 5.1 delivery.",
     image: "/images/equipment/pro-tools-studio.avif",
-    alt: "Control room with a Pro Tools console, studio monitors and a large mixing desk",
+    alt: "Indian engineer mixing in Pro Tools in a compact Mumbai control room with 5.1 monitors",
     width: 1400,
     height: 1050,
-    caption: "A Pro Tools 5.1 mixing room in a professional studio",
     live: {
       kind: "surround",
       emitters: [
-        { ch: "L", x: 30.9, y: 43.8, d: 7 },
-        { ch: "C", x: 32.1, y: 22.5, d: 9 },
-        { ch: "R", x: 57.9, y: 36.4, d: 8 },
-        { ch: "Rs", x: 56.7, y: 54.3, d: 5 },
-        { ch: "Ls", x: 3.1, y: 32.8, d: 7 },
+        { ch: "L", x: 33, y: 54, d: 7 },
+        { ch: "C", x: 61, y: 33, d: 7 },
+        { ch: "R", x: 89, y: 57, d: 8 },
+        { ch: "Rs", x: 92, y: 9, d: 8 },
+        { ch: "Ls", x: 30, y: 14, d: 8 },
       ],
-      lfe: { x: 36, y: 84, d: 30 },
-      sweet: { x: 50, y: 64 },
-      glow: { x: 45, y: 57 },
-    },
-    credit: {
-      author: "Will Fisher",
-      license: "CC BY-SA 2.0",
-      source:
-        "https://commons.wikimedia.org/wiki/File:5.1_mixing_room_for_Radio,_TV,_and_Film_production,_equipt_with_AVID_Pro_Tools_including_ICON_D-Command_-_Control_Room_B,_In_Your_Ear_Studios.jpg",
+      lfe: { x: 75, y: 90, d: 20 },
+      sweet: { x: 20, y: 45 },
+      glow: { x: 62, y: 38 },
     },
   },
   {
@@ -106,17 +96,10 @@ export const EQUIPMENT_ITEMS: EquipmentItem[] = [
       "Large-diaphragm condenser microphones known for a clear, natural and detailed sound that flatters every voice.",
     workflow: "Our first choice for lip-sync dubbing, where every breath and nuance of the performance matters.",
     image: "/images/equipment/neumann-studio.avif",
-    alt: "Neumann condenser microphone in a shock mount, close up in a recording studio",
+    alt: "Neumann condenser microphone in a shock mount with an Indian voice artist in the booth",
     width: 1400,
     height: 1050,
-    caption: "A Neumann microphone in a professional recording studio",
-    live: { kind: "mic", emitters: [{ x: 35.7, y: 26.7, d: 30 }], rec: "tr", glow: { x: 36, y: 27 } },
-    credit: {
-      author: "Will Fisher",
-      license: "CC BY-SA 2.0",
-      source:
-        "https://commons.wikimedia.org/wiki/File:Neumann_U87_Condenser_Microphone_-_Studio_A,_In_Your_Ear_Studios.jpg",
-    },
+    live: { kind: "mic", emitters: [{ x: 31, y: 26, d: 22 }], rec: "tr", glow: { x: 31, y: 26 } },
   },
   {
     id: "rode",
@@ -126,17 +109,10 @@ export const EQUIPMENT_ITEMS: EquipmentItem[] = [
       "Low-noise condenser microphones paired with pop filters for a clean, consistent voice in every line.",
     workflow: "Used in our soundproof booths for voice-over, narration and long dubbing sessions.",
     image: "/images/equipment/rode-studio.avif",
-    alt: "Rode condenser microphone with a pop filter and acoustic reflection filter",
+    alt: "Rode condenser microphone with a pop filter in a voice-over booth",
     width: 1400,
     height: 1050,
-    caption: "A Rode microphone with pop and reflection filters in a vocal booth",
-    live: { kind: "mic", emitters: [{ x: 41.4, y: 44.2, d: 35 }], rec: "tr", glow: { x: 41, y: 44 } },
-    credit: {
-      author: "Tim Sheerman-Chase",
-      license: "CC BY 2.0",
-      source:
-        "https://commons.wikimedia.org/wiki/File:Condenser_Microphone_with_Pop_Filter_and_Reflection_Filter.jpg",
-    },
+    live: { kind: "mic", emitters: [{ x: 41, y: 44, d: 22 }], rec: "tr", glow: { x: 41, y: 44 } },
   },
   {
     id: "genelec",
@@ -146,16 +122,10 @@ export const EQUIPMENT_ITEMS: EquipmentItem[] = [
       "Precise active monitors that reveal exactly what is in the mix, with nothing added and nothing hidden.",
     workflow: "Engineers mix and quality-check every reel on Genelec monitors before delivery.",
     image: "/images/equipment/genelec-studio.avif",
-    alt: "Close-up of a Genelec active studio monitor",
+    alt: "Genelec active studio monitor on a desk in a Mumbai studio",
     width: 1400,
     height: 1050,
-    caption: "A Genelec active studio monitor",
-    live: { kind: "speaker", emitters: [{ x: 45, y: 4, d: 52 }], led: { x: 75.7, y: 8.6 }, glow: { x: 45, y: 20 } },
-    credit: {
-      author: "Tumi-1983",
-      license: "CC BY-SA 3.0",
-      source: "https://commons.wikimedia.org/wiki/File:Genelec_8030A_activespeaker.jpg",
-    },
+    live: { kind: "speaker", emitters: [{ x: 47, y: 53, d: 30 }], led: { x: 48, y: 22 }, glow: { x: 47, y: 50 } },
   },
   {
     id: "yamaha",
@@ -165,23 +135,16 @@ export const EQUIPMENT_ITEMS: EquipmentItem[] = [
       "Honest, flat-response speakers that show how a mix will translate to everyday listening.",
     workflow: "A second reference so dialogue, music and effects sit right on any screen or speaker.",
     image: "/images/equipment/yamaha-studio.avif",
-    alt: "Yamaha studio monitor on top of a mixing console in a control room",
+    alt: "Pair of Yamaha studio monitors on a mixing desk in a control room",
     width: 1400,
     height: 1050,
-    caption: "Yamaha studio monitors on a mixing console in a professional control room",
     live: {
       kind: "speaker",
       emitters: [
-        { x: 22.9, y: 41, d: 13.5 },
-        { x: 9.3, y: 36.8, d: 6.5 },
+        { x: 24, y: 51, d: 15 },
+        { x: 83, y: 51, d: 15 },
       ],
-      glow: { x: 20, y: 40 },
-    },
-    credit: {
-      author: "Audio Mix House",
-      license: "CC BY 2.0",
-      source:
-        "https://commons.wikimedia.org/wiki/File:Yamaha_NS-10_monitor_at_Audio_Mix_House,_Studio_C_(13430679745).jpg",
+      glow: { x: 50, y: 55 },
     },
   },
 ];

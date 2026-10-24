@@ -1,34 +1,31 @@
 import { HERO_FX, PHOTO_FX, SERVICE_FX, type ImageFx } from "@@/data/image-fx";
 
-export type PhotoCredit = { author: string; license: string; source: string };
 /** `audio` labels a clip that carries its own soundtrack; it plays muted until the visitor turns sound on. */
 export type ServiceVideo = { webm: string; mp4: string; audio?: string };
 /** Optional sound effect looped in sync with a ServiceVideo; muted until the visitor turns it on. */
 export type ServiceSfx = { webm: string; m4a: string; label: string };
-export type ServicePhoto = { src: string; alt: string; fx: ImageFx; credit?: PhotoCredit; video?: ServiceVideo; sfx?: ServiceSfx; showcase?: "voices" };
+export type ServicePhoto = { src: string; alt: string; fx: ImageFx; video?: ServiceVideo; sfx?: ServiceSfx; showcase?: "voices" };
 
-const C = "https://commons.wikimedia.org/";
-const photo = (id: string, alt: string, author: string, license: string, source: string): ServicePhoto => ({
+const photo = (id: string, alt: string): ServicePhoto => ({
   src: `/images/services/svc-${id}.avif`,
   alt,
   fx: PHOTO_FX[id],
-  credit: { author, license, source: source.startsWith("http") ? source : C + source },
 });
 
-/** Photos with measured overlays (see image-fx.ts). Licensed photos carry a visible credit. */
+/** Photos with measured overlays (see image-fx.ts). Studio photos are our own generated images. */
 export const SERVICE_MEDIA: Record<string, ServicePhoto> = {
   singer: { src: "/images/home/slide-1.avif", alt: "Singer performing at a studio microphone with headphones on", fx: HERO_FX.singer },
   console: { src: "/images/home/slide-2.avif", alt: "Mixing console in a recording studio control room", fx: HERO_FX.console },
   workstation: { src: "/images/services/equipment-03.avif", alt: "Editing workstation with audio and video timelines on screen", fx: SERVICE_FX.workstation },
   preamps: { src: "/images/services/equipment-02.avif", alt: "Rack of microphone preamps used for voice recording", fx: SERVICE_FX.preamps },
-  "dub-studio": photo("dub-studio", "Dubbing booth with a picture monitor, a condenser microphone and a script stand", "Andres Moreno", "CC BY 2.0", "wiki/File:Sala_de_doblaje.jpg"),
+  "dub-studio": photo("dub-studio", "Indian voice artist with headphones at a condenser microphone reading a script to a film on the booth monitor"),
   "dub-why": {
     src: "/media/dubbing/lipsync-poster.avif",
     alt: "Voice actor with headphones at a studio microphone, matching an emotional actor's lip movements on a projected screen",
     fx: { width: 960, height: 720, items: [] },
     video: { webm: "/media/dubbing/lipsync.webm", mp4: "/media/dubbing/lipsync.mp4", audio: "voice actor dubbing the scene" },
   },
-  "foley-lead": photo("foley-lead", "Foley artist in rubber boots performing footsteps on a Foley pit", "M.m.mayer", "CC BY-SA 3.0", "wiki/File:Ger%C3%A4uschemacher.jpg"),
+  "foley-lead": photo("foley-lead", "Indian Foley artist stepping on a gravel pit in a small Mumbai studio while recording footsteps"),
   "foley-what": {
     src: "/media/foley/ball-poster.avif",
     alt: "Foley artist in a studio dropping a red ball that bounces on a wooden Foley table in front of a microphone",
@@ -43,20 +40,20 @@ export const SERVICE_MEDIA: Record<string, ServicePhoto> = {
     // Sound generated together with the picture, so the shatter lands on the impact frame.
     video: { webm: "/media/foley/glass.webm", mp4: "/media/foley/glass.mp4", audio: "glass breaking sound" },
   },
-  "mix-problems": photo("mix-problems", "Engineer working at a large analogue mixing console in a control room", "Matt Girling", "CC BY-SA 3.0", "w/index.php?curid=24442256"),
-  "mix51-lead": photo("mix51-lead", "Dolby Atmos mix room with a mixing console and surround and ceiling speakers", "TVN Group", "CC BY-SA 4.0", "wiki/File:2017_03_31_Dolby_Atmos_Studio_TVN_Group.jpg"),
-  "song-lead": photo("song-lead", "Singer with headphones smiling at a large-diaphragm microphone in a vocal booth", "Gabriela Jelonek", "CC BY-SA 4.0", "w/index.php?curid=129542105"),
-  "song-session": photo("song-session", "Musician recording a take while the engineer follows the session on a laptop", "Incase", "CC BY 2.0", "w/index.php?curid=27861554"),
-  "song-studio": photo("song-studio", "Music studio with a mixing console, monitors, keyboards and a piano", "Ville Hyvönen", "CC BY-SA 2.0", "wiki/File:Greenhouse_Studios,_Reykjavik,_Iceland_(2017-05-08_16.21.10_by_Ville_Hyv%C3%B6nen).jpg"),
-  "stock-curated": photo("stock-curated", "Shelves of a large record library", "Melikamp", "CC BY-SA 4.0", "w/index.php?curid=182010651"),
-  "stock-lead": photo("stock-lead", "Music production room with a DAW session on screen and an on-air sign", "Xalo Mustafa", "CC BY-SA 4.0", "wiki/File:Diversity_Sounds_recording_studio_in_Ratingen,_Germany.jpg"),
-  "stock-voice": photo("stock-voice", "Two people recording a conversation at microphones in a podcast studio", "JKizzieHumanities", "CC BY-SA 4.0", "w/index.php?curid=82198863"),
-  "sub-south": photo("sub-south", "Cinema hall with rows of red seats facing the screen", "Fred Cherrygarden", "CC BY-SA 4.0", "w/index.php?curid=192989172"),
-  "sub-together": photo("sub-together", "Editors reviewing a film with subtitles on the screen", "Fschoepf", "CC BY-SA 4.0", "wiki/File:Editing_of_You_Only_Die_Twice_%E2%80%93_Summer_2017.jpg"),
-  "tr-languages": photo("tr-languages", "Museum board showing how the Tamil script developed over the centuries", "Yercaud-elango", "CC BY 4.0", "w/index.php?curid=170233248"),
-  "tr-transcreation": photo("tr-transcreation", "Team arranging sticky notes on a table while reworking ideas", "Steveonmz", "CC BY-SA 4.0", "w/index.php?curid=61093066"),
-  "translation-lead": photo("translation-lead", "Names handwritten in several Indian scripts", "Ramphrados", "CC BY-SA 3.0", "wiki/File:11_language_signature.JPG"),
-  "vo-studio": photo("vo-studio", "Voice-over artist in a booth reading a script to picture", "Zingezang", "CC BY-SA 4.0", "wiki/File:Peter_de_Kroon_Voice-over.jpg"),
+  "mix-problems": photo("mix-problems", "Indian sound engineer at a compact mixing console with a Pro Tools session on screen"),
+  "mix51-lead": photo("mix51-lead", "Compact 5.1 mixing room in Mumbai with a console and surround speakers around the mix seat"),
+  "song-lead": photo("song-lead", "Indian singer with headphones recording a song at a large-diaphragm microphone in a vocal booth"),
+  "song-session": photo("song-session", "Sitar player recording a take while an Indian engineer follows the session on the studio screens"),
+  "song-studio": photo("song-studio", "Music studio in Mumbai with a mixing console, studio monitors and a keyboard"),
+  "stock-curated": photo("stock-curated", "Indian music curator browsing a music library on a computer in a small studio"),
+  "stock-lead": photo("stock-lead", "Music production room in Mumbai with a DAW session on screen and an on-air light"),
+  "stock-voice": photo("stock-voice", "Two Indian voice artists recording a conversation at microphones in a small studio"),
+  "sub-south": photo("sub-south", "Small preview theatre showing a South Indian film with subtitles on the screen"),
+  "sub-together": photo("sub-together", "Indian editors checking subtitles against the film on an editing workstation"),
+  "tr-languages": photo("tr-languages", "Indian translator writing a script by hand in several Indian languages"),
+  "tr-transcreation": photo("tr-transcreation", "Indian writers reworking dialogue together around a table with notes and a laptop"),
+  "translation-lead": photo("translation-lead", "Indian translator adapting a film script on a laptop beside a picture monitor"),
+  "vo-studio": photo("vo-studio", "Indian voice-over artist reading a script at a microphone in a soundproof booth"),
   "vo-voices": {
     src: "/media/voices/male-poster.avif",
     alt: "Indian voice artists, a man, a woman and a child, speaking at a studio microphone",

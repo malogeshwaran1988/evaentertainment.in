@@ -33,15 +33,6 @@ export default function ServiceLead({
               className="eva-half-bg-img"
             />
             <ImageEffects fx={service.fx} anchor="top-left" />
-            {service.credit ? (
-              <p className="eva-svc-lead-credit">
-                Photo:{" "}
-                <a href={service.credit.source} target="_blank" rel="noopener noreferrer">
-                  {service.credit.author}, {service.credit.license}
-                  <span className="sr-only"> (opens in a new tab)</span>
-                </a>
-              </p>
-            ) : null}
           </InViewFx>
           <div className="col-sm-6">
             <h2

@@ -84,13 +84,6 @@ export default function EquipmentPage() {
               <Reveal as="li" key={item.id} className="eva-equipment-feature">
                 <figure className="eva-equipment-figure">
                   <LivePhoto item={item} eager={index === 0} alt={index % 2 === 1} />
-                  <figcaption>
-                    {item.caption}. Photo:{" "}
-                    <a href={item.credit.source} target="_blank" rel="noopener noreferrer">
-                      {item.credit.author}, {item.credit.license}
-                      <span className="sr-only"> (opens in a new tab)</span>
-                    </a>
-                  </figcaption>
                 </figure>
                 <div className="eva-equipment-text">
                   <p className="p--sm text-uppercase theme-color eva-equipment-role">{item.role}</p>
@@ -104,9 +97,6 @@ export default function EquipmentPage() {
               </Reveal>
             ))}
           </ol>
-          <p className="p--sm text-center eva-equipment-note">
-            Photos are representative of the equipment we use and are not pictures of our own studio.
-          </p>
         </div>
       </section>
     </main>
