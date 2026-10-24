@@ -1,16 +1,15 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { pickAudio } from "@@/components/services/ServiceVideo";
 
 /**
- * Voice showcase: one studio frame per artist (male, female, child). "Listen" buttons crossfade to that
- * artist's looping muted clip and play their voice sample; when a sample ends it advances to the next
- * voice (male → female → child → male) until the visitor pauses. Audio loads only on the first click.
+ * Voice showcase: one studio clip per artist (male, female, child). Each clip carries its own voice track,
+ * so lips and voice stay in sync. Idle, the active clip loops muted. "Listen" restarts that clip with sound;
+ * when it ends the showcase advances to the next voice (male -> female -> child -> male) until paused.
+ * Media loads only once the section is near the viewport.
  *
- * PLACEHOLDER AUDIO: the *-voice.webm / *-voice.m4a samples were generated with macOS text-to-speech
- * (Rishi en_IN for male, Lekha hi_IN for female, Lekha pitched up for child). Replace them with real
- * EVA artist samples (same file names, about 6–8 s, Opus 40 kbps mono + AAC m4a fallback).
+ * DEMO CLIPS: generated studio performances (EVA logo top-left plus a faint centre watermark).
+ * Replace them with real EVA artist recordings (same file names, about 8 s, webm VP9/Opus + mp4 H.264/AAC).
  */
 const VOICES = [
   { id: "male", label: "Male", alt: "Indian male voice artist with headphones speaking at a studio microphone" },
@@ -25,13 +24,14 @@ const CIRC = 2 * Math.PI * R;
 export default function VoiceShowcase() {
   const root = useRef<HTMLDivElement>(null);
   const vids = useRef<(HTMLVideoElement | null)[]>([]);
-  const audios = useRef<(HTMLAudioElement | null)[]>([]);
   const visible = useRef(false);
   const [active, setActive] = useState(0);
   const [playing, setPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
   const [loaded, setLoaded] = useState<boolean[]>([false, false, false]);
   const reducedRef = useRef(false);
+  const playingRef = useRef(false);
+  playingRef.current = playing;
 
   const playVideo = useCallback(
     (i: number) => {
@@ -57,8 +57,11 @@ export default function VoiceShowcase() {
         if (entry.isIntersecting) {
           setLoaded((l) => (l[0] ? l : [true, l[1], l[2]]));
         } else {
-          vids.current.forEach((v) => v?.pause());
-          audios.current.forEach((a) => a?.pause());
+          vids.current.forEach((v) => {
+            if (!v) return;
+            v.pause();
+            v.muted = true;
+          });
           setPlaying(false);
         }
       },
@@ -69,55 +72,60 @@ export default function VoiceShowcase() {
   }, []);
 
   useEffect(() => {
-    if (!reducedRef.current) playVideo(active);
+    if (!reducedRef.current && !playingRef.current) playVideo(active);
   }, [active, loaded, playVideo]);
 
-  useEffect(() => () => audios.current.forEach((a) => a?.pause()), []);
+  useEffect(() => () => vids.current.forEach((v) => v?.pause()), []);
 
-  const getAudio = (i: number) => {
-    let a = audios.current[i];
-    if (!a) {
-      const id = VOICES[i].id;
-      a = new Audio(pickAudio(`${base(id)}-voice.webm`, `${base(id)}-voice.m4a`));
-      a.preload = "auto";
-      a.addEventListener("timeupdate", () => {
-        if (a && a.duration) setProgress(a.currentTime / a.duration);
-      });
-      a.addEventListener("ended", () => {
-        const next = (i + 1) % VOICES.length;
-        start(next);
-      });
-      audios.current[i] = a;
-    }
-    return a;
+  const onTime = (i: number) => {
+    const v = vids.current[i];
+    if (v && i === active && !v.muted && v.duration) setProgress(v.currentTime / v.duration);
+  };
+
+  const onEnded = (i: number) => {
+    if (i !== active || !playingRef.current) return;
+    start((i + 1) % VOICES.length);
   };
 
   function start(i: number) {
-    audios.current.forEach((a, j) => {
-      if (a && j !== i) {
-        a.pause();
-        a.currentTime = 0;
+    vids.current.forEach((v, j) => {
+      if (v && j !== i) {
+        v.pause();
+        v.muted = true;
+        v.loop = true;
       }
     });
     setActive(i);
     setProgress(0);
-    if (!reducedRef.current) setLoaded((l) => l.map((v, j) => v || j === i));
-    const a = getAudio(i);
-    a.currentTime = 0;
-    a.play()
-      .then(() => setPlaying(true))
-      .catch(() => setPlaying(false));
+    setLoaded((l) => l.map((x, j) => x || j === i));
+    // Sources render after the state update; wait a frame so the element has them.
+    requestAnimationFrame(() => {
+      const v = vids.current[i];
+      if (!v) return;
+      if (v.networkState === v.NETWORK_EMPTY) v.load();
+      v.loop = false;
+      v.muted = false;
+      v.currentTime = 0;
+      v.play()
+        .then(() => setPlaying(true))
+        .catch(() => {
+          v.muted = true;
+          setPlaying(false);
+        });
+    });
   }
 
   const pause = () => {
-    audios.current[active]?.pause();
+    const v = vids.current[active];
+    if (v) v.pause();
     setPlaying(false);
   };
 
   const onListen = (i: number) => {
     if (i === active && playing) return pause();
-    if (i === active && audios.current[i] && audios.current[i]!.currentTime > 0 && !audios.current[i]!.ended) {
-      audios.current[i]!.play().then(() => setPlaying(true)).catch(() => {});
+    const v = vids.current[i];
+    if (i === active && v && !v.muted && v.currentTime > 0 && !v.ended) {
+      v.play().then(() => setPlaying(true)).catch(() => {});
       return;
     }
     start(i);
@@ -151,6 +159,8 @@ export default function VoiceShowcase() {
           muted
           loop
           playsInline
+          onTimeUpdate={() => onTime(i)}
+          onEnded={() => onEnded(i)}
           preload="none"
           aria-label={v.alt}
           aria-hidden={i !== active}
