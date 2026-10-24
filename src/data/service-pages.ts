@@ -967,6 +967,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
             ],
           },
         ],
+        media: "sub-workflow",
       },
       {
         heading: "Subtitle formats",
@@ -977,6 +978,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
             text: "We deliver in the common formats that players and platforms accept, including SRT, and can follow a platform's style guide when you share it.",
           },
         ],
+        media: "sub-formats",
       },
       {
         heading: "Languages",

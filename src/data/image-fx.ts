@@ -206,13 +206,21 @@ export const PHOTO_FX: Record<string, ImageFx> = {
     { kind: "glow", x: 53, y: 26, size: 6, color: WARM, delay: 0.4 },
   ]),
   "sub-south": P([
-    { kind: "glow", x: 57, y: 33, size: 26, color: WHITE },
-    { kind: "caption", x: 47, y: 49, w: 22, h: 2.2 },
+    { kind: "glow", x: 67, y: 24, size: 26, color: WARM },
+    { kind: "glow", x: 6, y: 8, size: 12, color: WHITE, delay: 0.8 },
   ]),
   "sub-together": P([
-    { kind: "caption", x: 64, y: 52, w: 17, h: 2.5 },
-    { kind: "playhead", x: 67, y: 76, w: 30, h: 18 },
-    { kind: "glow", x: 75, y: 40, size: 14, color: BLUE, delay: 0.6 },
+    { kind: "waves", x: 26, y: 28, size: 9, side: "right" },
+    { kind: "playhead", x: 28.5, y: 50, w: 17, h: 12 },
+    { kind: "glow", x: 94, y: 54, size: 6, color: WARM, delay: 0.6 },
+  ]),
+  "sub-workflow": P([
+    { kind: "playhead", x: 30, y: 40, w: 60, h: 16 },
+    { kind: "glow", x: 71, y: 77, size: 8, color: BLUE, delay: 0.5 },
+  ]),
+  "sub-formats": P([
+    { kind: "glow", x: 60, y: 20, size: 22, color: WARM },
+    { kind: "twinkle", x: 81, y: 91, size: 1.6, color: WHITE, delay: 0.7 },
   ]),
   "tr-transcreation": P([
     { kind: "glow", x: 30, y: 30, size: 14, color: WARM },
