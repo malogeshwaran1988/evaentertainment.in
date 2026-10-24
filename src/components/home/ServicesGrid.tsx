@@ -30,31 +30,32 @@ const SIZE: Record<string, [number, number]> = {
 
 /** Per-image overlays, positions measured on the source images. */
 const OVERLAYS: Record<string, { kind: string; layer: ReactNode }> = {
-  // Singer + mic: rings from the mic grille, voice waveform between mouth and mic.
+  // Dubbing artist: rings from the Neumann grille, voice waveform between mouth and mic.
   "/images/home/services-grid-1.avif": {
     kind: "dub",
     layer: (
       <>
-        <Rings x={22.9} y={33.6} d={20} />
-        <span className="svc-voice" style={at(34, 22, 13)}>
-          {Array.from({ length: 9 }, (_, i) => (
+        <Rings x={32} y={34} d={16} />
+        <span className="svc-voice" style={at(38, 31, 9)}>
+          {Array.from({ length: 7 }, (_, i) => (
             <i key={i} style={{ "--i": i } as CSSProperties} />
           ))}
         </span>
       </>
     ),
   },
-  // Engineer at console: surround pulse from the visible monitors, console glow.
+  // 5.1 room: surround pulse from each speaker in turn, console glow.
   "/images/home/services-grid-2.avif": {
     kind: "mix",
     layer: (
       <>
-        <span className="svc-glow-spot" style={at(50, 82, 90)} />
+        <span className="svc-glow-spot" style={at(30, 75, 60)} />
         {[
-          [4.3, 38.4, 10],
-          [11.1, 26, 4],
-          [21.4, 46.9, 4],
-          [25.4, 46.9, 3],
+          [15, 24, 8],
+          [23, 46, 6],
+          [52, 48, 6],
+          [85, 45, 6],
+          [90, 24, 8],
         ].map(([x, y, d], i) => (
           <span key={i} className="svc-rings svc-rings--seq" style={{ ...at(x, y, d), "--i": i } as CSSProperties}>
             <i />
@@ -64,47 +65,46 @@ const OVERLAYS: Record<string, { kind: string; layer: ReactNode }> = {
       </>
     ),
   },
-  // Console close-up: red buttons glow softly in a wave, fader caps catch a moving light.
+  // Foley: rings from the Rode shotgun tip, impact rings on gravel, wood and props, glints on brass and steel.
   "/images/home/services-grid-3.avif": {
     kind: "foley",
     layer: (
       <>
+        <Rings x={51} y={47} d={10} />
         {[
-          [14.3, 27.1],
-          [25.7, 22],
-          [37.1, 16.9],
-          [47.9, 12.5],
-          [56.9, 8.4],
-          [65, 5.1],
-          [72.6, 1.9],
-        ].map(([x, y], i) => (
-          <span key={i} className="svc-btn" style={{ ...at(x, y, 7), "--i": i } as CSSProperties} />
+          [49, 70, 9],
+          [28, 68, 8],
+          [16, 82, 9],
+          [36, 91, 9],
+          [72, 77, 9],
+        ].map(([x, y, d], i) => (
+          <span key={i} className="svc-rings svc-rings--seq" style={{ ...at(x, y, d), "--i": i } as CSSProperties}>
+            <i />
+            <i />
+          </span>
         ))}
         {[
-          [10, 69],
-          [39.5, 62.5],
-          [69, 59],
-          [72, 39],
-          [92, 26],
+          [9, 70],
+          [87, 72],
+          [92, 82],
         ].map(([x, y], i) => (
-          <span key={i} className="svc-cap" style={{ ...at(x, y, 16), "--i": i } as CSSProperties} />
+          <span key={i} className="svc-cap" style={{ ...at(x, y, 12), "--i": i } as CSSProperties} />
         ))}
       </>
     ),
   },
-  // Headphones: rings from the ear cups, script glyphs drifting in the dark area.
+  // Translator: rings from the headphones, script glyphs drifting over the window and wall.
   "/images/home/services-grid-4.avif": {
     kind: "tr",
     layer: (
       <>
-        <Rings x={15.7} y={42} d={15} />
-        <Rings x={71} y={28} d={18} cls="svc-rings--late" />
+        <Rings x={35} y={40} d={10} />
         {[
-          ["अ", 34, 12],
-          ["த", 46, 8],
-          ["త", 58, 13],
-          ["ক", 88, 14],
-          ["ਅ", 95, 34],
+          ["அ", 64, 12],
+          ["ह", 76, 20],
+          ["త", 86, 10],
+          ["ক", 93, 30],
+          ["ਅ", 70, 32],
         ].map(([g, x, y], i) => (
           <span key={i} className="svc-glyph" style={{ ...at(Number(x), Number(y)), "--i": i } as CSSProperties}>
             {g}
@@ -113,34 +113,31 @@ const OVERLAYS: Record<string, { kind: string; layer: ReactNode }> = {
       </>
     ),
   },
-  // Pro Tools screens: level meters on the mixer screen, scrolling waveform on the edit screen.
+  // Pro Tools screens: level meters along the mixer strip, scrolling waveform on the edit screen.
   "/images/home/services-grid-5.avif": {
     kind: "stock",
     layer: (
       <>
-        <span className="svc-meters" style={at(43, 17, 19, { height: "12%" })}>
+        <span className="svc-meters" style={at(45, 54, 15, { height: "6%" })}>
           {Array.from({ length: 12 }, (_, i) => (
             <i key={i} style={{ "--i": i } as CSSProperties} />
           ))}
         </span>
-        <span className="svc-scroll" style={at(15, 24, 23, { height: "8%" })}>
+        <span className="svc-scroll" style={at(46, 40, 14, { height: "10%" })}>
           <span />
         </span>
       </>
     ),
   },
-  // Laptop: subtitle lines typing in over the video, playhead running along the waveform.
+  // Laptop: playhead running along the subtitle timeline, lamp light breathing.
   "/images/home/services-grid-6.avif": {
     kind: "sub",
     layer: (
       <>
-        <span className="svc-subs" style={at(29, 31.5, 30)}>
-          <i style={{ "--w": "100%" } as CSSProperties} />
-          <i style={{ "--w": "72%" } as CSSProperties} />
-        </span>
-        <span className="svc-track" style={at(7, 43.5, 70, { height: "7.5%" })}>
+        <span className="svc-track" style={at(50, 55, 36, { height: "13%" })}>
           <span />
         </span>
+        <span className="svc-cap" style={{ ...at(91, 21, 16), "--i": 0 } as CSSProperties} />
       </>
     ),
   },

@@ -1,4 +1,4 @@
-import { HERO_FX, PHOTO_FX, SERVICE_FX, type ImageFx } from "@@/data/image-fx";
+import { PHOTO_FX, SERVICE_FX, type ImageFx } from "@@/data/image-fx";
 
 /** `audio` labels a clip that carries its own soundtrack; it plays muted until the visitor turns sound on. */
 export type ServiceVideo = { webm: string; mp4: string; audio?: string };
@@ -14,10 +14,10 @@ const photo = (id: string, alt: string): ServicePhoto => ({
 
 /** Photos with measured overlays (see image-fx.ts). Studio photos are our own generated images. */
 export const SERVICE_MEDIA: Record<string, ServicePhoto> = {
-  singer: { src: "/images/home/slide-1.avif", alt: "Singer performing at a studio microphone with headphones on", fx: HERO_FX.singer },
-  console: { src: "/images/home/slide-2.avif", alt: "Mixing console in a recording studio control room", fx: HERO_FX.console },
+  singer: photo("singer", "Indian male singer with headphones singing Hindi lyrics into a Rode condenser microphone"),
+  console: photo("console", "Yamaha mixing console with lit level meters beside a Ganesha figurine and a cup of chai"),
   workstation: { src: "/images/services/equipment-03.avif", alt: "Editing workstation with audio and video timelines on screen", fx: SERVICE_FX.workstation },
-  preamps: { src: "/images/services/equipment-02.avif", alt: "Rack of microphone preamps used for voice recording", fx: SERVICE_FX.preamps },
+  preamps: { src: "/images/services/equipment-02.avif", alt: "Rack of microphone preamps with level meters beside a Rode microphone", fx: SERVICE_FX.preamps },
   "dub-studio": photo("dub-studio", "Indian voice artist with headphones at a condenser microphone reading a script to a film on the booth monitor"),
   "dub-why": {
     src: "/media/dubbing/lipsync-poster.avif",
