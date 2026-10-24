@@ -12,7 +12,13 @@ export type FxItem =
   | { kind: "playhead"; x: number; y: number; w: number; h: number }
   | { kind: "caption"; x: number; y: number; w: number; h: number }
   | { kind: "cursor"; x: number; y: number; h: number }
-  | { kind: "waveline"; y: number };
+  | { kind: "waveline"; y: number }
+  /** An LED on a level meter that flickers like a VU reading. */
+  | { kind: "vu"; x: number; y: number; size: number; color?: string; delay?: number }
+  /** A small back-and-forth turn highlight centred on a knob. */
+  | { kind: "knob"; x: number; y: number; size: number; delay?: number }
+  /** A light sweep across a panel (x, y = top-left; w, h in % of width / height). */
+  | { kind: "gloss"; x: number; y: number; w: number; h: number; rotate?: number };
 
 export type ImageFx = {
   /** Source image size, used to match the `object-fit: cover` crop. */
@@ -70,12 +76,18 @@ export const SERVICE_FX: Record<string, ImageFx> = {
     width: 962,
     height: 572,
     items: [
-      { kind: "glow", x: 63, y: 24.1, size: 3.2, color: RED },
-      { kind: "glow", x: 66.7, y: 22.2, size: 3.2, color: RED, delay: 0.3 },
-      { kind: "glow", x: 70.3, y: 20.5, size: 3.2, color: RED, delay: 0.6 },
-      { kind: "glow", x: 80.2, y: 15.7, size: 3.2, color: RED, delay: 0.9 },
-      { kind: "glow", x: 69.1, y: 70.3, size: 3, color: RED, delay: 0.45 },
-      { kind: "glow", x: 72.8, y: 66.4, size: 3, color: RED, delay: 0.75 },
+      { kind: "gloss", x: 0, y: 8, w: 62, h: 46, rotate: -14 },
+      { kind: "gloss", x: 30, y: 58, w: 62, h: 40, rotate: -14 },
+      { kind: "knob", x: 42.5, y: 24.5, size: 7.5 },
+      { kind: "knob", x: 32.5, y: 27.5, size: 7, delay: 0.9 },
+      { kind: "knob", x: 51, y: 83, size: 7, delay: 0.4 },
+      { kind: "knob", x: 41.5, y: 92, size: 7, delay: 1.3 },
+      { kind: "vu", x: 63, y: 24.1, size: 3.2, color: RED },
+      { kind: "vu", x: 66.7, y: 22.2, size: 3.2, color: RED, delay: 0.15 },
+      { kind: "vu", x: 70.3, y: 20.5, size: 3.2, color: RED, delay: 0.3 },
+      { kind: "vu", x: 80.2, y: 15.7, size: 3.2, color: RED, delay: 0.45 },
+      { kind: "vu", x: 69.1, y: 70.3, size: 3, color: RED, delay: 0.2 },
+      { kind: "vu", x: 72.8, y: 66.4, size: 3, color: RED, delay: 0.35 },
       { kind: "glow", x: 12, y: 48.4, size: 3, color: GREEN, delay: 0.2 },
       { kind: "glow", x: 22.5, y: 43.5, size: 3, color: GREEN, delay: 0.5 },
       { kind: "glow", x: 87.8, y: 80.8, size: 3.6, color: BLUE, delay: 0.8 },
@@ -111,4 +123,96 @@ export const SERVICE_FX: Record<string, ImageFx> = {
       { kind: "cursor", x: 73.6, y: 64.5, h: 1.8 },
     ],
   },
+};
+
+/** Overlays for the licensed photos in /images/services/svc-*.avif (all 1440×1080, measured on a 10% grid). */
+const P = (items: FxItem[]): ImageFx => ({ width: 1440, height: 1080, items });
+
+export const PHOTO_FX: Record<string, ImageFx> = {
+  "dub-studio": P([
+    { kind: "waves", x: 55, y: 26, size: 14 },
+    { kind: "glow", x: 15, y: 28, size: 16, color: WARM },
+  ]),
+  "dub-why": P([
+    { kind: "waves", x: 67, y: 58, size: 13, side: "left" },
+    { kind: "glow", x: 34, y: 37, size: 12, color: BLUE, delay: 0.8 },
+  ]),
+  "foley-lead": P([
+    { kind: "pulse", x: 52, y: 55, size: 8 },
+    { kind: "pulse", x: 60, y: 86, size: 8, delay: 0.6 },
+    { kind: "waveline", y: 93 },
+  ]),
+  "foley-what": P([
+    { kind: "waves", x: 58, y: 90, size: 12, side: "left" },
+    { kind: "glow", x: 12, y: 60, size: 5, color: WARM, delay: 0.5 },
+  ]),
+  "foley-studio": P([
+    { kind: "waves", x: 57, y: 30, size: 14, side: "right" },
+    { kind: "glow", x: 40, y: 38, size: 9, color: WHITE, delay: 0.4 },
+  ]),
+  "mix-problems": P([
+    { kind: "meter", x: 62, y: 66, w: 32, h: 1.4, bars: 26, rotate: 14 },
+    { kind: "pulse", x: 38, y: 21, size: 5 },
+    { kind: "pulse", x: 62, y: 21, size: 5, delay: 0.35 },
+  ]),
+  "mix51-lead": P([
+    { kind: "pulse", x: 24, y: 13, size: 3.5 },
+    { kind: "pulse", x: 45, y: 21, size: 3.5, delay: 0.25 },
+    { kind: "pulse", x: 83, y: 24, size: 3.5, delay: 0.5 },
+    { kind: "pulse", x: 94, y: 56, size: 4, delay: 0.75 },
+    { kind: "pulse", x: 4, y: 52, size: 4, delay: 1 },
+    { kind: "meter", x: 64, y: 52, w: 16, h: 1.2, bars: 14, rotate: 2 },
+    { kind: "twinkle", x: 9, y: 25, size: 2, color: WHITE },
+    { kind: "twinkle", x: 32, y: 26, size: 1.6, color: WHITE, delay: 0.9 },
+  ]),
+  "song-lead": P([
+    { kind: "waves", x: 82, y: 50, size: 18, side: "left" },
+    { kind: "glow", x: 60, y: 30, size: 10, color: WARM, delay: 0.6 },
+  ]),
+  "song-session": P([
+    { kind: "playhead", x: 30, y: 42, w: 14, h: 10 },
+    { kind: "waves", x: 69, y: 21, size: 10, side: "left" },
+  ]),
+  "song-studio": P([
+    { kind: "meter", x: 52, y: 44, w: 20, h: 1.2, bars: 18, rotate: -2 },
+    { kind: "playhead", x: 59, y: 37, w: 8, h: 6 },
+    { kind: "pulse", x: 32, y: 32, size: 4 },
+    { kind: "pulse", x: 61, y: 31, size: 4, delay: 0.4 },
+  ]),
+  "stock-curated": P([
+    { kind: "bokeh", x: 50, y: 12, size: 10, color: WARM },
+    { kind: "bokeh", x: 38, y: 40, size: 6, color: WARM, delay: 2 },
+    { kind: "waveline", y: 92 },
+  ]),
+  "stock-lead": P([
+    { kind: "playhead", x: 57, y: 50, w: 30, h: 10 },
+    { kind: "glow", x: 46, y: 10, size: 10, color: RED },
+    { kind: "glow", x: 95, y: 45, size: 8, color: BLUE, delay: 1 },
+  ]),
+  "stock-voice": P([
+    { kind: "waves", x: 45, y: 53, size: 10 },
+    { kind: "waves", x: 70, y: 62, size: 9, side: "left", delay: 0.8 },
+  ]),
+  "sub-south": P([
+    { kind: "glow", x: 50, y: 50, size: 22, color: WHITE },
+    { kind: "caption", x: 44, y: 52, w: 12, h: 2 },
+  ]),
+  "sub-together": P([
+    { kind: "caption", x: 62, y: 76, w: 33, h: 4.5 },
+    { kind: "glow", x: 20, y: 60, size: 9, color: BLUE, delay: 0.6 },
+  ]),
+  "tr-languages": P([
+    { kind: "cursor", x: 41, y: 45, h: 4 },
+    { kind: "glow", x: 72, y: 20, size: 12, color: WHITE },
+  ]),
+  "tr-transcreation": P([
+    { kind: "glow", x: 50, y: 40, size: 12, color: WARM },
+    { kind: "glow", x: 75, y: 60, size: 9, color: WARM, delay: 1 },
+  ]),
+  "translation-lead": P([{ kind: "cursor", x: 82, y: 66, h: 7 }]),
+  "vo-studio": P([
+    { kind: "glow", x: 55, y: 42, size: 16, color: BLUE },
+    { kind: "waves", x: 46, y: 58, size: 10, side: "left", delay: 0.5 },
+  ]),
+  "vo-voices": P([{ kind: "waves", x: 58, y: 52, size: 16, side: "left" }]),
 };

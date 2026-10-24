@@ -25,16 +25,25 @@ export default function ServiceMedia({ media, alt }: { media: string; alt: boole
   const m = SERVICE_MEDIA[media];
   if (!m) return null;
   return (
-    <figure className="eva-svc-figure">
+    <figure className={`eva-svc-figure${m.credit ? " eva-equipment-figure" : ""}`}>
       <div
         className={`eva-svc-photo eva-fx-host${alt ? " eva-svc-photo--alt" : ""}`}
         style={{ aspectRatio: `${m.fx.width} / ${m.fx.height}` }}
       >
         <div className="eva-svc-photo-stage">
-          <Image src={m.src} alt={m.alt} fill sizes="(min-width: 992px) 50vw, 100vw" loading="lazy" />
+          <Image src={m.src} alt={m.alt} fill sizes="(min-width: 992px) 55vw, 100vw" loading="lazy" />
           <ImageEffects fx={m.fx} />
         </div>
       </div>
+      {m.credit && (
+        <figcaption>
+          Photo:{" "}
+          <a href={m.credit.source} target="_blank" rel="noopener noreferrer">
+            {m.credit.author}, {m.credit.license}
+            <span className="sr-only"> (opens in a new tab)</span>
+          </a>
+        </figcaption>
+      )}
     </figure>
   );
 }

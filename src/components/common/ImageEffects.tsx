@@ -31,6 +31,8 @@ function FxChildren({ item }: { item: FxItem }) {
       ));
     case "playhead":
     case "caption":
+    case "knob":
+    case "gloss":
       return <span />;
     case "waveline":
       return (

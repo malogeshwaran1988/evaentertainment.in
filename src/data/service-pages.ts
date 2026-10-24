@@ -32,7 +32,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
             ],
           },
         ],
-        media: "singer",
+        media: "dub-why",
       },
       {
         heading: "Our lip-sync dubbing process",
@@ -135,7 +135,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
             text: "Read more on our [studio equipment page](/studio-equipment).",
           },
         ],
-        media: "live:neumann",
+        media: "dub-studio",
       },
       {
         heading: "Why producers choose EVA Entertainment",
@@ -308,7 +308,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
             ],
           },
         ],
-        media: "live:rode",
+        media: "vo-voices",
       },
       {
         heading: "Languages",
@@ -367,7 +367,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
             text: "More details on our [studio equipment page](/studio-equipment).",
           },
         ],
-        media: "live:genelec",
+        media: "vo-studio",
       },
       {
         heading: "Who books our voice-over studio",
@@ -485,7 +485,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
             text: "On most projects we do all three.",
           },
         ],
-        media: "console",
+        media: "foley-what",
       },
       {
         heading: "Foley and sound services",
@@ -569,7 +569,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
             text: "See the [studio equipment page](/studio-equipment).",
           },
         ],
-        media: "live:pro-tools",
+        media: "foley-studio",
       },
       {
         heading: "Who it is for",
@@ -733,7 +733,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
             ],
           },
         ],
-        media: "console",
+        media: "mix-problems",
       },
       {
         heading: "Our mixing process",
@@ -949,7 +949,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
             text: 'Our subtitlers decide case by case. A respectful "garu" or "anna" might become a name, a title or simply a warmer tone in the line. A punch dialogue is rewritten so it still lands in Hindi or English. Song lyrics are subtitled when they move the story, in a style the client approves. The aim is simple: the viewer reading the subtitle should laugh, wince or cheer at the same moment as the viewer who understands the original.',
           },
         ],
-        media: "workstation",
+        media: "sub-south",
       },
       {
         heading: "How our subtitling works",
@@ -1033,7 +1033,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
             text: "Many producers now release a film both dubbed and subtitled. Because one team handles both at EVA, the Hindi dub and the subtitles use the same names, terms and tone. Our main credits are Hindi dubbed versions of South Indian films, including [Ghaati](/projects/ghaati-hindi-dubbing), Sirai and [Nari Nari Naduma Murari](/projects/nari-nari-naduma-murari-hindi-dubbing). See [lip-sync dubbing](/dubbing-studio).",
           },
         ],
-        media: "live:yamaha",
+        media: "sub-together",
       },
       {
         heading: "Why EVA Entertainment",
@@ -1204,7 +1204,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
             ],
           },
         ],
-        media: "singer",
+        media: "song-session",
       },
       {
         heading: "Songs in more than one language",
@@ -1235,7 +1235,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
             text: "See the full [studio equipment list](/studio-equipment).",
           },
         ],
-        media: "live:rode",
+        media: "song-studio",
       },
       {
         heading: "Rates and booking",
@@ -1403,7 +1403,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
             text: "Taglines, jingles and ad scripts often rely on wordplay, rhyme or cultural references that simply do not exist in the target language. Transcreation means rewriting the idea, not the words, so the ad works as well in Hindi or Tamil as it did in English. We share options and explain the choices before recording.",
           },
         ],
-        media: "preamps",
+        media: "tr-transcreation",
       },
       {
         heading: "Languages and pairs",
@@ -1429,7 +1429,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
             text: "Every script is translated or reviewed by a native speaker of the target language.",
           },
         ],
-        media: "workstation",
+        media: "tr-languages",
       },
       {
         heading: "How we work",
@@ -1581,7 +1581,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
             ],
           },
         ],
-        media: "live:genelec",
+        media: "stock-curated",
       },
       {
         heading: "What is in the library",
@@ -1691,7 +1691,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
             text: "Most videos need both music and a voice. At EVA you can record the [voice-over](/voice-over-studio), pick the music, add effects and get a final [stereo or 5.1 mix](/5-1-mixing-studio) in one visit. That saves time, and it means the music is chosen and mixed with the voice in mind, not dropped underneath it at the last minute.",
           },
         ],
-        media: "singer",
+        media: "stock-voice",
       },
       {
         heading: "Choosing music for your video: quick tips",

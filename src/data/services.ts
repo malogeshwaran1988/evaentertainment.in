@@ -1,7 +1,8 @@
+import { SERVICE_MEDIA, type PhotoCredit } from "@@/data/service-media";
 import { APP_BASE_URL } from "@@/constants/constants";
 import { serviceHref, type ServiceSlug } from "@@/constants/routes";
 import type { SvgIconName } from "@@/components/common/Icons";
-import { HERO_FX, SERVICE_FX, type ImageFx } from "@@/data/image-fx";
+import { SERVICE_FX, type ImageFx } from "@@/data/image-fx";
 
 type ServiceIcon = { icon: string; svg?: never } | { svg: SvgIconName; icon?: never };
 
@@ -17,6 +18,8 @@ export type Service = ServiceIcon & {
   image: string;
   alt: string;
   fx: ImageFx;
+  /** Visible photo credit for licensed lead photos. */
+  credit?: PhotoCredit;
   ogImage: string;
   ogImageAlt: string;
   introHeading: string;
@@ -113,9 +116,10 @@ export const SERVICES: Service[] = [
       description:
         "Foley recording, sound effects and sound design in Andheri, Mumbai for films, series, shows, events and special projects.",
     },
-    image: "/images/services/equipment-03.avif",
-    alt: "Foley and sound design workstation",
-    fx: SERVICE_FX.workstation,
+    image: SERVICE_MEDIA["foley-lead"].src,
+    alt: SERVICE_MEDIA["foley-lead"].alt,
+    fx: SERVICE_MEDIA["foley-lead"].fx,
+    credit: SERVICE_MEDIA["foley-lead"].credit,
     ogImage: "/images/og/foley-recording-mumbai.jpg",
     ogImageAlt: "Foley and sound design workstation at EVA Entertainment",
     introHeading: "What Foley and sound design add",
@@ -154,9 +158,10 @@ export const SERVICES: Service[] = [
       description:
         "5.1 surround and stereo mixing and mastering in Andheri, Mumbai for broadcast, film, corporate and multimedia, from IVR voice tracks to Dolby E.",
     },
-    image: "/images/services/equipment-04.avif",
-    alt: "Studio patch cables for 5.1 mixing",
-    fx: SERVICE_FX.cables,
+    image: SERVICE_MEDIA["mix51-lead"].src,
+    alt: SERVICE_MEDIA["mix51-lead"].alt,
+    fx: SERVICE_MEDIA["mix51-lead"].fx,
+    credit: SERVICE_MEDIA["mix51-lead"].credit,
     ogImage: "/images/og/5-1-mixing-studio-mumbai.jpg",
     ogImageAlt: "Studio patch bay used for 5.1 mixing at EVA Entertainment",
     introHeading: "Creative mixes, on budget and on time",
@@ -224,9 +229,10 @@ export const SERVICES: Service[] = [
       description:
         "Song recording studio in Andheri, Mumbai for vocals and instruments, with mixing and mastering under one roof. Contact EVA Entertainment to plan your session.",
     },
-    image: "/images/home/slide-2.avif",
-    alt: "Recording studio control room with mixing console",
-    fx: HERO_FX.console,
+    image: SERVICE_MEDIA["song-lead"].src,
+    alt: SERVICE_MEDIA["song-lead"].alt,
+    fx: SERVICE_MEDIA["song-lead"].fx,
+    credit: SERVICE_MEDIA["song-lead"].credit,
     ogImage: "/images/og/song-recording-studio-mumbai.jpg",
     ogImageAlt: "Control room and mixing console at EVA Entertainment's recording studio",
     introHeading: "A studio built for recording",
@@ -259,9 +265,10 @@ export const SERVICES: Service[] = [
       description:
         "Script translation for dubbing, voice-over and subtitling in Indian and international languages by native translators. Based in Andheri, Mumbai.",
     },
-    image: "/images/services/equipment-05.avif",
-    alt: "Translated script and subtitle file on a laptop",
-    fx: SERVICE_FX.subtitles,
+    image: SERVICE_MEDIA["translation-lead"].src,
+    alt: SERVICE_MEDIA["translation-lead"].alt,
+    fx: SERVICE_MEDIA["translation-lead"].fx,
+    credit: SERVICE_MEDIA["translation-lead"].credit,
     ogImage: "/images/og/translation-services-mumbai.jpg",
     ogImageAlt: "Translated script and subtitle file at EVA Entertainment",
     introHeading: "Translation made for the screen",
@@ -294,9 +301,10 @@ export const SERVICES: Service[] = [
       description:
         "Curated stock music and sound library from EVA Entertainment, Mumbai, for films, ads, corporate videos, e-learning and online content.",
     },
-    image: "/images/services/equipment-03.avif",
-    alt: "Producer workstation used to browse the stock music library",
-    fx: SERVICE_FX.workstation,
+    image: SERVICE_MEDIA["stock-lead"].src,
+    alt: SERVICE_MEDIA["stock-lead"].alt,
+    fx: SERVICE_MEDIA["stock-lead"].fx,
+    credit: SERVICE_MEDIA["stock-lead"].credit,
     ogImage: "/images/og/stock-music-library.jpg",
     ogImageAlt: "Music workstation for EVA Entertainment's stock music library",
     introHeading: "Music for your next project",
