@@ -5819,6 +5819,7 @@ form[aria-busy="true"] textarea {
   .eva-related-services .eva-wwd-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
   .eva-related-services .eva-wwd-grid > li:last-child:nth-child(3n + 1) { grid-column: span 2; }
   .eva-related-services .eva-wwd-grid > li:last-child:nth-child(odd) { grid-column: 2 / span 2; }
+}
 
 /* ---- Poster strip: centred heading + row ---- */
 .eva-svc-posters .eva-svc-title { text-align: center; }
