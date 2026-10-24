@@ -5675,3 +5675,67 @@ form[aria-busy="true"] textarea {
   .svc-layer { display: none; }
   .service-item:hover .svc-live .svc-stage { transform: none; }
 }
+
+/* ---------- Service pages: rich sections (Oct 2026) ---------- */
+.eva-svc-page .block.eva-svc-section { padding-top: 80px; padding-bottom: 80px; }
+.eva-svc-page .block.eva-svc-section + .block.eva-svc-section:not(.block--darkbg) { padding-top: 0; }
+.eva-svc-title { text-align: left; }
+.eva-svc-title > span { color: #70b615; }
+.eva-svc-title > .icon { color: #70b615; margin-right: 12px; }
+.eva-svc-head { max-width: 960px; margin: 0 auto 40px; text-align: center; }
+.eva-svc-head .eva-svc-title { text-align: center; }
+.eva-svc-copy--narrow { max-width: 960px; margin: 0 auto; }
+.eva-svc-copy p, .eva-svc-lead-copy p, .eva-svc-head p, .eva-svc-outro p { font-size: 18px; line-height: 1.75; }
+.eva-svc-copy h3 { margin: 28px 0 10px; font-size: 24px; }
+.eva-svc-list, .eva-svc-olist { margin: 0 0 20px; padding-left: 0; list-style: none; }
+.eva-svc-list li, .eva-svc-olist li { position: relative; padding-left: 28px; margin-bottom: 10px; font-size: 17px; line-height: 1.65; }
+.eva-svc-list li::before { content: ""; position: absolute; left: 4px; top: 0.6em; width: 10px; height: 10px; border-radius: 50%; background: #70b615; }
+.eva-svc-olist { counter-reset: svc; }
+.eva-svc-olist li { counter-increment: svc; }
+.eva-svc-olist li::before { content: counter(svc) "."; position: absolute; left: 0; color: #70b615; font-weight: 700; }
+.eva-svc-copy a, .eva-svc-lead-copy a, .eva-service-point a, .eva-svc-outro a, .eva-faq-item a { color: #70b615; text-decoration: underline; text-underline-offset: 3px; }
+.eva-svc-cards { margin-top: 8px; }
+.eva-svc-cards .eva-service-point h3 { margin: 0; font-size: 20px; line-height: 1.35; color: #fff; }
+.eva-svc-cards .eva-service-point p { margin: 0; font-size: 16px; line-height: 1.65; color: rgba(255, 255, 255, 0.78); }
+.eva-svc-cards .eva-service-point .eva-svc-list li { font-size: 16px; color: rgba(255, 255, 255, 0.78); }
+.eva-svc-step { font-size: 34px; line-height: 1; font-weight: 700; color: #70b615; }
+.eva-svc-outro { max-width: 960px; margin: 32px auto 0; text-align: center; }
+.eva-service-point.eva-reveal[data-reveal] { transition-delay: 0.05s; }
+.eva-svc-split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 56px; align-items: center; }
+.eva-svc-split--alt .eva-svc-split-media { order: 2; }
+.eva-svc-figure { margin: 0; }
+.eva-svc-photo { position: relative; overflow: hidden; border-radius: 12px; }
+.eva-svc-photo-stage { position: absolute; inset: 0; animation: eva-kenburns 16s ease-in-out infinite alternate; will-change: transform; }
+.eva-svc-photo--alt .eva-svc-photo-stage { animation-name: eva-kenburns-alt; }
+.eva-svc-photo-stage img { object-fit: cover; }
+.eva-reveal[data-inview="false"] .eva-svc-photo-stage,
+.eva-reveal[data-inview="false"] .eva-svc-photo-stage * { animation-play-state: paused; }
+.eva-svc-figure.eva-equipment-figure figcaption { color: #666; }
+.block--darkbg .eva-svc-figure.eva-equipment-figure figcaption { color: rgba(255, 255, 255, 0.55); }
+.eva-svc-cta-box { max-width: 1100px; margin: 0 auto; padding: 48px 40px; border-radius: 12px; border-top: 3px solid #70b615; background: #181818; color: #fff; text-align: center; }
+.eva-svc-cta-box .eva-svc-title { text-align: center; color: #fff; }
+.eva-svc-cta-box p { font-size: 18px; color: rgba(255, 255, 255, 0.82); }
+.eva-svc-cta-box .eva-service-actions { justify-content: center; flex-wrap: wrap; }
+.eva-svc-cta-box .btn.btn--border, .eva-svc-cta-box .btn.btn--border:hover, .eva-svc-cta-box .btn.btn--border:focus { color: #fff; border-color: #70b615; }
+@media (prefers-reduced-motion: reduce) {
+  .eva-svc-photo-stage { animation: none; }
+}
+@media (max-width: 991px) {
+  .eva-svc-split { grid-template-columns: 1fr; gap: 32px; }
+  .eva-svc-split--alt .eva-svc-split-media { order: 0; }
+  .eva-svc-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 767px) {
+  .eva-svc-page .block.eva-svc-section { padding-top: 56px; padding-bottom: 56px; }
+  .eva-svc-cards { grid-template-columns: 1fr; }
+  .eva-svc-copy p, .eva-svc-lead-copy p, .eva-svc-head p { font-size: 16px; }
+  .eva-svc-cta-box { padding: 36px 20px; }
+}
+/* Brand green (#70b615) is 2.5:1 on white; use a darker green for text on light service sections (5.4:1). */
+.eva-svc-lead .theme-color { color: #47760d !important; } /* custom.css sets .theme-color with !important */
+.eva-svc-section:not(.block--darkbg) .eva-svc-title > span,
+.eva-svc-section:not(.block--darkbg) .eva-svc-title > .icon,
+.eva-svc-section:not(.block--darkbg) .eva-svc-olist li::before,
+.eva-svc-section:not(.block--darkbg) .eva-svc-copy a,
+.eva-svc-lead-copy a,
+.eva-service-faq .eva-faq-item a { color: #47760d; }
