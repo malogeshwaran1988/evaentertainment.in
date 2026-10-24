@@ -38,6 +38,34 @@ const LEVELS: number[][] = [
   [1, 0.2, 0.15, 0.2, 0.5, 1, 1],
 ];
 const LFE_I = 3;
+// Where each speaker cone sits in the clip, in % of the 16:9 frame, keyed by seconds.
+// Tracked from the video frames (the camera slowly pushes in). [t, Lx, Ly, Cx, Cy, Rx, Ry, LFEx, LFEy, Lsx, Lsy, Rsx, Rsy]
+const SPK_POS: number[][] = [
+  [0, 28.1, 43.9, 52.2, 47.8, 76.8, 43.7, 45.1, 63.0, 5.2, 53.3, 94.8, 53.7],
+  [1, 28.0, 43.9, 52.2, 47.8, 76.9, 43.7, 45.1, 63.1, 4.9, 53.5, 95.1, 53.9],
+  [2, 27.9, 43.9, 52.2, 48.0, 77.1, 43.9, 45.1, 63.3, 4.6, 53.5, 95.5, 54.1],
+  [3, 27.8, 44.1, 52.3, 48.1, 77.2, 43.9, 45.1, 63.5, 4.3, 53.9, 95.9, 54.3],
+  [4, 27.7, 44.3, 52.3, 48.3, 77.3, 44.3, 45.1, 63.9, 3.9, 54.3, 96.2, 54.6],
+  [5, 27.7, 44.6, 52.3, 48.7, 77.4, 44.6, 45.0, 64.3, 3.4, 54.5, 96.6, 55.1],
+  [6, 27.6, 45.2, 52.3, 49.3, 77.5, 45.0, 45.0, 64.8, 3.1, 55.1, 96.9, 55.6],
+  [7, 27.5, 45.7, 52.3, 49.8, 77.7, 45.6, 45.0, 65.6, 2.7, 55.9, 97.3, 56.3],
+  [8, 27.4, 46.5, 52.3, 50.7, 77.8, 46.4, 44.8, 66.4, 2.4, 56.8, 97.5, 57.3],
+  [9, 27.3, 47.8, 52.3, 51.9, 77.9, 47.7, 44.8, 67.7, 2.1, 58.1, 97.7, 58.5],
+  [10, 27.2, 49.4, 52.2, 53.6, 78.0, 49.4, 44.8, 69.5, 1.9, 59.8, 97.9, 60.2],
+  [11, 27.0, 51.4, 52.2, 55.6, 78.0, 51.4, 44.7, 71.8, 1.7, 61.6, 98.1, 62.0],
+  [12, 26.9, 52.9, 52.2, 57.1, 78.1, 52.9, 44.7, 73.2, 1.5, 62.9, 98.3, 63.2],
+];
+// Cone size as % of frame width (LFE woofer is larger, side surrounds are closer to camera).
+const SPK_SIZE = [3.6, 3.2, 3.6, 4.6, 4.4, 4.4];
+
+function lerpRows(t: number[][], x: number) {
+  let i = 0;
+  while (i < t.length - 2 && x > t[i + 1][0]) i++;
+  const a = t[i], b = t[i + 1];
+  const k = Math.min(1, Math.max(0, (x - a[0]) / (b[0] - a[0] || 1)));
+  return a.slice(1).map((v, j) => v + (b[j + 1] - v) * k);
+}
+
 // Listener-space jet position (metres): [t, x, y, z]; -z is in front.
 const PATH3: number[][] = [
   [0, 0, 0.3, -24],
@@ -72,6 +100,7 @@ export default function SurroundExperience({ headingId }: { headingId: string })
   const root = useRef<HTMLElement | null>(null);
   const video = useRef<HTMLVideoElement | null>(null);
   const bars = useRef<(HTMLSpanElement | null)[]>([]);
+  const spks = useRef<(HTMLSpanElement | null)[]>([]);
   const api = useRef<Api | null>(null);
   const [sound, setSound] = useState<Sound>("off");
   const [playing, setPlaying] = useState(false);
@@ -152,6 +181,7 @@ export default function SurroundExperience({ headingId }: { headingId: string })
 
     // ---------- Timeline: meters, captions and panner follow currentTime ----------
     const last: string[] = [];
+    const lastSp: string[] = [];
     const paint = () => {
       const d = v.duration || 12;
       const p = Math.min(1, Math.max(0, v.currentTime / d));
@@ -160,6 +190,22 @@ export default function SurroundExperience({ headingId }: { headingId: string })
         const t = `scaleY(${val.toFixed(3)})`;
         const b = bars.current[i];
         if (b && last[i] !== t) { last[i] = t; b.style.transform = t; }
+      });
+      // Speaker rings: follow each cone as the camera moves; ring strength = channel level.
+      const pos = lerpRows(SPK_POS, v.currentTime || 0);
+      let top = 0;
+      lv.forEach((val, i) => { if (val > lv[top]) top = i; });
+      lv.forEach((val, i) => {
+        const sp = spks.current[i];
+        if (!sp) return;
+        const lvl = val < 0.12 ? 0 : Math.min(1, (val - 0.12) / 0.78);
+        const key = `${pos[i * 2].toFixed(2)}|${pos[i * 2 + 1].toFixed(2)}|${lvl.toFixed(2)}|${i === top}`;
+        if (lastSp[i] === key) return;
+        lastSp[i] = key;
+        sp.style.left = `${pos[i * 2]}%`;
+        sp.style.top = `${pos[i * 2 + 1]}%`;
+        sp.style.setProperty("--lvl", lvl.toFixed(2));
+        if (i === top && lvl > 0) sp.dataset.top = ""; else delete sp.dataset.top;
       });
       let st = 0;
       STAGE_AT.forEach((a, i) => { if (p >= a) st = i; });
@@ -176,8 +222,8 @@ export default function SurroundExperience({ headingId }: { headingId: string })
     };
     const loop = () => { paint(); raf = v.paused ? 0 : requestAnimationFrame(loop); };
 
-    const onPlay = () => { setPlaying(true); if (!raf) raf = requestAnimationFrame(loop); if (ctx?.state === "running") startSource(); };
-    const onPause = () => { setPlaying(false); silence(); paint(); };
+    const onPlay = () => { setPlaying(true); el.dataset.playing = ""; if (!raf) raf = requestAnimationFrame(loop); if (ctx?.state === "running") startSource(); };
+    const onPause = () => { setPlaying(false); delete el.dataset.playing; silence(); paint(); };
     const onSeeked = () => { paint(); if (!v.paused && ctx?.state === "running") startSource(); };
     // Loop by hand so the jet sound restarts exactly with the picture.
     const onEnded = () => { v.currentTime = 0; void v.play().catch(() => undefined); };
@@ -275,6 +321,20 @@ export default function SurroundExperience({ headingId }: { headingId: string })
           <source src={STUDIO.webm} type="video/webm" />
           <source src={STUDIO.mp4} type="video/mp4" />
         </video>
+        <div className={s.spkLayer} aria-hidden="true">
+          {CH.map((c, i) => (
+            <span
+              key={c}
+              className={s.spk}
+              data-ch={c}
+              style={{ ["--sz" as string]: SPK_SIZE[i] }}
+              ref={(n) => { spks.current[i] = n; }}
+            >
+              <i /><i /><i />
+              <b>{c}</b>
+            </span>
+          ))}
+        </div>
         {reducedUi ? (
           <button type="button" className={s.bigPlay} onClick={() => api.current?.togglePlay()}>
             <svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true"><path d="M8 5v14l11-7z" fill="currentColor" /></svg>

@@ -72,6 +72,37 @@ $green: #70b615;
 .credit { margin: 0; padding: 6px; text-align: center; font-size: 11px; color: #bbb;
   a { color: #ddd; text-decoration: underline; } }
 
+/* Speaker sound rings. The layer copies the video's object-fit: cover box so % positions stay on the cones. */
+.scene { container-type: size; }
+.spkLayer { position: absolute; left: 50%; top: 50%; width: max(100cqw, 100cqh * 16 / 9); aspect-ratio: 16 / 9; transform: translate(-50%, -50%); pointer-events: none; z-index: 1; }
+.spk {
+  --lvl: 0; --sz: 3.6;
+  position: absolute; width: calc(var(--sz) * 1%); aspect-ratio: 1; transform: translate(-50%, -50%);
+  opacity: calc(0.25 + var(--lvl) * 0.75); transition: opacity .25s linear;
+  i { position: absolute; inset: 0; border-radius: 50%; border: 2px solid #b6ff52; opacity: 0; transform: scale(.7); will-change: transform, opacity;
+      animation: ring 1.5s cubic-bezier(.2,.6,.35,1) infinite paused; }
+  i:nth-child(2) { animation-delay: .5s; }
+  i:nth-child(3) { animation-delay: 1s; }
+  b { position: absolute; left: 50%; top: 100%; transform: translate(-50%, 4px); padding: 1px 6px; border-radius: 8px; font-size: 11px; font-weight: 700; line-height: 1.4; color: #fff; background: rgba(0,0,0,.6); opacity: 0; transition: opacity .3s; white-space: nowrap; }
+  &[data-top] b { opacity: .9; }
+}
+.spk[data-ch="LFE"] i { animation-duration: 2.1s; border-color: #ffd23f; }
+.spk[data-ch="LFE"] i:nth-child(2) { animation-delay: .7s; }
+.spk[data-ch="LFE"] i:nth-child(3) { animation-delay: 1.4s; }
+.wrap[data-playing] .spk i { animation-play-state: running; }
+@keyframes ring {
+  0% { opacity: .5; transform: scale(.7); }
+  100% { opacity: 0; transform: scale(2.3); }
+}
+.wrap:not([data-playing]) .spk { opacity: 0; }
+.wrap[data-still="true"] .spk[data-top] { opacity: 1; }
+.wrap[data-still="true"] .spk[data-top] i:first-child { opacity: .45; transform: scale(1.3); }
+@media (max-width: 767px) { .spk b { font-size: 9px; padding: 0 4px; } .spk i { border-width: 1.5px; } }
+@media (prefers-reduced-motion: reduce) {
+  .spk i { animation: none !important; }
+  .spk[data-top] i:first-child { opacity: .45; transform: scale(1.3); }
+}
+
 @media (max-width: 767px) {
   /* Phones: the clip sits in flow at full 16:9, controls and captions stack below it. */
   .wrap { display: flex; flex-direction: column; padding-bottom: 20px; }
