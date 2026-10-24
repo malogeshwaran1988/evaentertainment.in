@@ -12,6 +12,7 @@ import { blogAbsoluteUrl, blogCoverAlt, formatBlogDate } from "@@/lib/blog/seo";
 import { blogHref } from "@@/lib/blog/slug";
 import { getPublicBlogPosts } from "@@/lib/blog/store";
 import { absoluteUrl, buildPageMetadata } from "@@/lib/seo";
+import "@@/styles/routes/blog.scss";
 
 /** ISR: refreshed hourly (scheduled posts appear within the hour) and on every admin save. */
 export const revalidate = 3600;

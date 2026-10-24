@@ -69,6 +69,14 @@ export default function HeroSlider() {
     };
   }, []);
 
+  // Perf: below-fold section backgrounds (globals.scss, html.eva-bg-ready) load after window load.
+  useEffect(() => {
+    const ready = () => document.documentElement.classList.add("eva-bg-ready");
+    if (document.readyState === "complete") ready();
+    else window.addEventListener("load", ready, { once: true });
+    return () => window.removeEventListener("load", ready);
+  }, []);
+
   const goPrev = useCallback(() => {
     setIndex((i) => (i - 1 + count) % count);
   }, [count]);

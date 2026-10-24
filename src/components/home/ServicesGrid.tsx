@@ -2,6 +2,7 @@ import type { CSSProperties, ReactNode } from "react";
 import Link from "@@/components/common/NavLink";
 import InViewFx from "@@/components/common/InViewFx";
 import { SERVICE_CARDS } from "@@/data/home";
+import NearViewImg from "@@/components/common/NearViewImg";
 
 const EQ_BARS = Array.from({ length: 16 }, (_, i) => i);
 
@@ -160,8 +161,7 @@ export default function ServicesGrid() {
                 <InViewFx className={`service-item-photo eva-fx-lazy svc-live${ov ? ` svc-live--${ov.kind}` : ""}`}>
                   <span className="svc-frame" style={{ "--ar": `${w} / ${h}`, "--arn": w / h } as CSSProperties}>
                     <span className="svc-stage">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
+                      <NearViewImg
                         src={card.image}
                         alt={card.alt}
                         width={w}

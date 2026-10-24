@@ -1,9 +1,12 @@
 import Reveal from "@@/components/equipment/Reveal";
 import LanguageCards from "@@/components/services/LanguageCards";
 import ServiceMedia from "@@/components/services/ServiceMedia";
-import SurroundExperience from "@@/components/services/SurroundExperience";
+import dynamic from "next/dynamic";
 import { inline, splitLabel } from "@@/components/services/RichText";
 import type { RichBlock, ServicePageSection } from "@@/data/service-page-types";
+
+// Only the 5.1 page uses it: split into its own chunk (still server-rendered) so other service pages skip its JS.
+const SurroundExperience = dynamic(() => import("@@/components/services/SurroundExperience"));
 
 const slugify = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 

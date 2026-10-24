@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { previewBlogHtmlAction } from "@@/app/(admin)/admin/blog/actions";
 import BlogArticleView from "@@/components/blog/BlogArticleView";
 import { readBlogPreview, type BlogPreviewPayload } from "@@/lib/blog/preview";
+import "@@/styles/routes/blog.scss";
 
 type State = { kind: "loading" } | { kind: "missing" } | { kind: "ready"; post: BlogPreviewPayload };
 

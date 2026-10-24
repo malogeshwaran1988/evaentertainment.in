@@ -1,10 +1,13 @@
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import ImageEffects from "@@/components/common/ImageEffects";
 import ServiceVideo from "@@/components/services/ServiceVideo";
-import VoiceShowcase from "@@/components/services/VoiceShowcase";
 import LivePhoto from "@@/components/equipment/LivePhoto";
 import { EQUIPMENT_ITEMS } from "@@/data/equipment";
 import { SERVICE_MEDIA } from "@@/data/service-media";
+
+// Only the voice-over page uses it: own chunk (still server-rendered) so other service pages skip its JS.
+const VoiceShowcase = dynamic(() => import("@@/components/services/VoiceShowcase"));
 
 /** One photo per topic, with its decorative overlay kept inside the same zoom stage. */
 export default function ServiceMedia({ media, alt }: { media: string; alt: boolean }) {

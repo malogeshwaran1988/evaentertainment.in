@@ -6,6 +6,7 @@ import { Routes } from "@@/constants/routes";
 import type { BlogPost } from "@@/data/blog";
 import { blogCoverAlt, blogReadingMinutes, formatBlogDate } from "@@/lib/blog/seo";
 import { blogHref } from "@@/lib/blog/slug";
+import "@@/styles/routes/blog.scss";
 
 export type BlogArticleData = Pick<
   BlogPost,
