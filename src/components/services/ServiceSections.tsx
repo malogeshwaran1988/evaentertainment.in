@@ -1,6 +1,7 @@
 import Reveal from "@@/components/equipment/Reveal";
 import LanguageCards from "@@/components/services/LanguageCards";
 import ServiceMedia from "@@/components/services/ServiceMedia";
+import SurroundExperience from "@@/components/services/SurroundExperience";
 import { inline, splitLabel } from "@@/components/services/RichText";
 import type { RichBlock, ServicePageSection } from "@@/data/service-page-types";
 
@@ -63,6 +64,7 @@ export default function ServiceSections({ sections }: { sections: ServicePageSec
   let mediaCount = 0;
   return sections.map((section) => {
     const id = `svc-${slugify(section.heading)}`;
+    if (section.heading === "The mixing room" && section.media === "live:pro-tools") return <SurroundExperience key={id} headingId={id} />;
     const cards = section.media ? null : toCards(section.blocks);
     if (cards) {
       const CardList = cards.steps ? "ol" : "ul";
