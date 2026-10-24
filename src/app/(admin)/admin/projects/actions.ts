@@ -16,6 +16,14 @@ import { uniqueProjectSlug } from "@@/lib/project-seo";
 import { parseProjectForm as parse } from "@@/lib/admin/project-validation";
 import { CSV_MAX_BYTES, validateProjectCsv, type CsvRowResult } from "@@/lib/admin/project-csv";
 import * as store from "@@/lib/projects-store";
+import { getClientsFresh } from "@@/lib/clients-store";
+
+/** Drops a client id that no longer exists (deleted in another tab), so the project saves without one. */
+async function withKnownClient(data: ProjectInput): Promise<ProjectInput> {
+  if (!data.clientId) return data;
+  const known = (await getClientsFresh()).some((c) => c.id === data.clientId);
+  return known ? data : { ...data, clientId: undefined };
+}
 
 export type ProjectFormState = {
   ok?: boolean;
@@ -80,8 +88,9 @@ export async function createProjectAction(
   formData: FormData,
 ): Promise<ProjectFormState> {
   await requireAdmin();
-  const { data, fieldErrors } = parse(formData);
-  if (!data) return { fieldErrors, message: "Please fix the highlighted fields." };
+  const { data: parsed, fieldErrors } = parse(formData);
+  if (!parsed) return { fieldErrors, message: "Please fix the highlighted fields." };
+  const data = await withKnownClient(parsed);
 
   let poster: string | undefined;
   try {
@@ -118,8 +127,9 @@ export async function updateProjectAction(
   formData: FormData,
 ): Promise<ProjectFormState> {
   await requireAdmin();
-  const { data, fieldErrors } = parse(formData);
-  if (!data) return { fieldErrors, message: "Please fix the highlighted fields." };
+  const { data: parsed, fieldErrors } = parse(formData);
+  if (!parsed) return { fieldErrors, message: "Please fix the highlighted fields." };
+  const data = await withKnownClient(parsed);
 
   let existing: Project | null = null;
   let uploaded: string | undefined;

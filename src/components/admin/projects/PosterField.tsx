@@ -29,6 +29,13 @@ type PosterFieldProps = {
   onPick: (file: File | null) => void;
   onClientError: (message: string | undefined) => void;
   onRemovedChange: (removed: boolean) => void;
+  /** Reuse for other uploads (client logos): ids, wording and preview box. Defaults keep the poster field. */
+  fieldId?: string;
+  label?: string;
+  noun?: string;
+  hint?: React.ReactNode;
+  previewClassName?: string;
+  urlPlaceholder?: string;
 };
 
 const SERVER_MAX_KB = POSTER_MAX_BYTES / 1024;
@@ -45,7 +52,14 @@ export default function PosterField({
   onPick,
   onClientError,
   onRemovedChange,
+  fieldId = "poster",
+  label = "Poster (optional)",
+  noun = "poster",
+  hint,
+  previewClassName = "aspect-2/3 w-32",
+  urlPlaceholder = "https://example.com/poster.jpg",
 }: PosterFieldProps) {
+  const Noun = noun.charAt(0).toUpperCase() + noun.slice(1);
   const inputRef = useRef<HTMLInputElement>(null);
   const convertGen = useRef(0);
   const [converting, setConverting] = useState(false);
@@ -90,18 +104,19 @@ export default function PosterField({
 
   return (
     <div className="space-y-2">
-      <Label htmlFor="poster">Poster (optional)</Label>
+      <Label htmlFor={fieldId}>{label}</Label>
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
         <div
           className={cn(
-            "relative flex aspect-2/3 w-32 shrink-0 items-center justify-center overflow-hidden rounded-md border bg-muted",
+            "relative flex shrink-0 items-center justify-center overflow-hidden rounded-md border bg-muted",
+            previewClassName,
             error && "border-destructive",
           )}
         >
           {previewSrc ? (
             // Blob URLs and freshly uploaded files can't go through next/image.
             // eslint-disable-next-line @next/next/no-img-element
-            <img src={previewSrc} alt="Poster preview" className="size-full object-cover" />
+            <img src={previewSrc} alt={`${Noun} preview`} className={fieldId === "poster" ? "size-full object-cover" : "size-full object-contain p-2"} />
           ) : (
             <ImageIcon className="size-8 text-muted-foreground" aria-hidden />
           )}
@@ -112,27 +127,29 @@ export default function PosterField({
               aria-busy="true"
             >
               <Loader2 className="size-6 animate-spin text-muted-foreground" aria-hidden />
-              <span className="sr-only">Working on poster</span>
+              <span className="sr-only">Working on {noun}</span>
             </div>
           ) : null}
         </div>
 
         <div className="min-w-0 flex-1 space-y-3">
-          <p id="poster-hint" className="text-sm text-muted-foreground">
+          <p id={`${fieldId}-hint`} className="text-sm text-muted-foreground">
+            {hint ?? (<>
             JPG, PNG, WebP, GIF or BMP — converted to AVIF under {POSTER_AVIF_MAX_KB} KB
             (aim ~{POSTER_AVIF_MIN_KB}–{POSTER_AVIF_MAX_KB} KB). Very large images are resized
             automatically. Portrait 2:3, e.g. 600 × 900 px. Or paste a direct image URL below.
+            </>)}
           </p>
 
           <input
             ref={inputRef}
-            id="poster"
+            id={fieldId}
             type="file"
             accept={POSTER_SOURCE_ACCEPT}
             className="sr-only"
             onChange={handleChange}
             aria-invalid={error ? true : undefined}
-            aria-describedby={error ? "poster-error poster-hint" : "poster-hint"}
+            aria-describedby={error ? `${fieldId}-error ${fieldId}-hint` : `${fieldId}-hint`}
           />
 
           <div className="flex flex-wrap gap-2">
@@ -158,7 +175,7 @@ export default function PosterField({
                 }}
               >
                 <Undo2 />
-                {current && !removed ? "Keep current poster" : "Clear selection"}
+                {current && !removed ? `Keep current ${noun}` : "Clear selection"}
               </Button>
             ) : current && !removed ? (
               <Button
@@ -169,7 +186,7 @@ export default function PosterField({
                 onClick={() => onRemovedChange(true)}
               >
                 <Trash2 />
-                Remove poster
+                Remove {noun}
               </Button>
             ) : current && removed ? (
               <Button type="button" variant="ghost" size="sm" onClick={() => onRemovedChange(false)}>
@@ -180,16 +197,16 @@ export default function PosterField({
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="posterUrl">Image URL (optional)</Label>
+            <Label htmlFor={`${fieldId}Url`}>Image URL (optional)</Label>
             <div className="flex flex-col gap-2 sm:flex-row">
               <Input
-                id="posterUrl"
+                id={`${fieldId}Url`}
                 type="url"
                 inputMode="url"
-                placeholder="https://example.com/poster.jpg"
+                placeholder={urlPlaceholder}
                 value={imageUrl}
                 onChange={(e) => onImageUrlChange(e.target.value)}
-                aria-describedby="posterUrl-hint"
+                aria-describedby={`${fieldId}Url-hint`}
                 className="min-w-0 flex-1"
               />
               <Button
@@ -204,7 +221,7 @@ export default function PosterField({
                 Load from URL
               </Button>
             </div>
-            <p id="posterUrl-hint" className="text-sm text-muted-foreground">
+            <p id={`${fieldId}Url-hint`} className="text-sm text-muted-foreground">
               Use a direct link to the image file, not a Google search or gallery page.
             </p>
           </div>
@@ -221,11 +238,11 @@ export default function PosterField({
               </span>
             </p>
           ) : removed ? (
-            <p className="text-sm text-muted-foreground">The poster will be removed when you save.</p>
+            <p className="text-sm text-muted-foreground">The {noun} will be removed when you save.</p>
           ) : null}
 
           {error ? (
-            <p id="poster-error" className="text-sm text-destructive" role="alert">
+            <p id={`${fieldId}-error`} className="text-sm text-destructive" role="alert">
               {error}
             </p>
           ) : null}

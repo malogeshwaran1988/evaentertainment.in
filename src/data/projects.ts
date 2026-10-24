@@ -104,6 +104,8 @@ export type Project = {
   /** Where the dubbed version can be watched (platform / channel). */
   whereToWatch?: string;
   faqs?: ProjectFaq[];
+  /** Optional client (id in the admin Clients list); project views show its logo and name. */
+  clientId?: string;
   createdAt: string;
   updatedAt: string;
 };
@@ -155,6 +157,7 @@ export type ProjectInput = Pick<
   | "audioHours"
   | "year"
   | "published"
+  | "clientId"
   | (typeof PROJECT_CONTENT_KEYS)[number]
 >;
 

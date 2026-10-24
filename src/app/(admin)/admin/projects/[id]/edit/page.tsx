@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import ProjectForm from "@@/components/admin/projects/ProjectForm";
 import PageHeader from "@@/components/admin/ui/PageHeader";
 import { requireAdmin } from "@@/lib/admin-auth";
+import { getClientsFresh } from "@@/lib/clients-store";
 import { getProject } from "@@/lib/projects-store";
 import { updateProjectAction } from "../../actions";
 
@@ -17,6 +18,7 @@ export default async function EditProjectPage({
   const { id } = await params;
   const project = await getProject(id);
   if (!project) notFound();
+  const clients = (await getClientsFresh()).map((c) => ({ id: c.id, name: c.name }));
 
   return (
     <div className="mx-auto w-full max-w-4xl">
@@ -45,7 +47,9 @@ export default async function EditProjectPage({
           trailerUrl: project.trailerUrl,
           whereToWatch: project.whereToWatch,
           faqs: project.faqs,
+          clientId: project.clientId,
         }}
+        clients={clients}
         submitLabel="Save changes"
       />
     </div>
