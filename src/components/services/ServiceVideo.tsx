@@ -26,6 +26,7 @@ export function SoundIcon({ on }: { on: boolean }) {
  * Muted looping clip: loads near the viewport, pauses off screen, poster only under reduced motion.
  * With `sfx`, a 44px sound toggle (muted by default) plays an effect kept in sync with the video time.
  * The audio file is fetched only after the visitor turns sound on.
+ * With `video.audio`, the same toggle unmutes the clip's own soundtrack instead.
  */
 export default function ServiceVideo({ video, poster, label, sfx }: { video: Video; poster: string; label: string; sfx?: ServiceSfx }) {
   const ref = useRef<HTMLVideoElement>(null);
@@ -90,9 +91,21 @@ export default function ServiceVideo({ video, poster, label, sfx }: { video: Vid
 
   useEffect(() => () => audio.current?.pause(), []);
 
+  const own = video.audio;
   const toggle = () => {
     const el = ref.current;
-    if (!sfx || !el) return;
+    if (!el) return;
+    if (own) {
+      const next = !sound;
+      setSound(next);
+      el.muted = !next;
+      if (next) {
+        if (!load) setLoad(true);
+        if (reducedRef.current || visible.current) el.play().catch(() => {});
+      }
+      return;
+    }
+    if (!sfx) return;
     const next = !sound;
     setSound(next);
     if (!next) {
@@ -139,7 +152,7 @@ export default function ServiceVideo({ video, poster, label, sfx }: { video: Vid
           </>
         )}
       </video>
-      {sfx && (
+      {(sfx || own) && (
         <button
           type="button"
           className="eva-media-sound"
@@ -148,7 +161,7 @@ export default function ServiceVideo({ video, poster, label, sfx }: { video: Vid
         >
           <SoundIcon on={sound} />
           <span>Sound</span>
-          <span className="sr-only">: {sfx.label}</span>
+          <span className="sr-only">: {own ? `turn sound on/off, ${own}` : sfx?.label}</span>
         </button>
       )}
     </>

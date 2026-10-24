@@ -1,7 +1,8 @@
 import { HERO_FX, PHOTO_FX, SERVICE_FX, type ImageFx } from "@@/data/image-fx";
 
 export type PhotoCredit = { author: string; license: string; source: string };
-export type ServiceVideo = { webm: string; mp4: string };
+/** `audio` labels a clip that carries its own soundtrack; it plays muted until the visitor turns sound on. */
+export type ServiceVideo = { webm: string; mp4: string; audio?: string };
 /** Optional sound effect looped in sync with a ServiceVideo; muted until the visitor turns it on. */
 export type ServiceSfx = { webm: string; m4a: string; label: string };
 export type ServicePhoto = { src: string; alt: string; fx: ImageFx; credit?: PhotoCredit; video?: ServiceVideo; sfx?: ServiceSfx; showcase?: "voices" };
@@ -25,7 +26,7 @@ export const SERVICE_MEDIA: Record<string, ServicePhoto> = {
     src: "/media/dubbing/lipsync-poster.avif",
     alt: "Voice actor with headphones at a studio microphone, matching an emotional actor's lip movements on a projected screen",
     fx: { width: 960, height: 720, items: [] },
-    video: { webm: "/media/dubbing/lipsync.webm", mp4: "/media/dubbing/lipsync.mp4" },
+    video: { webm: "/media/dubbing/lipsync.webm", mp4: "/media/dubbing/lipsync.mp4", audio: "voice actor dubbing the scene" },
   },
   "foley-lead": photo("foley-lead", "Foley artist in rubber boots performing footsteps on a Foley pit", "M.m.mayer", "CC BY-SA 3.0", "wiki/File:Ger%C3%A4uschemacher.jpg"),
   "foley-what": {
