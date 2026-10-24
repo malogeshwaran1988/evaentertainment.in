@@ -1,4 +1,5 @@
 import Reveal from "@@/components/equipment/Reveal";
+import LanguageCards from "@@/components/services/LanguageCards";
 import ServiceMedia from "@@/components/services/ServiceMedia";
 import { inline, splitLabel } from "@@/components/services/RichText";
 import type { RichBlock, ServicePageSection } from "@@/data/service-page-types";
@@ -117,8 +118,18 @@ export default function ServiceSections({ sections }: { sections: ServicePageSec
         <div className="container">
           <Reveal className="eva-svc-copy eva-svc-copy--narrow">
             <Heading id={id} icon={section.icon} text={section.heading} />
-            <Blocks blocks={section.blocks} />
+            {section.languages ? null : <Blocks blocks={section.blocks} />}
           </Reveal>
+          {section.languages ? (
+            <>
+              <LanguageCards data={section.languages} />
+              {section.blocks.length ? (
+                <div className="eva-svc-copy eva-svc-copy--narrow eva-lang-after">
+                  <Blocks blocks={section.blocks} />
+                </div>
+              ) : null}
+            </>
+          ) : null}
         </div>
       </section>
     );

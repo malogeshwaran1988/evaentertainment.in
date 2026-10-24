@@ -87,16 +87,14 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
       {
         heading: "Languages we dub",
         icon: "icon-translate2",
-        blocks: [
-          {
-            t: "p",
-            text: "**Source languages:** Telugu, Tamil, Malayalam, Kannada, Hindi and English.",
-          },
-          {
-            t: "p",
-            text: "**Target languages:** Hindi is our main dubbing language. We also dub into Tamil and Telugu (for example, Jack was dubbed from Telugu into both Tamil and Hindi).",
-          },
-        ],
+        languages: {
+          groups: [
+            { label: "Source languages", codes: ["te", "ta", "ml", "kn", "hi", "en"] },
+            { label: "Target languages", codes: ["hi", "ta", "te"], main: "hi" },
+          ],
+          caption: "For example, Jack was dubbed from Telugu into both Tamil and Hindi.",
+        },
+        blocks: [],
       },
       {
         heading: "Who we dub for",
@@ -315,6 +313,9 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
       {
         heading: "Languages",
         icon: "icon-translate2",
+        languages: {
+          groups: [{ label: "Voice-over languages", codes: ["hi", "te", "ta", "ml", "kn", "en"], main: "hi" }],
+        },
         blocks: [
           {
             t: "p",
@@ -980,6 +981,9 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
       {
         heading: "Languages",
         icon: "icon-translate2",
+        languages: {
+          groups: [{ label: "Subtitle languages", codes: ["hi", "en", "te", "ta", "ml", "kn"] }],
+        },
         blocks: [
           {
             t: "p",

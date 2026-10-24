@@ -13,6 +13,15 @@ export type ServicePageSection = {
   icon: string;
   blocks: RichBlock[];
   media?: ServiceMediaKey;
+  /** Visual language cards (native-script glyphs). Rendered after the heading, before `blocks`. */
+  languages?: LanguageCardsData;
+};
+
+export type LanguageCode = "te" | "ta" | "ml" | "kn" | "hi" | "en";
+
+export type LanguageCardsData = {
+  groups: { label: string; codes: LanguageCode[]; main?: LanguageCode }[];
+  caption?: string;
 };
 
 export type ServicePageContent = {
