@@ -5997,3 +5997,9 @@ button.eva-svc-poster { width: 100%; padding: 0; border: 0; background: none; te
 @media (prefers-reduced-motion: reduce) {
   .eva-voices-clip, .eva-voices-ring-fg, .eva-voices-pill { transition: none; }
 }
+
+/* ---- Perf: the footer sits far below the fold; skip its layout/paint and its CSS background fetch until it nears the viewport. ---- */
+.flex-1 ~ .footer {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 1060px;
+}

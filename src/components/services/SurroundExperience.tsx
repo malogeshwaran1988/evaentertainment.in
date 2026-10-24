@@ -305,7 +305,7 @@ export default function SurroundExperience({ headingId }: { headingId: string })
         <div className={s.scene}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={STUDIO.poster} alt={STUDIO.alt} width={STUDIO.width} height={STUDIO.height} className={s.still} loading="lazy" decoding="async" />
-          <video ref={video} className={s.video} muted playsInline preload="none" poster={STUDIO.poster} width={STUDIO.width} height={STUDIO.height} tabIndex={-1} aria-hidden="true">
+          <video ref={video} className={s.video} muted playsInline preload="none" width={STUDIO.width} height={STUDIO.height} tabIndex={-1} aria-hidden="true">
             <source src={STUDIO.webm} type="video/webm" />
             <source src={STUDIO.mp4} type="video/mp4" />
           </video>
@@ -320,7 +320,7 @@ export default function SurroundExperience({ headingId }: { headingId: string })
             <span className={s.subStill}>A jet flies through a 5.1 room, and every channel responds as it passes.</span>
           </p>
           <div className={s.controls}>
-            <button type="button" className={s.sound} aria-pressed={sound} onClick={toggle} aria-label="Sound">
+            <button type="button" className={s.sound} aria-pressed={sound} onClick={toggle}>
               <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
                 <path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor" />
                 {sound ? (

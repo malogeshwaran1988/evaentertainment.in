@@ -161,7 +161,7 @@
 }
 
 .equiment-bg {
-    background: url('../images/equipment/equipment-06.avif') no-repeat center center #1f1f1f;
+    background: url('/images/equipment/equipment-06.avif') no-repeat center center #1f1f1f;
     background-size: cover;
     padding-top: 50px;
     padding-bottom: 50px;

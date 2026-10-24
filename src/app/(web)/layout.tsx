@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "@@/styles/tailwind-web.css";
 import "@@/styles/globals.scss";
+import "@@/styles/legacy/index.css";
 import Header from "@@/components/common/Header";
 import Footer from "@@/components/common/Footer";
 import ContactCtaServer from "@@/components/common/ContactCtaServer";

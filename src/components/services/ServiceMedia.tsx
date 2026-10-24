@@ -39,7 +39,7 @@ export default function ServiceMedia({ media, alt }: { media: string; alt: boole
             <ServiceVideo video={m.video} poster={m.src} label={m.alt} sfx={m.sfx} />
           ) : (
             <>
-              <Image src={m.src} alt={m.alt} fill sizes="(min-width: 992px) 55vw, 100vw" loading="lazy" />
+              <Image src={m.src} alt={m.alt} fill sizes="(min-width: 992px) 55vw, 100vw" loading="lazy" fetchPriority="low" />
               <ImageEffects fx={m.fx} />
             </>
           )}
