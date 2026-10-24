@@ -25,5 +25,15 @@ export type ServicePageContent = {
   lead: string[];
   sections: ServicePageSection[];
   faqs: { q: string; a: string }[];
-  cta: { heading: string; text: string; label: string };
+  /** Project slugs for the poster strip; shown only when those projects are published. */
+  posterStrip?: string[];
+  cta: {
+    heading: string;
+    text: string;
+    label: string;
+    /** Second action from the PDF (e.g. "Book a studio session"), links to the contact page. */
+    secondary?: string;
+    /** Contact lines exactly as the PDF lists them. */
+    contact: { label: string; value: string; href?: string }[];
+  };
 };

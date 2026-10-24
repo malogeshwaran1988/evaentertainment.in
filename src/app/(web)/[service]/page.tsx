@@ -7,6 +7,7 @@ import RelatedServices from "@@/components/services/RelatedServices";
 import ServiceFaq from "@@/components/services/ServiceFaq";
 import ServiceLead, { ServicePageCta } from "@@/components/services/ServiceLead";
 import ServiceSections from "@@/components/services/ServiceSections";
+import ServicePosterStrip from "@@/components/services/ServicePosterStrip";
 import { plain } from "@@/components/services/RichText";
 import { APP_BASE_URL, CONTACT, POSTAL_ADDRESS, SITE_NAME } from "@@/constants/constants";
 import { serviceHref } from "@@/constants/routes";
@@ -89,6 +90,7 @@ export default async function ServicePage({ params }: PageProps<"/[service]">) {
       />
       <ServiceLead service={service} page={page} />
       <ServiceSections sections={page.sections} />
+      <ServicePosterStrip slugs={page.posterStrip} />
       <ServicePageCta page={page} />
       <ServiceFaq faqs={faqs} />
       <RelatedServices slugs={service.related} />
