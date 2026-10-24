@@ -93,7 +93,7 @@ export default async function ServicePage({ params }: PageProps<"/[service]">) {
       <ServicePosterStrip slugs={page.posterStrip} />
       <ServicePageCta page={page} />
       <ServiceFaq faqs={faqs} />
-      <RelatedServices slugs={service.related} />
+      <RelatedServices current={service.slug} />
     </main>
   );
 }
