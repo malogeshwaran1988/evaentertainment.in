@@ -82,7 +82,23 @@ export const SERVICE_MEDIA: Record<string, ServicePhoto> = {
       ],
     },
   },
-  "song-session": photo("song-session", "Sitar player recording a take while an Indian engineer follows the session on the studio screens"),
+  "song-session": {
+    src: "/media/song/sitar-ba-poster.avif",
+    alt: "Indian sitar player recording an original phrase in a vocal booth, first as a thin raw take, then an engineer processes it in the editing software and the same phrase plays back rich and full",
+    fx: { width: 4, height: 3, items: [] },
+    // Same footage and take in both halves: the "after" audio is the raw sitar processed (EQ, compression, stereo reverb, tanpura drone), so pluck sync holds.
+    video: {
+      webm: "/media/song/sitar-ba.webm",
+      mp4: "/media/song/sitar-ba.mp4",
+      audio: "the raw sitar take, then the same take after post-production",
+      autoSound: true,
+      cues: [
+        { from: 0, to: 6, text: "Raw recording" },
+        { from: 6, to: 10, text: "Post-production" },
+        { from: 10, to: 16, text: "After post-production" },
+      ],
+    },
+  },
 
   "song-studio": photo("song-studio", "Music studio in Mumbai with a mixing console, studio monitors and a keyboard"),
   "stock-curated": photo("stock-curated", "Indian music curator in Mumbai playing a shortlist of tracks to a client from a laptop with the brief and a stopwatch on the table"),
