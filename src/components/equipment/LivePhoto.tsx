@@ -1,3 +1,4 @@
+import BrandMark from "@@/components/common/BrandMark";
 import type { CSSProperties } from "react";
 import type { EquipmentItem } from "@@/data/equipment";
 
@@ -48,6 +49,7 @@ export default function LivePhoto({ item, eager, alt }: { item: EquipmentItem; e
           {live.led && <span className="eva-live-led" style={pos(live.led.x, live.led.y)} />}
         </div>
       </div>
+      <BrandMark />
       {live.rec && (
         <span className={`eva-live-rec eva-live-rec--${live.rec}`} aria-hidden="true">
           <b />

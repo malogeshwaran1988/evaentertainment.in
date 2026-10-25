@@ -3,6 +3,7 @@
 import { useEffect, useId, useRef, useState } from "react";
 import { claimAudio, otherHasAudio, registerAudio, releaseAudio, SOUND_BTN_SELECTOR } from "@@/lib/audio-focus";
 import type { ServiceSfx, ServiceVideo as Video } from "@@/data/service-media";
+import BrandMark from "@@/components/common/BrandMark";
 import s from "./ServiceVideo.module.scss";
 
 /** Pick the first audio source the browser can play (Opus webm, then AAC m4a). */
@@ -387,5 +388,11 @@ function AutoSoundVideo({ video, poster, label }: { video: Video; poster: string
  * or, with `video.autoSound`, a clip that starts with sound when in view.
  */
 export default function ServiceVideo(props: { video: Video; poster: string; label: string; sfx?: ServiceSfx }) {
-  return props.video.autoSound ? <AutoSoundVideo {...props} /> : <LoopVideo {...props} />;
+  return (
+    <>
+      {props.video.autoSound ? <AutoSoundVideo {...props} /> : <LoopVideo {...props} />}
+      {/* Brand standard: overlay unless the logo is already burned into the footage. */}
+      {props.video.burnedInBrand ? null : <BrandMark />}
+    </>
+  );
 }

@@ -1,6 +1,7 @@
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import ImageEffects from "@@/components/common/ImageEffects";
+import BrandMark from "@@/components/common/BrandMark";
 import ServiceVideo from "@@/components/services/ServiceVideo";
 import LivePhoto from "@@/components/equipment/LivePhoto";
 import SubtitleOverlay from "@@/components/services/SubtitleOverlay";
@@ -39,6 +40,7 @@ export default function ServiceMedia({ media, alt }: { media: string; alt: boole
               <Image src={m.src} alt={m.alt} fill sizes="(min-width: 992px) 55vw, 100vw" loading="lazy" fetchPriority="low" />
               <ImageEffects fx={m.fx} />
               <SubtitleOverlay id={media} />
+              <BrandMark />
             </>
           )}
         </div>

@@ -1,3 +1,4 @@
+import BrandMark from "@@/components/common/BrandMark";
 import type { CSSProperties, ReactNode } from "react";
 import Link from "@@/components/common/NavLink";
 import InViewFx from "@@/components/common/InViewFx";
@@ -172,6 +173,7 @@ export default function ServicesGrid() {
                           {ov.layer}
                         </span>
                       ) : null}
+                      <BrandMark />
                     </span>
                   </span>
                   <span className="eva-eq" aria-hidden="true">

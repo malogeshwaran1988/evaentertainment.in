@@ -1,3 +1,4 @@
+import BrandMark from "@@/components/common/BrandMark";
 import type { Metadata } from "next";
 import JsonLd from "@@/components/common/JsonLd";
 import Link from "@@/components/common/NavLink";
@@ -86,14 +87,17 @@ export default async function BlogPage() {
                       {post.cover ? (
                         // Uploaded covers are served by a route handler; rendered unoptimised like posters.
                         // eslint-disable-next-line @next/next/no-img-element
-                        <img
-                          src={post.cover}
-                          alt={blogCoverAlt(post)}
-                          width={1200}
-                          height={630}
-                          className="eva-blog-card-img"
-                          {...img}
-                        />
+                        <span className="eva-brand-host">
+                          <img
+                            src={post.cover}
+                            alt={blogCoverAlt(post)}
+                            width={1200}
+                            height={630}
+                            className="eva-blog-card-img"
+                            {...img}
+                          />
+                          <BrandMark />
+                        </span>
                       ) : (
                         <div className="eva-blog-card-img eva-blog-card-img--empty" aria-hidden="true">
                           <i className="icon icon-folded-newspaper" />

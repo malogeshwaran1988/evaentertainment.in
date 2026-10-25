@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "@@/components/common/NavLink";
 import ImageEffects from "@@/components/common/ImageEffects";
+import BrandMark from "@@/components/common/BrandMark";
 import InViewFx from "@@/components/common/InViewFx";
 import { Routes } from "@@/constants/routes";
 import type { Service } from "@@/data/services";
@@ -22,6 +23,7 @@ export default function ServiceIntro({ service }: { service: Service }) {
               className="eva-half-bg-img"
             />
             <ImageEffects fx={service.fx} anchor="top-left" />
+            <BrandMark />
           </InViewFx>
           <div className="col-sm-6">
             <h2 id="service-intro-title" className="text-uppercase heading-as-h5">

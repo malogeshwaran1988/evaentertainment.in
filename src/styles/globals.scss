@@ -5268,3 +5268,25 @@ html:not(.eva-bg-ready) .home-page > .eva-what-we-do {
     transition: none;
   }
 }
+
+/* EVA media brand standard: small corner logo plus a barely visible centre watermark on
+   every content image and video (see components/common/BrandMark.tsx). !important keeps
+   host rules such as `.svc-stage img { width: 100% }` from resizing the marks. */
+.eva-brand-host { position: relative; display: block; }
+.eva-brand-host--inline { display: inline-block; max-width: 100%; }
+.eva-brandmark { position: absolute; inset: 0; z-index: 2; pointer-events: none; overflow: hidden; }
+.eva-brandmark > img.eva-brandmark__corner,
+.eva-brandmark > img.eva-brandmark__wm {
+  position: absolute !important; height: auto !important; max-width: none !important; min-width: 0 !important;
+  object-fit: contain !important; margin: 0 !important; user-select: none;
+}
+.eva-brandmark > img.eva-brandmark__corner {
+  top: clamp(8px, 2.5%, 18px); left: clamp(8px, 2.5%, 18px); right: auto; bottom: auto;
+  width: clamp(40px, 9%, 112px) !important; opacity: 0.88; transform: none;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.6)) drop-shadow(0 0 6px rgba(0, 0, 0, 0.35));
+}
+.eva-brandmark > img.eva-brandmark__wm {
+  top: 50%; left: 50%; right: auto; bottom: auto; width: 34% !important;
+  transform: translate(-50%, -50%); opacity: 0.05; filter: none;
+}
+.eva-live:has(.eva-live-rec--tl) .eva-brandmark > img.eva-brandmark__corner { top: 52px; }

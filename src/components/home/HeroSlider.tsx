@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
 import ImageEffects from "@@/components/common/ImageEffects";
+import BrandMark from "@@/components/common/BrandMark";
 import Link from "@@/components/common/NavLink";
 import { Routes } from "@@/constants/routes";
 import { HERO_SLIDES } from "@@/data/home";
@@ -147,6 +148,7 @@ export default function HeroSlider() {
                   className="eva-hero-media-img"
                 />
                 <ImageEffects fx={slide.fx} />
+                <BrandMark />
               </div>
               <div className="slide-content left">
                 <div className="vert-wrap container">

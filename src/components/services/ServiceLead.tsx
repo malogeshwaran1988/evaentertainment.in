@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "@@/components/common/NavLink";
 import ImageEffects from "@@/components/common/ImageEffects";
+import BrandMark from "@@/components/common/BrandMark";
 import ServiceVideo from "@@/components/services/ServiceVideo";
 import TranslationDelivery from "@@/components/services/TranslationDelivery";
 import { SERVICE_MEDIA } from "@@/data/service-media";
@@ -42,6 +43,7 @@ export default function ServiceLead({
                   className="eva-half-bg-img"
                 />
                 <ImageEffects fx={service.fx} anchor="top-left" />
+                <BrandMark />
                 {media?.overlay === "translation-delivery" ? <TranslationDelivery /> : null}
               </>
             )}

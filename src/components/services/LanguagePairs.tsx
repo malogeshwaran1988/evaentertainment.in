@@ -1,5 +1,6 @@
 "use client";
 
+import BrandMark from "@@/components/common/BrandMark";
 import Image from "next/image";
 import { useCallback, useEffect, useId, useRef, useState, type KeyboardEvent } from "react";
 import s from "./LanguagePairs.module.scss";
@@ -144,6 +145,7 @@ export default function LanguagePairs() {
             />
           </div>
         ))}
+        <BrandMark />
         <div className={s.chips} key={cur.id}>
           <span className={s.chip} lang={cur.fromLang}>
             <small>{cur.from}</small>

@@ -1,3 +1,4 @@
+import BrandMark from "@@/components/common/BrandMark";
 import type { ReactNode } from "react";
 import Link from "@@/components/common/NavLink";
 import PageHero from "@@/components/common/PageHero";
@@ -55,15 +56,18 @@ export default function BlogArticleView({
             </p>
             {post.cover ? (
               // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={post.cover}
-                alt={blogCoverAlt(post)}
-                width={1200}
-                height={630}
-                className="eva-blog-cover"
-                loading="eager"
-                fetchPriority="high"
-              />
+              <span className="eva-brand-host">
+                <img
+                  src={post.cover}
+                  alt={blogCoverAlt(post)}
+                  width={1200}
+                  height={630}
+                  className="eva-blog-cover"
+                  loading="eager"
+                  fetchPriority="high"
+                />
+                <BrandMark />
+              </span>
             ) : null}
             <p className="eva-blog-lede">{post.excerpt}</p>
             {/* Sanitised on save (src/lib/blog/sanitize.ts). */}
