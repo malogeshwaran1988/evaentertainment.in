@@ -1,47 +1,12 @@
 "use client";
 
 import Image from "next/image";
-import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import ImageEffects from "@@/components/common/ImageEffects";
 import BrandMark from "@@/components/common/BrandMark";
 import Link from "@@/components/common/NavLink";
-import { Routes } from "@@/constants/routes";
 import { HERO_SLIDES } from "@@/data/home";
 import { imageLoading } from "@@/lib/image-loading";
-
-function SlideLine({
-  role,
-  className,
-  text,
-  line,
-}: {
-  role: "h1" | "title" | "subtitle";
-  className: string;
-  text: string;
-  line: number;
-}) {
-  const style = { "--line": line } as CSSProperties;
-  const content = (
-    <span>
-      <span className="slide-line-text">{text}</span>
-    </span>
-  );
-
-  if (role === "h1") {
-    return (
-      <h1 className={className || undefined} style={style}>
-        {content}
-      </h1>
-    );
-  }
-
-  const lineClass = `slide-line slide-line--${role === "subtitle" ? "sub" : "title"} ${className}`.trim();
-  return (
-    <p className={lineClass} style={style}>
-      {content}
-    </p>
-  );
-}
 
 export default function HeroSlider() {
   const [index, setIndex] = useState(0);
@@ -154,26 +119,20 @@ export default function HeroSlider() {
                 <div className="vert-wrap container">
                   <div className="vert">
                     <div className="container">
-                      {slide.lines.map((line, lineIndex) => (
-                        <SlideLine
-                          key={line.text}
-                          line={lineIndex}
-                          role={line.role}
-                          className={line.className}
-                          text={line.text}
-                        />
-                      ))}
-                      {/*
-                        Serial position / Paradox of the active user: a clear first action in the
-                        first viewport. One primary (Von Restorff) + one secondary. Inert on hidden slides.
-                      */}
-                      <div className="eva-hero-ctas" inert={i !== index}>
-                        <Link href={Routes.PROJECTS} className="btn btn--lg">
-                          <span>See our projects</span>
-                        </Link>
-                        <Link href={Routes.CONTACT} className="btn btn--lg btn--border eva-hero-cta-secondary">
-                          <span>Contact us</span>
-                        </Link>
+                      {/* Compact hero block: eyebrow, one heading (H1 on slide 1 only), one line, one CTA. */}
+                      <div className="eva-hero-copy">
+                        <p className="eva-hero-eyebrow">{slide.eyebrow}</p>
+                        {slide.headingLevel === "h1" ? (
+                          <h1 className="eva-hero-heading">{slide.heading}</h1>
+                        ) : (
+                          <h2 className="eva-hero-heading">{slide.heading}</h2>
+                        )}
+                        <p className="eva-hero-text">{slide.copy}</p>
+                        <div className="eva-hero-ctas" inert={i !== index}>
+                          <Link href={slide.cta.href} className="btn btn--lg">
+                            <span>{slide.cta.label}</span>
+                          </Link>
+                        </div>
                       </div>
                     </div>
                   </div>
