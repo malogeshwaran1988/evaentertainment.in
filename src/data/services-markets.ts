@@ -66,7 +66,7 @@ export const MARKET_SERVICES: Service[] = [
     },
     ...media("regional-lead"),
     ogImage: "/images/og/regional-film-dubbing.jpg",
-    ogImageAlt: "Dubbing director coaching a voice artist on a South Indian action scene at EVA Entertainment",
+    ogImageAlt: "Dubbing director and voice artist watching a South Indian film scene together at EVA Entertainment",
     introHeading: "Kollywood and Tollywood films for every Indian audience",
     intro: [],
     highlights: [],
