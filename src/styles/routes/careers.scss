@@ -583,3 +583,10 @@ $eva-line: #d9ddd3;
 .eva-careers-form .eva-cf-field.is-valid:has(> select)::after {
   display: none;
 }
+
+/* t326u: placeholders clearly lighter than typed text (#1a1a1a). #767676 is the lightest grey with 4.5:1 on white. */
+.eva-careers-form input::placeholder {
+  color: #767676;
+  font-weight: 400;
+  opacity: 1;
+}
