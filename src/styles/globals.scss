@@ -3857,7 +3857,7 @@ body:not(.page-blog) .block--darkbg h3.eva-service-ideal-title,
     height: 12px;
   }
 
-  .eva-nav-has-sub:hover > .eva-nav-sub,
+  .eva-nav-has-sub:hover:not(.is-sub-dismissed) > .eva-nav-sub,
   .eva-nav-has-sub:focus-within:not(.is-sub-dismissed) > .eva-nav-sub,
   .eva-nav-has-sub.is-sub-open > .eva-nav-sub {
     opacity: 1 !important;
