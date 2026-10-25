@@ -23,6 +23,8 @@ type MailInput = {
   to?: string;
   fromName?: string;
   headers?: Record<string, string>;
+  /** Extra file attachments (in-memory buffers only; file/URL access stays disabled). */
+  attachments?: Mail.Attachment[];
 };
 
 /** Builds the nodemailer message (exported so tests can render it with jsonTransport). */
@@ -51,17 +53,20 @@ export function buildMailOptions(options: MailInput): Mail.Options {
     html: options.html,
     headers: options.headers,
     // Inline logo: referenced as cid:eva-logo by every template; only attached when used.
-    attachments: options.html?.includes(`cid:${EMAIL_LOGO_CID}`)
+    attachments: [
+      ...(options.html?.includes(`cid:${EMAIL_LOGO_CID}`)
       ? [
           {
             filename: "eva-logo.png",
             content: Buffer.from(EMAIL_LOGO_PNG_BASE64, "base64"),
             contentType: "image/png",
             cid: EMAIL_LOGO_CID,
-            contentDisposition: "inline",
+            contentDisposition: "inline" as const,
           },
         ]
-      : undefined,
+      : []),
+      ...(options.attachments ?? []),
+    ],
   };
 }
 

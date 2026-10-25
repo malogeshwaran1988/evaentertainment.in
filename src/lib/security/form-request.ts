@@ -15,7 +15,11 @@ const json = (status: number, data: object, headers?: Record<string, string>) =>
  * Shared spam/abuse gate for public form endpoints: same-origin check, body size cap,
  * durable rate limit, honeypot + timing, and Turnstile. Bots get a fake 200 so they learn nothing.
  */
-export async function guardFormRequest(req: NextRequest, scope: string): Promise<Guarded> {
+export async function guardFormRequest(
+  req: NextRequest,
+  scope: string,
+  maxBytes: number = MAX_BODY_BYTES,
+): Promise<Guarded> {
   const origin = req.headers.get("origin");
   const host = req.headers.get("host");
   if (origin && host && new URL(origin).host !== host) {
@@ -37,7 +41,7 @@ export async function guardFormRequest(req: NextRequest, scope: string): Promise
   }
 
   const raw = await req.text();
-  if (raw.length > MAX_BODY_BYTES) {
+  if (raw.length > maxBytes) {
     return { ok: false, response: json(413, { error: "Request too large." }) };
   }
   let body: Record<string, unknown>;

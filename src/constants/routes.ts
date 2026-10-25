@@ -9,6 +9,7 @@ export const Routes = {
   TERMS: "/terms-conditions",
   BLOG: "/blog",
   CLIENTS: "/clients",
+  CAREERS: "/careers",
   /** Per-project detail: `/projects/<slug>`. */
   project: (slug: string) => `/projects/${slug}` as const,
   /** Blog post: `/blog/<slug>`. */

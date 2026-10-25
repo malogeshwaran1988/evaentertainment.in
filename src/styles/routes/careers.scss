@@ -1,0 +1,49 @@
+/* Careers page: builds on the contact page layout (contact.scss). */
+.eva-careers-roles {
+  display: grid;
+  gap: 12px;
+  margin: 16px 0 20px;
+  padding: 0;
+  list-style: none;
+}
+
+.eva-careers-role-title {
+  margin: 0 0 4px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.eva-careers-phone {
+  display: grid;
+  grid-template-columns: minmax(88px, auto) minmax(0, 1fr);
+  gap: 8px;
+}
+
+.eva-careers-form input[type="file"] {
+  min-height: 48px;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.eva-careers-success {
+  padding: 24px;
+  border: 2px solid #70b615;
+  border-radius: 8px;
+  background: #f4faec;
+  color: #1a1a1a;
+
+  h3 {
+    margin: 0 0 8px;
+    font-size: 22px;
+  }
+
+  p {
+    margin: 0;
+  }
+}
+
+/* Accent words on white need 4.5:1 (WCAG 1.4.3); #70b615 is about 2.6:1. */
+.eva-careers-section .eva-contact-group-title span {
+  color: #4a7a0c;
+}
