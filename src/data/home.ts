@@ -92,9 +92,6 @@ export const SERVICE_CARDS = [
  * Home hero: one slide per lead service. Only slide 1 holds the page H1; the rest use H2.
  * Slide 1 image is the LCP (eager + high priority); the others lazy-load.
  */
-/** Wave line only (same as the original hero) for slides without image-matched effects. */
-const HERO_WAVE = { width: 1920, height: 1078, items: [{ kind: "waveline" as const, y: 86 }] };
-
 export type HeroSlide = {
   image: string;
   alt: string;
@@ -114,7 +111,7 @@ export const HERO_SLIDES: readonly HeroSlide[] = [
   {
     image: "/images/home/slide-1-iconic.avif",
     alt: "Singer at the microphone in the EVA recording booth",
-    fx: HERO_WAVE,
+    fx: HERO_FX.iconic,
     heading: "Film Dubbing Studio in India for Regional, Pan-India and Hollywood Films",
     tagline: "We can record Anything",
     headingLevel: "h1",
@@ -123,7 +120,7 @@ export const HERO_SLIDES: readonly HeroSlide[] = [
   {
     image: "/images/home/hero-voiceover.avif",
     alt: "Voice artist reading a script into a studio microphone in a voice-over booth",
-    fx: HERO_WAVE,
+    fx: HERO_FX.voiceover,
     heading: "Voice-over for ads, films and games",
     tagline: "Every age. Every tone.",
     focus: "72% 40%",
@@ -142,7 +139,7 @@ export const HERO_SLIDES: readonly HeroSlide[] = [
   {
     image: "/images/home/hero-mix51.avif",
     alt: "Sound engineer at a mixing console watching a film on the screen of a 5.1 surround mix theatre",
-    fx: HERO_WAVE,
+    fx: HERO_FX.mix51,
     heading: "Cinema sound in 5.1 surround",
     tagline: "Theatre and OTT ready mixes",
     focus: "76% 50%",
@@ -153,7 +150,7 @@ export const HERO_SLIDES: readonly HeroSlide[] = [
     image: "/images/home/hero-foley.avif",
     alt: "Foley artist stepping on a gravel pit in sync with a film scene on the screen in front of him",
     focus: "62% 50%",
-    fx: HERO_WAVE,
+    fx: HERO_FX.foley,
     heading: "Foley that makes scenes feel true",
     tagline: "Performed live to picture",
     headingLevel: "h2",

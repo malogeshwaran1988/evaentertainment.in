@@ -9,6 +9,12 @@ import { Routes } from "@@/constants/routes";
 import { HERO_SLIDES } from "@@/data/home";
 import { imageLoading } from "@@/lib/image-loading";
 
+/** "72% 40%" -> CSS vars shared by the photo crop and the effects stage so overlays stay on their objects. */
+function focusVars(focus: string) {
+  const [x, y = "50%"] = focus.split(" ");
+  return { "--fx-x": x, "--fx-y": y };
+}
+
 export default function HeroSlider() {
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
@@ -79,7 +85,8 @@ export default function HeroSlider() {
           id="mainSlider"
           className="mainSlider slick-initialized eva-hero-slider"
           style={{ opacity: 1 }}
-          data-paused={autoplayOff || undefined}
+          // Hover/focus only holds autoplay; the zoom and effects keep moving unless off-screen or stopped.
+          data-paused={paused || stopped || undefined}
           role="region"
           aria-roledescription="carousel"
           aria-label="Studio highlights"
@@ -104,7 +111,10 @@ export default function HeroSlider() {
               aria-label={`${i + 1} of ${count}`}
               aria-current={i === index ? "true" : undefined}
             >
-              <div className="img--holder eva-hero-media eva-fx-host">
+              <div
+                className="img--holder eva-hero-media eva-fx-host"
+                style={slide.focus ? (focusVars(slide.focus) as CSSProperties) : undefined}
+              >
                 <Image
                   src={slide.image}
                   alt={slide.alt}
@@ -112,7 +122,6 @@ export default function HeroSlider() {
                   {...imageLoading(i)}
                   sizes="100vw"
                   className={`eva-hero-media-img${slide.flip ? " eva-hero-media-img--flip" : ""}`}
-                  style={slide.focus ? ({ "--hero-focus": slide.focus } as CSSProperties) : undefined}
                 />
                 <ImageEffects fx={slide.fx} />
                 <BrandMark />

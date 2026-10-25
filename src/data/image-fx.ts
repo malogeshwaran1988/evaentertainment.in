@@ -33,7 +33,56 @@ const GREEN = "120, 230, 90";
 const BLUE = "90, 140, 255";
 const WARM = "255, 220, 170";
 
-export const HERO_FX: Record<"singer" | "console", ImageFx> = {
+export const HERO_FX: Record<"singer" | "console" | "iconic" | "voiceover" | "mix51" | "foley", ImageFx> = {
+  /** Home slide 1, /images/home/slide-1-iconic.avif (the original hero overlay from f66835f). */
+  iconic: {
+    width: 1920,
+    height: 1078,
+    items: [
+      { kind: "waves", x: 71.2, y: 35, size: 11, side: "left" },
+      { kind: "glow", x: 62.7, y: 33.5, size: 7, color: WHITE },
+      { kind: "twinkle", x: 45.3, y: 5.6, size: 2.5, color: WHITE },
+      { kind: "glow", x: 89.4, y: 23.5, size: 8, color: WARM, delay: 1.2 },
+      { kind: "waveline", y: 86 },
+    ],
+  },
+  /** /images/home/hero-voiceover.avif: voice waves from the mouth to the pop filter, level meter by the mic. */
+  voiceover: {
+    width: 2400,
+    height: 1350,
+    items: [
+      { kind: "waves", x: 66, y: 38, size: 7, side: "left" },
+      { kind: "glow", x: 61, y: 40, size: 9, color: WHITE, delay: 0.4 },
+      { kind: "meter", x: 41, y: 70, w: 8, h: 1.2, bars: 10 },
+      { kind: "glow", x: 84, y: 20, size: 8, color: BLUE, delay: 1.4 },
+      { kind: "waveline", y: 86 },
+    ],
+  },
+  /** /images/home/hero-mix51.avif: console meters, playhead on the screen, surround speaker pulse. */
+  mix51: {
+    width: 2400,
+    height: 1350,
+    items: [
+      { kind: "meter", x: 55.5, y: 60, w: 17.5, h: 1.4, bars: 16 },
+      { kind: "playhead", x: 61, y: 4, w: 30, h: 24.7 },
+      { kind: "pulse", x: 95.5, y: 45, size: 5 },
+      { kind: "pulse", x: 95.5, y: 45, size: 5, delay: 0.5 },
+      { kind: "glow", x: 62, y: 61, size: 8, color: BLUE, delay: 0.8 },
+      { kind: "waveline", y: 90 },
+    ],
+  },
+  /** /images/home/hero-foley.avif: ripples under the planted and stepping feet, playhead on the monitor. */
+  foley: {
+    width: 2400,
+    height: 1350,
+    items: [
+      { kind: "pulse", x: 54, y: 94, size: 6 },
+      { kind: "pulse", x: 69, y: 86, size: 6, delay: 0.5 },
+      { kind: "playhead", x: 65, y: 15, w: 25, h: 15.7 },
+      { kind: "glow", x: 61.5, y: 39, size: 6, color: WARM, delay: 0.6 },
+      { kind: "waveline", y: 80 },
+    ],
+  },
   singer: {
     width: 1920,
     height: 1078,

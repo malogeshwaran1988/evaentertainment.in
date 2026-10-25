@@ -5355,7 +5355,13 @@ html:not(.eva-bg-ready) .home-page > .eva-what-we-do {
 }
 /* Hero focus point: on tablets and phones the crop follows each photo's subject (data/home.ts focus). */
 @media (max-width: 991px) {
-  .eva-hero-slider .eva-hero-media-img { object-position: var(--hero-focus, center) !important; }
+  .eva-hero-slider .eva-hero-media-img { object-position: var(--fx-x, 50%) var(--fx-y, 50%) !important; }
+  /* Effects stage follows the same crop: offset = (box - stage) * focus, like object-position. */
+  .eva-hero-slider .eva-hero-media > .eva-fx-stage {
+    left: var(--fx-x, 50%);
+    top: var(--fx-y, 50%);
+    translate: calc(var(--fx-x, 50%) * -1) calc(var(--fx-y, 50%) * -1);
+  }
 }
 /* Hero heading contrast: original EVA gradient at full opacity on a near-solid black box. */
 .mainSlider .slide-content .h-gradient > span::before { background: rgba(0, 0, 0, 0.92); }
@@ -5388,3 +5394,19 @@ html:not(.eva-bg-ready) .home-page > .eva-what-we-do {
 .mainSlider .slide-content .eva-hero-lines .slide-line-text { padding: 0 !important; }
 .mainSlider .slide-content .eva-hero-lines .slide-line-text::before,
 .mainSlider .slide-content .eva-hero-lines .slide-line-text::after { content: none !important; }
+/* Hero motion: a clearer Ken Burns push-in, restarted on every slide change (the active class moves).
+   data-paused (off-screen, tab hidden, or the Pause button) freezes it; hover no longer does. */
+.eva-hero-slider .slide.is-active .eva-hero-media { animation: eva-hero-kenburns 6.5s ease-out both; }
+@keyframes eva-hero-kenburns {
+  from { transform: scale(1); }
+  to { transform: scale(1.1) translateX(-1.5%); }
+}
+.eva-hero-slider[data-paused] .slide.is-active .eva-hero-media,
+.eva-hero-slider[data-paused] .slide.is-active .eva-fx,
+.eva-hero-slider[data-paused] .slide.is-active .eva-fx * { animation-play-state: paused; }
+/* Text entrance per slide: boxes wipe in (eva-hero-box), text rises (eva-hero-text), buttons follow. */
+.mainSlider .slide.is-active .eva-hero-ctas { animation: eva-hero-text 0.45s ease-out 0.6s both; }
+@media (prefers-reduced-motion: reduce) {
+  .eva-hero-slider .slide.is-active .eva-hero-media,
+  .mainSlider .slide.is-active .eva-hero-ctas { animation: none; }
+}
