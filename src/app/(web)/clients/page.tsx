@@ -7,11 +7,11 @@ import { getClients } from "@@/lib/clients-store";
 import "@@/styles/routes/clients.scss";
 
 const DESCRIPTION =
-  "Studios, OTT platforms and producers who trust EVA Entertainment, a dubbing and recording studio in Andheri West, Mumbai.";
+  "Studios, OTT platforms and producers who trust EVA Entertainment, a dubbing and recording studio in Andheri West, Mumbai. We dub Indian and Hollywood films.";
 
 // Indexable (index, follow) and listed in sitemap.xml.
 export const metadata: Metadata = buildPageMetadata({
-  title: "Our Clients | EVA Entertainment",
+  title: "Our Clients - Studios and OTT Platforms We Dub For | EVA",
   description: DESCRIPTION,
   url: absoluteUrl(Routes.CLIENTS),
   ogImage: DEFAULT_OG_IMAGE,

@@ -484,7 +484,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
   "foley-recording": {
     seoTitle: "Foley Studio in Mumbai | Foley & Sound Design | EVA",
     description:
-      "Foley recording, sound effects and sound design in Andheri West, Mumbai. M&E tracks for dubbed films, OTT series, ads and short films.",
+      "Foley recording, sound effects and sound design in Andheri West, Mumbai. M&E tracks for dubbed films, OTT series, ads and short films. Book a session today.",
     h1: "Foley Recording and Sound Design Studio in Mumbai",
     serviceType: "Foley recording and sound design",
     languages: ["Hindi", "English"],
@@ -693,7 +693,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
   "5-1-mixing-studio": {
     seoTitle: "5.1 Mixing Studio in Mumbai | Film & OTT Audio Mix | EVA",
     description:
-      "5.1 surround and stereo mixing and mastering in Andheri West, Mumbai for films, dubbed versions, OTT series, ads and corporate videos.",
+      "5.1 surround and stereo mixing and mastering in Andheri West, Mumbai for films, dubbed versions, OTT series, ads and corporate videos. Book a mix today.",
     h1: "5.1 Mixing and Mastering Studio in Mumbai",
     serviceType: "5.1 surround and stereo film mixing",
     languages: ["Hindi", "Telugu", "Tamil", "Malayalam", "Kannada", "English"],

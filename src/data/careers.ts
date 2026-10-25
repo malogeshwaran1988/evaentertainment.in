@@ -5,7 +5,7 @@ export const CAREERS_OG_IMAGE = "/images/og/contact.jpg";
 export const CAREERS_OG_IMAGE_ALT = "Microphone preamps in EVA Entertainment's studio rack";
 
 export const CAREERS_SEO = {
-  title: "Careers | Voice Artist and Dubbing Jobs at EVA Entertainment Mumbai",
+  title: "Careers - Voice Artist and Dubbing Jobs in Mumbai | EVA",
   description:
     "Join EVA Entertainment in Mumbai. Apply for voice artist, dubbing artist and mixing and sound engineer roles for Indian and Hollywood films.",
 };

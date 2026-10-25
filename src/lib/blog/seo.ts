@@ -26,10 +26,10 @@ export function blogImageBaseName(stem: string): string {
   return `${base}-${BRAND_SLUG}`;
 }
 
-/** Cover ALT: the typed ALT (or the title), with "– EVA Entertainment" added unless it's already there. */
+/** Cover ALT: the typed ALT (or the title), with "- EVA Entertainment" added unless it's already there. */
 export function blogCoverAlt(post: Pick<BlogPost, "title" | "coverAlt">): string {
   const base = post.coverAlt?.trim() || post.title.trim();
-  return mentionsBrand(base) ? base : `${base} – ${BRAND}`;
+  return mentionsBrand(base) ? base : `${base} - ${BRAND}`;
 }
 
 export function blogSeoTitle(post: Pick<BlogPost, "title" | "metaTitle">): string {

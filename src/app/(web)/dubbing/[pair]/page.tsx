@@ -47,7 +47,7 @@ export async function generateMetadata({ params }: { params: Promise<{ pair: str
   if (!pair) return {};
   return buildPageMetadata({
     title: `${pair.from} to ${pair.to} Dubbing Projects | ${SITE_NAME}`,
-    description: `${pair.projects.length} ${pair.from} to ${pair.to} dubbing projects by ${SITE_NAME}, a lip-sync dubbing studio in Andheri, Mumbai. See the films and start your project.`,
+    description: `${pair.projects.length} ${pair.from} to ${pair.to} dubbing projects by ${SITE_NAME}, a lip-sync dubbing studio in Andheri West, Mumbai. See the films and start your project.`,
     url: absoluteUrl(`${LANGUAGE_HUB_PREFIX}/${pair.slug}`),
     ogImage: PROJECTS_OG_IMAGE,
     ogImageAlt: `${pair.from} to ${pair.to} dubbing projects`,

@@ -23,7 +23,7 @@ const BLOG_URL = absoluteUrl(Routes.BLOG);
 export async function generateMetadata(): Promise<Metadata> {
   if (!BLOG_ENABLED) {
     return buildPageMetadata({
-      title: "Blog – Coming Soon | EVA Entertainment",
+      title: "Blog - Coming Soon | EVA Entertainment",
       description: BLOG_SEO.description,
       url: BLOG_URL,
       ogImage: DEFAULT_OG_IMAGE,
