@@ -13,7 +13,7 @@ const json = (status: number, data: object, headers?: Record<string, string>) =>
 
 /**
  * Shared spam/abuse gate for public form endpoints: same-origin check, body size cap,
- * durable rate limit, honeypot + timing, and Turnstile. Bots get a fake 200 so they learn nothing.
+ * durable rate limit, honeypot + timing and Turnstile. Bots get a fake 200 so they learn nothing.
  */
 export async function guardFormRequest(
   req: NextRequest,
@@ -22,8 +22,17 @@ export async function guardFormRequest(
 ): Promise<Guarded> {
   const origin = req.headers.get("origin");
   const host = req.headers.get("host");
-  if (origin && host && new URL(origin).host !== host) {
-    return { ok: false, response: json(403, { error: "Forbidden." }) };
+  if (origin && host) {
+    let originHost = "";
+    try {
+      originHost = new URL(origin).host;
+    } catch {
+      /* "null" or malformed Origin: treat as cross-origin */
+    }
+    if (originHost !== host) return { ok: false, response: json(403, { error: "Forbidden." }) };
+  }
+  if (Number(req.headers.get("content-length") || 0) > maxBytes) {
+    return { ok: false, response: json(413, { error: "Request too large." }) };
   }
   if (!(req.headers.get("content-type") || "").includes("application/json")) {
     return { ok: false, response: json(415, { error: "Unsupported content type." }) };
@@ -41,7 +50,7 @@ export async function guardFormRequest(
   }
 
   const raw = await req.text();
-  if (raw.length > maxBytes) {
+  if (Buffer.byteLength(raw) > maxBytes) {
     return { ok: false, response: json(413, { error: "Request too large." }) };
   }
   let body: Record<string, unknown>;
@@ -59,7 +68,7 @@ export async function guardFormRequest(
     return { ok: false, response: json(200, { ok: true }) };
   }
 
-  if (!(await verifyTurnstile(body.turnstileToken, ip))) {
+  if (!(await verifyTurnstile(body.turnstileToken, ip, host))) {
     return {
       ok: false,
       response: json(400, { error: "Verification failed. Please complete the check and try again." }),
