@@ -99,10 +99,14 @@ export type HeroSlide = {
   image: string;
   alt: string;
   fx: (typeof HERO_FX)[keyof typeof HERO_FX];
-  eyebrow: string;
+  /** Mirror the photo so the person sits right of the left text block (no text/logos in frame). */
+  flip?: boolean;
+  /** object-position on tablets and phones so the subject's face stays in frame. */
+  focus?: string;
+  /** Line 2: short white line in its own black box. */
+  tagline: string;
   heading: string;
   headingLevel: "h1" | "h2";
-  copy: string;
   cta: { label: string; href: string };
 };
 
@@ -111,50 +115,48 @@ export const HERO_SLIDES: readonly HeroSlide[] = [
     image: "/images/home/slide-1-iconic.avif",
     alt: "Singer at the microphone in the EVA recording booth",
     fx: HERO_WAVE,
-    eyebrow: "Hollywood to 10 Indian languages",
     heading: "Film Dubbing Studio in India for Regional, Pan-India and Hollywood Films",
+    tagline: "We can record Anything",
     headingLevel: "h1",
-    copy: "One voice artist in English plus Hindi, Tamil, Telugu and seven more languages.",
     cta: { label: "Explore dubbing", href: "/dubbing-studio" },
   },
   {
-    image: "/images/services/svc-vo-studio.avif",
-    alt: "Voice artist recording a voice-over in the EVA booth",
+    image: "/images/home/hero-voiceover.avif",
+    alt: "Voice artist reading a script into a studio microphone in a voice-over booth",
     fx: HERO_WAVE,
-    eyebrow: "Voice-over",
-    heading: "Voices for ads, films and games",
+    heading: "Voice-over for ads, films and games",
+    tagline: "Every age. Every tone.",
+    focus: "72% 40%",
     headingLevel: "h2",
-    copy: "Every age and every tone, cast fast from our voice artist roster.",
     cta: { label: "Explore voice-over", href: "/voice-over-studio" },
   },
   {
     image: "/images/home/slide-1.avif",
     alt: "Female vocalist recording a film song at the microphone",
     fx: HERO_FX.singer,
-    eyebrow: "Song recording",
     heading: "Film songs recorded with care",
+    tagline: "Vocals and live instruments",
     headingLevel: "h2",
-    copy: "Vocals, live instruments and tuning in one acoustically treated studio.",
     cta: { label: "Explore song recording", href: "/song-recording-studio" },
   },
   {
-    image: "/images/services/svc-mix51-lead.avif",
-    alt: "Engineer mixing a film in the EVA 5.1 surround studio",
+    image: "/images/home/hero-mix51.avif",
+    alt: "Sound engineer at a mixing console watching a film on the screen of a 5.1 surround mix theatre",
     fx: HERO_WAVE,
-    eyebrow: "5.1 mixing",
     heading: "Cinema sound in 5.1 surround",
+    tagline: "Theatre and OTT ready mixes",
+    focus: "76% 50%",
     headingLevel: "h2",
-    copy: "Theatre and OTT mixes that meet every platform delivery spec.",
     cta: { label: "Explore 5.1 mixing", href: "/5-1-mixing-studio" },
   },
   {
-    image: "/images/services/svc-foley-studio.avif",
-    alt: "Foley artist performing footsteps in the EVA Foley studio",
+    image: "/images/home/hero-foley.avif",
+    alt: "Foley artist stepping on a gravel pit in sync with a film scene on the screen in front of him",
+    focus: "62% 50%",
     fx: HERO_WAVE,
-    eyebrow: "Foley recording",
     heading: "Foley that makes scenes feel true",
+    tagline: "Performed live to picture",
     headingLevel: "h2",
-    copy: "Footsteps, cloth and props performed live to picture.",
     cta: { label: "Explore Foley", href: "/foley-recording" },
   },
 ];

@@ -5297,9 +5297,10 @@ html:not(.eva-bg-ready) .home-page > .eva-what-we-do {
 }
 .eva-live:has(.eva-live-rec--tl) .eva-brandmark > img.eva-brandmark__corner { top: 52px; }
 
-/* Home hero (HeroSlider.tsx): compact text card (same translucent black box as before, smaller)
-   in the original Raleway 400 style. One heading per slide (H1 on slide 1 only). Hero is about
-   80vh (80svh on phones) so the next section peeks. Image push-in and wave stay as before. */
+/* Home hero (HeroSlider.tsx): original line-box style (black boxes hugging each line, gradient
+   heading, white tagline, pill CTAs) at about 62% of the old size. Text block sits on the left edge
+   of the site container (in line with the header logo); arrows move beside the dots so the text
+   never touches them. Hero is 80vh (80svh on phones) so the next section peeks. */
 .mainSlider.eva-hero-slider,
 .mainSliderWrapper .mainSlider.eva-hero-slider,
 .mainSlider.eva-hero-slider .img--holder,
@@ -5308,47 +5309,37 @@ html:not(.eva-bg-ready) .home-page > .eva-what-we-do {
   min-height: 460px !important;
 }
 .eva-hero-slider .slide { min-height: 80vh; }
-.eva-hero-copy {
-  display: inline-block;
-  max-width: min(600px, 92vw);
-  padding: 22px 26px 24px;
-  background: rgba(0, 0, 0, 0.7);
-  color: #fff;
-  font-family: "Raleway", sans-serif;
+.mainSlider .slide-content {
+  --hero-title: 46px;
+  --hero-line2: 32px;
 }
-.eva-hero-eyebrow {
-  margin: 0 0 10px;
-  font-family: "Raleway", sans-serif;
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: #9be15d;
+.mainSlider .slide-content .eva-hero-lines > .slide-line--title:not(.h-gradient) > span {
+  font-size: var(--hero-line2);
 }
-.mainSlider .slide-content .eva-hero-heading {
-  margin: 0;
-  font-family: "Raleway", sans-serif;
-  font-size: clamp(26px, 1.2rem + 1.9vw, 46px);
-  font-weight: 400;
-  letter-spacing: normal;
-  line-height: 1.2;
-  color: #fff;
-  text-transform: none;
+.mainSlider .slide-content .eva-hero-lines { max-width: min(45vw, 640px); }
+@media (max-width: 991px) { .mainSlider .slide-content .eva-hero-lines { max-width: 100%; } }
+.mainSlider .slide-content :is(h1, h2.slide-line) { font-weight: 400; }
+/* Flip only the photo layer (BrandMark, effects and wave stay unmirrored). */
+.eva-hero-slider .eva-hero-media-img--flip { transform: scaleX(-1); }
+/* Arrows at the far left and right edges, vertically centred, 44px tap targets.
+   The text block starts just past the left arrow so they never overlap. */
+.eva-hero-slider > .slick-arrow {
+  top: 50% !important;
+  bottom: auto !important;
+  width: 44px !important;
+  height: 44px !important;
+  margin: 0 !important;
+  transform: translateY(-50%) !important;
 }
-.eva-hero-text {
-  margin: 12px 0 0;
-  font-family: "Raleway", sans-serif;
-  font-size: clamp(15px, 0.85rem + 0.3vw, 18px);
-  line-height: 1.5;
-  color: rgb(255 255 255 / 0.9);
+.eva-hero-slider > .slick-prev { left: 6px !important; right: auto !important; }
+.eva-hero-slider > .slick-next { right: 6px !important; left: auto !important; }
+.mainSlider .slide-content .eva-hero-lines { margin-left: 30px; }
+@media (max-width: 1199px) { .mainSlider .slide-content .eva-hero-lines { margin-left: 0; } }
+@media (max-width: 1199px) {
+  .mainSlider .slide-content { --hero-title: 40px; --hero-line2: 28px; }
 }
-.eva-hero-copy .eva-hero-ctas { margin-top: 20px; }
-/* Clear of the slider arrows on tablet and desktop. */
-@media (min-width: 768px) {
-  .eva-hero-copy { margin-left: clamp(48px, 10vw, 220px); }
-}
-.mainSlider .slide.is-active .eva-hero-copy {
-  animation: eva-hero-text 0.45s ease-out both;
+@media (max-width: 991px) {
+  .mainSlider .slide-content { --hero-title: 34px; --hero-line2: 24px; }
 }
 @media (max-width: 767px) {
   .mainSlider.eva-hero-slider,
@@ -5359,11 +5350,41 @@ html:not(.eva-bg-ready) .home-page > .eva-what-we-do {
     min-height: 420px !important;
   }
   .eva-hero-slider .slide { min-height: 80svh; }
-  .eva-hero-copy { padding: 16px 18px 18px; }
-  .eva-hero-eyebrow { font-size: 12px; margin-bottom: 8px; }
-  .eva-hero-text { margin-top: 8px; }
-  .eva-hero-copy .eva-hero-ctas { margin-top: 14px; }
+  .mainSlider .slide-content { --hero-title: 28px; --hero-line2: 22px; }
+  .mainSlider .slide-content .eva-hero-lines { margin-left: 12px; margin-right: 40px; }
 }
-@media (prefers-reduced-motion: reduce) {
-  .mainSlider .slide.is-active .eva-hero-copy { animation: none; }
+/* Hero focus point: on tablets and phones the crop follows each photo's subject (data/home.ts focus). */
+@media (max-width: 991px) {
+  .eva-hero-slider .eva-hero-media-img { object-position: var(--hero-focus, center) !important; }
 }
+/* Hero heading contrast: original EVA gradient at full opacity on a near-solid black box. */
+.mainSlider .slide-content .h-gradient > span::before { background: rgba(0, 0, 0, 0.92); }
+.mainSlider .slide-content .h-gradient .slide-line-text {
+  background: linear-gradient(90deg, #328add, #abee2d);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+/* One hero heading style for the slide 1 H1 and the slide 2-5 H2s (overrides global h1/h2 sizes). */
+.mainSlider .slide-content .eva-hero-lines .eva-hero-heading,
+.mainSlider .slide-content .eva-hero-lines .eva-hero-tagline {
+  margin: 0; padding: 0; font-size: inherit; line-height: inherit; letter-spacing: normal; text-transform: none;
+}
+.mainSlider .slide-content .eva-hero-lines .eva-hero-tagline { margin-top: var(--hero-gap); }
+.mainSlider .slide-content .eva-hero-lines .eva-hero-heading > span,
+.mainSlider .slide-content .eva-hero-lines .eva-hero-heading .slide-line-text {
+  font-family: inherit !important; font-size: var(--hero-title) !important;
+  font-weight: 400 !important; line-height: 1.2 !important; letter-spacing: normal !important;
+}
+.mainSlider .slide-content .eva-hero-lines :is(.eva-hero-heading, .eva-hero-tagline) > span {
+  padding: 0.08em var(--hero-pad) !important;
+}
+.mainSlider .slide-content .eva-hero-lines .eva-hero-heading .slide-line-text { font-size: 1em !important; }
+.mainSlider .slide-content .eva-hero-lines .eva-hero-tagline > span {
+  font-size: var(--hero-line2) !important; font-weight: 400 !important; line-height: 1.2 !important;
+}
+/* Legacy `.mainSlider .slide-content h2 span` adds padding and a 70% black box to every nested span,
+   which sat over the H2 gradient text and dimmed it. Only the outer line box keeps them. */
+.mainSlider .slide-content .eva-hero-lines .slide-line-text { padding: 0 !important; }
+.mainSlider .slide-content .eva-hero-lines .slide-line-text::before,
+.mainSlider .slide-content .eva-hero-lines .slide-line-text::after { content: none !important; }

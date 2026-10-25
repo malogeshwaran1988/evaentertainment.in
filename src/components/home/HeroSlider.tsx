@@ -1,10 +1,11 @@
 "use client";
 
 import Image from "next/image";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
 import ImageEffects from "@@/components/common/ImageEffects";
 import BrandMark from "@@/components/common/BrandMark";
 import Link from "@@/components/common/NavLink";
+import { Routes } from "@@/constants/routes";
 import { HERO_SLIDES } from "@@/data/home";
 import { imageLoading } from "@@/lib/image-loading";
 
@@ -110,7 +111,8 @@ export default function HeroSlider() {
                   fill
                   {...imageLoading(i)}
                   sizes="100vw"
-                  className="eva-hero-media-img"
+                  className={`eva-hero-media-img${slide.flip ? " eva-hero-media-img--flip" : ""}`}
+                  style={slide.focus ? ({ "--hero-focus": slide.focus } as CSSProperties) : undefined}
                 />
                 <ImageEffects fx={slide.fx} />
                 <BrandMark />
@@ -119,18 +121,26 @@ export default function HeroSlider() {
                 <div className="vert-wrap container">
                   <div className="vert">
                     <div className="container">
-                      {/* Compact hero block: eyebrow, one heading (H1 on slide 1 only), one line, one CTA. */}
-                      <div className="eva-hero-copy">
-                        <p className="eva-hero-eyebrow">{slide.eyebrow}</p>
+                      {/* Original hero style: line boxes that hug each line (gradient heading, white tagline). */}
+                      <div className="eva-hero-lines">
                         {slide.headingLevel === "h1" ? (
-                          <h1 className="eva-hero-heading">{slide.heading}</h1>
+                          <h1 className="slide-line slide-line--title h-gradient eva-hero-heading" style={{ "--line": 0 } as CSSProperties}>
+                            <span><span className="slide-line-text">{slide.heading}</span></span>
+                          </h1>
                         ) : (
-                          <h2 className="eva-hero-heading">{slide.heading}</h2>
+                          <h2 className="slide-line slide-line--title h-gradient eva-hero-heading" style={{ "--line": 0 } as CSSProperties}>
+                            <span><span className="slide-line-text">{slide.heading}</span></span>
+                          </h2>
                         )}
-                        <p className="eva-hero-text">{slide.copy}</p>
+                        <p className="slide-line slide-line--title eva-hero-tagline" style={{ "--line": 1 } as CSSProperties}>
+                          <span><span className="slide-line-text">{slide.tagline}</span></span>
+                        </p>
                         <div className="eva-hero-ctas" inert={i !== index}>
                           <Link href={slide.cta.href} className="btn btn--lg">
                             <span>{slide.cta.label}</span>
+                          </Link>
+                          <Link href={Routes.CONTACT} className="btn btn--lg btn--border eva-hero-cta-secondary">
+                            <span>Contact us</span>
                           </Link>
                         </div>
                       </div>
