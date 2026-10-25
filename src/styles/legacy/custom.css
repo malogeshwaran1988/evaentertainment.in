@@ -2819,3 +2819,44 @@ body.page-blog .block.single-post {
   outline-offset: 3px;
   border-radius: 2px;
 }
+
+/* Copy links (t286u): every inline text link inside body copy uses the brand green.
+   Applies automatically to plain <a> (no class) inside paragraphs, list items, table cells,
+   quotes and captions in <main>, plus any <a class="eva-copy-link"> (RichText adds it).
+   Buttons, nav, header, footer, card links and CTAs carry a class or sit outside, so they are untouched.
+   Light: #47760d on #fff = 5.6:1 (AA). Dark (.block--darkbg, [data-surface="dark"]): #abee2d on #0b0b0b = 14.6:1, hover white. */
+main :is(p, li, dd, td, blockquote, figcaption) > a:not([class]):not(nav a, header a, footer a, .eva-svc-cta a),
+main :is(p, li, dd, td, blockquote, figcaption) > :is(strong, em, b) > a:not([class]):not(.eva-svc-cta a),
+main a.eva-copy-link {
+  color: #47760d;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+main :is(p, li, dd, td, blockquote, figcaption) > a:not([class]):not(nav a, header a, footer a, .eva-svc-cta a):is(:hover, :focus),
+main :is(p, li, dd, td, blockquote, figcaption) > :is(strong, em, b) > a:not([class]):not(.eva-svc-cta a):is(:hover, :focus),
+main a.eva-copy-link:is(:hover, :focus) {
+  color: #47760d;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+}
+main :is(.block--darkbg, [data-surface="dark"]) :is(p, li, dd, td, blockquote, figcaption) > a:not([class]),
+main :is(.block--darkbg, [data-surface="dark"]) :is(p, li, dd, td, blockquote, figcaption) > :is(strong, em, b) > a:not([class]):not(.eva-svc-cta a),
+main :is(.block--darkbg, [data-surface="dark"]) a.eva-copy-link {
+  color: #abee2d;
+}
+main :is(.block--darkbg, [data-surface="dark"]) :is(p, li, dd, td, blockquote, figcaption) > a:not([class]):not(.eva-svc-cta a):is(:hover, :focus),
+main :is(.block--darkbg, [data-surface="dark"]) :is(p, li, dd, td, blockquote, figcaption) > :is(strong, em, b) > a:not([class]):not(.eva-svc-cta a):is(:hover, :focus),
+main :is(.block--darkbg, [data-surface="dark"]) a.eva-copy-link:is(:hover, :focus) {
+  color: #fff;
+}
+main :is(p, li, dd, td, blockquote, figcaption) > a:not([class]):not(.eva-svc-cta a):focus-visible,
+main a.eva-copy-link:focus-visible {
+  outline: 2px solid #47760d;
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+main :is(.block--darkbg, [data-surface="dark"]) :is(p, li, dd, td, blockquote, figcaption) > a:not([class]):not(.eva-svc-cta a):focus-visible,
+main :is(.block--darkbg, [data-surface="dark"]) a.eva-copy-link:focus-visible {
+  outline-color: #abee2d;
+}
