@@ -180,11 +180,13 @@ export const PHOTO_FX: Record<string, ImageFx> = {
     { kind: "pulse", x: 87, y: 61, size: 4, delay: 0.4 },
     { kind: "glow", x: 93, y: 78, size: 8, color: WARM, delay: 0.7 },
   ]),
+  // Fitted to the image: playhead inside the left monitor's track area, pulses on the woofers, soft lamp glow.
+  // No meter: the desk has no visible meter strip, so bars floated over the faders.
   "song-studio": P([
-    { kind: "meter", x: 30, y: 56, w: 28, h: 1.2, bars: 20 },
-    { kind: "playhead", x: 35, y: 42, w: 14, h: 10 },
-    { kind: "pulse", x: 26, y: 46, size: 5 },
-    { kind: "pulse", x: 66, y: 46, size: 5, delay: 0.4 },
+    { kind: "playhead", x: 38, y: 43.5, w: 8.3, h: 5.5 },
+    { kind: "pulse", x: 26.5, y: 46, size: 4 },
+    { kind: "pulse", x: 66.3, y: 46, size: 4, delay: 0.4 },
+    { kind: "glow", x: 15.5, y: 42.5, size: 8, color: WARM, delay: 0.6 },
   ]),
   "stock-curated": P([
     { kind: "pulse", x: 4, y: 42, size: 5 },
