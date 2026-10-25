@@ -41,7 +41,7 @@ function Blocks({ blocks }: { blocks: RichBlock[] }) {
 
 type Card = { title: string; body: RichBlock[] };
 
-/** h3 groups, or a list whose items all start with a bold label, become cards. */
+/** h3 groups or a list whose items all start with a bold label, become cards. */
 function toCards(blocks: RichBlock[]): { intro: RichBlock[]; cards: Card[]; outro: RichBlock[]; steps: boolean } | null {
   const firstH3 = blocks.findIndex((b) => b.t === "h3");
   if (firstH3 >= 0) {

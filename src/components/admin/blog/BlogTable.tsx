@@ -284,7 +284,7 @@ export default function BlogTable({ posts }: { posts: BlogRow[] }) {
                     <p className="text-sm font-medium">No posts found</p>
                     <p className="text-sm text-muted-foreground">
                       {posts.length
-                        ? "Try a different search or filter, or clear the filters."
+                        ? "Try a different search or filter or clear the filters."
                         : "Write your first post to get started."}
                     </p>
                   </div>
@@ -315,7 +315,7 @@ export default function BlogTable({ posts }: { posts: BlogRow[] }) {
           <AlertDialogHeader>
             <AlertDialogTitle>Delete this post?</AlertDialogTitle>
             <AlertDialogDescription>
-              “{pendingDelete?.title}” will be removed from the blog, and its URL
+              “{pendingDelete?.title}” will be removed from the blog and its URL
               {pendingDelete?.previousSlugs?.length ? " and old redirecting URLs" : ""} will stop working. This
               can’t be undone. To hide it instead, set it to Draft.
             </AlertDialogDescription>

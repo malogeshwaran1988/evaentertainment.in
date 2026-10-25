@@ -50,7 +50,7 @@ export const SERVICES: Service[] = [
     ogImageAlt: "Condenser microphones in EVA Entertainment's dubbing booth",
     introHeading: "One-stop dubbing in any language",
     intro: [
-      "We offer to dub in various languages for movies, Fiction & Non-Fictions, ad films, documentaries, E-learning etc. Normally, a professional dubbing team consists of Sound Eng, Dubbing Artists, Dubbing Directors, Scriptwriter, Artist coordinator, and Translator. The main idea behind Dubbing is to ensure that the voice behind the video is in synchronization with the display.",
+      "We offer to dub in various languages for movies, Fiction & Non-Fictions, ad films, documentaries, E-learning etc. Normally, a professional dubbing team consists of Sound Eng, Dubbing Artists, Dubbing Directors, Scriptwriter, Artist coordinator and Translator. The main idea behind Dubbing is to ensure that the voice behind the video is in synchronization with the display.",
       "We offer complete one-stop dubbing solutions. You can simply hand over your video in the source language to us and we shall provide you a final finished video in the target language of your choice.",
       "Our Dubbing team works in complete coordination to yield a finished output video which looks natural. We provide you dubbed videos with complete lip sync.",
     ],
@@ -62,7 +62,7 @@ export const SERVICES: Service[] = [
     idealFor: ["Feature films", "Web and TV series", "Fiction and non-fiction shows", "Ad films", "Documentaries", "E-learning"],
     faqs: [
       { q: "What is lip-sync dubbing?", a: "Lip-sync dubbing replaces the original dialogue with a new language recorded so that it matches the actors' lip movements on screen, making the film feel as if it was shot in that language." },
-      { q: "What do I need to send you?", a: "Your video in the source language, plus a script if you have one. We handle translation, casting, recording, direction and the final mix." },
+      { q: "What do I need to send you?", a: "Your video in the source language, plus a script if you have one. We handle translation, casting recording, direction and the final mix." },
       { q: "Which languages can you dub into?", a: "We work with native dubbing artists for Indian and international languages. Tell us your target languages when you contact us and we will share voice samples." },
     ],
     related: ["voice-over-studio", "translation-services", "5-1-mixing-studio"],
@@ -122,7 +122,7 @@ export const SERVICES: Service[] = [
     ogImageAlt: "Foley and sound design workstation at EVA Entertainment",
     introHeading: "What Foley and sound design add",
     intro: [
-      "Sound design is commonly known as foley and sound effects. It is a process of specifying, acquiring, manipulating or generating audio elements. It employs a variety of disciplines including filmmaking, television, theatre, sound recording, live performance, sound art, and post-production.",
+      "Sound design is commonly known as foley and sound effects. It is a process of specifying, acquiring, manipulating or generating audio elements. It employs a variety of disciplines including filmmaking, television, theatre, sound recording, live performance, sound art and post-production.",
       "Sound design most commonly involves the manipulation of previously composed or recorded audio, such as sound effects and dialogue. In some instances, it may also involve the composition or manipulation of audio to create a desired effect or mood. A sound designer is one who practices the art of sound design.",
     ],
     extra: {
@@ -134,7 +134,7 @@ export const SERVICES: Service[] = [
     highlights: [
       { title: "Foley performed to picture", text: "Footsteps, cloth, props and movement recorded in sync with your edit." },
       { title: "Sound effects and design", text: "Effects created, edited and layered to set the mood of each scene." },
-      { title: "Ready for the mix", text: "Foley and effects delivered on clean tracks for the final mix, or mixed in-house." },
+      { title: "Ready for the mix", text: "Foley and effects delivered on clean tracks for the final mix or mixed in-house." },
     ],
     idealFor: ["Films and series", "Dubbed versions that need new effects tracks", "Variety shows", "Events", "Special projects", "Ads"],
     faqs: [
@@ -243,7 +243,7 @@ export const SERVICES: Service[] = [
     ],
     idealFor: ["Singers and bands", "Film and album songs", "Jingles for ads", "Covers and demos", "Devotional music", "Podcasts and narration"],
     faqs: [
-      { q: "How do I book a recording session?", a: "Use the Contact Us page to send your preferred date and time, and we will confirm availability." },
+      { q: "How do I book a recording session?", a: "Use the Contact Us page to send your preferred date and time and we will confirm availability." },
       { q: "Can you mix and master my song too?", a: "Yes. We can mix and master the song in the same studio after recording." },
       { q: "Do you record jingles for ads?", a: "Yes. We record jingles and songs for ad films as well as film and independent music." },
     ],
@@ -304,7 +304,7 @@ export const SERVICES: Service[] = [
     introHeading: "Music for your next project",
     intro: [
       "Amplify your ideas and explore our curated stock music library. Find background music and sounds for films, ads, corporate videos, e-learning and online content.",
-      "Tell us about your project and its mood, and we will suggest tracks from the library that fit. Music can also be edited to length and mixed with your voice-over in our studio.",
+      "Tell us about your project and its mood and we will suggest tracks from the library that fit. Music can also be edited to length and mixed with your voice-over in our studio.",
     ],
     highlights: [
       { title: "Curated tracks", text: "A library chosen for film, advertising and corporate work." },
@@ -313,9 +313,9 @@ export const SERVICES: Service[] = [
     ],
     idealFor: ["Ad films", "Corporate videos", "E-learning", "Documentaries", "YouTube and social videos", "Podcasts"],
     faqs: [
-      { q: "How do I choose music from the library?", a: "Contact us with a short description of your project and its mood, and we will share suitable tracks." },
+      { q: "How do I choose music from the library?", a: "Contact us with a short description of your project and its mood and we will share suitable tracks." },
       { q: "Can you edit a track to my video's length?", a: "Yes. We can edit music to length and mix it with your voice-over or dialogue." },
-      { q: "Do you also offer sound effects?", a: "Yes. Ask us about sound effects, or see our Foley recording service for custom effects." },
+      { q: "Do you also offer sound effects?", a: "Yes. Ask us about sound effects or see our Foley recording service for custom effects." },
     ],
     related: ["song-recording-studio", "foley-recording", "5-1-mixing-studio"],
   },

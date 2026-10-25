@@ -19,15 +19,15 @@ export const dynamicParams = true;
 /** Short, language-specific intro so each hub says something different. */
 const INTRO: Record<string, string> = {
   Telugu:
-    "Telugu cinema travels well beyond Andhra Pradesh and Telangana, and a natural Hindi version opens it to audiences across North India and on national OTT platforms. Our team adapts the dialogue for lip sync, keeps the punch of mass dialogues and comedy timing, and casts Hindi voices that match each character's age and energy.",
+    "Telugu cinema travels well beyond Andhra Pradesh and Telangana and a natural Hindi version opens it to audiences across North India and on national OTT platforms. Our team adapts the dialogue for lip sync, keeps the punch of mass dialogues and comedy timing and casts Hindi voices that match each character's age and energy.",
   Tamil:
-    "Tamil films are known for sharp writing and strong performances. When we dub Tamil titles into Hindi we rewrite lines so they sit naturally on the actors' lips, keep cultural references understandable for Hindi viewers, and record songs and crowd scenes so the dubbed version feels as alive as the original.",
+    "Tamil films are known for sharp writing and strong performances. When we dub Tamil titles into Hindi we rewrite lines so they sit naturally on the actors' lips, keep cultural references understandable for Hindi viewers and record songs and crowd scenes so the dubbed version feels as alive as the original.",
   Malayalam:
     "Malayalam cinema is often quieter and more realistic, so the dub has to be subtle. We focus on restrained, natural Hindi performances, careful script adaptation and clean mixes that preserve the original sound design for streaming and broadcast releases.",
   Kannada:
-    "Kannada films are reaching national audiences faster than ever. We handle script translation, lip-sync adaptation, Hindi voice casting, recording and the final mix, delivering broadcast and OTT ready masters.",
+    "Kannada films are reaching national audiences faster than ever. We handle script translation, lip-sync adaptation, Hindi voice casting recording and the final mix, delivering broadcast and OTT ready masters.",
   English:
-    "Hollywood and international English content needs Hindi dubbing that sounds local, not translated. We adapt idioms and jokes for Hindi audiences, match the timing of fast dialogue, and deliver mixes to platform specifications.",
+    "Hollywood and international English content needs Hindi dubbing that sounds local, not translated. We adapt idioms and jokes for Hindi audiences, match the timing of fast dialogue and deliver mixes to platform specifications.",
   Hindi:
     "Hindi films and series dubbed into South Indian languages reach audiences in their mother tongue. Our native-speaker writers and voice artists adapt each line for lip sync and cultural fit.",
 };
@@ -97,7 +97,7 @@ export default async function LanguageHubPage({ params }: { params: Promise<{ pa
             {pair.projects.length === 1 ? "" : "s"} into {pair.to}. Learn more about our{" "}
             <Link href={serviceHref("dubbing-studio")}>lip-sync dubbing studio in Mumbai</Link>,{" "}
             <Link href={serviceHref("translation-services")}>script translation</Link> and{" "}
-            <Link href={serviceHref("5-1-mixing-studio")}>5.1 mixing</Link>, or{" "}
+            <Link href={serviceHref("5-1-mixing-studio")}>5.1 mixing</Link> or{" "}
             <Link href={Routes.CONTACT}>contact us</Link> for a quote.
           </p>
           <PosterBatchGrid

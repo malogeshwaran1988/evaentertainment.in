@@ -16,7 +16,7 @@ import { BLOG_BLOB_FILE, BLOG_DISK_FILE } from "@@/lib/blog/paths";
 /**
  * Blog posts, stored like projects: one JSON file in the private Blob store (`eva/blog.json`)
  * or, in local dev, `${EVA_DATA_DIR:-./storage}/blog.json`. Writes are serialised in-process and
- * guarded by the Blob ETag across instances, and slug uniqueness is checked inside that write so
+ * guarded by the Blob ETag across instances and slug uniqueness is checked inside that write so
  * two saves can't both claim one URL.
  */
 const MAX_WRITE_ATTEMPTS = 3;
@@ -145,7 +145,7 @@ export type PublicBlogLookup =
   | { post?: undefined; redirectTo: string }
   | null;
 
-/** A public post by its current slug, or the current slug when `slug` is one it used to have. */
+/** A public post by its current slug or the current slug when `slug` is one it used to have. */
 export async function findPublicBlogPost(slug: string, now = new Date()): Promise<PublicBlogLookup> {
   const posts = (await readPosts()).filter((p) => blogPostIsPublic(p, now));
   const post = posts.find((p) => p.slug === slug);

@@ -104,14 +104,14 @@ export async function sendMail(options: MailInput) {
   // MAIL_MOCK=1 ALWAYS wins, even when SMTP_* is configured: nothing leaves the machine.
   const mock = process.env.MAIL_MOCK === "1";
   if (mock || !host || !user || !pass) {
-    // Mock, or local/dev without SMTP: accept and log. Production must set SMTP_*.
+    // Mock or local/dev without SMTP: accept and log. Production must set SMTP_*.
     if (mock || process.env.NODE_ENV !== "production") {
       console.info("[mail:mock]", options.to ?? "(internal)", options.subject);
       await writeMailPreview(options);
       return { ok: true as const, mocked: true as const };
     }
     throw new Error(
-      "Mail is not configured. Set SMTP_HOST, SMTP_USER, SMTP_PASS, and CONTACT_TO.",
+      "Mail is not configured. Set SMTP_HOST, SMTP_USER, SMTP_PASS and CONTACT_TO.",
     );
   }
 

@@ -13,7 +13,7 @@ type PageSeo = {
 
 /**
  * Standard for every success / failure / error / confirmation / status / admin page:
- * `noindex, follow`, and never listed in the sitemap. Use this (or buildStatusPageMetadata)
+ * `noindex, follow` and never listed in the sitemap. Use this (or buildStatusPageMetadata)
  * so new status pages get it by default.
  */
 export const STATUS_PAGE_ROBOTS: Metadata["robots"] = {

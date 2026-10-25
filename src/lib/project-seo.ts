@@ -189,7 +189,7 @@ export function projectSeoDescription(
   if (custom) {
     const withBrand = new RegExp(SITE_NAME, "i").test(custom)
       ? custom
-      : `${custom} — ${SITE_NAME}`;
+      : `${custom} | ${SITE_NAME}`;
     if (withBrand.length <= META_DESC_MAX) return withBrand;
     return `${withBrand.slice(0, META_DESC_MAX - 1).trimEnd()}…`;
   }

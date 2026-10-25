@@ -33,7 +33,7 @@ export default function BlogPreviewClient() {
   return (
     <main id="main-content" tabIndex={-1} className="page-main">
       <div className="eva-blog-preview-banner" role="status">
-        <strong>Preview — not published.</strong> This is how the post will look on the live site. Only
+        <strong>Preview - not published.</strong> This is how the post will look on the live site. Only
         admins can see this page; close the tab to return to the editor.
       </div>
       {state.kind === "ready" ? (

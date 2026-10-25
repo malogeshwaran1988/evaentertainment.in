@@ -18,7 +18,7 @@ function focusVars(focus: string) {
 export default function HeroSlider() {
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
-  // WCAG 2.2.2: autoplay can be stopped by the user, and is off under reduced motion.
+  // WCAG 2.2.2: autoplay can be stopped by the user and is off under reduced motion.
   const [userPaused, setUserPaused] = useState(false);
   const [hoverPaused, setHoverPaused] = useState(false);
   const [reduceMotion, setReduceMotion] = useState(false);

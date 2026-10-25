@@ -9,7 +9,10 @@ import { PosterPlaceholder } from "@@/components/projects/ProjectPoster";
 import ProjectAdjacentNav from "@@/components/projects/ProjectAdjacentNav";
 import ProjectExplore from "@@/components/projects/ProjectExplore";
 import ProjectTrailer from "@@/components/projects/ProjectTrailer";
-import { youtubeId } from "@@/lib/project-content";
+import ProjectClientBadge from "@@/components/clients/ProjectClientBadge";
+import { toProjectClient } from "@@/data/clients";
+import { getClients } from "@@/lib/clients-store";
+import { projectIsIndexable, youtubeId } from "@@/lib/project-content";
 import { APP_BASE_URL, SITE_NAME } from "@@/constants/constants";
 import { Routes, serviceHref } from "@@/constants/routes";
 import { SERVICES } from "@@/data/services";
@@ -61,8 +64,7 @@ export async function generateMetadata({
   if (!project || !projectIsPublished(project)) return {};
   const ogImage = project.poster ? ogImageFor(project) : PROJECTS_OG_IMAGE;
   return buildPageMetadata({
-    // Every published project page is index, follow (SEO is generated automatically).
-    noindex: false,
+    noindex: !projectIsIndexable(project),
     title: projectSeoTitle(project),
     description: projectSeoDescription(project),
     url: absoluteUrl(projectHref(project.slug)),
@@ -93,6 +95,8 @@ export default async function ProjectDetailPage({
     projects.find((p) => p.slug === slug) ??
     (await getProjectBySlug(slug).then((p) => (p && projectIsPublished(p) ? p : null)));
   if (!project) notFound();
+  const clientsById = new Map((await getClients()).map((c) => [c.id, c]));
+  const client = toProjectClient(project.clientId ? clientsById.get(project.clientId) : undefined);
 
   const { prev, next, others } = neighbors(projects, project.slug);
   const prevNav = prev ? { slug: prev.slug, title: prev.title } : null;
@@ -111,6 +115,7 @@ export default async function ProjectDetailPage({
   const trailerId = youtubeId(project.trailerUrl);
   // No target language: sections read "Voice cast" / "Trailer".
   const mainTarget = project.to[0] ?? "";
+  const releaseYear = project.originalRelease?.slice(0, 4);
   const ew = project.evaWork;
   const evaDid = [
     ew?.lipSync ? "Full lip-sync dubbing" : null,
@@ -218,6 +223,7 @@ export default async function ProjectDetailPage({
     ...(p.poster ? { poster: p.poster } : {}),
     ...(p.posterAlt ? { posterAlt: p.posterAlt } : {}),
     ...(p.year ? { year: p.year } : {}),
+    ...(p.clientId && clientsById.has(p.clientId) ? { client: toProjectClient(clientsById.get(p.clientId)) } : {}),
   }));
 
   return (
@@ -283,6 +289,7 @@ export default async function ProjectDetailPage({
                   </ul>
                 ) : null}
                 <p className="eva-project-detail-brand">Dubbed by {SITE_NAME}</p>
+                <ProjectClientBadge client={client} />
                 {project.description ? (
                   <p className="eva-project-detail-desc">{project.description}</p>
                 ) : null}
@@ -306,6 +313,19 @@ export default async function ProjectDetailPage({
               </section>
             ) : null}
 
+            {project.director || project.cast?.length || project.productionHouse || project.originalRelease ? (
+              <section aria-labelledby="pc-film">
+                <h2 id="pc-film" className="h--md">Original film</h2>
+                <dl className="eva-project-facts">
+                  <dt>Original language</dt>
+                  <dd>{project.from}</dd>
+                  {project.director ? (<><dt>Director</dt><dd>{project.director}</dd></>) : null}
+                  {project.cast?.length ? (<><dt>Cast</dt><dd>{project.cast.join(", ")}</dd></>) : null}
+                  {project.productionHouse ? (<><dt>Production</dt><dd>{project.productionHouse}</dd></>) : null}
+                  {project.originalRelease ? (<><dt>Original release</dt><dd>{project.originalRelease}</dd></>) : null}
+                </dl>
+              </section>
+            ) : null}
 
             {evaDid.length || ew?.notes ? (
               <section aria-labelledby="pc-eva">
@@ -340,6 +360,18 @@ export default async function ProjectDetailPage({
               </section>
             ) : null}
 
+            {project.whereToWatch ? (
+              <section aria-labelledby="pc-watch">
+                <h2 id="pc-watch" className="h--md">Where to watch</h2>
+                <p>
+                  {project.to.length
+                    ? `The ${project.to.join(" / ")} version${releaseYear ? ` of this ${releaseYear} film` : ""}`
+                    : `This ${releaseYear ? `${releaseYear} ` : ""}film`}{" "}
+                  is available on{" "}
+                  {project.whereToWatch}.
+                </p>
+              </section>
+            ) : null}
 
             {project.faqs?.length ? (
               <section aria-labelledby="pc-faq">

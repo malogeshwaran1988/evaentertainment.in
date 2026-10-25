@@ -6,10 +6,12 @@ import Link from "@@/components/common/NavLink";
 import { PosterPlaceholder } from "@@/components/projects/ProjectPoster";
 import { Routes } from "@@/constants/routes";
 import { type PublicProject } from "@@/data/projects";
+import type { ProjectClient } from "@@/data/clients";
+import "@@/styles/routes/project-client.scss";
 import { projectPosterAlt } from "@@/lib/project-seo";
 
 type ProjectExploreProps = {
-  projects: PublicProject[];
+  projects: (PublicProject & { client?: ProjectClient })[];
 };
 
 export default function ProjectExplore({ projects }: ProjectExploreProps) {
@@ -53,7 +55,7 @@ export default function ProjectExplore({ projects }: ProjectExploreProps) {
               <Link
                 className="eva-project-explore-thumb"
                 href={Routes.project(project.slug)}
-                aria-label={project.title}
+                aria-label={project.client ? `${project.title}, client ${project.client.name}` : project.title}
               >
                 <span className="eva-project-explore-thumb-media">
                   {project.poster ? (
@@ -68,8 +70,13 @@ export default function ProjectExplore({ projects }: ProjectExploreProps) {
                   ) : (
                     <PosterPlaceholder title={project.title} />
                   )}
+                  {project.client ? (
+                    <span className="eva-project-explore-client" title={project.client.name}>
+                      {/* eslint-disable-next-line @next/next/no-img-element -- small pre-optimised AVIF */}
+                      <img src={project.client.logo} alt={`${project.client.name} logo`} width={project.client.width} height={project.client.height} loading="lazy" decoding="async" />
+                    </span>
+                  ) : null}
                 </span>
-                <span className="sr-only">{project.title}</span>
               </Link>
             </li>
           ))}

@@ -8,7 +8,7 @@ export const PRIVACY_OG_IMAGE_ALT = DEFAULT_OG_IMAGE_ALT;
 export const PRIVACY_SEO = {
   title: "Privacy Policy | EVA Entertainment",
   description:
-    "Privacy Policy for EVA Entertainment Recording Studio — how we collect, use, store, and protect personal data under Indian DPDP law and international standards for our Mumbai studio and global clients.",
+    "Privacy Policy for EVA Entertainment Recording Studio - how we collect, use, store and protect personal data under Indian DPDP law and international standards for our Mumbai studio and global clients.",
 };
 
 const address = CONTACT.addressLines.join(" ");
@@ -18,7 +18,7 @@ export const PRIVACY_CONTENT = {
   effectiveDate: "23 September 2026",
   lastUpdated: "26 September 2026",
   intro:
-    "EVA Entertainment (“EVA”, “we”, “us”, or “our”) operates a professional recording, dubbing, voice-over, Foley, subtitling, and multimedia localization studio in Mumbai, India, and works with clients in India and internationally. This Privacy Policy explains how we collect, use, disclose, retain, and protect personal data when you visit evaentertainment.in, contact us, book studio time, or engage us for production services.",
+    "EVA Entertainment (“EVA”, “we”, “us” or “our”) operates a professional recording, dubbing, voice-over, Foley, subtitling and multimedia localization studio in Mumbai, India and works with clients in India and internationally. This Privacy Policy explains how we collect, use, disclose retain and protect personal data when you visit evaentertainment.in, contact us, book studio time or engage us for production services.",
   sections: [
     {
       id: "who-we-are",
@@ -40,11 +40,11 @@ export const PRIVACY_CONTENT = {
       blocks: [
         {
           type: "p",
-          text: "This Policy applies to personal data of website visitors, prospective and current clients, talent and freelancers who contact us through our channels, and other individuals who interact with us in India or from other countries in connection with our services. International clients should note that our primary place of establishment and processing is India; cross-border coordination for global projects is described in Section 8.",
+          text: "This Policy applies to personal data of website visitors, prospective and current clients, talent and freelancers who contact us through our channels and other individuals who interact with us in India or from other countries in connection with our services. International clients should note that our primary place of establishment and processing is India; cross-border coordination for global projects is described in Section 8.",
         },
         {
           type: "p",
-          text: "This Policy does not cover third-party websites, payment gateways, messaging platforms (for example WhatsApp), or social networks that you may use to reach us; those services are governed by their own privacy terms.",
+          text: "This Policy does not cover third-party websites, payment gateways, messaging platforms (for example WhatsApp) or social networks that you may use to reach us; those services are governed by their own privacy terms.",
         },
       ],
     },
@@ -58,15 +58,15 @@ export const PRIVACY_CONTENT = {
         },
         {
           type: "p",
-          text: "When you use our contact form, booking form, email, phone, or WhatsApp, we may collect:",
+          text: "When you use our contact form, booking form, email, phone or WhatsApp, we may collect:",
         },
         {
           type: "ul",
           items: [
-            "Identity and contact details: name, email address, phone number, and postal or city address where provided.",
-            "Project and booking details: service type, preferred studio hours, preferred date, messages, and other information you include in an enquiry.",
-            "Business details: company or production name, role, and project references you choose to share.",
-            "Communications content: correspondence relating to quotes, sessions, deliverables, and support.",
+            "Identity and contact details: name, email address, phone number and postal or city address where provided.",
+            "Project and booking details: service type, preferred studio hours, preferred date, messages and other information you include in an enquiry.",
+            "Business details: company or production name role and project references you choose to share.",
+            "Communications content: correspondence relating to quotes, sessions, deliverables and support.",
           ],
         },
         {
@@ -75,7 +75,7 @@ export const PRIVACY_CONTENT = {
         },
         {
           type: "p",
-          text: "When you visit our website, our hosting and server infrastructure may automatically collect limited technical data such as IP address, browser type, device information, referring URL, pages viewed, and timestamps. We use this information for security, diagnostics, and to keep the site reliable. We also use Google Tag Manager to manage Google analytics tags; these tags only store cookies or measure your visit after you choose \"Accept all\", and Google processes this data under the Google Privacy Policy (https://policies.google.com/privacy). We do not operate third-party advertising trackers on this site.",
+          text: "When you visit our website, our hosting and server infrastructure may automatically collect limited technical data such as IP address, browser type, device information referring URL, pages viewed and timestamps. We use this information for security, diagnostics and to keep the site reliable. We also use Google Tag Manager to manage Google analytics tags; these tags only store cookies or measure your visit after you choose \"Accept all\" and Google processes this data under the Google Privacy Policy (https://policies.google.com/privacy). We do not operate third-party advertising trackers on this site.",
         },
         {
           type: "h3",
@@ -83,7 +83,7 @@ export const PRIVACY_CONTENT = {
         },
         {
           type: "p",
-          text: "In the course of studio work we may receive or create audio, video, scripts, talent names, and related production files. Where those materials contain personal data, we process them only as needed to deliver the contracted services, subject to confidentiality and our Terms of Service.",
+          text: "In the course of studio work we may receive or create audio, video, scripts, talent names and related production files. Where those materials contain personal data, we process them only as needed to deliver the contracted services, subject to confidentiality and our Terms of Service.",
         },
       ],
     },
@@ -99,11 +99,11 @@ export const PRIVACY_CONTENT = {
           type: "ul",
           items: [
             "Responding to enquiries and providing quotes.",
-            "Scheduling, confirming, and managing studio bookings and production sessions.",
-            "Delivering recording, dubbing, voice-over, Foley, subtitling, localization, and related post-production services.",
-            "Communicating about projects, invoices, approvals, and after-sales support.",
-            "Maintaining the security and integrity of our website, facilities, and systems.",
-            "Complying with applicable Indian laws, tax, accounting, and regulatory obligations.",
+            "Scheduling, confirming and managing studio bookings and production sessions.",
+            "Delivering recording, dubbing, voice-over, Foley, subtitling, localization and related post-production services.",
+            "Communicating about projects, invoices, approvals and after-sales support.",
+            "Maintaining the security and integrity of our website, facilities and systems.",
+            "Complying with applicable Indian laws, tax, accounting and regulatory obligations.",
             "Improving our services and website experience based on aggregated or non-identifying insights where feasible.",
           ],
         },
@@ -111,7 +111,7 @@ export const PRIVACY_CONTENT = {
     },
     {
       id: "legal-basis",
-      title: "5. Legal Basis (India — DPDP Act)",
+      title: "5. Legal Basis (India - DPDP Act)",
       blocks: [
         {
           type: "p",
@@ -121,13 +121,13 @@ export const PRIVACY_CONTENT = {
           type: "ul",
           items: [
             "Consent: where you submit forms or otherwise agree to our contacting you for marketing or optional communications.",
-            "Legitimate uses permitted by law: including processing necessary for employment-related purposes where applicable, medical emergencies, employment of certain functions as notified, and fulfilment of any obligation under law.",
-            "Contractual necessity: processing needed to take steps at your request before entering into a contract, and to perform studio and production agreements with you or your organisation.",
+            "Legitimate uses permitted by law: including processing necessary for employment-related purposes where applicable, medical emergencies, employment of certain functions as notified and fulfilment of any obligation under law.",
+            "Contractual necessity: processing needed to take steps at your request before entering into a contract and to perform studio and production agreements with you or your organisation.",
           ],
         },
         {
           type: "p",
-          text: "Where international privacy frameworks (such as GDPR-style principles for EU/UK clients, or similar standards elsewhere) are relevant to a client relationship, we apply comparable safeguards: purpose limitation, data minimisation, transparency, security, and respect for individual rights, to the extent compatible with Indian law and our contracts.",
+          text: "Where international privacy frameworks (such as GDPR-style principles for EU/UK clients or similar standards elsewhere) are relevant to a client relationship, we apply comparable safeguards: purpose limitation, data minimisation, transparency, security and respect for individual rights, to the extent compatible with Indian law and our contracts.",
         },
       ],
     },
@@ -137,7 +137,7 @@ export const PRIVACY_CONTENT = {
       blocks: [
         {
           type: "p",
-          text: "Our website may use essential cookies or similar storage needed for security, session continuity, and basic site function. Google analytics tags loaded through Google Tag Manager only run or store cookies after you choose \"Accept all\" in the cookie banner. If you choose \"Reject\", analytics cookies are not set. You can change your choice at any time with \"Cookie settings\" at the bottom of every page, and you can also block or delete cookies in your browser settings; the website will continue to work without them. We do not sell personal data and do not use advertising trackers. If we introduce marketing cookies in the future, we will update this Policy and, where required, seek appropriate consent.",
+          text: "Our website may use essential cookies or similar storage needed for security, session continuity and basic site function. Google analytics tags loaded through Google Tag Manager only run or store cookies after you choose \"Accept all\" in the cookie banner. If you choose \"Reject\", analytics cookies are not set. You can change your choice at any time with \"Cookie settings\" at the bottom of every page and you can also block or delete cookies in your browser settings; the website will continue to work without them. We do not sell personal data and do not use advertising trackers. If we introduce marketing cookies in the future, we will update this Policy and, where required, seek appropriate consent.",
         },
       ],
     },
@@ -152,11 +152,11 @@ export const PRIVACY_CONTENT = {
         {
           type: "ul",
           items: [
-            "Service providers who support hosting, email delivery, website analytics (Google Tag Manager / Google analytics), IT, accounting, or similar operations under confidentiality obligations.",
-            "Freelance talent, engineers, directors, or production partners engaged for your project, limited to what is necessary for delivery.",
+            "Service providers who support hosting, email delivery, website analytics (Google Tag Manager / Google analytics), IT, accounting or similar operations under confidentiality obligations.",
+            "Freelance talent, engineers, directors or production partners engaged for your project, limited to what is necessary for delivery.",
             "Professional advisers (legal, accounting) where required.",
-            "Government authorities, courts, or law enforcement when required by applicable law or to protect our rights, users, or the public.",
-            "A successor entity in the event of a merger, acquisition, or restructuring, subject to appropriate safeguards.",
+            "Government authorities, courts or law enforcement when required by applicable law or to protect our rights, users or the public.",
+            "A successor entity in the event of a merger, acquisition or restructuring, subject to appropriate safeguards.",
           ],
         },
       ],
@@ -171,7 +171,7 @@ export const PRIVACY_CONTENT = {
         },
         {
           type: "p",
-          text: "When transferring personal data outside India, we take reasonable steps consistent with the DPDP Act and any applicable government notifications or restrictions, including contractual confidentiality, access controls, and limiting transfers to what is necessary for the engagement. International clients are responsible for ensuring they have lawful grounds to provide us with personal data of their personnel, talent, or end users.",
+          text: "When transferring personal data outside India, we take reasonable steps consistent with the DPDP Act and any applicable government notifications or restrictions, including contractual confidentiality, access controls and limiting transfers to what is necessary for the engagement. International clients are responsible for ensuring they have lawful grounds to provide us with personal data of their personnel, talent or end users.",
         },
       ],
     },
@@ -181,7 +181,7 @@ export const PRIVACY_CONTENT = {
       blocks: [
         {
           type: "p",
-          text: "We retain personal data only for as long as needed for the purposes described above, including the duration of a project relationship, statutory retention for tax and accounting records in India, and a reasonable period thereafter for dispute resolution or legitimate business records. Booking and enquiry records are typically retained for a limited operational period unless a longer retention is required by law or ongoing work. Production archives are retained as agreed in project contracts or studio policy.",
+          text: "We retain personal data only for as long as needed for the purposes described above, including the duration of a project relationship, statutory retention for tax and accounting records in India and a reasonable period thereafter for dispute resolution or legitimate business records. Booking and enquiry records are typically retained for a limited operational period unless a longer retention is required by law or ongoing work. Production archives are retained as agreed in project contracts or studio policy.",
         },
       ],
     },
@@ -191,7 +191,7 @@ export const PRIVACY_CONTENT = {
       blocks: [
         {
           type: "p",
-          text: "We implement reasonable organisational and technical measures appropriate to a professional recording and post-production environment, including restricted facility and system access, need-to-know handling of client materials, and secure communication practices. No method of transmission or storage is completely secure; we encourage clients to use agreed secure transfer methods for sensitive masters and personal data.",
+          text: "We implement reasonable organisational and technical measures appropriate to a professional recording and post-production environment, including restricted facility and system access, need-to-know handling of client materials and secure communication practices. No method of transmission or storage is completely secure; we encourage clients to use agreed secure transfer methods for sensitive masters and personal data.",
         },
       ],
     },
@@ -207,7 +207,7 @@ export const PRIVACY_CONTENT = {
           type: "ul",
           items: [
             "Request a summary of personal data being processed about you and the processing activities.",
-            "Seek correction, completion, updating, or erasure of your personal data.",
+            "Seek correction, completion, updating or erasure of your personal data.",
             "Withdraw consent where processing is based on consent (without affecting lawfulness of prior processing).",
             "Nominate another individual to exercise rights in the event of death or incapacity, where applicable.",
             "Have a readily available means of grievance redressal regarding our processing.",
@@ -235,7 +235,7 @@ export const PRIVACY_CONTENT = {
       blocks: [
         {
           type: "p",
-          text: "We may update this Privacy Policy from time to time to reflect legal, technical, or business changes. The “Last updated” date at the top of this page will be revised when changes are posted. Continued use of our website or services after an update constitutes notice of the revised Policy, except where consent is required by law for a material change.",
+          text: "We may update this Privacy Policy from time to time to reflect legal, technical or business changes. The “Last updated” date at the top of this page will be revised when changes are posted. Continued use of our website or services after an update constitutes notice of the revised Policy, except where consent is required by law for a material change.",
         },
       ],
     },
@@ -245,7 +245,7 @@ export const PRIVACY_CONTENT = {
       blocks: [
         {
           type: "p",
-          text: `For privacy requests, questions, or grievances, please contact:`,
+          text: `For privacy requests, questions or grievances, please contact:`,
         },
         {
           type: "ul",

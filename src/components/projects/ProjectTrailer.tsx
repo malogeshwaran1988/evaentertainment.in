@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 
 /**
  * Lite YouTube embed: a thumbnail + play button; the iframe loads only after a click.
- * The button has a visible "Play trailer" label, and focus moves into the player once it loads
+ * The button has a visible "Play trailer" label and focus moves into the player once it loads
  * so keyboard users can control playback right away.
  */
 export default function ProjectTrailer({ id, title }: { id: string; title: string }) {

@@ -18,7 +18,7 @@ const TRAILING_STOP_WORDS = /(?:-(?:a|an|and|at|by|for|from|in|of|on|or|the|to|w
 
 /**
  * "<stem>-eva-entertainment". The brand is taken out of the stem first (titles often end
- * "… at EVA Entertainment") so it isn't cut in half, and dangling words like "-to" are trimmed.
+ * "… at EVA Entertainment") so it isn't cut in half and dangling words like "-to" are trimmed.
  */
 export function blogImageBaseName(stem: string): string {
   const full = slugifyAscii(stem, 200).replace(new RegExp(`(?:-(?:at|by|from))?-?${BRAND_SLUG}`, "g"), "");

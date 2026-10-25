@@ -67,7 +67,7 @@ function sniffImage(bytes: Buffer): PosterExt | null {
 /** The query changes on every upload, so the long-lived cache never serves an old image. */
 const posterUrl = (name: string) => `${POSTER_URL_PREFIX}${name}?v=${Date.now().toString(36)}`;
 
-/** File name of an uploaded poster ("biker.avif"), or null for seeded /public images. */
+/** File name of an uploaded poster ("biker.avif") or null for seeded /public images. */
 export function posterFileName(posterPath: string | undefined) {
   if (!posterPath?.startsWith(POSTER_URL_PREFIX)) return null;
   const name = posterPath.slice(POSTER_URL_PREFIX.length).split("?")[0];

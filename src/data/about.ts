@@ -7,7 +7,7 @@ export const ABOUT_OG_IMAGE_ALT = "EVA Entertainment recording and mixing contro
 export const ABOUT_SEO = {
   title: "About Us | EVA Entertainment Dubbing Studio, Mumbai",
   description:
-    "Learn about EVA Entertainment — India's lip-sync dubbing, voice-over, Foley, subtitling, and multimedia localization studio based in Andheri, Mumbai.",
+    "Learn about EVA Entertainment - India's lip-sync dubbing, voice-over, Foley, subtitling and multimedia localization studio based in Andheri, Mumbai.",
 };
 
 export const ABOUT_CONTENT = {
@@ -20,7 +20,7 @@ export const ABOUT_CONTENT = {
   missionImageAlt: "Production studio with keyboards and monitors",
   missionParagraphs: [
     "EVA Entertainment is been serving the industries for the past years' experiencing, delivering high-quality localization services to our satisfied clients.",
-    "No matter the platform or media type or goal is always the same — to ensure that our clients fully engage their audiences around the world. To this end, we offer a customer-first approach to multimedia localization, creating custom solutions for client content suites, and ensuring consistently high quality, native fluency, and accuracy in all languages. At EVA Entertainment, we advocate for our clients and their content, as well as our partners and production teams. That's why we'll always be willing to talk. In any language.",
+    "No matter the platform or media type or goal is always the same - to ensure that our clients fully engage their audiences around the world. To this end, we offer a customer-first approach to multimedia localization, creating custom solutions for client content suites and ensuring consistently high quality, native fluency and accuracy in all languages. At EVA Entertainment, we advocate for our clients and their content, as well as our partners and production teams. That's why we'll always be willing to talk. In any language.",
   ],
   facilitiesTitle: "Our Production Facilities",
   facilitiesParagraphs: [

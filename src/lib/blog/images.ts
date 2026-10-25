@@ -45,7 +45,7 @@ function sniffImage(bytes: Buffer): Ext | null {
   return null;
 }
 
-/** "name.avif" from "/images/blog/name.avif?v=x", or null for anything else. */
+/** "name.avif" from "/images/blog/name.avif?v=x" or null for anything else. */
 export function blogImageFileName(url: string | undefined): string | null {
   if (!url?.startsWith(BLOG_IMAGE_URL_PREFIX)) return null;
   const name = url.slice(BLOG_IMAGE_URL_PREFIX.length).split("?")[0];
@@ -91,7 +91,7 @@ export async function saveBlogImage(file: File, stem: string): Promise<BlogImage
   const ext = sniffImage(bytes);
   if (!ext) return { ok: false, error: "Use a JPG, PNG, WebP or AVIF image." };
   // Content-addressed name: the same bytes always get the same name, so a re-upload is stored
-  // once, and no head() loop is needed to find a free "-2/-3" name (that loop cost up to 200
+  // once and no head() loop is needed to find a free "-2/-3" name (that loop cost up to 200
   // Simple Operations per upload).
   const hash = createHash("sha256").update(bytes).digest("hex").slice(0, 8);
   const name = `${blogImageBaseName(stem)}-${hash}.${ext}`;

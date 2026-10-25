@@ -6,6 +6,7 @@ import { BLOG_ENABLED } from "@@/lib/blog/enabled";
 import { blogHref } from "@@/lib/blog/slug";
 import { getPublicBlogPosts } from "@@/lib/blog/store";
 import { getProjects } from "@@/lib/projects-store";
+import { projectIsIndexable } from "@@/lib/project-content";
 import { LANGUAGE_HUB_MIN_PROJECTS, LANGUAGE_HUB_PREFIX, languagePairs } from "@@/lib/project-links";
 import { projectHref } from "@@/lib/project-seo";
 import { absoluteUrl, isNoindexRoute } from "@@/lib/seo";
@@ -56,8 +57,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     console.error("[sitemap] projects unavailable", err);
   }
 
-  // Every published project page is indexable, so every one is listed (old and new).
-  const projectEntries: MetadataRoute.Sitemap = projects.map((project) => ({
+  // Thin project pages are noindex until enriched, so they stay out of the sitemap too.
+  const projectEntries: MetadataRoute.Sitemap = projects.filter((p) => projectIsIndexable(p)).map((project) => ({
     url: absoluteUrl(projectHref(project.slug)),
     lastModified: new Date(project.updatedAt || project.createdAt),
     changeFrequency: "monthly" as const,

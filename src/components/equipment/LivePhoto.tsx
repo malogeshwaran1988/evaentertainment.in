@@ -11,7 +11,7 @@ const pos = (x: number, y: number, d?: number) =>
 
 /**
  * Photo + decorative "live" overlay. The overlay sits inside the same zoomed stage as the
- * <img>, and the img is shown at its exact 4:3 source ratio (no crop), so every ring stays
+ * <img> and the img is shown at its exact 4:3 source ratio (no crop), so every ring stays
  * locked to the device it was measured on.
  */
 export default function LivePhoto({ item, eager, alt }: { item: EquipmentItem; eager: boolean; alt: boolean }) {

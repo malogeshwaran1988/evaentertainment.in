@@ -422,7 +422,7 @@ export default function BlogForm({ action, initial, submitLabel, today, takenSlu
             aria-describedby={describedBy(id("excerpt-hint"), errors.excerpt && id("excerpt-error"))}
           />
           <p id={id("excerpt-hint")} className="text-sm text-muted-foreground">
-            One or two sentences for the blog list, and the search snippet if Meta description is empty. (
+            One or two sentences for the blog list and the search snippet if Meta description is empty. (
             {excerpt.length}/{BLOG_EXCERPT_MAX})
           </p>
           <FieldError id={id("excerpt-error")} message={errors.excerpt} />

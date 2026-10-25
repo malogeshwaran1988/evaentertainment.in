@@ -109,7 +109,6 @@ export const SERVICE_MEDIA: Record<string, ServicePhoto> = {
       ],
     },
   },
-
   "song-studio": photo("song-studio", "Music studio in Mumbai with a mixing console, studio monitors and a keyboard"),
   "stock-curated": photo("stock-curated", "Indian music curator in Mumbai playing a shortlist of tracks to a client from a laptop with the brief and a stopwatch on the table"),
   "stock-lead": photo("stock-lead", "Indian music editor in a Mumbai studio cutting a music track to an ad film edit on two monitors"),

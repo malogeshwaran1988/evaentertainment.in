@@ -16,7 +16,7 @@ import { cn } from "@@/lib/utils";
 /**
  * Admin status pills. Every tone pairs a tinted background with a dark (light theme) or
  * light (dark theme) text colour that is ≥ 4.5:1 on that background (WCAG 1.4.3), a ≥ 3:1
- * border (1.4.11), and an icon + text label so meaning never depends on colour alone (1.4.1).
+ * border (1.4.11) and an icon + text label so meaning never depends on colour alone (1.4.1).
  *
  * Measured contrast (text on its own background, WCAG relative luminance):
  *   light: green-800/green-50 6.8, amber-900/amber-50 8.8, zinc-700/zinc-100 9.5,

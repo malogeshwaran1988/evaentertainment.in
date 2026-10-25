@@ -3,7 +3,7 @@
  *
  * Bulletproof HTML: 600px table layout, inline CSS only, system fonts, MSO conditionals + VML
  * button for Outlook desktop, dark-mode-safe colours, logo embedded as a CID inline
- * attachment (cid:eva-logo, added in mail.ts) so it shows offline and is not a remote image, and a plain-text part. Every user value is HTML-escaped; the only links
+ * attachment (cid:eva-logo, added in mail.ts) so it shows offline and is not a remote image and a plain-text part. Every user value is HTML-escaped; the only links
  * built from user input are mailto: (validated email) and tel: (digits only).
  */
 import { APP_BASE_URL, SITE_NAME } from "@@/constants/constants";
