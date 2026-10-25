@@ -20,6 +20,10 @@ export type AppRoute = (typeof Routes)[keyof typeof Routes];
 /** One page per service, at the site root (keyword slugs; old "-mumbai" URLs 301 here). */
 export const SERVICE_SLUGS = [
   "dubbing-studio",
+  "hollywood-dubbing-indian-languages",
+  "pan-india-film-dubbing",
+  "regional-film-dubbing",
+  "indian-languages",
   "voice-over-studio",
   "foley-recording",
   "5-1-mixing-studio",
@@ -30,6 +34,15 @@ export const SERVICE_SLUGS = [
 ] as const;
 
 export type ServiceSlug = (typeof SERVICE_SLUGS)[number];
+
+/** Pages that never had a "-mumbai" URL, so they get no legacy redirect. */
+const NO_LEGACY_SLUGS = new Set<ServiceSlug>([
+  "stock-music-library",
+  "hollywood-dubbing-indian-languages",
+  "pan-india-film-dubbing",
+  "regional-film-dubbing",
+  "indian-languages",
+]);
 
 export const serviceHref = (slug: ServiceSlug) => `/${slug}`;
 
@@ -50,7 +63,7 @@ export const LEGACY_REDIRECTS: { from: string; to: string; statusCode?: 301 }[] 
   { from: "/terms", to: Routes.TERMS },
   { from: "/services", to: WHAT_WE_DO_HREF },
   // Service pages dropped the "-mumbai" suffix (Oct 2026); "Mumbai" stays in titles and copy.
-  ...SERVICE_SLUGS.filter((slug) => slug !== "stock-music-library").map((slug) => ({
+  ...SERVICE_SLUGS.filter((slug) => !NO_LEGACY_SLUGS.has(slug)).map((slug) => ({
     from: `/${slug}-mumbai`,
     to: serviceHref(slug),
     statusCode: 301 as const,

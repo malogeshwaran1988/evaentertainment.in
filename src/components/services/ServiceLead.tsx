@@ -73,7 +73,7 @@ export default function ServiceLead({
   );
 }
 
-export function ServicePageCta({ page }: { page: ServicePageContent }) {
+export function ServicePageCta({ page }: { page: Pick<ServicePageContent, "cta"> }) {
   return (
     <section className="block eva-svc-cta" aria-labelledby="service-cta-title">
       <div className="container">

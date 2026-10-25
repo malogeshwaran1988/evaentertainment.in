@@ -17,7 +17,7 @@ export type ServicePageSection = {
   languages?: LanguageCardsData;
 };
 
-export type LanguageCode = "te" | "ta" | "ml" | "kn" | "hi" | "en";
+export type LanguageCode = "te" | "ta" | "ml" | "kn" | "hi" | "en" | "bn" | "mr" | "gu" | "ur" | "or";
 
 export type LanguageCardsData = {
   groups: { label: string; codes: LanguageCode[]; main?: LanguageCode }[];

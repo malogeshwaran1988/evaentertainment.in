@@ -29,6 +29,12 @@ const photo = (id: string, alt: string): ServicePhoto => ({
   fx: PHOTO_FX[id],
 });
 
+const plain = (id: string, alt: string): ServicePhoto => ({
+  src: `/images/services/svc-${id}.avif`,
+  alt,
+  fx: { width: 1440, height: 1080, items: [] },
+});
+
 /** Photos with measured overlays (see image-fx.ts). Studio photos are our own generated images. */
 export const SERVICE_MEDIA: Record<string, ServicePhoto> = {
   singer: photo("singer", "Indian male singer with headphones singing Hindi lyrics into a Rode condenser microphone"),
@@ -122,4 +128,13 @@ export const SERVICE_MEDIA: Record<string, ServicePhoto> = {
     fx: { width: 4, height: 3, items: [] },
     showcase: "voices",
   },
+  // Market pages (Oct 2026): generated studio photos, no overlays yet.
+  "hollywood-lead": plain("hollywood-lead", "Indian sound engineer watching an English film scene on the studio monitor while a voice artist dubs it in the booth"),
+  "hollywood-onevoice": plain("hollywood-onevoice", "Indian voice artist with headphones performing at a condenser microphone with scripts in several Indian languages"),
+  "languages-lead": plain("languages-lead", "Script writer in a Mumbai studio adapting dialogue beside a board of Indian language scripts"),
+  "languages-artists": plain("languages-artists", "Three Indian voice artists with scripts talking in the studio corridor between sessions"),
+  "regional-lead": plain("regional-lead", "Dubbing director coaching a voice artist in front of a South Indian action scene on the studio screen"),
+  "regional-adapt": plain("regional-adapt", "Dialogue writer marking up dubbing script sheets at a desk with a film paused on the monitor"),
+  "panindia-lead": plain("panindia-lead", "Studio team planning a multi-language film release on a whiteboard of language sessions"),
+  "panindia-mix": plain("panindia-mix", "Indian mixing engineer balancing dialogue tracks for several language versions on a multitrack session"),
 };

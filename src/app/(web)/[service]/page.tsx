@@ -56,6 +56,9 @@ export default async function ServicePage({ params }: PageProps<"/[service]">) {
     areaServed: [
       { "@type": "Country", name: "India" },
       { "@type": "City", name: "Mumbai" },
+      { "@type": "Country", name: "United States" },
+      { "@type": "Country", name: "United Kingdom" },
+      { "@type": "Country", name: "United Arab Emirates" },
     ],
     availableLanguage: page.languages,
     provider: {

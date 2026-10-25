@@ -8,6 +8,11 @@ const LANGS: Record<LanguageCode, { name: string; glyph: string; script: string 
   kn: { name: "Kannada", glyph: "ಕ", script: "Kannada script" },
   hi: { name: "Hindi", glyph: "हि", script: "Devanagari script" },
   en: { name: "English", glyph: "A", script: "Latin script" },
+  bn: { name: "Bengali", glyph: "অ", script: "Bengali script" },
+  mr: { name: "Marathi", glyph: "म", script: "Devanagari script" },
+  gu: { name: "Gujarati", glyph: "ગ", script: "Gujarati script" },
+  ur: { name: "Urdu", glyph: "ا", script: "Urdu script" },
+  or: { name: "Odia", glyph: "ଓ", script: "Odia script" },
 };
 
 const plural = (n: number, w: string) => `${n} ${w}${n === 1 ? "" : "s"}`;
