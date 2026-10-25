@@ -1,6 +1,7 @@
 import Reveal from "@@/components/equipment/Reveal";
 import LanguageCards from "@@/components/services/LanguageCards";
 import ServiceMedia from "@@/components/services/ServiceMedia";
+import FormatCards from "@@/components/services/FormatCards";
 import dynamic from "next/dynamic";
 import { inline, splitLabel } from "@@/components/services/RichText";
 import type { RichBlock, ServicePageSection } from "@@/data/service-page-types";
@@ -87,6 +88,20 @@ export default function ServiceSections({ sections }: { sections: ServicePageSec
                 <Blocks blocks={outro} />
               </div>
             ) : null}
+          </div>
+        </section>
+      );
+    }
+    // "Formats we deliver" style lists become visual file cards.
+    const fmt = !section.media && /format|deliverable/i.test(section.heading) && section.blocks.length === 1 && section.blocks[0].t === "ul" ? section.blocks[0] : null;
+    if (fmt && fmt.t === "ul") {
+      return (
+        <section key={id} className="block eva-svc-section" aria-labelledby={id}>
+          <div className="container">
+            <Reveal className="eva-svc-copy eva-svc-copy--narrow">
+              <Heading id={id} icon={section.icon} text={section.heading} />
+            </Reveal>
+            <FormatCards items={fmt.items} />
           </div>
         </section>
       );
