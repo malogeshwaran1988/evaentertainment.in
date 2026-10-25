@@ -154,7 +154,7 @@ export const PHOTO_FX: Record<string, ImageFx> = {
     { kind: "glow", x: 40, y: 38, size: 9, color: WHITE, delay: 0.4 },
   ]),
   "mix-problems": P([
-    { kind: "playhead", x: 81, y: 32, w: 16, h: 24 },
+    { kind: "playhead", x: 81.5, y: 36.5, w: 14, h: 7.5 },
     { kind: "vu", x: 97.5, y: 60, size: 2.4, color: GREEN },
     { kind: "pulse", x: 23, y: 50, size: 6 },
     { kind: "pulse", x: 72, y: 50, size: 6, delay: 0.4 },
