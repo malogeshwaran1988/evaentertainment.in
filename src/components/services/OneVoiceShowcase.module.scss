@@ -46,3 +46,11 @@
   .badge { font-size: 11px; }
 }
 @media (prefers-reduced-motion: reduce) { .pulse { animation: none; } .ring { transition: none; } }
+
+/* Full-screen mode (FullscreenStage): trigger sits at the end of the control bar; bar moves into the side panel. */
+.fs > button[aria-label^="Full screen"] { bottom: 10px; right: 10px; }
+.wrap .controls { margin-right: 50px; }
+.fs[data-fs] .sub { bottom: 16px; }
+[data-fs] .bar { position: static; flex-direction: column; align-items: stretch; gap: 12px; padding: 0; background: none; }
+[data-fs] .chips { flex-wrap: wrap; overflow: visible; }
+[data-fs] .ctrlText { position: static; width: auto; height: auto; clip: auto; }

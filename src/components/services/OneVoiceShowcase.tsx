@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { claimAudio, otherHasAudio, registerAudio, releaseAudio } from "@@/lib/audio-focus";
 import BrandMark from "@@/components/common/BrandMark";
+import FullscreenStage, { FsControls } from "@@/components/common/FullscreenStage";
 import { SoundIcon } from "@@/components/services/ServiceVideo";
 import s from "./OneVoiceShowcase.module.scss";
 
@@ -130,7 +131,7 @@ export default function OneVoiceShowcase() {
     if (next < 0) return;
     e.preventDefault();
     pick(next);
-    root.current?.querySelectorAll<HTMLButtonElement>("[role=radio]")[next]?.focus();
+    e.currentTarget.querySelectorAll<HTMLButtonElement>("[role=radio]")[next]?.focus();
   };
 
   const togglePlay = () => {
@@ -164,6 +165,7 @@ export default function OneVoiceShowcase() {
   };
 
   return (
+    <FullscreenStage label="One voice, many languages" fill className={s.fs}>
     <div ref={root} className={s.wrap}>
       <video
         ref={artist}
@@ -222,6 +224,7 @@ export default function OneVoiceShowcase() {
         {lang.line}
       </p>
 
+      <FsControls>
       <div className={s.bar}>
         <div className={s.chips} role="radiogroup" aria-label="Dub language" onKeyDown={onKey}>
           {LANGS.map((l, i) => (
@@ -258,7 +261,9 @@ export default function OneVoiceShowcase() {
           </button>
         </div>
       </div>
+      </FsControls>
       <BrandMark />
     </div>
+    </FullscreenStage>
   );
 }
