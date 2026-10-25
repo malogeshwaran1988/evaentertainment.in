@@ -120,7 +120,6 @@ export const MARKET_SERVICE_PAGES: Record<string, ServicePageContent> = {
             ],
           },
         ],
-        media: "hollywood-lead",
       },
       {
         heading: "Who we work with",
@@ -231,7 +230,6 @@ export const MARKET_SERVICE_PAGES: Record<string, ServicePageContent> = {
             text: "Planning a release in several of them at once? Our [pan-India film dubbing](/pan-india-film-dubbing) page explains how we keep every version consistent.",
           },
         ],
-        media: "languages-lead",
       },
       {
         heading: "Native teams for every language",
@@ -441,7 +439,6 @@ export const MARKET_SERVICE_PAGES: Record<string, ServicePageContent> = {
             ],
           },
         ],
-        media: "panindia-lead",
       },
       {
         heading: "Languages for a pan-India release",
