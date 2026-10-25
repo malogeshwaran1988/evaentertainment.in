@@ -1104,7 +1104,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
       },
       {
         q: "Can you follow a platform's subtitle style guide?",
-        a: "Yes. Share the style guide with your brief and we will follow its rules for line length reading speed and formatting.",
+        a: "Yes. Share the style guide with your brief and we will follow its rules for line length, formatting and reading speed.",
       },
       {
         q: "Do you also dub the same content?",
