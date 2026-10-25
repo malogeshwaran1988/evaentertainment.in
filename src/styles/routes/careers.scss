@@ -179,7 +179,7 @@ $eva-line: #d9ddd3;
     height: 48px;
     border: 1px solid $eva-line;
     border-radius: 10px;
-    background: #fff;
+    background-color: #fff;
     font-size: 16px;
     transition: border-color 0.15s, box-shadow 0.15s;
   }
@@ -251,7 +251,7 @@ $eva-line: #d9ddd3;
     padding: 0 8px 0 12px;
     border: 0;
     border-right: 1px solid $eva-line;
-    background: #f6f7f4;
+    background-color: #f6f7f4;
   }
 
   input {
@@ -554,4 +554,32 @@ $eva-line: #d9ddd3;
     margin: 0;
     border-radius: 0;
   }
+}
+
+/* t324u: same chevron as the contact form selects, on every careers select. */
+.eva-careers-form .eva-cf-field select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23666' d='M1.4 0L6 4.6 10.6 0 12 1.4 6 7.4 0 1.4z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  background-size: 12px 8px;
+  padding-right: 38px;
+  cursor: pointer;
+}
+
+.eva-careers-form .eva-cf-field select::-ms-expand {
+  display: none;
+}
+
+.eva-careers-form .eva-cf-field .eva-cf-phone select {
+  background-color: #f6f7f4;
+  background-position: right 10px center;
+  padding-right: 28px;
+}
+
+/* No validity tick on select rows: the chevron sits there. */
+.eva-careers-form .eva-cf-field.is-valid:has(> select)::after {
+  display: none;
 }
