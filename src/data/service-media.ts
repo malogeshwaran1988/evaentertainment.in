@@ -140,4 +140,8 @@ export const SERVICE_MEDIA: Record<string, ServicePhoto> = {
   "regional-adapt": plain("regional-adapt", "Script writer at her desk adapting dubbing dialogue on paper while a South Indian film scene plays on her laptop"),
   "panindia-lead": plain("panindia-lead", "Studio team planning a multi-language film release on a whiteboard of language sessions"),
   "panindia-mix": plain("panindia-mix", "Indian mixing engineer balancing dialogue tracks for several language versions on a multitrack session"),
+  "home-three-cinemas": plain("home-three-cinemas", "Sound engineer at the mixing desk watching a South Indian action scene, a Hindi family drama and an English thriller side by side while a voice artist records in the booth"),
+  "home-regional": plain("home-regional", "Voice artist with headphones and a Hindi script performing a punch line at the microphone to a South Indian village action scene on the monitor"),
+  "home-panindia": plain("home-panindia", "Studio team planning a multi-language film release over a printed release schedule and a laptop with colour-coded language tracks"),
+  "home-hollywood": plain("home-hollywood", "Voice artist with headphones dubbing an English sci-fi film scene of an astronaut on the booth monitor"),
 };

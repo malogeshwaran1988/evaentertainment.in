@@ -5,6 +5,7 @@ import { STUDIO_CONTACT, TOP_10_LANGUAGES } from "@@/data/service-pages-markets"
 export const HOME_SECTIONS: ServicePageSection[] = [
   {
     heading: "A film dubbing studio for three kinds of cinema",
+    media: "home-three-cinemas",
     icon: "icon-mic",
     blocks: [
       {
@@ -19,6 +20,7 @@ export const HOME_SECTIONS: ServicePageSection[] = [
   },
   {
     heading: "Regional films for every Indian audience",
+    media: "home-regional",
     icon: "icon-play-circle",
     blocks: [
       {
@@ -33,6 +35,7 @@ export const HOME_SECTIONS: ServicePageSection[] = [
   },
   {
     heading: "Pan-India films: one release, ten languages",
+    media: "home-panindia",
     icon: "icon-translate2",
     blocks: [
       {
@@ -47,6 +50,7 @@ export const HOME_SECTIONS: ServicePageSection[] = [
   },
   {
     heading: "Hollywood and international films: one voice across India",
+    media: "home-hollywood",
     icon: "icon-voiceover",
     blocks: [
       {
@@ -110,6 +114,7 @@ export const HOME_SECTIONS: ServicePageSection[] = [
   },
   {
     heading: "Our studio in Andheri West",
+    media: "console",
     icon: "icon-travel",
     blocks: [
       {
