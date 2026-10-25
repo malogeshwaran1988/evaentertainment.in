@@ -1,8 +1,8 @@
 <!-- BEGIN:nextjs-agent-rules -->
 
-# This is NOT the Next.js you know
+## This is NOT the Next.js you know
 
-This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+This version has breaking changes — APIs, conventions and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
 
 This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
 
@@ -11,10 +11,10 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 # EVA Entertainment notes
 
 - Follow [`eva-pages.mdc`](eva-pages.mdc) for public page / SEO / a11y patterns (AVR-style).
-- Preserve existing design, colors, and copy from `public/css`.
+- Preserve existing design, colors and copy from `public/css`.
 - Images: the first visible image on a page is eager + `fetchPriority="high"`, every other image is lazy; use `imageLoading(i)` from `src/lib/image-loading.ts` (see eva-pages.mdc).
 - Public analytics is only Google Tag Manager (`GtmHead` / `GtmNoscript` in `src/app/(web)/layout.tsx`, also on `src/app/global-not-found.tsx`). New public pages go under `(web)` so they inherit GTM automatically — never paste GTM snippets into a `page.tsx`. If you add another root HTML layout outside `(web)`, mount `GtmHead` first in `<head>` and `GtmNoscript` first in `<body>`. Admin layouts stay without GTM.
-- Admin panel (Our Projects only) lives in the `(admin)` route group: `/login` and `/admin/*`, with its own root layout, shadcn/ui (`src/components/ui`) and Tailwind v4 theme in `src/styles/admin.css`. Never import `admin.css` or shadcn components into `(web)` pages, or Glory CSS into admin pages.
+- Admin panel (Our Projects only) lives in the `(admin)` route group: `/login` and `/admin/*`, with its own root layout, shadcn/ui (`src/components/ui`) and Tailwind v4 theme in `src/styles/admin.css`. Never import `admin.css` or shadcn components into `(web)` pages or Glory CSS into admin pages.
 - When admin project form fields change (`ProjectForm` / `ProjectInput`), update `ProjectsTable` and `ProjectPreviewDialog` in the same change so the list view stays in sync.
 - Every admin page must stay noindex/nofollow and call `requireAdmin()`; every admin server action must call `requireAdmin()` too (the proxy is not a security boundary).
 - Admin login is Google sign-in only (Auth.js v5, `src/auth.ts`, routes `/api/auth/*`, callback `/api/auth/callback/google`). Access needs a verified Google Workspace account with `hd=lasmind.com`, an `@lasmind.com` email and a match in `ADMIN_ALLOWED_EMAILS` (default `info@lasmind.com`); `requireAdmin()` re-checks the allowlist on every call. Env: `AUTH_SECRET`, `AUTH_GOOGLE_ID`, `AUTH_GOOGLE_SECRET`, `ADMIN_ALLOWED_EMAILS` (+ `AUTH_URL` outside Vercel/dev). Never add a username/password path back. One OAuth client per site (EVA now; TemplatePix gets its own).
@@ -24,7 +24,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
   - Otherwise (local dev), they're stored in `${EVA_DATA_DIR:-./storage}/projects.json` and `public/images/our-projects/`.
   - Never write to the app's own files on Vercel; they're read-only.
 - Posters are always referenced as `/images/our-projects/<name>` and served by the route handler. Render them unoptimized/`<img>`.
-- After finishing each task, commit and push to `origin logeshwaran` with a descriptive message (a summary line plus bullet notes), and share the notes in chat. Fetch or rebase first, never force-push, and never commit `.env`, `storage/` or uploaded posters.
+- After finishing each task, commit and push to `origin logeshwaran` with a descriptive message (a summary line plus bullet notes) and share the notes in chat. Fetch or rebase first, never force-push and never commit `.env`, `storage/` or uploaded posters.
 
 ## Layout rules (mandatory)
 
@@ -41,7 +41,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 - **Status pages are never indexed.** Every success, failure, error, confirmation or status page
   (thank-you, sent/failed, error, not-found, booking confirmation, login/admin) must render
   `noindex, follow` and must not appear in `sitemap.xml`. Use `buildStatusPageMetadata()` or
-  `buildPageMetadata({ ..., noindex: true })` / `STATUS_PAGE_ROBOTS` from `src/lib/seo.ts`, and add
+  `buildPageMetadata({ ..., noindex: true })` / `STATUS_PAGE_ROBOTS` from `src/lib/seo.ts` and add
   the route to `NOINDEX_ROUTES` (the sitemap filters on it). Form success/failure shown inline (no
   URL) needs nothing extra.
 - **Thin project pages are noindex.** `/projects/[slug]` is indexed and listed in the sitemap only
