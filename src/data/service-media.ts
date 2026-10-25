@@ -138,7 +138,7 @@ export const SERVICE_MEDIA: Record<string, ServicePhoto> = {
   "languages-lead": plain("languages-lead", "Script writer in a Mumbai studio adapting dialogue beside a board of Indian language scripts"),
   "languages-artists": plain("languages-artists", "Three Indian voice artists with scripts talking in the studio corridor between sessions"),
   "regional-lead": plain("regional-lead", "Dubbing director coaching a voice artist in front of a South Indian action scene on the studio screen"),
-  "regional-adapt": plain("regional-adapt", "Dialogue writer marking up dubbing script sheets at a desk with a film paused on the monitor"),
+  "regional-adapt": plain("regional-adapt", "Script writer at her desk adapting dubbing dialogue on paper while a South Indian film scene plays on her laptop"),
   "panindia-lead": plain("panindia-lead", "Studio team planning a multi-language film release on a whiteboard of language sessions"),
   "panindia-mix": plain("panindia-mix", "Indian mixing engineer balancing dialogue tracks for several language versions on a multitrack session"),
 };
