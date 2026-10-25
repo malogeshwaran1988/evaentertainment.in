@@ -22,7 +22,7 @@ export const STUDIO: {
   poster: "/images/services/mixing-room-51-eva.avif",
   width: 1920,
   height: 1080,
-  alt: "EVA 5.1 mixing room in Mumbai with a big screen, LCR monitors, rear surround speakers, a subwoofer and a mixing console",
+  alt: "EVA 5.1 mixing room in Mumbai with a big screen, LCR monitors, a subwoofer, rear surround speakers and a mixing console",
   credit: null,
 };
 
