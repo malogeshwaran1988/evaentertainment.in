@@ -299,7 +299,7 @@ export const SERVICES: Service[] = [
     alt: SERVICE_MEDIA["stock-lead"].alt,
     fx: SERVICE_MEDIA["stock-lead"].fx,
     ogImage: "/images/og/stock-music-library.jpg",
-    ogImageAlt: "Music workstation for EVA Entertainment's stock music library",
+    ogImageAlt: "Producer and music editor choosing music for an ad film in EVA Entertainment's Mumbai studio",
     introHeading: "Music for your next project",
     intro: [
       "Amplify your ideas and explore our curated stock music library. Find background music and sounds for films, ads, corporate videos, e-learning and online content.",
