@@ -1,8 +1,8 @@
 import { APP_BASE_URL } from "@@/constants/constants";
 
 export const CAREERS_PAGE_URL = `${APP_BASE_URL}/careers`;
-export const CAREERS_OG_IMAGE = "/images/og/contact.jpg";
-export const CAREERS_OG_IMAGE_ALT = "Microphone preamps in EVA Entertainment's studio rack";
+export const CAREERS_OG_IMAGE = "/images/og/careers.jpg";
+export const CAREERS_OG_IMAGE_ALT = "Voice artist auditioning at the microphone while a sound engineer gives a thumbs-up from the control room";
 
 export const CAREERS_SEO = {
   title: "Careers - Voice Artist and Dubbing Jobs in Mumbai | EVA",
