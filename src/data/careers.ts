@@ -7,26 +7,51 @@ export const CAREERS_OG_IMAGE_ALT = "Microphone preamps in EVA Entertainment's s
 export const CAREERS_SEO = {
   title: "Careers | Voice Artist and Dubbing Jobs at EVA Entertainment Mumbai",
   description:
-    "Join EVA Entertainment in Mumbai. Apply for voice artist, dubbing artist, dubbing director and mixing engineer roles for Indian and Hollywood films.",
+    "Join EVA Entertainment in Mumbai. Apply for voice artist, dubbing artist and mixing and sound engineer roles for Indian and Hollywood films.",
 };
 
 export const CAREERS_INTRO =
-  "Bring your voice or your ears to Indian and Hollywood films. Send your resume and voice samples to apply.";
+  "Perform behind the screen. Your voice in films seen across India and beyond.";
 
 export const CAREERS_ROLES = [
   {
-    title: "Voice artists",
-    text: "English and Indian language voices for films, series, animation and ads. Every age and every range is welcome.",
+    id: "voice-artist",
+    title: "Voice Artist",
+    image: "/images/careers/careers-voice.avif",
+    alt: "Voice artist performing a scene into a studio microphone with her script on a stand",
+    day: [
+      "Warm up and read the scene with the director.",
+      "Perform each line in the booth until it feels true.",
+      "Hear your voice play back on the final cut.",
+    ],
   },
   {
-    title: "Dubbing artists and directors",
-    text: "Lip sync performers, dubbing directors and dialogue writers who keep the emotion of every scene.",
+    id: "dubbing-artist",
+    title: "Dubbing Artist",
+    image: "/images/careers/careers-dubbing.avif",
+    alt: "Dubbing artist at the microphone matching his lines to an actor on the studio screen",
+    day: [
+      "Watch the actor on screen and learn every pause.",
+      "Speak the line in sync with each lip movement.",
+      "Give a whole new language to a film people love.",
+    ],
   },
   {
-    title: "Mixing and sound engineers",
-    text: "Engineers for dialogue editing, Foley, 5.1 mixing and final mastering in our Andheri West studios.",
+    id: "mixing-engineer",
+    title: "Mixing and Sound Engineer",
+    image: "/images/careers/careers-mixing.avif",
+    alt: "Sound engineer adjusting a fader at a mixing console while watching waveforms and the film",
+    day: [
+      "Clean and edit the dialogue the artists recorded.",
+      "Blend voices with music and effects in 5.1.",
+      "Deliver the final mix that audiences hear in cinemas.",
+    ],
   },
 ] as const;
+
+export type RoleId = (typeof CAREERS_ROLES)[number]["id"];
+export const ROLE_OPTIONS = CAREERS_ROLES.map((r) => ({ id: r.id, title: r.title }));
+export const roleById = (id: string) => CAREERS_ROLES.find((r) => r.id === id);
 
 /** Resume: PDF / DOC / DOCX. */
 export const RESUME_ACCEPT = ".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document";

@@ -260,3 +260,89 @@ ${p(`<strong>Team EVA Entertainment</strong><br><span style="color:${B.muted};fo
 
   return { subject, html, text };
 }
+
+/* ------------------------------------------------------------------------------------------------
+ * Careers: applicant confirmation (modelled on ackEmail). Echoes only escaped name, role title
+ * (from a fixed list) and file names. No attachments, no links built from user input.
+ * --------------------------------------------------------------------------------------------- */
+export type CareersAckInput = { name: string; role: string; resume: string; voices: string[] };
+
+export function careersAckEmail(a: CareersAckInput) {
+  const first = ackSafe(a.name.split(/\s+/)[0], 40) || "there";
+  const role = ackSafe(a.role, 60);
+  const files = [ackSafe(a.resume, 120), ...a.voices.map((v) => ackSafe(v, 120))];
+  const subject = `We received your application: ${role}`;
+  const mail = `mailto:${ACK_CONTACT_EMAIL}`;
+  const summary = [
+    { label: "Role applying for", value: role },
+    { label: "Resume", value: files[0] },
+    { label: "Voice samples", value: files.slice(1).join(", ") },
+  ];
+  const steps = [
+    "Our casting and sound team listens to every voice sample.",
+    "If your profile fits a current project we call or email you for a short audition.",
+    "We keep your profile on file for future films in your language.",
+  ];
+
+  const rows = `<tr><td bgcolor="#FFFFFF" style="background-color:#FFFFFF;padding:30px 28px 6px;">
+<h1 style="margin:0 0 18px;font-family:${FONT};font-size:22px;line-height:30px;font-weight:700;color:${B.text};">Thank you for applying, ${escapeHtml(first)}</h1>
+${p(`Your application for <strong>${escapeHtml(role)}</strong> has reached EVA Entertainment. We are glad you want to bring your talent to films seen across India and beyond.`)}
+</td></tr>
+<tr><td bgcolor="#FFFFFF" style="background-color:#FFFFFF;padding:0 28px 12px;">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border:1px solid ${B.line};border-radius:8px;border-collapse:separate;">
+${summary
+  .map(
+    (s, i) => `<tr><td style="padding:12px 14px;${i ? `border-top:1px solid ${B.line};` : ""}font-family:${FONT};font-size:13px;line-height:18px;color:${B.muted};width:38%;vertical-align:top;">${escapeHtml(s.label)}</td><td style="padding:12px 14px;${i ? `border-top:1px solid ${B.line};` : ""}font-family:${FONT};font-size:15px;line-height:21px;color:${B.text};word-break:break-word;">${escapeHtml(s.value)}</td></tr>`,
+  )
+  .join("\n")}
+</table>
+</td></tr>
+<tr><td bgcolor="#FFFFFF" style="background-color:#FFFFFF;padding:14px 28px 4px;">
+<h2 style="margin:0 0 12px;font-family:${FONT};font-size:17px;line-height:24px;font-weight:700;color:${B.text};">What happens next</h2>
+${steps
+  .map(
+    (s, i) => `<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 10px;"><tr><td width="28" valign="top" style="font-family:${FONT};font-size:13px;line-height:22px;font-weight:700;color:#FFFFFF;"><span style="display:inline-block;width:22px;height:22px;border-radius:11px;background-color:#4A7A0C;text-align:center;">${i + 1}</span></td><td style="padding-left:8px;font-family:${FONT};font-size:15px;line-height:22px;color:${B.text};">${escapeHtml(s)}</td></tr></table>`,
+  )
+  .join("\n")}
+</td></tr>
+<tr><td bgcolor="#FFFFFF" style="background-color:#FFFFFF;padding:10px 28px 6px;">
+${p(`Questions? Reply to this email or write to <a href="${mail}" style="color:${B.text};text-decoration:underline;">${ACK_CONTACT_EMAIL}</a>.`)}
+</td></tr>
+<tr><td bgcolor="#FFFFFF" align="left" style="background-color:#FFFFFF;padding:0 28px 18px;">
+${button("Write to us", mail)}
+</td></tr>
+<tr><td bgcolor="#FFFFFF" style="background-color:#FFFFFF;padding:8px 28px 28px;">
+${p("Warm regards,", "margin-bottom:4px;")}
+${p(`<strong>Team EVA Entertainment</strong><br><span style="color:${B.muted};font-size:14px;">Dubbing, Voice-over &amp; Sound Studio<br>Andheri West, Mumbai</span>`, "margin-bottom:0;")}
+</td></tr>
+`;
+
+  const html = layout({
+    title: subject,
+    preheader: `Your application for ${role} has reached our team.`,
+    rows,
+    footer: `You are receiving this one-time confirmation because this address was used on the careers form at`,
+  });
+
+  const text = [
+    `Dear ${first},`,
+    "",
+    `Thank you for applying. Your application for ${role} has reached EVA Entertainment.`,
+    "",
+    ...summary.map((s) => `${s.label}: ${s.value}`),
+    "",
+    "What happens next",
+    ...steps.map((s, i) => `${i + 1}. ${s}`),
+    "",
+    `Questions? Reply to this email or write to ${ACK_CONTACT_EMAIL}.`,
+    "",
+    "Warm regards,",
+    "Team EVA Entertainment",
+    "Andheri West, Mumbai",
+    "",
+    "--",
+    `${APP_BASE_URL}`,
+  ].join("\n");
+
+  return { subject, html, text };
+}

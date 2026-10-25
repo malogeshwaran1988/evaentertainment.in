@@ -4,6 +4,7 @@ import Link from "@@/components/common/NavLink";
 import { Routes, serviceHref } from "@@/constants/routes";
 import { buildPageMetadata } from "@@/lib/seo";
 import CareersForm from "@@/components/careers/CareersForm";
+import RoleSlider from "@@/components/careers/RoleSlider";
 import "@@/styles/routes/contact.scss";
 import "@@/styles/routes/careers.scss";
 import {
@@ -11,7 +12,6 @@ import {
   CAREERS_OG_IMAGE,
   CAREERS_OG_IMAGE_ALT,
   CAREERS_PAGE_URL,
-  CAREERS_ROLES,
   CAREERS_SEO,
 } from "@@/data/careers";
 
@@ -36,7 +36,7 @@ export default function CareersPage() {
       <JsonLd id="careers-jsonld" data={schema} />
       <PageHero
         icon="icon-like"
-        title="Careers"
+        title="Become a voice artist"
         subtitle={CAREERS_INTRO}
         trail={[{ label: "Careers", href: Routes.CAREERS }]}
         className="bottom-null"
@@ -48,22 +48,14 @@ export default function CareersPage() {
             <div className="eva-contact-details">
               <span className="eva-contact-accent-line" aria-hidden="true" />
               <h2 className="eva-contact-group-title">
-                Work <span>with us</span>
+                Your voice <span>on the big screen</span>
               </h2>
               <p className="eva-contact-group-desc">
-                We dub Kollywood, Bollywood and Hollywood films into English and 10 Indian languages. We are always
-                looking for new talent.
+                Perform behind the screen. Every week a hero, a mother or a villain needs a voice in a new language.
+                It could be yours. We dub Kollywood, Bollywood and Hollywood films into English and 10 Indian
+                languages. Bring your craft and we will help you grow it in a studio that loves sound.
               </p>
-              <ul className="eva-careers-roles">
-                {CAREERS_ROLES.map((r) => (
-                  <li key={r.title} className="eva-contact-card">
-                    <div className="eva-contact-card-body">
-                      <h3 className="eva-careers-role-title">{r.title}</h3>
-                      <p className="eva-contact-card-hint">{r.text}</p>
-                    </div>
-                  </li>
-                ))}
-              </ul>
+              <RoleSlider />
               <p className="eva-contact-group-desc">
                 Want to know the work first? See our{" "}
                 <Link className="eva-copy-link" href={serviceHref("dubbing-studio")}>

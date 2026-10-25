@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { isValidEmail, sendMail } from "@@/utils/mail";
 import { BLOCKED_EMAIL_MESSAGE, blockedEmailDomain } from "@@/lib/blocked-email-domains";
-import { renderInquiryEmail } from "@@/utils/email-templates";
+import { careersAckEmail, renderInquiryEmail } from "@@/utils/email-templates";
+import { ACK_FROM_NAME } from "@@/utils/mail-ack";
 import { cleanLine, LIMITS } from "@@/lib/security/form-guard";
 import { guardFormRequest } from "@@/lib/security/form-request";
 import {
@@ -11,6 +12,7 @@ import {
   RESUME_MAX_BYTES,
   VOICE_MAX_FILES,
   countryByCode,
+  roleById,
 } from "@@/data/careers";
 
 type Kind = "resume" | "voice";
@@ -62,6 +64,8 @@ export async function POST(req: NextRequest) {
   const phone = cleanLine(body.phone, LIMITS.phone);
   const country = countryByCode(cleanLine(body.country, 2));
 
+  const role = roleById(cleanLine(body.role, 40));
+  if (!role) return bad("Select the role you are applying for.", "role");
   if (!name) return bad("Full name is required.", "name");
   if (!email || !isValidEmail(email)) return bad("Enter a valid email address.", "email");
   const blockedDomain = blockedEmailDomain(email);
@@ -92,9 +96,10 @@ export async function POST(req: NextRequest) {
 
   const mobile = `${dial} ${phone}`;
   const { html, text } = renderInquiryEmail({
-    heading: "New job application",
+    heading: `New job application: ${role.title}`,
     intro: `${name} applied through the careers page on the website. The resume and voice samples are attached.`,
     fields: [
+      { label: "Role applying for", value: role.title },
       { label: "Full name", value: name },
       { label: "Email", value: email, kind: "email" },
       { label: "Mobile", value: mobile, kind: "tel" },
@@ -108,15 +113,34 @@ export async function POST(req: NextRequest) {
 
   try {
     await sendMail({
-      subject: `New job application from ${name}`,
+      to: process.env.CAREERS_TO || undefined, // falls back to CONTACT_TO in mail.ts
+      subject: `New application: ${role.title} - ${name}`,
       html,
       text,
       replyTo: email,
       attachments: files.map((f) => ({ filename: f.filename, content: f.content, contentType: f.contentType })),
     });
-    return NextResponse.json({ ok: true });
   } catch (err) {
     console.error("[api/careers]", err);
     return NextResponse.json({ error: "Unable to send your application right now." }, { status: 500 });
   }
+
+  // Applicant confirmation: never fails the request.
+  try {
+    await sendMail({
+      ...careersAckEmail({
+        name,
+        role: role.title,
+        resume: resume.filename,
+        voices: (voices as Decoded[]).map((v) => v.filename),
+      }),
+      to: email,
+      fromName: ACK_FROM_NAME,
+      replyTo: process.env.CAREERS_TO || process.env.CONTACT_TO || "info@evaentertainment.in",
+      headers: { "Auto-Submitted": "auto-replied", "X-Auto-Response-Suppress": "All" },
+    });
+  } catch (err) {
+    console.error("[api/careers] applicant confirmation failed (application still received)", err);
+  }
+  return NextResponse.json({ ok: true });
 }
