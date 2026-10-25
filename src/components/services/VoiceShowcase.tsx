@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { claimAudio, registerAudio } from "@@/lib/audio-focus";
+import FullscreenStage, { FsControls } from "@@/components/common/FullscreenStage";
 
 const FOCUS = "voice-showcase";
 
@@ -276,6 +277,7 @@ export default function VoiceShowcase() {
   );
 
   return (
+    <FullscreenStage label="Voice-over showcase" fill>
     <div ref={root} className="eva-voices">
       <video
         ref={vid}
@@ -302,6 +304,13 @@ export default function VoiceShowcase() {
         <span className="sr-only">Now showing: {vMeta.label} voice, </span>
         {caption}
       </p>
+      <FsControls only>
+        <p className="eva-voices-now">
+          <span>{vMeta.label} · {caption}</span>
+          <q lang={lMeta.lang}>{clip.line}</q>
+        </p>
+      </FsControls>
+      <FsControls>
       <div className="eva-voices-bar">
         {langs.length > 1 && (
           <div className="eva-voices-langs" role="group" aria-label="Sample language" onKeyDown={(e) => rove(e, "button")}>
@@ -381,9 +390,11 @@ export default function VoiceShowcase() {
           )}
         </div>
       </div>
+      </FsControls>
       <p className="sr-only" aria-live="polite">
         {playing ? `Playing ${vMeta.label.toLowerCase()} voice, ${caption}` : ""}
       </p>
     </div>
+    </FullscreenStage>
   );
 }

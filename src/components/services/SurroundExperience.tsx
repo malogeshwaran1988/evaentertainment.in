@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { claimAudio, otherHasAudio, registerAudio, releaseAudio, SOUND_BTN_SELECTOR } from "@@/lib/audio-focus";
+import FullscreenStage, { FsControls } from "@@/components/common/FullscreenStage";
 import s from "./SurroundExperience.module.scss";
 
 /**
@@ -22,7 +23,7 @@ export const STUDIO: {
   poster: "/images/services/mixing-room-51-eva.avif",
   width: 1920,
   height: 1080,
-  alt: "EVA 5.1 mixing room in Mumbai with a big screen, LCR monitors, a subwoofer, rear surround speakers and a mixing console",
+  alt: "EVA 5.1 mixing room in Mumbai with a big screen, LCR monitors, rear surround speakers, a subwoofer and a mixing console",
   credit: null,
 };
 
@@ -107,6 +108,7 @@ export default function SurroundExperience({ headingId }: { headingId: string })
   const [sound, setSound] = useState<Sound>("off");
   const [playing, setPlaying] = useState(false);
   const [reducedUi, setReducedUi] = useState(false);
+  const [stage, setStage] = useState(0);
 
   useEffect(() => {
     const el = root.current;
@@ -215,7 +217,7 @@ export default function SurroundExperience({ headingId }: { headingId: string })
       });
       let st = 0;
       STAGE_AT.forEach((a, i) => { if (p >= a) st = i; });
-      if (el.dataset.stage !== String(st)) el.dataset.stage = String(st);
+      if (el.dataset.stage !== String(st)) { el.dataset.stage = String(st); setStage(st); }
       if (ctx && nodes) {
         const t = ctx.currentTime;
         const [x, y, z] = lerpTable(PATH3, p);
@@ -324,6 +326,7 @@ export default function SurroundExperience({ headingId }: { headingId: string })
       data-still={reducedUi ? "true" : undefined}
       style={{ ["--ar" as string]: `${STUDIO.width} / ${STUDIO.height}` }}
     >
+      <FullscreenStage label="5.1 mixing room" className={s.fs}>
       <div className={s.scene}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={STUDIO.poster} alt={STUDIO.alt} width={STUDIO.width} height={STUDIO.height} className={s.still} loading="lazy" decoding="async" />
@@ -352,6 +355,40 @@ export default function SurroundExperience({ headingId }: { headingId: string })
           </button>
         ) : null}
       </div>
+      <FsControls only>
+        <div className={s.fsControls}>
+          <button
+            type="button"
+            className={`${s.sound} ${sound === "blocked" ? s.pulse : ""}`}
+            aria-pressed={sound === "on"}
+            data-audio-btn=""
+            onClick={() => api.current?.toggleSound()}
+          >
+            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+              <path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor" />
+              {sound === "on" ? (
+                <path d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+              ) : (
+                <path d="M16 9l6 6M22 9l-6 6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+              )}
+            </svg>
+            <span>{soundLabel}</span>
+          </button>
+          <button type="button" className={s.skip} aria-pressed={playing} onClick={() => api.current?.togglePlay()}>
+            {playing ? "Pause video" : "Play video"}
+          </button>
+        </div>
+        <ol className={s.fsStages}>
+          {STAGES.map((st, i) => (
+            <li key={st.t} aria-current={i === stage ? "step" : undefined}>
+              <b>{st.t}</b>
+              <span>{st.d}</span>
+            </li>
+          ))}
+        </ol>
+        <p className={s.hint}>Best with headphones. The rings on each speaker show which channel is playing.</p>
+      </FsControls>
+      </FullscreenStage>
 
       <div className={s.head}>
         <h2 id={headingId} className="eva-svc-title">

@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useId, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState, type RefObject } from "react";
 import { claimAudio, otherHasAudio, registerAudio, releaseAudio, SOUND_BTN_SELECTOR } from "@@/lib/audio-focus";
 import type { ServiceSfx, ServiceVideo as Video } from "@@/data/service-media";
 import BrandMark from "@@/components/common/BrandMark";
+import FullscreenStage, { FsControls } from "@@/components/common/FullscreenStage";
 import s from "./ServiceVideo.module.scss";
 
 /** Pick the first audio source the browser can play (Opus webm, then AAC m4a). */
@@ -25,6 +26,54 @@ export function SoundIcon({ on }: { on: boolean }) {
   );
 }
 
+/** Track play/pause of a clip; `held` is set when the visitor paused it (scrolling back does not resume). */
+function usePlayback(ref: RefObject<HTMLVideoElement | null>) {
+  const [paused, setPaused] = useState(true);
+  const held = useRef(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const on = () => setPaused(el.paused);
+    el.addEventListener("play", on);
+    el.addEventListener("pause", on);
+    return () => { el.removeEventListener("play", on); el.removeEventListener("pause", on); };
+  }, [ref]);
+  const toggle = (ensureLoad: () => void) => {
+    const el = ref.current;
+    if (!el) return;
+    if (el.paused) {
+      held.current = false;
+      ensureLoad();
+      void el.play().catch(() => undefined);
+    } else {
+      held.current = true;
+      el.pause();
+    }
+  };
+  return { paused, held, toggle };
+}
+
+/** Full-screen panel controls for a plain clip: play/pause plus a short description. */
+function PanelExtras({ paused, onToggle, label, cue }: { paused: boolean; onToggle: () => void; label: string; cue?: string }) {
+  return (
+    <FsControls only>
+      <button type="button" className="eva-media-sound" aria-pressed={!paused} onClick={onToggle}>
+        <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          {paused ? <path d="M8 5v14l11-7z" fill="currentColor" /> : <path d="M6 5h4v14H6zM14 5h4v14h-4z" fill="currentColor" />}
+        </svg>
+        <span>{paused ? "Play" : "Pause"}</span>
+        <span className="sr-only"> video</span>
+      </button>
+      {cue !== undefined ? (
+        <p className={s.panelCue} aria-live="polite">
+          <span>Now playing</span> {cue || "…"}
+        </p>
+      ) : null}
+      <p className={s.panelText}>{label}</p>
+    </FsControls>
+  );
+}
+
 /**
  * Muted looping clip: loads near the viewport, pauses off screen, poster only under reduced motion.
  * With `sfx`, a 44px sound toggle (muted by default) plays an effect kept in sync with the video time.
@@ -39,6 +88,7 @@ function LoopVideo({ video, poster, label, sfx }: { video: Video; poster: string
   const [sound, setSound] = useState(false);
   const reducedRef = useRef(false);
   const focusId = `clip-${useId()}`;
+  const pb = usePlayback(ref);
 
   // One sound at a time: when another clip takes sound, this one goes back to muted.
   useEffect(
@@ -64,7 +114,7 @@ function LoopVideo({ video, poster, label, sfx }: { video: Video; poster: string
         visible.current = entry.isIntersecting;
         if (entry.isIntersecting) {
           setLoad(true);
-          el.play().catch(() => {});
+          if (!pb.held.current) el.play().catch(() => {});
         } else {
           el.pause();
           audio.current?.pause();
@@ -74,11 +124,12 @@ function LoopVideo({ video, poster, label, sfx }: { video: Video; poster: string
     );
     io.observe(el);
     return () => io.disconnect();
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- pb.held is a stable ref
   }, []);
 
   useEffect(() => {
-    if (load) ref.current?.play().catch(() => {});
-  }, [load]);
+    if (load && !pb.held.current) ref.current?.play().catch(() => {});
+  }, [load, pb.held]);
 
   // Keep the effect locked to the picture: follow video play/pause and correct drift (also on each loop).
   useEffect(() => {
@@ -173,18 +224,21 @@ function LoopVideo({ video, poster, label, sfx }: { video: Video; poster: string
         )}
       </video>
       {(sfx || own) && (
-        <button
-          type="button"
-          className="eva-media-sound"
-          data-audio-btn=""
-          aria-pressed={sound}
-          onClick={toggle}
-        >
-          <SoundIcon on={sound} />
-          <span>Sound</span>
-          <span className="sr-only">: {own ? `turn sound on/off, ${own}` : sfx?.label}</span>
-        </button>
+        <FsControls>
+          <button
+            type="button"
+            className="eva-media-sound"
+            data-audio-btn=""
+            aria-pressed={sound}
+            onClick={toggle}
+          >
+            <SoundIcon on={sound} />
+            <span>Sound</span>
+            <span className="sr-only">: {own ? `turn sound on/off, ${own}` : sfx?.label}</span>
+          </button>
+        </FsControls>
       )}
+      <PanelExtras paused={pb.paused} onToggle={() => pb.toggle(() => setLoad(true))} label={label} />
     </>
   );
 }
@@ -207,6 +261,7 @@ function AutoSoundVideo({ video, poster, label }: { video: Video; poster: string
   const inView = useRef(false);
   const focusId = `auto-${useId()}`;
   const [cue, setCue] = useState("");
+  const pb = usePlayback(ref);
 
   // Crisp HTML label for the current part of the clip (e.g. before / after).
   useEffect(() => {
@@ -249,6 +304,7 @@ function AutoSoundVideo({ video, poster, label }: { video: Video; poster: string
       return;
     }
     const start = () => {
+      if (pb.held.current) return;
       if (otherHasAudio(focusId)) wantSound.current = false;
       if (!wantSound.current) {
         el.muted = true;
@@ -366,33 +422,47 @@ function AutoSoundVideo({ video, poster, label }: { video: Video; poster: string
           Play video<span className="sr-only"> with {video.audio ?? "sound"}</span>
         </button>
       ) : (
-        <button
-          type="button"
-          data-eva-sound=""
-          data-audio-btn=""
-          className={`eva-media-sound ${sound === "blocked" ? s.pulse : ""}`}
-          aria-pressed={sound === "on"}
-          onClick={toggle}
-        >
-          <SoundIcon on={sound === "on"} />
-          <span>{text}</span>
-          <span className="sr-only">: {video.audio ?? "clip sound"}</span>
-        </button>
+        <FsControls>
+          <button
+            type="button"
+            data-eva-sound=""
+            data-audio-btn=""
+            className={`eva-media-sound ${sound === "blocked" ? s.pulse : ""}`}
+            aria-pressed={sound === "on"}
+            onClick={toggle}
+          >
+            <SoundIcon on={sound === "on"} />
+            <span>{text}</span>
+            <span className="sr-only">: {video.audio ?? "clip sound"}</span>
+          </button>
+        </FsControls>
       )}
+      <PanelExtras
+        paused={pb.paused}
+        onToggle={() => { setStarted(true); pb.toggle(() => setLoad(true)); }}
+        label={label}
+        cue={video.cues?.length ? cue : undefined}
+      />
     </>
   );
+}
+
+/** Short panel title from the clip's alt text: its first clause, at most about 60 characters. */
+function shortTitle(alt: string) {
+  const first = alt.split(/[:;]|\. |, (?=[a-z])/)[0].trim();
+  return first.length > 64 ? `${first.slice(0, 60).replace(/\s+\S*$/, "")}…` : first || "Video";
 }
 
 /**
  * Muted looping clip (optionally with a synced effect or its own soundtrack behind a toggle),
  * or, with `video.autoSound`, a clip that starts with sound when in view.
  */
-export default function ServiceVideo(props: { video: Video; poster: string; label: string; sfx?: ServiceSfx }) {
+export default function ServiceVideo(props: { video: Video; poster: string; label: string; sfx?: ServiceSfx; fsTitle?: string }) {
   return (
-    <>
+    <FullscreenStage label={props.fsTitle ?? shortTitle(props.label)} fill>
       {props.video.autoSound ? <AutoSoundVideo {...props} /> : <LoopVideo {...props} />}
       {/* Brand standard: overlay unless the logo is already burned into the footage. */}
       {props.video.burnedInBrand ? null : <BrandMark />}
-    </>
+    </FullscreenStage>
   );
 }

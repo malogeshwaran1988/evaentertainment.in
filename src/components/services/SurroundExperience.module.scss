@@ -122,3 +122,13 @@ $green: #70b615;
   .cap { transition: none; }
   .pulse { animation: none; outline: 2px solid #fff; outline-offset: 2px; }
 }
+
+/* Full-screen mode (FullscreenStage): scene fills the letterboxed frame, controls live in the panel. */
+.fs[data-fs] .scene { width: 100%; height: 100%; max-height: none; aspect-ratio: auto; }
+.fsControls { display: flex; flex-wrap: wrap; gap: 10px; }
+.fsStages {
+  list-style: none; margin: 0; padding: 0; display: grid; gap: 8px;
+  li { padding: 10px 12px; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.16); color: #d0d0d0; font-size: 14px; line-height: 1.45; }
+  li[aria-current] { border-color: #b6ff52; background: rgba(112, 182, 21, 0.14); color: #fff; }
+  b { display: block; color: #fff; font-size: 15px; }
+}

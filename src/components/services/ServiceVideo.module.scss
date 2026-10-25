@@ -53,3 +53,11 @@
   letter-spacing: 0.02em;
   pointer-events: none;
 }
+
+/* Full-screen panel extras (FullscreenStage). */
+.panelCue {
+  margin: 0; padding: 10px 12px; border-radius: 10px; background: rgba(112, 182, 21, 0.14); border: 1px solid rgba(182, 255, 82, 0.45);
+  color: #fff; font-weight: 700; font-size: 15px;
+  span { display: block; font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #b6ff52; }
+}
+.panelText { margin: 0; color: #d8d8d8; font-size: 14px; line-height: 1.5; }
