@@ -4731,8 +4731,14 @@ h2.eva-coming-soon-title {
   }
   .eva-header-bar .header-menu .menu > li > a:focus-visible::after { transform: scaleX(0); }
 }
+/* 1025-1199px: 8 top-level links + Contact CTA need a slightly smaller type and gap to stay on one line. */
+@media (min-width: 1025px) and (max-width: 1199px) {
+  .eva-header-bar .header-menu .menu { gap: 0 clamp(8px, calc(2vw - 12px), 12px) !important; }
+  .eva-header-bar .header-menu .menu > li > a { font-size: 12.5px !important; letter-spacing: 0.03em !important; }
+}
 @media (min-width: 1200px) {
-  .eva-header-bar .header-menu .menu { gap: 0 26px !important; }
+  /* Fluid gap so 8 top-level links + Contact CTA fit from 1200px up. */
+  .eva-header-bar .header-menu .menu { gap: 0 clamp(10px, calc(10vw - 109px), 26px) !important; }
 }
 @media (min-width: 1440px) {
   .eva-header-bar .header-menu .menu { gap: 0 32px !important; }

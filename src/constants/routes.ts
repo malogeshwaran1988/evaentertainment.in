@@ -89,4 +89,5 @@ export const NAV_ITEMS: NavItem[] = [
   { label: "OUR CLIENTS", href: Routes.CLIENTS },
   { label: "EQUIPMENT", href: Routes.EQUIPMENT },
   { label: "BLOG", href: Routes.BLOG },
+  { label: "CAREERS", href: Routes.CAREERS },
 ];
