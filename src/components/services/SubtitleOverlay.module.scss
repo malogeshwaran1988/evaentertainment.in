@@ -51,17 +51,23 @@
 }
 
 // Export progress bar filling, as if the subtitle files are being written.
+// One bar only: the image has no baked bar, so the track and fill both live here,
+// centred on the screen slot and tilted to the laptop's angle (all % / cqw, so it scales).
 .bar {
   position: absolute;
   width: calc(var(--w) * 1%);
   height: calc(var(--h) * 1cqw);
   overflow: hidden;
   border-radius: 1cqw;
+  background: rgba(255, 255, 255, 0.22);
+  translate: -50% -50%;
+  rotate: var(--deg);
 
   span {
     display: block;
     width: 100%;
     height: 100%;
+    border-radius: inherit;
     background: rgb(140, 200, 60);
     transform-origin: left center;
     animation: fill 6s ease-in-out infinite;

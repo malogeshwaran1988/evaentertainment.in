@@ -10,7 +10,7 @@ type Overlay = {
   line?: Line;
   chips?: Chip[];
   cursor?: Pos & { h: number };
-  bar?: Pos & { w: number; h: number };
+  bar?: Pos & { w: number; h: number; deg: number };
 };
 
 /**
@@ -46,7 +46,8 @@ const OVERLAYS: Record<string, Overlay> = {
       { text: ".vtt", x: 46.3, y: 59, size: 1.7 },
       { text: ".stl", x: 55.8, y: 58.5, size: 1.7 },
     ],
-    bar: { x: 33.4, y: 71.9, w: 27, h: 0.9 },
+    // Centre, length and tilt of the laptop screen's bar slot (the baked bar was removed from the AVIF).
+    bar: { x: 46.04, y: 71.62, w: 25.5, h: 0.7, deg: -5.47 },
   },
 };
 
@@ -80,7 +81,7 @@ export default function SubtitleOverlay({ id }: { id: string }) {
       {o.bar ? (
         <span
           className={s.bar}
-          style={{ left: `${o.bar.x}%`, top: `${o.bar.y}%`, "--w": o.bar.w, "--h": o.bar.h } as Vars}
+          style={{ left: `${o.bar.x}%`, top: `${o.bar.y}%`, "--w": o.bar.w, "--h": o.bar.h, "--deg": `${o.bar.deg}deg` } as Vars}
         >
           <span />
         </span>
