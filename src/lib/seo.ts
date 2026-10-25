@@ -25,9 +25,30 @@ export const STATUS_PAGE_ROBOTS: Metadata["robots"] = {
 /** Status/utility routes that must never be indexed or appear in sitemap.xml. */
 export const NOINDEX_ROUTES = ["/thank-you", "/login", "/admin", "/preview"] as const;
 
+/**
+ * Live but unpublished pages: reachable and linked, but `noindex, follow` and left out of
+ * sitemap.xml. To publish one later, delete its line here.
+ */
+export const UNPUBLISHED_ROUTES: readonly string[] = [
+  "/hollywood-dubbing-indian-languages",
+  "/indian-languages",
+  "/regional-film-dubbing",
+  "/pan-india-film-dubbing",
+];
+
+export const isUnpublishedRoute = (path: string) => UNPUBLISHED_ROUTES.includes(path.replace(/\/+$/, "") || "/");
+
 export function isNoindexRoute(path: string) {
-  return NOINDEX_ROUTES.some((r) => path === r || path.startsWith(`${r}/`));
+  return isUnpublishedRoute(path) || NOINDEX_ROUTES.some((r) => path === r || path.startsWith(`${r}/`));
 }
+
+const pathOf = (url: string) => {
+  try {
+    return new URL(url, APP_BASE_URL).pathname;
+  } catch {
+    return url;
+  }
+};
 
 /** Metadata for a status page (thank-you, sent, failed, error, not-found, confirmation …). */
 export function buildStatusPageMetadata(title: string, description?: string): Metadata {
@@ -62,7 +83,7 @@ export function buildPageMetadata({
     title: { absolute: title },
     description,
     alternates: { canonical: url },
-    robots: noindex ? STATUS_PAGE_ROBOTS : INDEXABLE,
+    robots: noindex || isUnpublishedRoute(pathOf(url)) ? STATUS_PAGE_ROBOTS : INDEXABLE,
     openGraph: {
       title,
       description,
