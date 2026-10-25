@@ -7,14 +7,18 @@ export const HOME_OG_IMAGE = DEFAULT_OG_IMAGE;
 export const HOME_OG_IMAGE_ALT = "Singer recording vocals at a studio microphone at EVA Entertainment";
 
 export const HOME_SEO = {
-  title: "EVA Entertainment | Content Localization & Recording Studio Mumbai",
+  title: "Film Dubbing Studio in India - Hollywood to Hindi | EVA",
   description:
-    "EVA Entertainment in Andheri, Mumbai offers lip-sync dubbing, voice-over, Foley recording, 5.1 mixing, subtitling, and multimedia localization services.",
+    "Film dubbing studio in Mumbai for regional, pan-India and Hollywood films. One English voice artist carried into India's top 10 languages. Get a quote.",
 };
 
 /** "What We Do" cards on the home page, in display order. */
 export const WHAT_WE_DO: ServiceSlug[] = [
   "dubbing-studio",
+  "hollywood-dubbing-indian-languages",
+  "pan-india-film-dubbing",
+  "regional-film-dubbing",
+  "indian-languages",
   "voice-over-studio",
   "song-recording-studio",
   "foley-recording",
@@ -93,7 +97,7 @@ export const HERO_SLIDES = [
       {
         role: "h1" as const,
         className: "h-gradient",
-        text: "EVA Entertainment",
+        text: "Film Dubbing Studio in India for Regional, Pan-India and Hollywood Films",
       },
       {
         role: "title" as const,

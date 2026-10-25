@@ -3,6 +3,7 @@ import { APP_BASE_URL } from "@@/constants/constants";
 import { serviceHref, type ServiceSlug } from "@@/constants/routes";
 import type { SvgIconName } from "@@/components/common/Icons";
 import { SERVICE_FX, type ImageFx } from "@@/data/image-fx";
+import { MARKET_SERVICES } from "@@/data/services-markets";
 
 type ServiceIcon = { icon: string; svg?: never } | { svg: SvgIconName; icon?: never };
 
@@ -183,12 +184,12 @@ export const SERVICES: Service[] = [
     name: "Subtitling",
     icon: "icon-translate1",
     h1: "Subtitling Services in Mumbai",
-    subtitle: "Time-stamped subtitles written by native speakers, in the language your audience reads.",
+    subtitle: "Time-stamped subtitles for movies, TV series and web series, written by native speakers.",
     summary: "Time-stamped subtitles written by native speakers.",
     seo: {
       title: "Subtitling Services in Mumbai | Movie & Video Subtitles | EVA",
       description:
-        "Time-stamped subtitling in Indian and international languages for movies, corporate videos, games and ads, written by native speakers. Based in Mumbai.",
+        "Subtitles for movies, TV series and web series in English and India's top 10 languages, written by native speakers. Based in Mumbai.",
     },
     image: "/images/services/equipment-05.avif",
     alt: "Subtitled video beside a subtitle file",
@@ -197,15 +198,15 @@ export const SERVICES: Service[] = [
     ogImageAlt: "Subtitled video beside a subtitle file at EVA Entertainment",
     introHeading: "Subtitles that carry the meaning",
     intro: [
-      "We offer International language subtitles for your English/Other language movies in the language of your requirement. If you require our services for subtitling projects with time stamping, we can provide you with a range of text services for corporate videos, movies, DVDs, games, advertisements and other media. So in case you are a professional/amateur filmmaker and require subtitling to be done for your movies/advertisement, you are welcome to contact us. By this way, you can increase potential viewers for your films.",
+      "We create time-stamped subtitles for movies, TV series and web series in English and India's top 10 languages. Whether you are releasing a regional film across India or bringing an international title to Indian viewers, subtitles help your film reach more people.",
       "EVA ENTERTAINMENT uses only native speakers when it comes to creating subtitles for movies, so you can be sure that the depth of your film's dialogues has been conveyed. Translation and subtitling experts of EVA Entertainment can develop subtitles in English for foreign to international language movies and voice over. Our experience in providing subtitles for movies to several filmmakers has made us a leading provider of subtitles for movies.",
     ],
     highlights: [
       { title: "Native-speaker subtitlers", text: "Subtitles written by native speakers, so the depth of your dialogue comes across." },
       { title: "Time-stamped files", text: "Subtitles timed to your video and delivered ready to use." },
-      { title: "Every kind of media", text: "Movies, corporate videos, DVDs, games, advertisements and more." },
+      { title: "Films and series", text: "Movies, TV series and web series for cinema, TV and OTT." },
     ],
-    idealFor: ["Feature films and shorts", "Independent filmmakers", "Corporate videos", "Games", "Advertisements", "Festival submissions"],
+    idealFor: ["Feature films and shorts", "TV series", "Web series", "Independent filmmakers", "Festival submissions"],
     faqs: [
       { q: "Do you provide time-stamped subtitle files?", a: "Yes. Subtitles are timed to your video and delivered as files ready for your player or platform." },
       { q: "Who writes the subtitles?", a: "Native speakers of the target language, working with our translation team." },
@@ -318,6 +319,7 @@ export const SERVICES: Service[] = [
     ],
     related: ["song-recording-studio", "foley-recording", "5-1-mixing-studio"],
   },
+  ...MARKET_SERVICES,
 ];
 
 export const getService = (slug: string) => SERVICES.find((s) => s.slug === slug);

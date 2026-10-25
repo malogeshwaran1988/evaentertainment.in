@@ -1,18 +1,19 @@
 /* Built from the approved service-page PDFs (18 Oct 2026 drafts). Copy marked CONFIRM in the PDFs is left out until EVA confirms it. */
 import type { ServicePageContent } from "@@/data/service-page-types";
+import { MARKET_SERVICE_PAGES } from "@@/data/service-pages-markets";
 
 export const SERVICE_PAGES: Record<string, ServicePageContent> = {
   "dubbing-studio": {
-    seoTitle: "Dubbing Studio in Mumbai | Lip-Sync Hindi Dubbing | EVA",
+    seoTitle: "Dubbing Studio in Mumbai - Lip-Sync Film Dubbing | EVA",
     description:
-      "Lip-sync dubbing studio in Andheri West, Mumbai. Telugu, Tamil, Malayalam and Kannada films dubbed into Hindi for OTT, TV and cinema. Get a quote.",
-    h1: "Lip-Sync Dubbing Studio in Mumbai for Films, OTT and Series",
+      "Lip-sync dubbing studio in Mumbai for regional, pan-India and Hollywood films. Hindi, Telugu, Tamil and 7 more Indian languages plus English. Get a quote.",
+    h1: "Lip-Sync Dubbing Studio in Mumbai for Films and Series",
     serviceType: "Lip-sync dubbing",
-    languages: ["Hindi", "Telugu", "Tamil", "Malayalam", "Kannada", "English"],
+    languages: ["English", "Hindi", "Bengali", "Marathi", "Telugu", "Tamil", "Gujarati", "Urdu", "Kannada", "Odia", "Malayalam"],
     leadHeading: "Hindi versions that feel native",
     lead: [
       "**From a Telugu action drama to a Malayalam comedy, we turn South Indian films into Hindi versions that feel as if they were shot in Hindi.** EVA Entertainment is a lip-sync dubbing studio on RTO Lane, Andheri West, run by a team that spends most of its working day matching new Hindi dialogue to someone else's lips. Send us your film in its original language; we hand back a finished, mixed Hindi version ready for OTT, satellite TV or theatrical release.",
-      "Most of our work is feature films from Telugu, Tamil, Malayalam and Kannada cinema, but the same team dubs web series, documentaries, ad films and e-learning, in Hindi and other Indian and international languages.",
+      "Most of our work is feature films from Telugu, Tamil, Malayalam and Kannada cinema. The same team dubs [Hollywood and international films](/hollywood-dubbing-indian-languages) into India's top 10 languages, prepares [pan-India releases](/pan-india-film-dubbing) and dubs web series, documentaries and ad films.",
     ],
     sections: [
       {
@@ -61,7 +62,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
         ],
       },
       {
-        heading: "South Indian films dubbed into Hindi: our speciality",
+        heading: "South Indian films dubbed into Hindi",
         icon: "icon-play-circle",
         blocks: [
           {
@@ -94,7 +95,26 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
           ],
           caption: "For example, Jack was dubbed from Telugu into both Tamil and Hindi.",
         },
-        blocks: [],
+        blocks: [
+          {
+            t: "p",
+            text: "We also dub into Bengali, Marathi, Gujarati, Urdu and Odia. See all [ten Indian languages](/indian-languages) we work in.",
+          },
+        ],
+      },
+      {
+        heading: "Regional, pan-India and Hollywood films",
+        icon: "icon-play-circle",
+        blocks: [
+          {
+            t: "ul",
+            items: [
+              "**Regional films.** Telugu, Tamil, Malayalam and Kannada films dubbed into Hindi and other Indian languages. See [regional film dubbing](/regional-film-dubbing).",
+              "**Pan-India releases.** One film dubbed into several Indian languages from one studio with one mix standard. See [pan-India film dubbing](/pan-india-film-dubbing).",
+              "**Hollywood and international films.** A professional English voice artist records the English version and the same voice artist performs the character in all 10 Indian languages. See [Hollywood dubbing](/hollywood-dubbing-indian-languages).",
+            ],
+          },
+        ],
       },
       {
         heading: "Who we dub for",
@@ -145,7 +165,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
             t: "ul",
             items: [
               "**One team, start to finish.** Translation, casting, direction, recording, editing and mixing under one roof, so nothing is lost between vendors.",
-              "**A focus on South to Hindi.** We know how Telugu, Tamil and Malayalam dialogue maps onto Hindi, and which voices Hindi audiences accept.",
+              "**Regional, pan-India and Hollywood.** We know how Telugu, Tamil and Malayalam dialogue maps onto Hindi and how English dialogue maps onto every major Indian language.",
               "**Native Hindi voices.** Our dubbing artists perform in their mother tongue, so the Hindi sounds natural, not translated.",
               "**Direct contact.** You deal with Felix and the studio team directly, not a call centre.",
             ],
@@ -180,11 +200,11 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
       },
       {
         q: "Do you only dub South Indian films?",
-        a: "No. South Indian films into Hindi are our speciality, but we also dub web series, documentaries, ad films and e-learning content in Indian and international languages.",
+        a: "No. South Indian films into Hindi are a large part of our work, but we also dub [Hollywood and international films](/hollywood-dubbing-indian-languages) into India's top 10 languages, pan-India releases, web series and documentaries.",
       },
     ],
     cta: {
-      heading: "Get your film dubbed into Hindi",
+      heading: "Get your film dubbed",
       text: "Tell us the film, its runtime and your deadline, and we will reply with a plan and a quote.",
       label: "Request a dubbing quote",
       contact: [
@@ -217,23 +237,15 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
     ],
   },
   "voice-over-studio": {
-    seoTitle: "Voice Over Studio in Mumbai | Hindi & Indian Voices | EVA",
+    seoTitle: "English Voice Over Artist and Studio in Mumbai | EVA",
     description:
-      "Voice over studio in Andheri West, Mumbai. Native male, female and child voices in Hindi and Indian languages for ads, e-learning, IVR and films.",
-    h1: "Voice Over Studio in Mumbai with Native Hindi and Indian-Language Voices",
+      "Voice over studio in Mumbai with a professional English voice artist who also voices India's top 10 languages. Native voices for films, ads and e-learning.",
+    h1: "English and Indian-Language Voice Over Studio in Mumbai",
     serviceType: "Voice-over recording",
-    languages: [
-      "Hindi",
-      "Marathi",
-      "Telugu",
-      "Tamil",
-      "Malayalam",
-      "Kannada",
-      "English",
-    ],
+    languages: ["English", "Hindi", "Bengali", "Marathi", "Telugu", "Tamil", "Gujarati", "Urdu", "Kannada", "Odia", "Malayalam"],
     leadHeading: "The right voice, recorded cleanly",
     lead: [
-      "**The right voice makes people listen. The wrong one makes them skip.** EVA Entertainment records voice-overs for ad films, corporate videos, e-learning courses, IVR systems, documentaries and films from our studio in Andheri West, Mumbai. We cast native speakers in Hindi and other Indian and international languages, direct every session, and hand over clean, edited audio that is ready to drop into your edit.",
+      "**The right voice makes people listen. The wrong one makes them skip.** EVA Entertainment records voice-overs for ad films, corporate videos, e-learning courses, IVR systems, documentaries and films from our studio in Andheri West, Mumbai. We cast native speakers in English, Hindi and other Indian languages, direct every session, and hand over clean, edited audio that is ready to drop into your edit.",
       "Whether you need a single 30-second radio spot or a 40-module training course in six languages, the process is the same: we listen to your brief, send you voice samples, record with a director in the room, and deliver on time.",
     ],
     sections: [
@@ -314,16 +326,30 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
         heading: "Languages",
         icon: "icon-translate2",
         languages: {
-          groups: [{ label: "Voice-over languages", codes: ["hi", "te", "ta", "ml", "kn", "en"], main: "hi" }],
+          groups: [{ label: "Voice-over languages", codes: ["en", "hi", "bn", "mr", "te", "ta", "gu", "ur", "kn", "or", "ml"], main: "en" }],
         },
         blocks: [
           {
             t: "p",
-            text: "Hindi is our most requested voice-over language. Through our network of native artists we also record in Telugu, Tamil, Malayalam, Kannada and English.",
+            text: "Hindi is our most requested voice-over language. We also record in English, Bengali, Marathi, Telugu, Tamil, Gujarati, Urdu, Kannada, Odia and Malayalam. Other languages are available on request.",
           },
           {
             t: "p",
             text: "Need the same script in several languages? We translate it with our [script translation team](/translation-services), cast a native artist for each language, and deliver every version with matching timing and file naming.",
+          },
+        ],
+      },
+      {
+        heading: "One English voice in all 10 Indian languages",
+        icon: "icon-voiceover",
+        blocks: [
+          {
+            t: "p",
+            text: "Our professional English voice artist also performs in Hindi, Bengali, Marathi, Telugu, Tamil, Gujarati, Urdu, Kannada, Odia and Malayalam. A brand film, a documentary narrator or a film character can keep the same voice in English and all 10 Indian languages.",
+          },
+          {
+            t: "p",
+            text: "Every version is a live human performance captured in our booth with a native-language director. We do not use voice cloning. For films see [Hollywood dubbing into Indian languages](/hollywood-dubbing-indian-languages).",
           },
         ],
       },
@@ -426,6 +452,10 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
       {
         q: "Can you record the same script in several languages?",
         a: "Yes. We translate the script, cast a native artist for each language and deliver all versions with matching timing.",
+      },
+      {
+        q: "Can the same voice artist record English and Indian languages?",
+        a: "Yes. Our professional English voice artist also performs in all 10 of India's top languages, from Hindi to Malayalam, so one voice carries across every version. It is always a live human performance, never voice cloning.",
       },
       {
         q: "Do you provide child voices?",
@@ -878,15 +908,15 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
     },
   },
   "subtitling-services": {
-    seoTitle: "Subtitling Services in Mumbai & India | Film Subtitles",
+    seoTitle: "Subtitling Services for Films and Web Series | EVA",
     description:
-      "Film, OTT and video subtitling in Hindi, English and South Indian languages. Native subtitlers, accurate timing, files ready for your platform.",
-    h1: "Subtitling Services in Mumbai for Films, OTT and Video",
+      "Subtitles for movies, TV series and web series in English and India's top 10 languages. Native subtitlers, accurate timing and platform-ready files.",
+    h1: "Subtitling Services for Movies, TV Series and Web Series",
     serviceType: "Subtitling",
-    languages: ["Hindi", "English", "Telugu", "Tamil", "Malayalam", "Kannada"],
+    languages: ["English", "Hindi", "Bengali", "Marathi", "Telugu", "Tamil", "Gujarati", "Urdu", "Kannada", "Odia", "Malayalam"],
     leadHeading: "Subtitles people can actually read",
     lead: [
-      "**Good subtitles are read in a glance and forgotten a second later, leaving the viewer with the film, not the text.** EVA Entertainment creates time-coded subtitles for feature films, web series, documentaries, corporate videos, ads and games, written by native speakers and timed to your picture. We are based in Andheri West, Mumbai, and work with clients across India.",
+      "**Good subtitles are read in a glance and forgotten a second later, leaving the viewer with the film, not the text.** EVA Entertainment creates time-coded subtitles for movies, TV series and web series, written by native speakers and timed to your picture. We are based in Andheri West, Mumbai, and work with clients across India.",
       "Because we also dub films, we know how dialogue behaves across Telugu, Tamil, Malayalam, Kannada, Hindi and English. Our subtitles keep the meaning, humour and tone of the original, not just the literal words.",
     ],
     sections: [
@@ -920,11 +950,11 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
           },
           {
             t: "h3",
-            text: "Corporate, e-learning and social video subtitles",
+            text: "English subtitles for Hollywood and international films",
           },
           {
             t: "p",
-            text: "Subtitles for training videos, company films, product demos and social media, where many viewers watch with the sound off.",
+            text: "Subtitles in Hindi and other Indian languages for English films and series, written from the same adapted script as our [Hollywood dubs](/hollywood-dubbing-indian-languages) when we dub the film too.",
           },
           {
             t: "h3",
@@ -984,12 +1014,12 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
         heading: "Languages",
         icon: "icon-translate2",
         languages: {
-          groups: [{ label: "Subtitle languages", codes: ["hi", "en", "te", "ta", "ml", "kn"] }],
+          groups: [{ label: "Subtitle languages", codes: ["en", "hi", "bn", "mr", "te", "ta", "gu", "ur", "kn", "or", "ml"] }],
         },
         blocks: [
           {
             t: "p",
-            text: "Hindi, English, Telugu, Tamil, Malayalam and Kannada. Every subtitle file is written or reviewed by a native speaker of the target language.",
+            text: "English and India's top 10 languages: Hindi, Bengali, Marathi, Telugu, Tamil, Gujarati, Urdu, Kannada, Odia and Malayalam. Every subtitle file is written or reviewed by a native speaker of the target language.",
           },
         ],
       },
@@ -1019,9 +1049,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
               "**OTT platforms and aggregators** that need subtitles for regional and dubbed films",
               "**Producers and distributors** preparing films for wider Indian or international release",
               "**Independent filmmakers** submitting to film festivals",
-              "**Corporate and e-learning teams** making training and communication videos accessible",
-              "**Ad agencies and brands** running video ads on social media",
-              "**Game studios** that need in-game text and cutscene subtitles",
+              "**International studios** releasing English films and series in India",
             ],
           },
         ],
@@ -1084,7 +1112,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
       },
     ],
     cta: {
-      heading: "Get your film or video subtitled",
+      heading: "Get your film or series subtitled",
       text: "Tell us the runtime, languages and format you need. We will reply with a quote and a delivery date.",
       label: "Request a subtitling quote",
       contact: [
@@ -1341,10 +1369,10 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
     },
   },
   "translation-services": {
-    seoTitle: "Script Translation for Dubbing & Subtitles | Mumbai | EVA",
+    seoTitle: "Script Translation for Dubbing and Subtitles | EVA",
     description:
-      "Dubbing script translation and lip-sync adaptation from Telugu, Tamil, Malayalam, Kannada and English into Hindi, plus subtitle and voice-over scripts.",
-    h1: "Script Translation and Adaptation for Dubbing, Voice-Over and Subtitles",
+      "Script translation and lip-sync adaptation for film dubbing. English, Telugu, Tamil, Malayalam and Kannada into Hindi and India's top 10 languages.",
+    h1: "Script Translation and Adaptation for Film Dubbing",
     serviceType: "Script translation and adaptation",
     languages: ["Hindi", "English", "Telugu", "Tamil", "Malayalam", "Kannada"],
     leadHeading: "Scripts written for the screen",
@@ -1522,7 +1550,11 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
       },
       {
         q: "Do you offer transcreation for ads?",
-        a: "Yes. We rewrite taglines, jingles and ad scripts so the idea works in the target language, and share options before recording.",
+        a: "Yes. We rewrite taglines, jingles and ad scripts so the idea works in the target language and share options before recording.",
+      },
+      {
+        q: "Can you adapt Hollywood scripts for Indian languages?",
+        a: "Yes. Native writers adapt English dialogue for lip-sync in Hindi and India's other top languages, keeping jokes and cultural references meaningful. See [Hollywood dubbing](/hollywood-dubbing-indian-languages).",
       },
     ],
     cta: {
@@ -1741,4 +1773,5 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
       ],
     },
   },
+  ...MARKET_SERVICE_PAGES,
 };
