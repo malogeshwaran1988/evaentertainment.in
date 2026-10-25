@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
+import { claimAudio, otherHasAudio, registerAudio, releaseAudio, SOUND_BTN_SELECTOR } from "@@/lib/audio-focus";
 import type { ServiceSfx, ServiceVideo as Video } from "@@/data/service-media";
 import s from "./ServiceVideo.module.scss";
 
@@ -36,6 +37,18 @@ function LoopVideo({ video, poster, label, sfx }: { video: Video; poster: string
   const [load, setLoad] = useState(false);
   const [sound, setSound] = useState(false);
   const reducedRef = useRef(false);
+  const focusId = `clip-${useId()}`;
+
+  // One sound at a time: when another clip takes sound, this one goes back to muted.
+  useEffect(
+    () =>
+      registerAudio(focusId, () => {
+        if (ref.current) ref.current.muted = true;
+        audio.current?.pause();
+        setSound(false);
+      }),
+    [focusId],
+  );
 
   useEffect(() => {
     const el = ref.current;
@@ -99,6 +112,8 @@ function LoopVideo({ video, poster, label, sfx }: { video: Video; poster: string
     if (own) {
       const next = !sound;
       setSound(next);
+      if (next) claimAudio(focusId);
+      else releaseAudio(focusId);
       el.muted = !next;
       if (next) {
         if (!load) setLoad(true);
@@ -111,8 +126,10 @@ function LoopVideo({ video, poster, label, sfx }: { video: Video; poster: string
     setSound(next);
     if (!next) {
       audio.current?.pause();
+      releaseAudio(focusId);
       return;
     }
+    claimAudio(focusId);
     if (!audio.current) {
       audio.current = new Audio(pickAudio(sfx.webm, sfx.m4a));
       audio.current.loop = true;
@@ -145,6 +162,7 @@ function LoopVideo({ video, poster, label, sfx }: { video: Video; poster: string
         preload="none"
         aria-label={label}
         disablePictureInPicture
+        data-audio-focus={focusId}
       >
         {load && (
           <>
@@ -157,6 +175,7 @@ function LoopVideo({ video, poster, label, sfx }: { video: Video; poster: string
         <button
           type="button"
           className="eva-media-sound"
+          data-audio-btn=""
           aria-pressed={sound}
           onClick={toggle}
         >
@@ -185,6 +204,18 @@ function AutoSoundVideo({ video, poster, label }: { video: Video; poster: string
   const [started, setStarted] = useState(false);
   const wantSound = useRef(true);
   const inView = useRef(false);
+  const focusId = `auto-${useId()}`;
+
+  // Another clip took sound: mute, show off, and never take sound back by itself.
+  useEffect(
+    () =>
+      registerAudio(focusId, () => {
+        wantSound.current = false;
+        if (ref.current) ref.current.muted = true;
+        setSound("off");
+      }),
+    [focusId],
+  );
 
   useEffect(() => {
     const el = ref.current;
@@ -198,6 +229,7 @@ function AutoSoundVideo({ video, poster, label }: { video: Video; poster: string
       return;
     }
     const start = () => {
+      if (otherHasAudio(focusId)) wantSound.current = false;
       if (!wantSound.current) {
         el.muted = true;
         void el.play().catch(() => undefined);
@@ -233,7 +265,7 @@ function AutoSoundVideo({ video, poster, label }: { video: Video; poster: string
     if (sound !== "blocked") return;
     const unlock = (ev: Event) => {
       const el = ref.current;
-      if (!el || (ev.target as Element | null)?.closest?.("[data-eva-sound]")) return;
+      if (!el || (ev.target as Element | null)?.closest?.(SOUND_BTN_SELECTOR) || otherHasAudio(focusId) || !wantSound.current) return;
       el.muted = false;
       el.play().then(() => setSound("on"), () => { el.muted = true; });
     };
@@ -260,6 +292,7 @@ function AutoSoundVideo({ video, poster, label }: { video: Video; poster: string
       return;
     }
     remember(true);
+    claimAudio(focusId);
     el.muted = false;
     if (!load) setLoad(true);
     setSound("on");
@@ -271,6 +304,8 @@ function AutoSoundVideo({ video, poster, label }: { video: Video; poster: string
     if (!el) return;
     setLoad(true);
     setStarted(true);
+    if (otherHasAudio(focusId)) wantSound.current = false;
+    if (wantSound.current) claimAudio(focusId);
     el.muted = !wantSound.current;
     setSound(wantSound.current ? "on" : "off");
     requestAnimationFrame(() => void el.play().catch(() => undefined));
@@ -291,6 +326,7 @@ function AutoSoundVideo({ video, poster, label }: { video: Video; poster: string
         aria-label={label}
         disablePictureInPicture
         controls={reduced && started}
+        data-audio-focus={focusId}
       >
         {load && (
           <>
@@ -308,6 +344,7 @@ function AutoSoundVideo({ video, poster, label }: { video: Video; poster: string
         <button
           type="button"
           data-eva-sound=""
+          data-audio-btn=""
           className={`eva-media-sound ${sound === "blocked" ? s.pulse : ""}`}
           aria-pressed={sound === "on"}
           onClick={toggle}

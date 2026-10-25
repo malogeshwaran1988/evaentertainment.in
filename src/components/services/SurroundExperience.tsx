@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import { claimAudio, otherHasAudio, registerAudio, releaseAudio, SOUND_BTN_SELECTOR } from "@@/lib/audio-focus";
 import s from "./SurroundExperience.module.scss";
 
 /**
@@ -94,6 +95,7 @@ const STAGE_AT = [0, 0.3, 0.55, 0.82];
 const KEY = "eva-surround-sound";
 
 type Sound = "on" | "off" | "blocked";
+const FOCUS = "surround-51";
 type Api = { toggleSound: () => void; togglePlay: () => void };
 
 export default function SurroundExperience({ headingId }: { headingId: string }) {
@@ -163,15 +165,19 @@ export default function SurroundExperience({ headingId }: { headingId: string })
     };
 
     // Try to run audio. Without an earlier tap or click the browser keeps it suspended.
-    const tryAudio = async () => {
+    // `auto`: started by scrolling or a stray tap; never takes sound from another clip.
+    const tryAudio = async (auto = true) => {
+      if (auto && otherHasAudio(FOCUS)) { want = false; report(); return; }
       if (!want || !inView) return;
       await setup();
       if (ctx && ctx.state !== "running") await ctx.resume().catch(() => undefined);
+      if (!want) return;
       report();
-      if (ctx?.state === "running") startSource();
+      if (ctx?.state === "running") { claimAudio(FOCUS); startSource(); }
     };
 
     const silence = () => {
+      releaseAudio(FOCUS);
       if (!ctx || !nodes) return;
       nodes.gain.gain.setTargetAtTime(0, ctx.currentTime, 0.12);
       const n = nodes.src;
@@ -247,7 +253,7 @@ export default function SurroundExperience({ headingId }: { headingId: string })
 
     // Any tap or key press anywhere unlocks audio, so sound comes on by itself if wanted.
     const unlock = (e: Event) => {
-      if ((e.target as Element | null)?.closest?.("[data-sound-btn]")) return; if (want && inView) void tryAudio(); else if (ctx && ctx.state !== "running") void ctx.resume().catch(() => undefined); };
+      if ((e.target as Element | null)?.closest?.(SOUND_BTN_SELECTOR)) return; if (want && inView) void tryAudio(); else if (ctx && ctx.state !== "running") void ctx.resume().catch(() => undefined); };
     window.addEventListener("pointerdown", unlock, true);
     window.addEventListener("keydown", unlock, true);
 
@@ -262,6 +268,9 @@ export default function SurroundExperience({ headingId }: { headingId: string })
     paint();
     queueMicrotask(report);
 
+    // One sound at a time: another clip took sound, so mute the jet and stay muted.
+    const unregister = registerAudio(FOCUS, () => { want = false; silence(); report(); });
+
     api.current = {
       toggleSound: () => {
         if (want && ctx?.state === "running") {
@@ -273,7 +282,7 @@ export default function SurroundExperience({ headingId }: { headingId: string })
         }
         want = true;
         try { sessionStorage.setItem(KEY, "on"); } catch { /* storage blocked */ }
-        void tryAudio();
+        void tryAudio(false);
       },
       togglePlay: () => {
         if (v.paused) {
@@ -289,6 +298,7 @@ export default function SurroundExperience({ headingId }: { headingId: string })
     };
 
     return () => {
+      unregister();
       near.disconnect();
       vis.disconnect();
       window.removeEventListener("pointerdown", unlock, true);
@@ -354,6 +364,7 @@ export default function SurroundExperience({ headingId }: { headingId: string })
             className={`${s.sound} ${sound === "blocked" ? s.pulse : ""}`}
             aria-pressed={sound === "on"}
             data-sound-btn=""
+            data-audio-btn=""
             onClick={() => api.current?.toggleSound()}
           >
             <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">

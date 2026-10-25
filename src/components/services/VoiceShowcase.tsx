@@ -1,6 +1,9 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { claimAudio, registerAudio } from "@@/lib/audio-focus";
+
+const FOCUS = "voice-showcase";
 
 /**
  * Voice showcase: one studio clip per artist (male, female, child). Each clip carries its own voice track,
@@ -77,6 +80,21 @@ export default function VoiceShowcase() {
 
   useEffect(() => () => vids.current.forEach((v) => v?.pause()), []);
 
+  // One sound at a time: another clip took sound, so every voice goes back to a muted loop.
+  useEffect(
+    () =>
+      registerAudio(FOCUS, () => {
+        vids.current.forEach((v) => {
+          if (!v) return;
+          v.muted = true;
+          v.loop = true;
+        });
+        playingRef.current = false;
+        setPlaying(false);
+      }),
+    [],
+  );
+
   const onTime = (i: number) => {
     const v = vids.current[i];
     if (v && i === active && !v.muted && v.duration) setProgress(v.currentTime / v.duration);
@@ -104,6 +122,7 @@ export default function VoiceShowcase() {
       if (!v) return;
       if (v.networkState === v.NETWORK_EMPTY) v.load();
       v.loop = false;
+      claimAudio(FOCUS);
       v.muted = false;
       v.currentTime = 0;
       v.play()
@@ -125,6 +144,7 @@ export default function VoiceShowcase() {
     if (i === active && playing) return pause();
     const v = vids.current[i];
     if (i === active && v && !v.muted && v.currentTime > 0 && !v.ended) {
+      claimAudio(FOCUS);
       v.play().then(() => setPlaying(true)).catch(() => {});
       return;
     }
@@ -165,6 +185,7 @@ export default function VoiceShowcase() {
           aria-label={v.alt}
           aria-hidden={i !== active}
           disablePictureInPicture
+          data-audio-focus={FOCUS}
         >
           {loaded[i] && (
             <>
@@ -183,6 +204,7 @@ export default function VoiceShowcase() {
                 key={v.id}
                 type="button"
                 data-voice={v.id}
+                data-audio-btn=""
                 className={`eva-voices-pill${i === active ? " is-active" : ""}`}
                 aria-pressed={on}
                 aria-label={`Listen: ${v.label} voice`}
@@ -212,7 +234,7 @@ export default function VoiceShowcase() {
           })}
         </div>
         {playing && (
-          <button type="button" className="eva-media-sound eva-voices-pause" onClick={pause} >
+          <button type="button" className="eva-media-sound eva-voices-pause" data-audio-btn="" onClick={pause}>
             <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
               <path d="M6 5h4v14H6zM14 5h4v14h-4z" fill="currentColor" />
             </svg>
