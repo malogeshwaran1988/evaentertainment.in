@@ -7,6 +7,8 @@ export type ServiceVideo = {
   audio?: string;
   /** Try to play with sound when in view; if the browser blocks it, play muted with a pulsing "Tap for sound" button. */
   autoSound?: boolean;
+  /** Crisp HTML labels shown over the clip between `from` and `to` seconds (clip time). */
+  cues?: { from: number; to: number; text: string }[];
 };
 /** Optional sound effect looped in sync with a ServiceVideo; muted until the visitor turns it on. */
 export type ServiceSfx = { webm: string; m4a: string; label: string };
@@ -63,8 +65,25 @@ export const SERVICE_MEDIA: Record<string, ServicePhoto> = {
   },
   "mix-problems": photo("mix-problems", "Indian sound engineer at a compact mixing console with a Pro Tools session on screen"),
   "mix51-lead": photo("mix51-lead", "Compact 5.1 mixing room in Mumbai with a console and surround speakers around the mix seat"),
-  "song-lead": photo("song-lead", "Indian singer with headphones recording a song at a large-diaphragm microphone in a vocal booth"),
+  "song-lead": {
+    src: "/media/song/song-ba-poster.avif",
+    alt: "Indian female singer recording a Hindi line in a quiet vocal booth, first as a plain raw take, then an engineer applies plugins in the editing software and the same take plays back rich and polished",
+    fx: { width: 4, height: 3, items: [] },
+    // Same take in both halves: the "after" audio is the raw vocal processed (EQ, compression, doubles, reverb, tanpura bed), so lip sync holds.
+    video: {
+      webm: "/media/song/song-ba.webm",
+      mp4: "/media/song/song-ba.mp4",
+      audio: "the raw vocal, then the same vocal after post-production",
+      autoSound: true,
+      cues: [
+        { from: 0, to: 5.8, text: "Raw recording" },
+        { from: 5.8, to: 10.1, text: "Post-production" },
+        { from: 10.1, to: 16, text: "After post-production" },
+      ],
+    },
+  },
   "song-session": photo("song-session", "Sitar player recording a take while an Indian engineer follows the session on the studio screens"),
+
   "song-studio": photo("song-studio", "Music studio in Mumbai with a mixing console, studio monitors and a keyboard"),
   "stock-curated": photo("stock-curated", "Indian music curator in Mumbai playing a shortlist of tracks to a client from a laptop with the brief and a stopwatch on the table"),
   "stock-lead": photo("stock-lead", "Indian music editor in a Mumbai studio cutting a music track to an ad film edit on two monitors"),

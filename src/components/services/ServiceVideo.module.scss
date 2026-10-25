@@ -37,3 +37,19 @@
 @media (prefers-reduced-motion: reduce) {
   .pulse { animation: none; outline: 2px solid #fff; }
 }
+
+/* Before / after label drawn over the clip as crisp HTML text. */
+.cue {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 2;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.72);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  pointer-events: none;
+}

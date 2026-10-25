@@ -205,6 +205,25 @@ function AutoSoundVideo({ video, poster, label }: { video: Video; poster: string
   const wantSound = useRef(true);
   const inView = useRef(false);
   const focusId = `auto-${useId()}`;
+  const [cue, setCue] = useState("");
+
+  // Crisp HTML label for the current part of the clip (e.g. before / after).
+  useEffect(() => {
+    const el = ref.current;
+    const cues = video.cues;
+    if (!el || !cues?.length) return;
+    const tick = () => {
+      const now = cues.find((c) => el.currentTime >= c.from && el.currentTime < c.to);
+      setCue(now ? now.text : "");
+    };
+    tick();
+    el.addEventListener("timeupdate", tick);
+    el.addEventListener("seeked", tick);
+    return () => {
+      el.removeEventListener("timeupdate", tick);
+      el.removeEventListener("seeked", tick);
+    };
+  }, [video.cues]);
 
   // Another clip took sound: mute, show off, and never take sound back by itself.
   useEffect(
@@ -335,6 +354,11 @@ function AutoSoundVideo({ video, poster, label }: { video: Video; poster: string
           </>
         )}
       </video>
+      {cue ? (
+        <span className={s.cue} aria-hidden="true">
+          {cue}
+        </span>
+      ) : null}
       {reduced && !started ? (
         <button type="button" className={s.play} onClick={playReduced}>
           <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 5v14l11-7z" fill="currentColor" /></svg>
