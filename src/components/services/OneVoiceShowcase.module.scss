@@ -1,0 +1,48 @@
+.wrap { position: absolute; inset: 0; background: #141414; overflow: hidden; font-family: Raleway, sans-serif; }
+.artist { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.pip {
+  position: absolute; z-index: 3; top: 12px; right: 12px; width: 36%; margin: 0; aspect-ratio: 736 / 400;
+  border: 2px solid rgba(255, 255, 255, 0.7); border-radius: 6px; overflow: hidden; background: #000;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
+}
+.pipVideo { width: 100%; height: 100%; object-fit: cover; display: block; }
+.tag {
+  position: absolute; left: 6px; bottom: 6px; font: 700 11px/1 Raleway, sans-serif; color: #111;
+  background: #abee2d; border-radius: 4px; padding: 4px 6px;
+}
+.badge {
+  position: absolute; z-index: 3; left: 12px; top: 13%; font: 700 12px/1 Raleway, sans-serif; color: #fff;
+  background: rgba(0, 0, 0, 0.62); border: 1px solid #70b615; border-radius: 999px; padding: 6px 10px;
+}
+.sub {
+  position: absolute; z-index: 3; left: 50%; bottom: 76px; transform: translateX(-50%); width: max-content; max-width: 92%;
+  margin: 0; text-align: center; color: #fff; font: 600 clamp(14px, 1.6vw, 18px)/1.35 "Noto Sans", Raleway, sans-serif;
+  background: rgba(0, 0, 0, 0.72); border-radius: 6px; padding: 6px 12px;
+}
+.subLang { display: block; font: 700 11px/1.4 Raleway, sans-serif; color: #abee2d; text-transform: uppercase; letter-spacing: 0.06em; }
+.bar {
+  position: absolute; z-index: 4; left: 0; right: 0; bottom: 0; display: flex; align-items: center; gap: 8px;
+  padding: 24px 10px 10px; background: linear-gradient(transparent, rgba(0, 0, 0, 0.78));
+}
+.chips { display: flex; gap: 6px; overflow-x: auto; flex: 1; scrollbar-width: none; &::-webkit-scrollbar { display: none; } }
+.chip, .ctrl {
+  position: relative; flex: none; min-height: 44px; min-width: 44px; display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  font: 700 13px/1 Raleway, sans-serif; color: #fff; background: rgba(0, 0, 0, 0.6); cursor: pointer;
+  border: 2px solid rgba(255, 255, 255, 0.55); border-radius: 999px; padding: 0 14px; overflow: hidden;
+  &:hover, &:focus-visible { border-color: #70b615; outline: none; box-shadow: 0 0 0 3px rgba(112, 182, 21, 0.5); }
+}
+.chip[aria-checked="true"] { background: #70b615; border-color: #70b615; color: #111; }
+.ring { position: absolute; left: 0; bottom: 0; height: 4px; width: 100%; background: #111; transform-origin: left; }
+.ctrl[aria-pressed="true"] { background: #70b615; border-color: #70b615; color: #111; }
+.controls { display: flex; gap: 6px; }
+.pulse { animation: pulse 1.4s ease-in-out infinite; }
+@keyframes pulse { 50% { box-shadow: 0 0 0 6px rgba(112, 182, 21, 0.45); } }
+@media (max-width: 575px) {
+  .ctrlText { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .ctrl { padding: 0 12px; }
+  .sub { bottom: 66px; font-size: 13px; padding: 4px 10px; }
+  .subLang { font-size: 10px; }
+  .tag { font-size: 10px; padding: 3px 5px; }
+  .badge { font-size: 11px; }
+}
+@media (prefers-reduced-motion: reduce) { .pulse { animation: none; } .ring { transition: none; } }

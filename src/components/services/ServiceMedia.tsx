@@ -10,6 +10,8 @@ import { SERVICE_MEDIA } from "@@/data/service-media";
 
 // Only the voice-over page uses it: own chunk (still server-rendered) so other service pages skip its JS.
 const VoiceShowcase = dynamic(() => import("@@/components/services/VoiceShowcase"));
+// Only the Hollywood dubbing page uses it.
+const OneVoiceShowcase = dynamic(() => import("@@/components/services/OneVoiceShowcase"));
 
 /** One photo per topic, with its decorative overlay kept inside the same zoom stage. */
 export default function ServiceMedia({ media, alt }: { media: string; alt: boolean }) {
@@ -31,7 +33,9 @@ export default function ServiceMedia({ media, alt }: { media: string; alt: boole
         style={{ aspectRatio: `${m.fx.width} / ${m.fx.height}` }}
       >
         <div className="eva-svc-photo-stage">
-          {m.showcase === "voices" ? (
+          {media === "hollywood-onevoice" ? (
+            <OneVoiceShowcase />
+          ) : m.showcase === "voices" ? (
             <VoiceShowcase />
           ) : m.video ? (
             <ServiceVideo video={m.video} poster={m.src} label={m.alt} sfx={m.sfx} />
