@@ -1,4 +1,6 @@
 // Same cover-crop maths as .eva-fx-stage so every item stays on the spot it was measured on.
+$cycle: 12s; // 3 scenes x 4s
+
 .stage {
   position: absolute;
   top: 50%;
@@ -9,56 +11,51 @@
   translate: -50% -50%;
   container-type: inline-size;
   pointer-events: none;
+  // Same slow Ken Burns as the photo and .eva-fx-stage, so the screen patches stay locked to the TV.
+  animation: lead-zoom 16s ease-in-out infinite alternate;
+  will-change: transform;
 
-  @media (min-width: 768px) {
-    top: 0;
-    left: 0;
-    translate: none;
+  :global(.eva-fx-lazy:not([data-inview])) & {
+    animation-play-state: paused;
   }
 }
 
-// Subtitle band of the wall TV (screen spans x 58–97%, picture bottom ~44%).
+@keyframes lead-zoom {
+  from { transform: scale(1); }
+  to { transform: scale(1.08); }
+}
+
+// Screen patch: source box x 820-1410, y 122-486 of the 1440x1080 image (wall TV plus a sliver
+// of wall, foreground monitor kept intact), so it lands exactly on the TV at every width.
+.screen {
+  position: absolute;
+  top: 11.2963%;
+  left: 56.9444%;
+  width: 40.9722%;
+  height: 33.7037%;
+  max-width: none;
+  opacity: 0;
+  animation: slot $cycle ease-in-out infinite backwards;
+  animation-delay: calc(var(--i) * #{$cycle} / 3);
+}
+
+// Subtitle band of the wall TV (picture spans x 57.6-97.4%, picture bottom ~44%).
 .subtitle {
   position: absolute;
-  top: 38.6%;
-  left: 77.6%;
+  top: 37.6%;
+  left: 77.5%;
   translate: -50% 0;
-  padding: 0.25cqw 0.8cqw;
-  background: rgba(0, 0, 0, 0.72);
+  padding: 0.2cqw 0.7cqw;
+  border-radius: 0.2cqw;
+  background: rgba(0, 0, 0, 0.55);
   color: #fff;
-  font-size: 1.75cqw;
+  font-size: 1.6cqw;
   font-weight: 600;
-  line-height: 1.3;
+  line-height: 1.35;
   white-space: nowrap;
-
-  span {
-    display: inline-block;
-    clip-path: inset(0 100% 0 0);
-    animation: type 6s steps(24, end) infinite;
-  }
-}
-
-// Text cursor on the subtitle editor's cue track.
-.cursor {
-  position: absolute;
-  top: 58%;
-  left: 52.5%;
-  width: 0.22cqw;
-  height: 2.4cqw;
-  background: #fff;
-  animation: blink 1s steps(2, jump-none) infinite;
-}
-
-// Soft highlight on the streaming grid, as if a new title just landed.
-.tile {
-  position: absolute;
-  top: 32%;
-  left: 13.5%;
-  width: 4cqw;
-  height: 5cqw;
-  border-radius: 0.3cqw;
-  box-shadow: 0 0 0 0.25cqw rgba(140, 200, 60, 0.9), 0 0 2cqw rgba(140, 200, 60, 0.6);
-  animation: pulse 6s ease-in-out infinite;
+  opacity: 0;
+  animation: slot $cycle ease-in-out infinite backwards;
+  animation-delay: calc(var(--i) * #{$cycle} / 3);
 }
 
 .chips {
@@ -75,49 +72,53 @@
     padding: 0.5cqw 1.2cqw;
     border-radius: 2cqw;
     background: rgba(17, 17, 17, 0.82);
-    border: 1px solid rgba(140, 200, 60, 0.85);
+    border: 1px solid rgba(140, 200, 60, 0.4);
     color: #fff;
     font-size: 1.7cqw;
     font-weight: 600;
-    animation: chip 6s ease-in-out infinite;
-    animation-delay: calc(var(--i) * 0.6s);
+    animation: chip $cycle ease-in-out infinite backwards;
+    animation-delay: calc(var(--i) * #{$cycle} / 3);
   }
 }
 
-@keyframes type {
-  0%,
-  8% { clip-path: inset(0 100% 0 0); }
-  45%,
-  90% { clip-path: inset(0 0 0 0); }
-  100% { clip-path: inset(0 0 0 0); opacity: 0; }
-}
-
-@keyframes blink {
-  0% { opacity: 1; }
+// Visible for the first third of the cycle, with soft crossfades.
+@keyframes slot {
+  0% { opacity: 0; }
+  4%,
+  30% { opacity: 1; }
+  34%,
   100% { opacity: 0; }
-}
-
-@keyframes pulse {
-  0%,
-  100% { opacity: 0; }
-  50% { opacity: 1; }
 }
 
 @keyframes chip {
   0%,
-  100% { border-color: rgba(140, 200, 60, 0.4); }
-  20% { border-color: rgba(140, 200, 60, 1); background: rgba(60, 90, 20, 0.9); }
-  40% { border-color: rgba(140, 200, 60, 0.4); }
+  34%,
+  100% {
+    border-color: rgba(140, 200, 60, 0.4);
+    background: rgba(17, 17, 17, 0.82);
+  }
+
+  4%,
+  30% {
+    border-color: rgba(140, 200, 60, 1);
+    background: rgba(84, 140, 24, 0.95);
+  }
 }
 
+// Static first scene: Hindi movie with its subtitle and the Movies chip lit.
 @media (prefers-reduced-motion: reduce) {
-  .subtitle span,
-  .cursor,
-  .tile,
+  .stage,
+  .screen,
+  .subtitle,
   .chips li {
     animation: none;
   }
 
-  .subtitle span { clip-path: none; }
-  .tile { opacity: 0; }
+  .screen { display: none; }
+  .subtitle:first-of-type { opacity: 1; }
+
+  .chips li:first-child {
+    border-color: rgba(140, 200, 60, 1);
+    background: rgba(84, 140, 24, 0.95);
+  }
 }
