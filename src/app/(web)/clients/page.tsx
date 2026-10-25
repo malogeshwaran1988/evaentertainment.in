@@ -1,21 +1,20 @@
 import type { Metadata } from "next";
 import PageHero from "@@/components/common/PageHero";
-import { DEFAULT_OG_IMAGE, DEFAULT_OG_IMAGE_ALT } from "@@/constants/constants";
 import { Routes } from "@@/constants/routes";
 import { absoluteUrl, buildPageMetadata } from "@@/lib/seo";
 import { getClients } from "@@/lib/clients-store";
 import "@@/styles/routes/clients.scss";
 
 const DESCRIPTION =
-  "Studios, OTT platforms and producers who trust EVA Entertainment, a dubbing and recording studio in Andheri West, Mumbai.";
+  "Studios, OTT platforms and producers who trust EVA Entertainment, a dubbing and recording studio in Andheri West, Mumbai. We dub Indian and Hollywood films.";
 
 // Indexable (index, follow) and listed in sitemap.xml.
 export const metadata: Metadata = buildPageMetadata({
-  title: "Our Clients | EVA Entertainment",
+  title: "Our Clients - Studios and OTT Platforms We Dub For | EVA",
   description: DESCRIPTION,
   url: absoluteUrl(Routes.CLIENTS),
-  ogImage: DEFAULT_OG_IMAGE,
-  ogImageAlt: DEFAULT_OG_IMAGE_ALT,
+  ogImage: "/images/og/clients.jpg",
+  ogImageAlt: "EVA Entertainment producer shaking hands with a film producer in the studio client lounge",
 });
 
 /** Clients come from the admin store (Clients in /admin); falls back to the original list when the store is empty or unreachable. */

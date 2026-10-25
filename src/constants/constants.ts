@@ -10,9 +10,9 @@ export const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID || "GTM-WRZW2JSM";
 export const CONTACT = {
   addressLines: [
     "No.228, 2nd Floor,",
-    "Mohid Heights,Near RTO Office,",
+    "Mohid Heights, Near RTO Office,",
     "Opp Four Bungalows,",
-    "Andheri(W) Mumbai-400053.",
+    "Andheri (W), Mumbai 400053.",
   ],
   person: "Felix Anthony",
   whatsapp: "+918652063177",

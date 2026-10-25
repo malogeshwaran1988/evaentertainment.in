@@ -108,14 +108,16 @@
 
 .word {
   grid-area: 1 / 1;
-  opacity: 0;
-  transform: translateY(60%);
-  transition: opacity 0.45s ease, transform 0.45s ease;
+  /* Slide only (no opacity fade): a half-faded word fails 3:1 contrast mid-transition. */
+  visibility: hidden;
+  transform: translateY(110%);
+  transition: transform 0.45s ease, visibility 0s linear 0.45s;
 }
 
 .wordActive {
-  opacity: 1;
+  visibility: visible;
   transform: translateY(0);
+  transition: transform 0.45s ease, visibility 0s;
 }
 
 @media (prefers-reduced-motion: reduce) {

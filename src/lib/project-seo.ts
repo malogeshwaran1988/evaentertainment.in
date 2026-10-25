@@ -150,7 +150,7 @@ function targetsPhrase(to: readonly string[]) {
 
 /**
  * The one ALT pattern used everywhere (cards, detail page, OG): Title Case,
- * "<ALT or Title> Movie Poster – <From> to <To> Dubbing" (language part skipped if the
+ * "<ALT or Title> Movie Poster - <From> to <To> Dubbing" (language part skipped if the
  * typed ALT already mentions dubbing). No brand suffix (avoids keyword spam).
  */
 export function projectSeoAlt(
@@ -158,7 +158,7 @@ export function projectSeoAlt(
 ): string {
   const base = titleCase(project.posterAlt?.trim() || `${project.title} movie poster`);
   if (/\bdubbing\b/i.test(base)) return base;
-  return `${base} – ${projectLanguageLine(project)} Dubbing`;
+  return `${base} - ${projectLanguageLine(project)} Dubbing`;
 }
 
 /** @deprecated Use projectSeoAlt — kept as the public render helper name. */
@@ -203,7 +203,7 @@ export function projectSeoDescription(
   }
   const targets = targetsPhrase(project.to);
   if (!project.to.length) {
-    return `${project.title} (${project.from}) – audio work by ${SITE_NAME}, a dubbing studio in Andheri, Mumbai.`;
+    return `${project.title} (${project.from}) - audio work by ${SITE_NAME}, a dubbing studio in Andheri, Mumbai.`;
   }
   return `${project.title} was dubbed from ${project.from} into ${targets} by ${SITE_NAME}, a dubbing studio in Andheri, Mumbai.`;
 }

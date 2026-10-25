@@ -1,5 +1,6 @@
 "use client";
 
+import AccessibilityWidget from "@@/components/common/AccessibilityWidget";
 import Image from "next/image";
 import Link from "@@/components/common/NavLink";
 import { usePathname } from "next/navigation";
@@ -170,7 +171,6 @@ export function Header({ serviceNames }: { serviceNames: Record<ServiceSlug, str
                 width={160}
                 height={45}
                 loading="eager"
-                sizes="160px"
               />
               <span className="sr-only">{SITE_NAME} home</span>
             </Link>
@@ -275,6 +275,7 @@ export function Header({ serviceNames }: { serviceNames: Record<ServiceSlug, str
           </nav>
 
           <div className="header-actions">
+            <AccessibilityWidget />
             <Link
               href={Routes.CONTACT}
               className="header-contact-cta header-contact-cta--bar"

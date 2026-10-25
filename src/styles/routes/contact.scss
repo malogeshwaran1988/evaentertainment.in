@@ -36,7 +36,8 @@
 }
 
 .eva-contact-group-title span {
-  color: #70b615;
+  /* #70b615 is 2.5:1 on white; #4E7E0F is 4.87:1 (WCAG 1.4.3). */
+  color: #4e7e0f;
 }
 
 .eva-contact-group-desc {

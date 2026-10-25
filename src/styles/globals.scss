@@ -5420,3 +5420,34 @@ html:not(.eva-bg-ready) .home-page > .eva-what-we-do {
   .eva-hero-slider .slide.is-active .eva-hero-media,
   .mainSlider .slide.is-active .eva-hero-ctas { animation: none; }
 }
+
+/* LasMind accessibility button in the header, left of Contact. Matches the menu toggle (44px, thin white border). */
+.eva-header-bar .eva-a11y-trigger {
+  display: inline-flex;
+  flex: 0 0 44px;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: transparent;
+  color: #fff;
+  cursor: pointer;
+}
+
+.eva-header-bar .eva-a11y-trigger:hover,
+.eva-header-bar .eva-a11y-trigger[aria-expanded="true"] {
+  border-color: #fff;
+}
+
+.eva-header-bar .eva-a11y-trigger:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+@media (max-width: 1024px) {
+  .eva-header-bar .eva-a11y-trigger {
+    margin-right: 8px;
+  }
+}

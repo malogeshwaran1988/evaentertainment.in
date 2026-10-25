@@ -60,7 +60,6 @@ export default async function ServicePage({ params }: PageProps<"/[service]">) {
       { "@type": "Country", name: "United Kingdom" },
       { "@type": "Country", name: "United Arab Emirates" },
     ],
-    availableLanguage: page.languages,
     provider: {
       "@type": "LocalBusiness",
       "@id": `${APP_BASE_URL}/#organization`,

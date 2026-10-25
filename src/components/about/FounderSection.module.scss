@@ -34,6 +34,8 @@
 }
 .name { margin: 0 0 8px; }
 .role { margin: 0 0 20px; }
+/* Light card: #70b615 is 2.3:1 on #f7f7f7; #4E7E0F is 4.54:1 (WCAG 1.4.3). Beats .theme-color !important. */
+.role.role { color: #4e7e0f !important; }
 .highlights {
   list-style: none;
   padding: 0;

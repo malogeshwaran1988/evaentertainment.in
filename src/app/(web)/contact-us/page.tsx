@@ -98,7 +98,7 @@ export default function ContactPage() {
                       <span aria-hidden="true">›</span>
                     </a>
                     <p className="eva-contact-hours">
-                      Quick response • Mon – Sat, 9 AM – 7 PM
+                      Quick response • Mon - Sat, 9 AM - 7 PM
                     </p>
                   </div>
                 </div>

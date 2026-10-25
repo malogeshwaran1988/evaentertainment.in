@@ -6,9 +6,9 @@ export const PRIVACY_OG_IMAGE = DEFAULT_OG_IMAGE;
 export const PRIVACY_OG_IMAGE_ALT = DEFAULT_OG_IMAGE_ALT;
 
 export const PRIVACY_SEO = {
-  title: "Privacy Policy | EVA Entertainment",
+  title: "Privacy Policy - How We Collect and Protect Your Data | EVA",
   description:
-    "Privacy Policy for EVA Entertainment Recording Studio - how we collect, use, store and protect personal data under Indian DPDP law and international standards for our Mumbai studio and global clients.",
+    "How EVA Entertainment collects, uses, stores and protects personal data under Indian DPDP law for our Mumbai studio clients in India and abroad.",
 };
 
 const address = CONTACT.addressLines.join(" ");
