@@ -106,7 +106,7 @@ function layout(o: { title: string; preheader: string; rows: string; footer?: st
 <tr><td align="center" style="padding:24px 12px;">
 <!--[if mso]><table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0"><tr><td><![endif]-->
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:600px;width:100%;">
-<tr><td bgcolor="${B.ink}" align="left" style="background-color:${B.ink};padding:20px 28px;border-radius:8px 8px 0 0;border-bottom:4px solid ${B.gold};">
+<tr><td bgcolor="#FFFFFF" align="left" style="background-color:#FFFFFF;padding:20px 28px;border-radius:8px 8px 0 0;border-bottom:4px solid ${B.gold};">
 <img src="${EMAIL_LOGO.src}" width="${EMAIL_LOGO.width}" height="${EMAIL_LOGO.height}" alt="${escapeHtml(SITE_NAME)}" style="display:block;border:0;outline:none;text-decoration:none;width:${EMAIL_LOGO.width}px;max-width:100%;height:${EMAIL_LOGO.height}px;overflow:hidden;word-break:break-word;font-family:${FONT};font-size:18px;line-height:24px;font-weight:800;letter-spacing:0.3px;color:${B.gold};text-align:left;">
 </td></tr>
 ${o.rows}<tr><td bgcolor="${B.ink}" style="background-color:${B.ink};padding:18px 28px;border-radius:0 0 8px 8px;font-family:${FONT};font-size:12px;line-height:18px;color:#C9CDD3;">
