@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useRef, useState, type KeyboardEvent } from "react";
+import { useEffect, useRef, useState, type KeyboardEvent } from "react";
 import Link from "@@/components/common/NavLink";
 import { SvgIcon } from "@@/components/common/Icons";
 import { PosterPlaceholder, YearBadge } from "@@/components/projects/ProjectPoster";
@@ -17,6 +17,22 @@ import { projectPosterAlt } from "@@/lib/project-seo";
 export default function HomeProjects({ projects }: { projects: PublicProject[] }) {
   const scrollerRef = useRef<HTMLUListElement>(null);
   const [announce, setAnnounce] = useState("");
+  // Posters (about 1 MB for 10) start loading only when the strip nears the viewport, so they
+  // never compete with the hero LCP; native lazy loading starts far too early in a scroller.
+  const sectionRef = useRef<HTMLElement>(null);
+  const [near, setNear] = useState(false);
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver((entries) => {
+      if (entries.some((e) => e.isIntersecting)) {
+        setNear(true);
+        io.disconnect();
+      }
+    }, { rootMargin: "300px 0px" });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
 
   if (projects.length === 0) return null;
 
@@ -53,7 +69,7 @@ export default function HomeProjects({ projects }: { projects: PublicProject[] }
   };
 
   return (
-    <section className="block block--darkbg eva-home-projects" aria-labelledby="eva-home-projects-title">
+    <section ref={sectionRef} className="block block--darkbg eva-home-projects" aria-labelledby="eva-home-projects-title">
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         className="eva-home-projects-bg"
@@ -88,7 +104,7 @@ export default function HomeProjects({ projects }: { projects: PublicProject[] }
                 <div className="eva-project-poster">
                   <YearBadge year={project.year} />
                   {project.poster ? (
-                    <Image
+                    near && <Image
                       src={project.poster}
                       alt={projectPosterAlt(project)}
                       fill

@@ -170,7 +170,6 @@ export function Header({ serviceNames }: { serviceNames: Record<ServiceSlug, str
                 width={160}
                 height={45}
                 loading="eager"
-                sizes="160px"
               />
               <span className="sr-only">{SITE_NAME} home</span>
             </Link>
