@@ -1,3 +1,4 @@
+import BrandMark from "@@/components/common/BrandMark";
 import FounderSection from "@@/components/about/FounderSection";
 import JsonLd from "@@/components/common/JsonLd";
 import PageHero from "@@/components/common/PageHero";
@@ -54,14 +55,17 @@ export default function AboutPage() {
           <div className="row">
             <div className="col-md-5 text-center">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={ABOUT_CONTENT.missionImage}
-                className="img-responsive"
-                alt={ABOUT_CONTENT.missionImageAlt}
-                loading="eager"
-                fetchPriority="high"
-                decoding="async"
-              />
+              <span className="eva-brand-host eva-brand-host--inline">
+                <img
+                  src={ABOUT_CONTENT.missionImage}
+                  className="img-responsive"
+                  alt={ABOUT_CONTENT.missionImageAlt}
+                  loading="eager"
+                  fetchPriority="high"
+                  decoding="async"
+                />
+                <BrandMark />
+              </span>
             </div>
             <div className="divider visible-xs visible-sm" />
             <div className="col-md-7">

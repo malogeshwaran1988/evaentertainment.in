@@ -5,6 +5,7 @@ import { SERVICES } from "@@/data/services";
 import { buildPageMetadata } from "@@/lib/seo";
 import ContactForm from "@@/components/contact/ContactForm";
 import { CONTACT } from "@@/constants/constants";
+import "@@/styles/routes/contact.scss";
 import {
   CONTACT_INTRO,
   CONTACT_OG_IMAGE,

@@ -3,49 +3,22 @@
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
 import ImageEffects from "@@/components/common/ImageEffects";
+import BrandMark from "@@/components/common/BrandMark";
 import Link from "@@/components/common/NavLink";
 import { Routes } from "@@/constants/routes";
 import { HERO_SLIDES } from "@@/data/home";
 import { imageLoading } from "@@/lib/image-loading";
 
-function SlideLine({
-  role,
-  className,
-  text,
-  line,
-}: {
-  role: "h1" | "title" | "subtitle";
-  className: string;
-  text: string;
-  line: number;
-}) {
-  const style = { "--line": line } as CSSProperties;
-  const content = (
-    <span>
-      <span className="slide-line-text">{text}</span>
-    </span>
-  );
-
-  if (role === "h1") {
-    return (
-      <h1 className={className || undefined} style={style}>
-        {content}
-      </h1>
-    );
-  }
-
-  const lineClass = `slide-line slide-line--${role === "subtitle" ? "sub" : "title"} ${className}`.trim();
-  return (
-    <p className={lineClass} style={style}>
-      {content}
-    </p>
-  );
+/** "72% 40%" -> CSS vars shared by the photo crop and the effects stage so overlays stay on their objects. */
+function focusVars(focus: string) {
+  const [x, y = "50%"] = focus.split(" ");
+  return { "--fx-x": x, "--fx-y": y };
 }
 
 export default function HeroSlider() {
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
-  // WCAG 2.2.2: autoplay can be stopped by the user, and is off under reduced motion.
+  // WCAG 2.2.2: autoplay can be stopped by the user and is off under reduced motion.
   const [userPaused, setUserPaused] = useState(false);
   const [hoverPaused, setHoverPaused] = useState(false);
   const [reduceMotion, setReduceMotion] = useState(false);
@@ -67,6 +40,14 @@ export default function HeroSlider() {
       observer.disconnect();
       document.removeEventListener("visibilitychange", update);
     };
+  }, []);
+
+  // Perf: below-fold section backgrounds (globals.scss, html.eva-bg-ready) load after window load.
+  useEffect(() => {
+    const ready = () => document.documentElement.classList.add("eva-bg-ready");
+    if (document.readyState === "complete") ready();
+    else window.addEventListener("load", ready, { once: true });
+    return () => window.removeEventListener("load", ready);
   }, []);
 
   const goPrev = useCallback(() => {
@@ -104,7 +85,8 @@ export default function HeroSlider() {
           id="mainSlider"
           className="mainSlider slick-initialized eva-hero-slider"
           style={{ opacity: 1 }}
-          data-paused={autoplayOff || undefined}
+          // Hover/focus only holds autoplay; the zoom and effects keep moving unless off-screen or stopped.
+          data-paused={paused || stopped || undefined}
           role="region"
           aria-roledescription="carousel"
           aria-label="Studio highlights"
@@ -129,41 +111,47 @@ export default function HeroSlider() {
               aria-label={`${i + 1} of ${count}`}
               aria-current={i === index ? "true" : undefined}
             >
-              <div className="img--holder eva-hero-media eva-fx-host">
+              <div
+                className="img--holder eva-hero-media eva-fx-host"
+                style={slide.focus ? (focusVars(slide.focus) as CSSProperties) : undefined}
+              >
                 <Image
                   src={slide.image}
                   alt={slide.alt}
                   fill
                   {...imageLoading(i)}
                   sizes="100vw"
-                  className="eva-hero-media-img"
+                  className={`eva-hero-media-img${slide.flip ? " eva-hero-media-img--flip" : ""}`}
                 />
                 <ImageEffects fx={slide.fx} />
+                <BrandMark />
               </div>
               <div className="slide-content left">
                 <div className="vert-wrap container">
                   <div className="vert">
                     <div className="container">
-                      {slide.lines.map((line, lineIndex) => (
-                        <SlideLine
-                          key={line.text}
-                          line={lineIndex}
-                          role={line.role}
-                          className={line.className}
-                          text={line.text}
-                        />
-                      ))}
-                      {/*
-                        Serial position / Paradox of the active user: a clear first action in the
-                        first viewport. One primary (Von Restorff) + one secondary. Inert on hidden slides.
-                      */}
-                      <div className="eva-hero-ctas" inert={i !== index}>
-                        <Link href={Routes.PROJECTS} className="btn btn--lg">
-                          <span>See our projects</span>
-                        </Link>
-                        <Link href={Routes.CONTACT} className="btn btn--lg btn--border eva-hero-cta-secondary">
-                          <span>Contact us</span>
-                        </Link>
+                      {/* Original hero style: line boxes that hug each line (gradient heading, white tagline). */}
+                      <div className="eva-hero-lines">
+                        {slide.headingLevel === "h1" ? (
+                          <h1 className="slide-line slide-line--title h-gradient eva-hero-heading" style={{ "--line": 0 } as CSSProperties}>
+                            <span><span className="slide-line-text">{slide.heading}</span></span>
+                          </h1>
+                        ) : (
+                          <h2 className="slide-line slide-line--title h-gradient eva-hero-heading" style={{ "--line": 0 } as CSSProperties}>
+                            <span><span className="slide-line-text">{slide.heading}</span></span>
+                          </h2>
+                        )}
+                        <p className="slide-line slide-line--title eva-hero-tagline" style={{ "--line": 1 } as CSSProperties}>
+                          <span><span className="slide-line-text">{slide.tagline}</span></span>
+                        </p>
+                        <div className="eva-hero-ctas" inert={i !== index}>
+                          <Link href={slide.cta.href} className="btn btn--lg">
+                            <span>{slide.cta.label}</span>
+                          </Link>
+                          <Link href={Routes.CONTACT} className="btn btn--lg btn--border eva-hero-cta-secondary">
+                            <span>Contact us</span>
+                          </Link>
+                        </div>
                       </div>
                     </div>
                   </div>

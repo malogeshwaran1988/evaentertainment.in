@@ -6,7 +6,7 @@ import { requireAdmin } from "@@/lib/admin-auth";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: { absolute: "Preview — not published" },
+  title: { absolute: "Preview - not published" },
   robots: { index: false, follow: false, nocache: true, googleBot: { index: false, follow: false } },
 };
 

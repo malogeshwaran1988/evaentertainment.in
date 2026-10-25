@@ -26,6 +26,8 @@ import {
   AlertDialogTitle,
 } from "@@/components/ui/alert-dialog";
 import { CategoryBadge, VisibilityBadge } from "@@/components/admin/ui/StatusBadge";
+import { IndexBadge } from "@@/components/admin/projects/ProjectContentFields";
+import { PROJECT_INDEX_MIN_WORDS, projectUniqueWordCount } from "@@/lib/project-content";
 import { Button } from "@@/components/ui/button";
 import {
   DropdownMenu,
@@ -79,6 +81,7 @@ export default function ProjectsTable({ projects }: { projects: Project[] }) {
   const [language, setLanguage] = useState<string>(ALL);
   const [category, setCategory] = useState<string>(ALL);
   const [visibility, setVisibility] = useState<string>(ALL);
+  const [seo, setSeo] = useState<string>(ALL);
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 20 });
   const [pendingDelete, setPendingDelete] = useState<Project | null>(null);
   const [viewing, setViewing] = useState<Project | null>(null);
@@ -141,6 +144,11 @@ export default function ProjectsTable({ projects }: { projects: Project[] }) {
         header: "Visibility",
         cell: ({ row }) =>
           <VisibilityBadge published={row.original.published !== false} />,
+      },
+      {
+        id: "seo",
+        header: "SEO",
+        cell: ({ row }) => <IndexBadge words={projectUniqueWordCount(row.original)} />,
       },
       {
         id: "year",
@@ -260,9 +268,13 @@ export default function ProjectsTable({ projects }: { projects: Project[] }) {
         if (!matchesSearch(p, query)) return false;
         if (!matchesFacets(p, facets)) return false;
         if (visibility !== ALL && (p.published !== false ? "public" : "private") !== visibility) return false;
+        if (seo !== ALL) {
+          const ok = projectUniqueWordCount(p) >= PROJECT_INDEX_MIN_WORDS;
+          if ((ok ? "indexable" : "thin") !== seo) return false;
+        }
         return true;
       }),
-    [projects, query, facets, visibility],
+    [projects, query, facets, visibility, seo],
   );
 
   const table = useReactTable({
@@ -277,7 +289,7 @@ export default function ProjectsTable({ projects }: { projects: Project[] }) {
 
   const filteredCount = filtered.length;
   const filtersActive =
-    search !== "" || facets.language !== ALL || facets.category !== ALL || visibility !== ALL;
+    search !== "" || facets.language !== ALL || facets.category !== ALL || visibility !== ALL || seo !== ALL;
   const resetPage = () => setPagination((p) => ({ ...p, pageIndex: 0 }));
 
   const confirmDelete = () => {
@@ -343,6 +355,19 @@ export default function ProjectsTable({ projects }: { projects: Project[] }) {
             ["private", "Private"],
           ]}
         />
+        <FilterSelect
+          label="Filter by SEO status"
+          value={seo}
+          onChange={(v) => {
+            setSeo(v);
+            resetPage();
+          }}
+          options={[
+            [ALL, "Any SEO status"],
+            ["thin", "Thin (noindex)"],
+            ["indexable", "Indexable"],
+          ]}
+        />
         {filtersActive ? (
           <Button
             type="button"
@@ -354,6 +379,7 @@ export default function ProjectsTable({ projects }: { projects: Project[] }) {
               setLanguage(ALL);
               setCategory(ALL);
               setVisibility(ALL);
+              setSeo(ALL);
               resetPage();
             }}
           >
@@ -399,7 +425,7 @@ export default function ProjectsTable({ projects }: { projects: Project[] }) {
                     <p className="text-sm font-medium">No projects found</p>
                     <p className="text-sm text-muted-foreground">
                       {projects.length
-                        ? "Try a different title or filter, or clear the filters."
+                        ? "Try a different title or filter or clear the filters."
                         : "Add your first project to get started."}
                     </p>
                   </div>

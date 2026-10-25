@@ -1,3 +1,4 @@
+import BrandMark from "@@/components/common/BrandMark";
 import type { Metadata } from "next";
 import JsonLd from "@@/components/common/JsonLd";
 import Link from "@@/components/common/NavLink";
@@ -12,6 +13,7 @@ import { blogAbsoluteUrl, blogCoverAlt, formatBlogDate } from "@@/lib/blog/seo";
 import { blogHref } from "@@/lib/blog/slug";
 import { getPublicBlogPosts } from "@@/lib/blog/store";
 import { absoluteUrl, buildPageMetadata } from "@@/lib/seo";
+import "@@/styles/routes/blog.scss";
 
 /** ISR: refreshed hourly (scheduled posts appear within the hour) and on every admin save. */
 export const revalidate = 3600;
@@ -85,14 +87,17 @@ export default async function BlogPage() {
                       {post.cover ? (
                         // Uploaded covers are served by a route handler; rendered unoptimised like posters.
                         // eslint-disable-next-line @next/next/no-img-element
-                        <img
-                          src={post.cover}
-                          alt={blogCoverAlt(post)}
-                          width={1200}
-                          height={630}
-                          className="eva-blog-card-img"
-                          {...img}
-                        />
+                        <span className="eva-brand-host">
+                          <img
+                            src={post.cover}
+                            alt={blogCoverAlt(post)}
+                            width={1200}
+                            height={630}
+                            className="eva-blog-card-img"
+                            {...img}
+                          />
+                          <BrandMark />
+                        </span>
                       ) : (
                         <div className="eva-blog-card-img eva-blog-card-img--empty" aria-hidden="true">
                           <i className="icon icon-folded-newspaper" />

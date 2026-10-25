@@ -2,7 +2,7 @@ import { readPoster } from "@@/lib/project-posters";
 
 /**
  * Serves admin-uploaded posters. On Vercel they live in the private Blob store, which
- * browsers can't read directly; locally they're on disk, and `next start` only serves
+ * browsers can't read directly; locally they're on disk and `next start` only serves
  * public/ files that existed at startup.
  */
 export async function GET(

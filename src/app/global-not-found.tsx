@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { STATUS_PAGE_ROBOTS } from "@@/lib/seo";
 import "@@/styles/tailwind-web.css";
 import "@@/styles/globals.scss";
+import "@@/styles/legacy/index.css";
 import Header from "@@/components/common/Header";
 import Footer from "@@/components/common/Footer";
 import BodyClass from "@@/components/common/BodyClass";

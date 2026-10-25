@@ -3,6 +3,7 @@
  * by the CSV import (each CSV row is turned into the same FormData the form submits).
  */
 import { z } from "zod";
+import { NO_CLIENT } from "@@/data/clients";
 import {
   PROJECT_AUDIO_HOURS_MAX,
   PROJECT_CATEGORIES,
@@ -120,8 +121,12 @@ export function parseProjectForm(
     if (Object.keys(extra.errors).length) return { fieldErrors: extra.errors };
     const { services: _s, ...rest } = result.data;
     void _s;
+    // Optional client: "none" or empty clears it. The action checks the id still exists.
+    const rawClient = formData.get("clientId");
+    const clientId =
+      typeof rawClient === "string" && rawClient && rawClient !== NO_CLIENT ? rawClient.slice(0, 80) : undefined;
     return {
-      data: { ...rest, to, ...(services.length ? { services } : {}), ...extra.content } satisfies ProjectInput,
+      data: { ...rest, to, ...(services.length ? { services } : {}), clientId, ...extra.content } satisfies ProjectInput,
     };
   }
   const fieldErrors: ProjectFieldErrors = { ...extra.errors };

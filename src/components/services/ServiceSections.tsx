@@ -1,7 +1,15 @@
 import Reveal from "@@/components/equipment/Reveal";
+import LanguageCards from "@@/components/services/LanguageCards";
 import ServiceMedia from "@@/components/services/ServiceMedia";
+import FormatCards from "@@/components/services/FormatCards";
+import dynamic from "next/dynamic";
 import { inline, splitLabel } from "@@/components/services/RichText";
 import type { RichBlock, ServicePageSection } from "@@/data/service-page-types";
+
+// Only the 5.1 page uses it: split into its own chunk (still server-rendered) so other service pages skip its JS.
+const SurroundExperience = dynamic(() => import("@@/components/services/SurroundExperience"));
+// Only the translation page uses it.
+const LanguagePairs = dynamic(() => import("@@/components/services/LanguagePairs"));
 
 const slugify = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 
@@ -33,7 +41,7 @@ function Blocks({ blocks }: { blocks: RichBlock[] }) {
 
 type Card = { title: string; body: RichBlock[] };
 
-/** h3 groups, or a list whose items all start with a bold label, become cards. */
+/** h3 groups or a list whose items all start with a bold label, become cards. */
 function toCards(blocks: RichBlock[]): { intro: RichBlock[]; cards: Card[]; outro: RichBlock[]; steps: boolean } | null {
   const firstH3 = blocks.findIndex((b) => b.t === "h3");
   if (firstH3 >= 0) {
@@ -62,6 +70,42 @@ export default function ServiceSections({ sections }: { sections: ServicePageSec
   let mediaCount = 0;
   return sections.map((section) => {
     const id = `svc-${slugify(section.heading)}`;
+    if (section.heading === "The mixing room" && section.media === "live:pro-tools") return <SurroundExperience key={id} headingId={id} />;
+    if (section.media === "lang-pairs") {
+      // First paragraph sits above the pairs; the rest follows them.
+      const intro = section.blocks.slice(0, 1);
+      const outro = section.blocks.slice(1);
+      return (
+        <section key={id} className="block eva-svc-section" aria-labelledby={id}>
+          <div className="container">
+            <Reveal className="eva-svc-copy eva-svc-copy--narrow">
+              <Heading id={id} icon={section.icon} text={section.heading} />
+              <Blocks blocks={intro} />
+            </Reveal>
+            <LanguagePairs />
+            {outro.length ? (
+              <div className="eva-svc-copy eva-svc-copy--narrow eva-lang-after">
+                <Blocks blocks={outro} />
+              </div>
+            ) : null}
+          </div>
+        </section>
+      );
+    }
+    // "Formats we deliver" style lists become visual file cards.
+    const fmt = !section.media && /format|deliverable/i.test(section.heading) && section.blocks.length === 1 && section.blocks[0].t === "ul" ? section.blocks[0] : null;
+    if (fmt && fmt.t === "ul") {
+      return (
+        <section key={id} className="block eva-svc-section" aria-labelledby={id}>
+          <div className="container">
+            <Reveal className="eva-svc-copy eva-svc-copy--narrow">
+              <Heading id={id} icon={section.icon} text={section.heading} />
+            </Reveal>
+            <FormatCards items={fmt.items} />
+          </div>
+        </section>
+      );
+    }
     const cards = section.media ? null : toCards(section.blocks);
     if (cards) {
       const CardList = cards.steps ? "ol" : "ul";
@@ -117,8 +161,18 @@ export default function ServiceSections({ sections }: { sections: ServicePageSec
         <div className="container">
           <Reveal className="eva-svc-copy eva-svc-copy--narrow">
             <Heading id={id} icon={section.icon} text={section.heading} />
-            <Blocks blocks={section.blocks} />
+            {section.languages ? null : <Blocks blocks={section.blocks} />}
           </Reveal>
+          {section.languages ? (
+            <>
+              <LanguageCards data={section.languages} />
+              {section.blocks.length ? (
+                <div className="eva-svc-copy eva-svc-copy--narrow eva-lang-after">
+                  <Blocks blocks={section.blocks} />
+                </div>
+              ) : null}
+            </>
+          ) : null}
         </div>
       </section>
     );

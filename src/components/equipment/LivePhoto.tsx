@@ -1,3 +1,4 @@
+import BrandMark from "@@/components/common/BrandMark";
 import type { CSSProperties } from "react";
 import type { EquipmentItem } from "@@/data/equipment";
 
@@ -10,7 +11,7 @@ const pos = (x: number, y: number, d?: number) =>
 
 /**
  * Photo + decorative "live" overlay. The overlay sits inside the same zoomed stage as the
- * <img>, and the img is shown at its exact 4:3 source ratio (no crop), so every ring stays
+ * <img> and the img is shown at its exact 4:3 source ratio (no crop), so every ring stays
  * locked to the device it was measured on.
  */
 export default function LivePhoto({ item, eager, alt }: { item: EquipmentItem; eager: boolean; alt: boolean }) {
@@ -48,6 +49,7 @@ export default function LivePhoto({ item, eager, alt }: { item: EquipmentItem; e
           {live.led && <span className="eva-live-led" style={pos(live.led.x, live.led.y)} />}
         </div>
       </div>
+      <BrandMark />
       {live.rec && (
         <span className={`eva-live-rec eva-live-rec--${live.rec}`} aria-hidden="true">
           <b />

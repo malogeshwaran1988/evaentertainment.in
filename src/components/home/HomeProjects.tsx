@@ -70,7 +70,7 @@ export default function HomeProjects({ projects }: { projects: PublicProject[] }
             <SvgIcon name="film" />
             Ongoing &amp; Recent Projects
           </h2>
-          <p className="p--lg">What we are dubbing now, and titles we have finished recently</p>
+          <p className="p--lg">What we are dubbing now and titles we have finished recently</p>
         </div>
         {/* Arrow keys scroll (and wrap) while focus is anywhere in the carousel. */}
         <div className="eva-home-projects-carousel" onKeyDown={onKeyDown}>

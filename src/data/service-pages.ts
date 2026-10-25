@@ -1,18 +1,19 @@
 /* Built from the approved service-page PDFs (18 Oct 2026 drafts). Copy marked CONFIRM in the PDFs is left out until EVA confirms it. */
 import type { ServicePageContent } from "@@/data/service-page-types";
+import { MARKET_SERVICE_PAGES } from "@@/data/service-pages-markets";
 
 export const SERVICE_PAGES: Record<string, ServicePageContent> = {
   "dubbing-studio": {
-    seoTitle: "Dubbing Studio in Mumbai | Lip-Sync Hindi Dubbing | EVA",
+    seoTitle: "Dubbing Studio in Mumbai - Lip-Sync Film Dubbing | EVA",
     description:
-      "Lip-sync dubbing studio in Andheri West, Mumbai. Telugu, Tamil, Malayalam and Kannada films dubbed into Hindi for OTT, TV and cinema. Get a quote.",
-    h1: "Lip-Sync Dubbing Studio in Mumbai for Films, OTT and Series",
+      "Lip-sync dubbing studio in Mumbai for regional, pan-India and Hollywood films. Hindi, Telugu, Tamil and 7 more Indian languages plus English. Get a quote.",
+    h1: "Lip-Sync Dubbing Studio in Mumbai for Films and Series",
     serviceType: "Lip-sync dubbing",
-    languages: ["Hindi", "Telugu", "Tamil", "Malayalam", "Kannada", "English"],
+    languages: ["English", "Hindi", "Bengali", "Marathi", "Telugu", "Tamil", "Gujarati", "Urdu", "Kannada", "Odia", "Malayalam"],
     leadHeading: "Hindi versions that feel native",
     lead: [
-      "**From a Telugu action drama to a Malayalam comedy, we turn South Indian films into Hindi versions that feel as if they were shot in Hindi.** EVA Entertainment is a lip-sync dubbing studio on RTO Lane, Andheri West, run by a team that spends most of its working day matching new Hindi dialogue to someone else's lips. Send us your film in its original language; we hand back a finished, mixed Hindi version ready for OTT, satellite TV or theatrical release.",
-      "Most of our work is feature films from Telugu, Tamil, Malayalam and Kannada cinema, but the same team dubs web series, documentaries, ad films and e-learning, in Hindi and other Indian and international languages.",
+      "**From a Telugu action drama to a Malayalam comedy, we turn South Indian films into Hindi versions that feel as if they were shot in Hindi.** EVA Entertainment is a lip-sync dubbing studio on RTO Lane, Andheri West run by a team that spends most of its working day matching new Hindi dialogue to someone else's lips. Send us your film in its original language; we hand back a finished, mixed Hindi version ready for OTT, satellite TV or theatrical release.",
+      "Most of our work is feature films from Telugu, Tamil, Malayalam and Kannada cinema. The same team dubs [Hollywood and international films](/hollywood-dubbing-indian-languages) into India's top 10 languages, prepares [pan-India releases](/pan-india-film-dubbing) and dubs web series, documentaries and ad films.",
     ],
     sections: [
       {
@@ -27,12 +28,12 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
             t: "ul",
             items: [
               "**The script fits the mouth.** A Telugu line and its Hindi meaning rarely have the same length or the same lip shapes. Our writers rework each line so the Hindi words open and close where the actor's lips do, without losing the joke, the threat or the emotion.",
-              '**The voice fits the face.** A voice that is too young, too polished or too "dubbed" breaks the spell. We cast each character, from the hero to the tea-stall owner, and share samples before recording.',
+              '**The voice fits the face.** A voice that is too young, too polished or too "dubbed" breaks the spell. We cast each character, from the hero to the tea-stall owner and share samples before recording.',
               "**The performance fits the scene.** Our dubbing directors sit in on every session, pushing for the breath, the pause and the shout that the original actor gave on set.",
             ],
           },
         ],
-        media: "singer",
+        media: "dub-why",
       },
       {
         heading: "Our lip-sync dubbing process",
@@ -45,11 +46,11 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
           {
             t: "ol",
             items: [
-              "**Brief and assets.** You share the video (a locked cut), the original script or dialogue list if you have it, and the M&E (music and effects) track. We confirm the target language, delivery specs and deadline.",
-              "**Translation and lip-sync adaptation.** Native writers translate the dialogue and then adapt it for sync, reading length, rhythm and lip movement scene by scene. See our [script translation service](/translation-services).",
+              "**Brief and assets.** You share the video (a locked cut), the original script or dialogue list if you have it and the M&E (music and effects) track. We confirm the target language, delivery specs and deadline.",
+              "**Translation and lip-sync adaptation.** Native writers translate the dialogue and then adapt it for sync reading length rhythm and lip movement scene by scene. See our [script translation service](/translation-services).",
               "**Voice casting.** We shortlist dubbing artists for each main character and send you voice samples for approval.",
               "**Recording with a dubbing director.** Artists record in our soundproof booth, loop by loop, with a director and a sound engineer guiding each take.",
-              "**Editing and sync check.** Engineers clean and fit every line to picture, frame by frame, and re-record anything that does not sit right.",
+              "**Editing and sync check.** Engineers clean and fit every line to picture, frame by frame and re-record anything that does not sit right.",
               "**Mixing.** The new dialogue is mixed with the M&E track in [stereo or 5.1](/5-1-mixing-studio). If the M&E is missing or incomplete, we can rebuild effects with [Foley](/foley-recording).",
               "**Quality check and delivery.** A final watch-through for sync, pronunciation and level, then delivery in the formats you need: full mix, dialogue stem, M&E and stems as required.",
             ],
@@ -61,7 +62,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
         ],
       },
       {
-        heading: "South Indian films dubbed into Hindi: our speciality",
+        heading: "South Indian films dubbed into Hindi",
         icon: "icon-play-circle",
         blocks: [
           {
@@ -87,14 +88,31 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
       {
         heading: "Languages we dub",
         icon: "icon-translate2",
+        languages: {
+          groups: [
+            { label: "Source languages", codes: ["te", "ta", "ml", "kn", "hi", "en"] },
+            { label: "Target languages", codes: ["hi", "ta", "te"], main: "hi" },
+          ],
+          caption: "For example, Jack was dubbed from Telugu into both Tamil and Hindi.",
+        },
         blocks: [
           {
             t: "p",
-            text: "**Source languages:** Telugu, Tamil, Malayalam, Kannada, Hindi and English.",
+            text: "We also dub into Bengali, Marathi, Gujarati, Urdu and Odia. See all [ten Indian languages](/indian-languages) we work in.",
           },
+        ],
+      },
+      {
+        heading: "Regional, pan-India and Hollywood films",
+        icon: "icon-play-circle",
+        blocks: [
           {
-            t: "p",
-            text: "**Target languages:** Hindi is our main dubbing language. We also dub into Tamil and Telugu (for example, Jack was dubbed from Telugu into both Tamil and Hindi).",
+            t: "ul",
+            items: [
+              "**Regional films.** Telugu, Tamil, Malayalam and Kannada films dubbed into Hindi and other Indian languages. See [regional film dubbing](/regional-film-dubbing).",
+              "**Pan-India releases.** One film dubbed into several Indian languages from one studio with one mix standard. See [pan-India film dubbing](/pan-india-film-dubbing).",
+              "**Hollywood and international films.** A professional English voice artist records the English version and the same voice artist performs the character in all 10 Indian languages. See [Hollywood dubbing](/hollywood-dubbing-indian-languages).",
+            ],
           },
         ],
       },
@@ -126,7 +144,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
           {
             t: "ul",
             items: [
-              "A separate soundproof recording booth for artists, and a control room for the director and engineer",
+              "A separate soundproof recording booth for artists and a control room for the director and engineer",
               "Pro Tools multi-track recording, with Neumann and Rode microphones",
               "Genelec and Yamaha studio monitors for accurate playback",
               "Engineers with {years} years of studio experience",
@@ -137,7 +155,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
             text: "Read more on our [studio equipment page](/studio-equipment).",
           },
         ],
-        media: "live:neumann",
+        media: "dub-studio",
       },
       {
         heading: "Why producers choose EVA Entertainment",
@@ -146,8 +164,8 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
           {
             t: "ul",
             items: [
-              "**One team, start to finish.** Translation, casting, direction, recording, editing and mixing under one roof, so nothing is lost between vendors.",
-              "**A focus on South to Hindi.** We know how Telugu, Tamil and Malayalam dialogue maps onto Hindi, and which voices Hindi audiences accept.",
+              "**One team, start to finish.** Translation, casting, direction recording, editing and mixing under one roof, so nothing is lost between vendors.",
+              "**Regional, pan-India and Hollywood.** We know how Telugu, Tamil and Malayalam dialogue maps onto Hindi and how English dialogue maps onto every major Indian language.",
               "**Native Hindi voices.** Our dubbing artists perform in their mother tongue, so the Hindi sounds natural, not translated.",
               "**Direct contact.** You deal with Felix and the studio team directly, not a call centre.",
             ],
@@ -170,7 +188,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
       },
       {
         q: "What do I need to send you?",
-        a: "A locked cut of the video, the original script or dialogue list if available, and the M&E track. If you do not have a clean M&E, tell us; we can rebuild missing effects.",
+        a: "A locked cut of the video, the original script or dialogue list if available and the M&E track. If you do not have a clean M&E, tell us; we can rebuild missing effects.",
       },
       {
         q: "Can I hear the voices before you record?",
@@ -182,12 +200,12 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
       },
       {
         q: "Do you only dub South Indian films?",
-        a: "No. South Indian films into Hindi are our speciality, but we also dub web series, documentaries, ad films and e-learning content in Indian and international languages.",
+        a: "No. South Indian films into Hindi are a large part of our work, but we also dub [Hollywood and international films](/hollywood-dubbing-indian-languages) into India's top 10 languages, pan-India releases, web series and documentaries.",
       },
     ],
     cta: {
-      heading: "Get your film dubbed into Hindi",
-      text: "Tell us the film, its runtime and your deadline, and we will reply with a plan and a quote.",
+      heading: "Get your film dubbed",
+      text: "Tell us the film, its runtime and your deadline and we will reply with a plan and a quote.",
       label: "Request a dubbing quote",
       contact: [
         {
@@ -219,24 +237,16 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
     ],
   },
   "voice-over-studio": {
-    seoTitle: "Voice Over Studio in Mumbai | Hindi & Indian Voices | EVA",
+    seoTitle: "English Voice Over Artist and Studio in Mumbai | EVA",
     description:
-      "Voice over studio in Andheri West, Mumbai. Native male, female and child voices in Hindi and Indian languages for ads, e-learning, IVR and films.",
-    h1: "Voice Over Studio in Mumbai with Native Hindi and Indian-Language Voices",
+      "Voice over studio in Mumbai with a professional English voice artist who also voices India's top 10 languages. Native voices for films, ads and e-learning.",
+    h1: "English and Indian-Language Voice Over Studio in Mumbai",
     serviceType: "Voice-over recording",
-    languages: [
-      "Hindi",
-      "Marathi",
-      "Telugu",
-      "Tamil",
-      "Malayalam",
-      "Kannada",
-      "English",
-    ],
-    leadHeading: "The right voice, recorded cleanly",
+    languages: ["English", "Hindi", "Bengali", "Marathi", "Telugu", "Tamil", "Gujarati", "Urdu", "Kannada", "Odia", "Malayalam"],
+    leadHeading: "The right voice recorded cleanly",
     lead: [
-      "**The right voice makes people listen. The wrong one makes them skip.** EVA Entertainment records voice-overs for ad films, corporate videos, e-learning courses, IVR systems, documentaries and films from our studio in Andheri West, Mumbai. We cast native speakers in Hindi and other Indian and international languages, direct every session, and hand over clean, edited audio that is ready to drop into your edit.",
-      "Whether you need a single 30-second radio spot or a 40-module training course in six languages, the process is the same: we listen to your brief, send you voice samples, record with a director in the room, and deliver on time.",
+      "**The right voice makes people listen. The wrong one makes them skip.** EVA Entertainment records voice-overs for ad films, corporate videos, e-learning courses, IVR systems, documentaries and films from our studio in Andheri West, Mumbai. We cast native speakers in English, Hindi and other Indian languages, direct every session and hand over clean, edited audio that is ready to drop into your edit.",
+      "Whether you need a single 30-second radio spot or a 40-module training course in six languages, the process is the same: we listen to your brief, send you voice samples record with a director in the room and deliver on time.",
     ],
     sections: [
       {
@@ -249,7 +259,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
           },
           {
             t: "p",
-            text: "TV commercials, digital ads, radio spots and social videos. We match the voice to the brand: a warm, trusted voice for a bank, an energetic one for a youth brand, a gentle one for a baby-care product. Need a jingle too? See our [song recording studio](/song-recording-studio).",
+            text: "TV commercials, digital ads radio spots and social videos. We match the voice to the brand: a warm, trusted voice for a bank, an energetic one for a youth brand, a gentle one for a baby-care product. Need a jingle too? See our [song recording studio](/song-recording-studio).",
           },
           {
             t: "h3",
@@ -265,7 +275,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
           },
           {
             t: "p",
-            text: "Course narration needs a voice that stays easy to listen to for hours and pronounces technical terms correctly. We record long scripts in consistent tone and level across every module, and can re-record updates months later with the same artist.",
+            text: "Course narration needs a voice that stays easy to listen to for hours and pronounces technical terms correctly. We record long scripts in consistent tone and level across every module and can re-record updates months later with the same artist.",
           },
           {
             t: "h3",
@@ -273,7 +283,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
           },
           {
             t: "p",
-            text: "Welcome messages, menu prompts and on-hold messages, recorded clean and edited into separate files named to your system's needs.",
+            text: "Welcome messages, menu prompts and on-hold messages recorded clean and edited into separate files named to your system's needs.",
           },
           {
             t: "h3",
@@ -306,23 +316,40 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
             items: [
               "**Male, female and child voices**, from young children to senior characters",
               "**Styles:** conversational, corporate, promotional and hard-sell, storytelling, character and cartoon voices",
-              "**Samples first:** tell us about your content and audience, and we will share suitable samples before you book",
+              "**Samples first:** tell us about your content and audience and we will share suitable samples before you book",
             ],
           },
         ],
-        media: "live:rode",
+        media: "vo-voices",
       },
       {
         heading: "Languages",
         icon: "icon-translate2",
+        languages: {
+          groups: [{ label: "Voice-over languages", codes: ["en", "hi", "bn", "mr", "te", "ta", "gu", "ur", "kn", "or", "ml"], main: "en" }],
+        },
         blocks: [
           {
             t: "p",
-            text: "Hindi is our most requested voice-over language. Through our network of native artists we also record in Telugu, Tamil, Malayalam, Kannada and English.",
+            text: "Hindi is our most requested voice-over language. We also record in English, Bengali, Marathi, Telugu, Tamil, Gujarati, Urdu, Kannada, Odia and Malayalam. Other languages are available on request.",
           },
           {
             t: "p",
-            text: "Need the same script in several languages? We translate it with our [script translation team](/translation-services), cast a native artist for each language, and deliver every version with matching timing and file naming.",
+            text: "Need the same script in several languages? We translate it with our [script translation team](/translation-services), cast a native artist for each language and deliver every version with matching timing and file naming.",
+          },
+        ],
+      },
+      {
+        heading: "One English voice in all 10 Indian languages",
+        icon: "icon-voiceover",
+        blocks: [
+          {
+            t: "p",
+            text: "Our professional English voice artist also performs in Hindi, Bengali, Marathi, Telugu, Tamil, Gujarati, Urdu, Kannada, Odia and Malayalam. A brand film, a documentary narrator or a film character can keep the same voice in English and all 10 Indian languages.",
+          },
+          {
+            t: "p",
+            text: "Every version is a live human performance captured in our booth with a native-language director. We do not use voice cloning. For films see [Hollywood dubbing into Indian languages](/hollywood-dubbing-indian-languages).",
           },
         ],
       },
@@ -335,9 +362,9 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
             items: [
               "**Share your script and brief.** Tell us the purpose, audience, tone, length and where the audio will be used. A reference video or track helps.",
               "**Get voice samples.** We shortlist artists and send samples. You pick the voice (or two, if you want a male and a female option).",
-              "**Script check.** We check pronunciation of brand names, technical terms and numbers before the session, and suggest edits if a line is hard to say naturally.",
+              "**Script check.** We check pronunciation of brand names, technical terms and numbers before the session and suggest edits if a line is hard to say naturally.",
               "**Recording session.** The artist records in our soundproof booth with a director and engineer. You are welcome to attend in person.",
-              "**Editing.** We remove breaths, clicks and mistakes, and level the audio so it sounds consistent from start to finish.",
+              "**Editing.** We remove breaths, clicks and mistakes and level the audio so it sounds consistent from start to finish.",
               "**Delivery.** You receive files in the format you need, such as WAV or MP3, split per module or prompt if required. We can also sync the voice to your video and mix it with music from our [stock music library](/stock-music-library).",
             ],
           },
@@ -366,7 +393,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
             text: "More details on our [studio equipment page](/studio-equipment).",
           },
         ],
-        media: "live:genelec",
+        media: "vo-studio",
       },
       {
         heading: "Who books our voice-over studio",
@@ -416,7 +443,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
       },
       {
         q: "Can you record IVR prompts?",
-        a: "Yes. We record welcome messages, menu options and on-hold messages, and deliver each prompt as a separate, named file in the format your phone system needs.",
+        a: "Yes. We record welcome messages, menu options and on-hold messages and deliver each prompt as a separate, named file in the format your phone system needs.",
       },
       {
         q: "Can I attend or direct the session?",
@@ -425,6 +452,10 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
       {
         q: "Can you record the same script in several languages?",
         a: "Yes. We translate the script, cast a native artist for each language and deliver all versions with matching timing.",
+      },
+      {
+        q: "Can the same voice artist record English and Indian languages?",
+        a: "Yes. Our professional English voice artist also performs in all 10 of India's top languages, from Hindi to Malayalam, so one voice carries across every version. It is always a live human performance, never voice cloning.",
       },
       {
         q: "Do you provide child voices?",
@@ -464,7 +495,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
     ],
     sections: [
       {
-        heading: "What is Foley, and how is it different from sound design?",
+        heading: "What is Foley and how is it different from sound design?",
         icon: "icon-folleyrecording",
         blocks: [
           {
@@ -484,7 +515,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
             text: "On most projects we do all three.",
           },
         ],
-        media: "console",
+        media: "foley-what",
       },
       {
         heading: "Foley and sound services",
@@ -504,7 +535,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
           },
           {
             t: "p",
-            text: "OTT platforms, broadcasters and distributors often require a fully filled M&E track: a version of the soundtrack with music and effects but no dialogue. If your film's M&E has gaps, we listen through, find the missing sounds, and fill them with Foley and effects so any language can be laid on top. This is especially useful for South Indian films being dubbed into Hindi with our [lip-sync dubbing service](/dubbing-studio).",
+            text: "OTT platforms, broadcasters and distributors often require a fully filled M&E track: a version of the soundtrack with music and effects but no dialogue. If your film's M&E has gaps, we listen through, find the missing sounds and fill them with Foley and effects so any language can be laid on top. This is especially useful for South Indian films being dubbed into Hindi with our [lip-sync dubbing service](/dubbing-studio).",
           },
           {
             t: "h3",
@@ -528,7 +559,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
           },
           {
             t: "p",
-            text: "Whooshes, impacts, risers and transitions that give trailers, teasers and ads their energy.",
+            text: "Whooshes, impacts risers and transitions that give trailers, teasers and ads their energy.",
           },
         ],
       },
@@ -543,8 +574,8 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
               "**M&E review.** For dubbing projects, we check the existing M&E against the original mix and mark what is missing.",
               "**Foley recording.** Foley is performed in sync with the picture and recorded on separate tracks for feet, cloth and props.",
               "**Effects and ambience editing.** Library and custom effects are cut, layered and fitted frame by frame.",
-              "**Premix.** Foley and effects are balanced into clean stems, ready for the final mix.",
-              "**Final mix and delivery.** We deliver stems for your mixer, or take the project through to a [stereo or 5.1 mix](/5-1-mixing-studio) in-house, with a full M&E.",
+              "**Premix.** Foley and effects are balanced into clean stems ready for the final mix.",
+              "**Final mix and delivery.** We deliver stems for your mixer or take the project through to a [stereo or 5.1 mix](/5-1-mixing-studio) in-house, with a full M&E.",
             ],
           },
         ],
@@ -568,7 +599,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
             text: "See the [studio equipment page](/studio-equipment).",
           },
         ],
-        media: "live:pro-tools",
+        media: "foley-studio",
       },
       {
         heading: "Who it is for",
@@ -607,7 +638,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
             items: [
               "**Built around dubbing.** We understand what a dubbed version needs from an M&E, because we fill that gap on our own projects.",
               "**One studio from Foley to final mix.** No handing tracks between vendors and losing sync.",
-              "**Clean, organised deliverables.** Foley and effects on separate, labelled stems so your mixer can work quickly.",
+              "**Clean organised deliverables.** Foley and effects on separate, labelled stems so your mixer can work quickly.",
               "**Direct contact.** Talk to the people doing the work.",
             ],
           },
@@ -633,7 +664,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
       },
       {
         q: "Do you deliver separate Foley stems?",
-        a: "Yes. Foley, effects and ambience are delivered on separate, labelled stems, or mixed by us into a stereo or 5.1 final mix.",
+        a: "Yes. Foley, effects and ambience are delivered on separate, labelled stems or mixed by us into a stereo or 5.1 final mix.",
       },
       {
         q: "How long does Foley take for a feature film?",
@@ -642,7 +673,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
     ],
     cta: {
       heading: "Need Foley or a full M&E for your film?",
-      text: "Send us the cut and your delivery specs, and we will tell you what is missing and what it will take.",
+      text: "Send us the cut and your delivery specs and we will tell you what is missing and what it will take.",
       label: "Get a Foley quote",
       contact: [
         {
@@ -732,7 +763,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
             ],
           },
         ],
-        media: "console",
+        media: "mix-problems",
       },
       {
         heading: "Our mixing process",
@@ -741,11 +772,11 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
           {
             t: "ol",
             items: [
-              "**Session prep.** We receive your tracks (AAF/OMF or stems) and picture, check sync, and organise dialogue, music, Foley and effects.",
+              "**Session prep.** We receive your tracks (AAF/OMF or stems) and picture, check sync and organise dialogue, music, Foley and effects.",
               "**Dialogue edit and clean-up.** Noise, clicks and room problems are fixed so speech stays clear.",
               "**Premix.** Dialogue, music and effects are balanced into stems.",
               "**Final mix.** The full 5.1 or stereo mix, shaped scene by scene with the director or producer.",
-              "**Review and changes.** You review the mix in the studio or remotely, and we make the changes.",
+              "**Review and changes.** You review the mix in the studio or remotely and we make the changes.",
               "**Mastering and loudness.** Levels are checked against the platform or broadcaster's loudness target.",
               "**Delivery.** Final mixes, stems (dialogue, music, effects), M&E and stereo downmix, in the formats you need.",
             ],
@@ -834,7 +865,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
     faqs: [
       {
         q: "What is a 5.1 mix?",
-        a: "A 5.1 mix spreads the soundtrack across five full-range speakers (left, centre, right, left surround, right surround) and one subwoofer for low frequencies. It is the standard surround format for cinema, OTT and home theatres.",
+        a: "A 5.1 mix spreads the soundtrack across five full-range speakers (left, centre right, left surround right surround) and one subwoofer for low frequencies. It is the standard surround format for cinema, OTT and home theatres.",
       },
       {
         q: "Do I need a 5.1 mix or stereo?",
@@ -846,7 +877,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
       },
       {
         q: "What do you need from us to start a mix?",
-        a: "The picture (with timecode), the session as an AAF/OMF or as stems, the M&E if it is a dubbed version, and the delivery specs.",
+        a: "The picture (with timecode), the session as an AAF/OMF or as stems, the M&E if it is a dubbed version and the delivery specs.",
       },
       {
         q: "Do you deliver stems and an M&E?",
@@ -858,7 +889,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
       },
     ],
     cta: {
-      heading: "Finish your film with a clean, release-ready mix",
+      heading: "Finish your film with a clean release-ready mix",
       text: "Share your runtime, format and delivery specs. We will send a schedule and a quote.",
       label: "Get a mixing quote",
       contact: [
@@ -877,15 +908,15 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
     },
   },
   "subtitling-services": {
-    seoTitle: "Subtitling Services in Mumbai & India | Film Subtitles",
+    seoTitle: "Subtitling Services for Films and Web Series | EVA",
     description:
-      "Film, OTT and video subtitling in Hindi, English and South Indian languages. Native subtitlers, accurate timing, files ready for your platform.",
-    h1: "Subtitling Services in Mumbai for Films, OTT and Video",
+      "Subtitles for movies, TV series and web series in English and India's top 10 languages. Native subtitlers, accurate timing and platform-ready files.",
+    h1: "Subtitling Services for Movies, TV Series and Web Series",
     serviceType: "Subtitling",
-    languages: ["Hindi", "English", "Telugu", "Tamil", "Malayalam", "Kannada"],
+    languages: ["English", "Hindi", "Bengali", "Marathi", "Telugu", "Tamil", "Gujarati", "Urdu", "Kannada", "Odia", "Malayalam"],
     leadHeading: "Subtitles people can actually read",
     lead: [
-      "**Good subtitles are read in a glance and forgotten a second later, leaving the viewer with the film, not the text.** EVA Entertainment creates time-coded subtitles for feature films, web series, documentaries, corporate videos, ads and games, written by native speakers and timed to your picture. We are based in Andheri West, Mumbai, and work with clients across India.",
+      "**Good subtitles are read in a glance and forgotten a second later, leaving the viewer with the film, not the text.** EVA Entertainment creates time-coded subtitles for movies, TV series and web series, written by native speakers and timed to your picture. We are based in Andheri West, Mumbai and work with clients across India.",
       "Because we also dub films, we know how dialogue behaves across Telugu, Tamil, Malayalam, Kannada, Hindi and English. Our subtitles keep the meaning, humour and tone of the original, not just the literal words.",
     ],
     sections: [
@@ -899,7 +930,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
           },
           {
             t: "p",
-            text: "Subtitles for feature films and web series, ready for theatrical release, OTT platforms, satellite TV or YouTube. Subtitles are written to sensible reading speeds and line lengths, and split at natural points in the sentence.",
+            text: "Subtitles for feature films and web series ready for theatrical release, OTT platforms, satellite TV or YouTube. Subtitles are written to sensible reading speeds and line lengths and split at natural points in the sentence.",
           },
           {
             t: "h3",
@@ -915,15 +946,15 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
           },
           {
             t: "p",
-            text: "Hindi subtitles for Telugu, Tamil, Malayalam and Kannada films, and regional-language subtitles for Hindi and English content.",
+            text: "Hindi subtitles for Telugu, Tamil, Malayalam and Kannada films and regional-language subtitles for Hindi and English content.",
           },
           {
             t: "h3",
-            text: "Corporate, e-learning and social video subtitles",
+            text: "English subtitles for Hollywood and international films",
           },
           {
             t: "p",
-            text: "Subtitles for training videos, company films, product demos and social media, where many viewers watch with the sound off.",
+            text: "Subtitles in Hindi and other Indian languages for English films and series, written from the same adapted script as our [Hollywood dubs](/hollywood-dubbing-indian-languages) when we dub the film too.",
           },
           {
             t: "h3",
@@ -941,14 +972,14 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
         blocks: [
           {
             t: "p",
-            text: "Telugu, Tamil, Malayalam and Kannada films are full of things that do not translate directly: forms of address that show respect or affection, dialect that tells you where a character is from, wordplay in punch dialogues, and song lyrics full of local imagery. A literal translation loses all of it.",
+            text: "Telugu, Tamil, Malayalam and Kannada films are full of things that do not translate directly: forms of address that show respect or affection, dialect that tells you where a character is from, wordplay in punch dialogues and song lyrics full of local imagery. A literal translation loses all of it.",
           },
           {
             t: "p",
             text: 'Our subtitlers decide case by case. A respectful "garu" or "anna" might become a name, a title or simply a warmer tone in the line. A punch dialogue is rewritten so it still lands in Hindi or English. Song lyrics are subtitled when they move the story, in a style the client approves. The aim is simple: the viewer reading the subtitle should laugh, wince or cheer at the same moment as the viewer who understands the original.',
           },
         ],
-        media: "workstation",
+        media: "sub-south",
       },
       {
         heading: "How our subtitling works",
@@ -962,10 +993,11 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
               "**Translation.** Native translators translate and condense the dialogue into readable subtitles. See [script translation](/translation-services).",
               "**Timing (spotting).** Each subtitle is timed to the speech and adjusted around shot changes, so it appears and disappears cleanly.",
               "**Review.** A second linguist checks meaning, spelling, names and timing against the picture.",
-              "**Delivery.** Subtitle files in the format you need, or subtitles burned into the video.",
+              "**Delivery.** Subtitle files in the format you need or subtitles burned into the video.",
             ],
           },
         ],
+        media: "sub-workflow",
       },
       {
         heading: "Subtitle formats",
@@ -973,17 +1005,21 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
         blocks: [
           {
             t: "p",
-            text: "We deliver in the common formats that players and platforms accept, including SRT, and can follow a platform's style guide when you share it.",
+            text: "We deliver in the common formats that players and platforms accept, including SRT and can follow a platform's style guide when you share it.",
           },
         ],
+        media: "sub-formats",
       },
       {
         heading: "Languages",
         icon: "icon-translate2",
+        languages: {
+          groups: [{ label: "Subtitle languages", codes: ["en", "hi", "bn", "mr", "te", "ta", "gu", "ur", "kn", "or", "ml"] }],
+        },
         blocks: [
           {
             t: "p",
-            text: "Hindi, English, Telugu, Tamil, Malayalam and Kannada. Every subtitle file is written or reviewed by a native speaker of the target language.",
+            text: "English and India's top 10 languages: Hindi, Bengali, Marathi, Telugu, Tamil, Gujarati, Urdu, Kannada, Odia and Malayalam. Every subtitle file is written or reviewed by a native speaker of the target language.",
           },
         ],
       },
@@ -1013,9 +1049,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
               "**OTT platforms and aggregators** that need subtitles for regional and dubbed films",
               "**Producers and distributors** preparing films for wider Indian or international release",
               "**Independent filmmakers** submitting to film festivals",
-              "**Corporate and e-learning teams** making training and communication videos accessible",
-              "**Ad agencies and brands** running video ads on social media",
-              "**Game studios** that need in-game text and cutscene subtitles",
+              "**International studios** releasing English films and series in India",
             ],
           },
         ],
@@ -1029,7 +1063,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
             text: "Many producers now release a film both dubbed and subtitled. Because one team handles both at EVA, the Hindi dub and the subtitles use the same names, terms and tone. Our main credits are Hindi dubbed versions of South Indian films, including [Ghaati](/projects/ghaati-hindi-dubbing), Sirai and [Nari Nari Naduma Murari](/projects/nari-nari-naduma-murari-hindi-dubbing). See [lip-sync dubbing](/dubbing-studio).",
           },
         ],
-        media: "live:yamaha",
+        media: "sub-together",
       },
       {
         heading: "Why EVA Entertainment",
@@ -1070,7 +1104,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
       },
       {
         q: "Can you follow a platform's subtitle style guide?",
-        a: "Yes. Share the style guide with your brief and we will follow its rules for line length, reading speed and formatting.",
+        a: "Yes. Share the style guide with your brief and we will follow its rules for line length, formatting and reading speed.",
       },
       {
         q: "Do you also dub the same content?",
@@ -1078,7 +1112,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
       },
     ],
     cta: {
-      heading: "Get your film or video subtitled",
+      heading: "Get your film or series subtitled",
       text: "Tell us the runtime, languages and format you need. We will reply with a quote and a delivery date.",
       label: "Request a subtitling quote",
       contact: [
@@ -1104,7 +1138,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
     languages: ["Hindi", "Marathi", "Tamil", "Telugu", "English"],
     leadHeading: "A calm room for your best take",
     lead: [
-      "**A great take needs a quiet room, a good microphone, an engineer who knows when to stop you and when to keep going, and no clock-watching.** EVA Entertainment's recording studio in Andheri West gives singers, composers, bands and agencies exactly that. Record lead vocals, harmonies, instruments, jingles and voice parts, then take the song through editing, mixing and mastering without changing studios.",
+      "**A great take needs a quiet room, a good microphone, an engineer who knows when to stop you and when to keep going and no clock-watching.** EVA Entertainment's recording studio in Andheri West gives singers, composers, bands and agencies exactly that. Record lead vocals, harmonies, instruments, jingles and voice parts, then take the song through editing, mixing and mastering without changing studios.",
       "We are near the RTO office in Andheri West, minutes from the film and music offices of Andheri, Versova, Oshiwara and Lokhandwala.",
     ],
     sections: [
@@ -1118,7 +1152,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
           },
           {
             t: "p",
-            text: "Lead vocals, doubles and harmonies for independent releases, albums and singles, recorded in a quiet, private booth.",
+            text: "Lead vocals, doubles and harmonies for independent releases, albums and singles recorded in a quiet, private booth.",
           },
           {
             t: "h3",
@@ -1126,7 +1160,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
           },
           {
             t: "p",
-            text: "Vocals and parts for film and series soundtracks, recorded to the composer's guide track.",
+            text: "Vocals and parts for film and series soundtracks recorded to the composer's guide track.",
           },
           {
             t: "h3",
@@ -1134,7 +1168,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
           },
           {
             t: "p",
-            text: "Jingles, sonic logos and short songs for TV, radio and digital ads, often recorded in more than one language version on the same day.",
+            text: "Jingles, sonic logos and short songs for TV radio and digital ads, often recorded in more than one language version on the same day.",
           },
           {
             t: "h3",
@@ -1142,7 +1176,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
           },
           {
             t: "p",
-            text: "Cover songs, demos for producers and labels, and audition reels for singers.",
+            text: "Cover songs, demos for producers and labels and audition reels for singers.",
           },
           {
             t: "h3",
@@ -1174,7 +1208,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
               "**Set-up and sound check.** The engineer sets up the microphone, headphone mix and levels for your voice or instrument.",
               "**Recording.** Record as many takes as you need, with the engineer tracking and keeping notes on the best ones.",
               "**Comping and editing.** We assemble the best parts of each take and clean up timing and noise.",
-              "**Mixing and mastering.** Mix the song with your music and master it for streaming, radio or video. See [mixing and mastering](/5-1-mixing-studio).",
+              "**Mixing and mastering.** Mix the song with your music and master it for streaming radio or video. See [mixing and mastering](/5-1-mixing-studio).",
               "**Take your files home.** Raw takes, edited vocals and final mix delivered as WAV and MP3.",
             ],
           },
@@ -1200,7 +1234,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
             ],
           },
         ],
-        media: "singer",
+        media: "song-session",
       },
       {
         heading: "Songs in more than one language",
@@ -1231,7 +1265,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
             text: "See the full [studio equipment list](/studio-equipment).",
           },
         ],
-        media: "live:rode",
+        media: "song-studio",
       },
       {
         heading: "Rates and booking",
@@ -1243,7 +1277,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
           },
           {
             t: "p",
-            text: "Tell us the date, the session length and what you are recording, and we will confirm the slot and the rate on WhatsApp or by email.",
+            text: "Tell us the date, the session length and what you are recording and we will confirm the slot and the rate on WhatsApp or by email.",
           },
         ],
       },
@@ -1284,7 +1318,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
     faqs: [
       {
         q: "How do I book a recording session?",
-        a: "Use the [Book a Studio Session](/contact-us) page to send your preferred date and time, or message Felix on WhatsApp at +91 86520 63177. We will confirm availability.",
+        a: "Use the [Book a Studio Session](/contact-us) page to send your preferred date and time or message Felix on WhatsApp at +91 86520 63177. We will confirm availability.",
       },
       {
         q: "Is a sound engineer included?",
@@ -1292,11 +1326,11 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
       },
       {
         q: "What should I bring to the session?",
-        a: "Your backing track or project stems, lyrics, and any reference songs. If you play an instrument, bring it along.",
+        a: "Your backing track or project stems, lyrics and any reference songs. If you play an instrument, bring it along.",
       },
       {
         q: "Can you mix and master my song too?",
-        a: "Yes. We can mix and master the song in the same studio after recording, or you can take the raw vocals to your own producer.",
+        a: "Yes. We can mix and master the song in the same studio after recording or you can take the raw vocals to your own producer.",
       },
       {
         q: "Do you record jingles for ads?",
@@ -1313,7 +1347,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
     ],
     cta: {
       heading: "Book your recording session",
-      text: "Pick a time that suits you, and we will have the room ready.",
+      text: "Pick a time that suits you and we will have the room ready.",
       label: "Book a studio session",
       contact: [
         {
@@ -1335,15 +1369,15 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
     },
   },
   "translation-services": {
-    seoTitle: "Script Translation for Dubbing & Subtitles | Mumbai | EVA",
+    seoTitle: "Script Translation for Dubbing and Subtitles | EVA",
     description:
-      "Dubbing script translation and lip-sync adaptation from Telugu, Tamil, Malayalam, Kannada and English into Hindi, plus subtitle and voice-over scripts.",
-    h1: "Script Translation and Adaptation for Dubbing, Voice-Over and Subtitles",
+      "Script translation and lip-sync adaptation for film dubbing. English, Telugu, Tamil, Malayalam and Kannada into Hindi and India's top 10 languages.",
+    h1: "Script Translation and Adaptation for Film Dubbing",
     serviceType: "Script translation and adaptation",
     languages: ["Hindi", "English", "Telugu", "Tamil", "Malayalam", "Kannada"],
     leadHeading: "Scripts written for the screen",
     lead: [
-      "**A dub can only be as good as its script.** At EVA Entertainment, translation is not a word-for-word exercise. Our native writers adapt your script so it sounds natural when spoken, fits the actors' lips when dubbed, and reads easily on screen as subtitles. We work from our studio in Andheri West, Mumbai, translating Telugu, Tamil, Malayalam, Kannada and English content into Hindi, and between other Indian and international languages.",
+      "**A dub can only be as good as its script.** At EVA Entertainment, translation is not a word-for-word exercise. Our native writers adapt your script so it sounds natural when spoken, fits the actors' lips when dubbed and reads easily on screen as subtitles. We work from our studio in Andheri West, Mumbai, translating Telugu, Tamil, Malayalam, Kannada and English content into Hindi and between other Indian and international languages.",
       "Most of our translation work feeds straight into our own dubbing, voice-over and subtitling projects, so every script is written by people who will hear it performed.",
     ],
     sections: [
@@ -1364,7 +1398,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
             items: [
               "**match the length** of the original, so it starts and ends with the actor's mouth",
               '**match key lip shapes**, especially closed-lip sounds like "p", "b" and "m" on close-ups',
-              "**keep the meaning and emotion** of the scene, and the character's way of speaking",
+              "**keep the meaning and emotion** of the scene and the character's way of speaking",
               "**sound like real Hindi**, not translated Hindi",
             ],
           },
@@ -1386,7 +1420,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
           },
           {
             t: "p",
-            text: "Subtitles are limited by reading speed and line length, so translation here means condensing without losing meaning. Our subtitlers translate and time together. See [subtitling services](/subtitling-services).",
+            text: "Subtitles for movies, TV series and web series are limited by reading speed and line length, so translation here means condensing without losing meaning. Our subtitlers translate and time together. See [subtitling services](/subtitling-services).",
           },
         ],
       },
@@ -1396,10 +1430,10 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
         blocks: [
           {
             t: "p",
-            text: "Taglines, jingles and ad scripts often rely on wordplay, rhyme or cultural references that simply do not exist in the target language. Transcreation means rewriting the idea, not the words, so the ad works as well in Hindi or Tamil as it did in English. We share options and explain the choices before recording.",
+            text: "Taglines, jingles and ad scripts often rely on wordplay rhyme or cultural references that simply do not exist in the target language. Transcreation means rewriting the idea, not the words, so the ad works as well in Hindi or Tamil as it did in English. We share options and explain the choices before recording.",
           },
         ],
-        media: "preamps",
+        media: "tr-transcreation",
       },
       {
         heading: "Languages and pairs",
@@ -1407,25 +1441,14 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
         blocks: [
           {
             t: "p",
-            text: "Our core pairs are the ones we dub every week:",
-          },
-          {
-            t: "ul",
-            items: [
-              "Telugu to Hindi",
-              "Tamil to Hindi",
-              "Malayalam to Hindi",
-              "Kannada to Hindi",
-              "English to Hindi",
-              "Telugu to Tamil (for example, the film Jack was dubbed from Telugu into Tamil and Hindi)",
-            ],
+            text: "Our core pairs are the ones we dub every week. Pick a pair to see it in the studio.",
           },
           {
             t: "p",
             text: "Every script is translated or reviewed by a native speaker of the target language.",
           },
         ],
-        media: "workstation",
+        media: "lang-pairs",
       },
       {
         heading: "How we work",
@@ -1440,7 +1463,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
               "**Adaptation.** For dubbing, the script is fitted to lip movement and timing; for subtitles, to reading speed; for voice-over, to the video's length.",
               "**Review.** A second linguist checks meaning, consistency and naturalness. Where possible, the dubbing director reads it against picture.",
               "**Approval.** You review and approve. We update the script with your notes.",
-              "**Recording or subtitling.** The approved script goes straight into production in our studio, or is delivered to you as a document.",
+              "**Recording or subtitling.** The approved script goes straight into production in our studio or is delivered to you as a document.",
             ],
           },
         ],
@@ -1455,7 +1478,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
               "Dubbing scripts with timecodes and character names",
               "Voice-over scripts, split by scene or module",
               "Subtitle files (SRT and others on request)",
-              "Word or Excel documents, or the format your team works in",
+              "Word or Excel documents or the format your team works in",
             ],
           },
         ],
@@ -1497,7 +1520,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
               "**Written to be performed.** Our scripts are tested in our own booth by our own dubbing directors.",
               "**South to Hindi experts.** Telugu, Tamil, Malayalam and Kannada to Hindi is our everyday work.",
               "**Native writers.** The target language is always the writer's mother tongue.",
-              "**One workflow.** Translation, recording, subtitling and mixing in one studio, so scripts, subtitles and dubs stay consistent.",
+              "**One workflow.** Translation recording, subtitling and mixing in one studio, so scripts, subtitles and dubs stay consistent.",
               "**Confidential.** Scripts are shared only with the team working on your project.",
             ],
           },
@@ -1527,7 +1550,11 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
       },
       {
         q: "Do you offer transcreation for ads?",
-        a: "Yes. We rewrite taglines, jingles and ad scripts so the idea works in the target language, and share options before recording.",
+        a: "Yes. We rewrite taglines, jingles and ad scripts so the idea works in the target language and share options before recording.",
+      },
+      {
+        q: "Can you adapt Hollywood scripts for Indian languages?",
+        a: "Yes. Native writers adapt English dialogue for lip-sync in Hindi and India's other top languages, keeping jokes and cultural references meaningful. See [Hollywood dubbing](/hollywood-dubbing-indian-languages).",
       },
     ],
     cta: {
@@ -1557,7 +1584,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
     languages: ["Hindi", "English"],
     leadHeading: "Music chosen for your edit",
     lead: [
-      "**The right music tells the audience how to feel before a single word is spoken.** EVA Entertainment's stock music library gives producers, agencies and video teams a curated choice of background music and sounds for ad films, corporate videos, e-learning, documentaries and online content. And because the library sits inside a working recording studio in Andheri West, Mumbai, we do more than hand over a file: we help you choose, cut the music to your edit, and mix it with your voice-over.",
+      "**The right music tells the audience how to feel before a single word is spoken.** EVA Entertainment's stock music library gives producers, agencies and video teams a curated choice of background music and sounds for ad films, corporate videos, e-learning, documentaries and online content. And because the library sits inside a working recording studio in Andheri West, Mumbai, we do more than hand over a file: we help you choose, cut the music to your edit and mix it with your voice-over.",
     ],
     sections: [
       {
@@ -1566,18 +1593,18 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
         blocks: [
           {
             t: "p",
-            text: "Big online libraries have millions of tracks. That sounds great until you spend an afternoon scrolling through them. A curated library is smaller and quicker to search, and our team helps you find the right track for your brief.",
+            text: "Big online libraries have millions of tracks. That sounds great until you spend an afternoon scrolling through them. A curated library is smaller and quicker to search and our team helps you find the right track for your brief.",
           },
           {
             t: "ul",
             items: [
-              "**Less searching.** Describe the mood, pace and length, and we shortlist tracks for you.",
+              "**Less searching.** Describe the mood, pace and length and we shortlist tracks for you.",
               "**Edited to fit.** Tracks cut to the exact length of your video, with clean endings and hits on key moments.",
               "**Mixed with your voice.** Music balanced with your voice-over or dialogue so every word is clear.",
             ],
           },
         ],
-        media: "live:genelec",
+        media: "stock-curated",
       },
       {
         heading: "What is in the library",
@@ -1631,7 +1658,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
           },
           {
             t: "p",
-            text: "Learners may listen for hours, so background music should be gentle, steady and low in the mix, or used only for intros and section breaks. We help you choose tracks that will not tire the listener.",
+            text: "Learners may listen for hours, so background music should be gentle, steady and low in the mix or used only for intros and section breaks. We help you choose tracks that will not tire the listener.",
           },
           {
             t: "h3",
@@ -1643,7 +1670,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
           },
           {
             t: "h3",
-            text: "YouTube, reels and social media",
+            text: "YouTube reels and social media",
           },
           {
             t: "p",
@@ -1684,10 +1711,10 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
         blocks: [
           {
             t: "p",
-            text: "Most videos need both music and a voice. At EVA you can record the [voice-over](/voice-over-studio), pick the music, add effects and get a final [stereo or 5.1 mix](/5-1-mixing-studio) in one visit. That saves time, and it means the music is chosen and mixed with the voice in mind, not dropped underneath it at the last minute.",
+            text: "Most videos need both music and a voice. At EVA you can record the [voice-over](/voice-over-studio), pick the music, add effects and get a final [stereo or 5.1 mix](/5-1-mixing-studio) in one visit. That saves time and it means the music is chosen and mixed with the voice in mind, not dropped underneath it at the last minute.",
           },
         ],
-        media: "singer",
+        media: "stock-voice",
       },
       {
         heading: "Choosing music for your video: quick tips",
@@ -1698,7 +1725,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
             items: [
               '**Start with the feeling, not the genre.** "Hopeful and building" is a more useful brief than "corporate".',
               "**Mind the voice.** Busy melodies fight with narration. Choose simpler tracks under long voice-overs.",
-              "**Match the pace to the edit.** Fast cuts need energy; slow, reflective footage needs space.",
+              "**Match the pace to the edit.** Fast cuts need energy; slow reflective footage needs space.",
               "**Plan the ending.** A track that ends cleanly on your last frame makes the whole video feel finished.",
               "**Check the licence before you publish,** especially for TV, cinema and paid ads.",
             ],
@@ -1713,19 +1740,19 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
       },
       {
         q: "Can you edit a track to my video's length?",
-        a: "Yes. We cut music to the exact length of your video, with clean endings, and can mix it with your voice-over or dialogue.",
+        a: "Yes. We cut music to the exact length of your video, with clean endings and can mix it with your voice-over or dialogue.",
       },
       {
         q: "Do you also offer sound effects?",
-        a: "Yes. We can supply sound effects and ambiences, and for custom effects recorded to picture, see our Foley service.",
+        a: "Yes. We can supply sound effects and ambiences and for custom effects recorded to picture, see our Foley service.",
       },
       {
         q: "Can you mix the music with my voice-over?",
-        a: "Yes. We can record your voice-over in our booth, or take your existing recording, and mix it with the music and any effects so the voice stays clear from start to finish. You receive one finished audio track, ready to lay under your video.",
+        a: "Yes. We can record your voice-over in our booth or take your existing recording and mix it with the music and any effects so the voice stays clear from start to finish. You receive one finished audio track ready to lay under your video.",
       },
       {
         q: "What should I include in a music brief?",
-        a: "The type of video, the audience, the mood you want, the length, where it will be published, and one or two reference tracks you like. The more specific the brief, the shorter and better the shortlist.",
+        a: "The type of video, the audience, the mood you want, the length, where it will be published and one or two reference tracks you like. The more specific the brief, the shorter and better the shortlist.",
       },
     ],
     cta: {
@@ -1746,4 +1773,5 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
       ],
     },
   },
+  ...MARKET_SERVICE_PAGES,
 };

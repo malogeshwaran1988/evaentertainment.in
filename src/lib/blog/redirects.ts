@@ -49,7 +49,7 @@ function lookup(): Promise<Lookup> {
 }
 
 /**
- * Where /blog/<slug> should permanently redirect, or null to serve it. Also folds case
+ * Where /blog/<slug> should permanently redirect or null to serve it. Also folds case
  * (/blog/My-Post → /blog/my-post) so links typed with capitals still land on the one URL.
  */
 export async function blogRedirectFor(slug: string): Promise<string | null> {

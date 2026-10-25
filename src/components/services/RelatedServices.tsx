@@ -1,8 +1,9 @@
-import Link from "@@/components/common/NavLink";
 import ServiceCardGrid from "@@/components/services/ServiceCardGrid";
-import { WHAT_WE_DO_HREF, type ServiceSlug } from "@@/constants/routes";
+import { SERVICE_SLUGS, type ServiceSlug } from "@@/constants/routes";
 
-export default function RelatedServices({ slugs }: { slugs: ServiceSlug[] }) {
+/** Every other service (site order), excluding the page's own service. */
+export default function RelatedServices({ current }: { current: ServiceSlug }) {
+  const slugs = SERVICE_SLUGS.filter((slug) => slug !== current);
   return (
     <section className="block block--darkbg eva-related-services" aria-labelledby="related-services-title">
       <div className="container">
@@ -11,12 +12,6 @@ export default function RelatedServices({ slugs }: { slugs: ServiceSlug[] }) {
           Related Services
         </h2>
         <ServiceCardGrid slugs={slugs} />
-        <p className="text-center eva-related-all">
-          <Link href={WHAT_WE_DO_HREF} className="all-view">
-            <span className="icon icon-sound" aria-hidden="true" />
-            View all services
-          </Link>
-        </p>
       </div>
     </section>
   );

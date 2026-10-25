@@ -22,7 +22,7 @@ function fieldValue(form: HTMLFormElement, name: string) {
 
 /**
  * Shared public-form validation (WCAG 3.3.1 / 3.3.3, Laws of UX: Postel, Doherty):
- * - validates a field when it loses focus, and re-validates as the user fixes it,
+ * - validates a field when it loses focus and re-validates as the user fixes it,
  * - never shows an error while the user is still typing a field for the first time,
  * - on submit, validates everything and moves focus to the first invalid field.
  */

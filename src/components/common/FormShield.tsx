@@ -35,7 +35,7 @@ function loadScript(): Promise<void> {
 }
 
 /**
- * Anti-spam fields for public forms: a hidden honeypot, the render timestamp, and a
+ * Anti-spam fields for public forms: a hidden honeypot, the render timestamp and a
  * Cloudflare Turnstile widget (only when NEXT_PUBLIC_TURNSTILE_SITE_KEY is set).
  */
 export function useFormShield() {

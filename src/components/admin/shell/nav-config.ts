@@ -1,10 +1,11 @@
-import { Film, Newspaper, UserRound, type LucideIcon } from "lucide-react";
+import { Building2, Film, Newspaper, UserRound, type LucideIcon } from "lucide-react";
 import { AdminRoutes } from "@@/lib/admin-session";
 
 export type AdminNavItem = { label: string; href: string; icon: LucideIcon };
 
 export const ADMIN_NAV: AdminNavItem[] = [
   { label: "Our Projects", href: AdminRoutes.PROJECTS, icon: Film },
+  { label: "Clients", href: AdminRoutes.CLIENTS, icon: Building2 },
   { label: "Blog", href: AdminRoutes.BLOG, icon: Newspaper },
   { label: "Founder", href: AdminRoutes.FOUNDER, icon: UserRound },
 ];
@@ -23,6 +24,12 @@ export function breadcrumbsFor(pathname: string): Crumb[] {
     const trail: Crumb[] = [{ label: "Blog", href: AdminRoutes.BLOG }];
     if (pathname === AdminRoutes.BLOG_NEW) trail.push({ label: "New post" });
     else if (pathname.endsWith("/edit")) trail.push({ label: "Edit post" });
+    return trail;
+  }
+  if (pathname.startsWith(AdminRoutes.CLIENTS)) {
+    const trail: Crumb[] = [{ label: "Clients", href: AdminRoutes.CLIENTS }];
+    if (pathname === AdminRoutes.CLIENTS_NEW) trail.push({ label: "Add client" });
+    else if (pathname.endsWith("/edit")) trail.push({ label: "Edit client" });
     return trail;
   }
   if (pathname.startsWith(AdminRoutes.FOUNDER)) return [{ label: "Founder" }];

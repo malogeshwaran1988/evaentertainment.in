@@ -5,6 +5,11 @@ import HomeProjects from "@@/components/home/HomeProjects";
 import ServicesGrid from "@@/components/home/ServicesGrid";
 import ProjectImpactStrip, { IMPACT_STRIP_ENABLED } from "@@/components/projects/ProjectImpactStrip";
 import ServiceCardGrid from "@@/components/services/ServiceCardGrid";
+import ServiceFaq from "@@/components/services/ServiceFaq";
+import { ServicePageCta } from "@@/components/services/ServiceLead";
+import ServiceSections from "@@/components/services/ServiceSections";
+import { plain } from "@@/components/services/RichText";
+import { HOME_CTA, HOME_FAQS, HOME_SECTIONS } from "@@/data/home-story";
 import { APP_BASE_URL, CONTACT, POSTAL_ADDRESS, SITE_NAME, SOCIAL_LINKS } from "@@/constants/constants";
 import {
   HOME_INTRO,
@@ -51,16 +56,31 @@ export default async function HomePage() {
     email: CONTACT.infoEmail,
     address: POSTAL_ADDRESS,
     sameAs: SOCIAL_LINKS.map((s) => s.href),
+    areaServed: ["India", "United States", "United Kingdom", "United Arab Emirates"].map((name) => ({ "@type": "Country", name })),
+    knowsLanguage: ["en", "hi", "bn", "mr", "te", "ta", "gu", "ur", "kn", "or", "ml"],
+  };
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: HOME_FAQS.map((f) => ({
+      "@type": "Question",
+      name: f.q,
+      acceptedAnswer: { "@type": "Answer", text: plain(f.a) },
+    })),
   };
 
   return (
     <main id="main-content" tabIndex={-1} className="page-main home-page">
       <JsonLd id="home-localbusiness-jsonld" data={orgSchema} />
+      <JsonLd id="home-faq-jsonld" data={faqSchema} />
       <HeroSlider />
       {IMPACT_STRIP_ENABLED ? (
         <ProjectImpactStrip stats={impact} className="block block--darkbg" />
       ) : null}
       <HomeProjects projects={projects} />
+      <div className="eva-svc-page eva-home-story">
+        <ServiceSections sections={HOME_SECTIONS} />
+      </div>
 
       <section
         id="what-we-do"
@@ -97,6 +117,10 @@ export default async function HomePage() {
           <ServicesGrid />
         </div>
       </section>
+      <div className="eva-svc-page eva-home-story">
+        <ServicePageCta page={HOME_CTA} />
+        <ServiceFaq faqs={HOME_FAQS} />
+      </div>
     </main>
   );
 }

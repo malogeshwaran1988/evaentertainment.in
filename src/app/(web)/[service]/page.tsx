@@ -56,6 +56,9 @@ export default async function ServicePage({ params }: PageProps<"/[service]">) {
     areaServed: [
       { "@type": "Country", name: "India" },
       { "@type": "City", name: "Mumbai" },
+      { "@type": "Country", name: "United States" },
+      { "@type": "Country", name: "United Kingdom" },
+      { "@type": "Country", name: "United Arab Emirates" },
     ],
     availableLanguage: page.languages,
     provider: {
@@ -93,7 +96,7 @@ export default async function ServicePage({ params }: PageProps<"/[service]">) {
       <ServicePosterStrip slugs={page.posterStrip} />
       <ServicePageCta page={page} />
       <ServiceFaq faqs={faqs} />
-      <RelatedServices slugs={service.related} />
+      <RelatedServices current={service.slug} />
     </main>
   );
 }

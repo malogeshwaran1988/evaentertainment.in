@@ -1,8 +1,17 @@
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import ImageEffects from "@@/components/common/ImageEffects";
+import BrandMark from "@@/components/common/BrandMark";
+import ServiceVideo from "@@/components/services/ServiceVideo";
 import LivePhoto from "@@/components/equipment/LivePhoto";
+import SubtitleOverlay from "@@/components/services/SubtitleOverlay";
 import { EQUIPMENT_ITEMS } from "@@/data/equipment";
 import { SERVICE_MEDIA } from "@@/data/service-media";
+
+// Only the voice-over page uses it: own chunk (still server-rendered) so other service pages skip its JS.
+const VoiceShowcase = dynamic(() => import("@@/components/services/VoiceShowcase"));
+// Only the Hollywood dubbing page uses it.
+const OneVoiceShowcase = dynamic(() => import("@@/components/services/OneVoiceShowcase"));
 
 /** One photo per topic, with its decorative overlay kept inside the same zoom stage. */
 export default function ServiceMedia({ media, alt }: { media: string; alt: boolean }) {
@@ -12,13 +21,6 @@ export default function ServiceMedia({ media, alt }: { media: string; alt: boole
     return (
       <figure className="eva-equipment-figure eva-svc-figure">
         <LivePhoto item={item} eager={false} alt={alt} />
-        <figcaption>
-          {item.caption}. Photo:{" "}
-          <a href={item.credit.source} target="_blank" rel="noopener noreferrer">
-            {item.credit.author}, {item.credit.license}
-            <span className="sr-only"> (opens in a new tab)</span>
-          </a>
-        </figcaption>
       </figure>
     );
   }
@@ -31,8 +33,20 @@ export default function ServiceMedia({ media, alt }: { media: string; alt: boole
         style={{ aspectRatio: `${m.fx.width} / ${m.fx.height}` }}
       >
         <div className="eva-svc-photo-stage">
-          <Image src={m.src} alt={m.alt} fill sizes="(min-width: 992px) 50vw, 100vw" loading="lazy" />
-          <ImageEffects fx={m.fx} />
+          {media === "hollywood-onevoice" ? (
+            <OneVoiceShowcase />
+          ) : m.showcase === "voices" ? (
+            <VoiceShowcase />
+          ) : m.video ? (
+            <ServiceVideo video={m.video} poster={m.src} label={m.alt} sfx={m.sfx} />
+          ) : (
+            <>
+              <Image src={m.src} alt={m.alt} fill sizes="(min-width: 992px) 55vw, 100vw" loading="lazy" fetchPriority="low" />
+              <ImageEffects fx={m.fx} />
+              <SubtitleOverlay id={media} />
+              <BrandMark />
+            </>
+          )}
         </div>
       </div>
     </figure>

@@ -20,11 +20,42 @@ export function Header({ serviceNames }: { serviceNames: Record<ServiceSlug, str
   const lastScrollY = useRef(0);
   const navRef = useRef<HTMLElement>(null);
   const toggleRef = useRef<HTMLButtonElement>(null);
+  const subRef = useRef<HTMLLIElement>(null);
+
+  /** Close every menu after a pick; blur so :focus-within can't hold the panel open. */
+  const closeAfterNav = () => {
+    setMenuOpen(false);
+    setSubOpen(false);
+    setSubDismissed(true);
+    const active = document.activeElement as HTMLElement | null;
+    if (active && navRef.current?.contains(active)) active.blur();
+  };
 
   useEffect(() => {
     setMenuOpen(false);
     setSubOpen(false);
+    // Pointer may still rest on SERVICES after a client-side navigation; keep the panel hidden until it re-enters.
+    setSubDismissed(true);
+    const active = document.activeElement as HTMLElement | null;
+    if (active && navRef.current?.contains(active)) active.blur();
   }, [pathname]);
+
+  // Desktop dropdown: close on outside click / tap and on Escape from anywhere.
+  useEffect(() => {
+    if (!subOpen) return;
+    const onDown = (e: PointerEvent) => {
+      if (!subRef.current?.contains(e.target as Node)) setSubOpen(false);
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setSubOpen(false);
+    };
+    document.addEventListener("pointerdown", onDown);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("pointerdown", onDown);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [subOpen]);
 
   useEffect(() => {
     document.body.classList.toggle("menu-open", menuOpen);
@@ -156,6 +187,7 @@ export function Header({ serviceNames }: { serviceNames: Record<ServiceSlug, str
                 item.children ? (
                   <li
                     key={item.href}
+                    ref={subRef}
                     className={[
                       "eva-nav-has-sub",
                       isActive(item) ? "active" : "",
@@ -165,11 +197,12 @@ export function Header({ serviceNames }: { serviceNames: Record<ServiceSlug, str
                       .filter(Boolean)
                       .join(" ")}
                     onMouseEnter={() => setSubDismissed(false)}
+                    onFocus={(e) => {
+                      // Fresh keyboard entry re-enables :focus-within opening.
+                      if (!e.currentTarget.contains(e.relatedTarget as Node | null)) setSubDismissed(false);
+                    }}
                     onBlur={(e) => {
-                      if (!e.currentTarget.contains(e.relatedTarget as Node | null)) {
-                        setSubOpen(false);
-                        setSubDismissed(false);
-                      }
+                      if (!e.currentTarget.contains(e.relatedTarget as Node | null)) setSubOpen(false);
                     }}
                     onKeyDown={(e) => {
                       if (e.key !== "Escape") return;
@@ -202,7 +235,11 @@ export function Header({ serviceNames }: { serviceNames: Record<ServiceSlug, str
                         const href = serviceHref(slug);
                         return (
                           <li key={slug}>
-                            <Link href={href} aria-current={pathname === href ? "page" : undefined}>
+                            <Link
+                              href={href}
+                              aria-current={pathname === href ? "page" : undefined}
+                              onClick={closeAfterNav}
+                            >
                               {serviceNames[slug]}
                             </Link>
                           </li>
@@ -214,6 +251,7 @@ export function Header({ serviceNames }: { serviceNames: Record<ServiceSlug, str
                   <li key={item.href} className={isActive(item) ? "active" : undefined}>
                     <Link
                       href={item.href}
+                      onClick={closeAfterNav}
                       aria-current={
                         pathname === item.href ? "page" : isActive(item) ? "true" : undefined
                       }
@@ -227,6 +265,7 @@ export function Header({ serviceNames }: { serviceNames: Record<ServiceSlug, str
                 <Link
                   href={Routes.CONTACT}
                   className="header-contact-cta header-contact-cta--drawer"
+                  onClick={closeAfterNav}
                   aria-current={contactCurrent}
                 >
                   Contact Us

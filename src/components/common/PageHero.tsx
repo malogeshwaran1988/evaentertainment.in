@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { preload } from "react-dom";
 import Breadcrumbs, { type Crumb } from "@@/components/common/Breadcrumbs";
 import JsonLd from "@@/components/common/JsonLd";
 import { Routes } from "@@/constants/routes";
@@ -36,6 +37,8 @@ export default function PageHero({
   backgroundSrc,
   backgroundUnoptimized,
 }: Props) {
+  // The hero block background (custom.css .block--title) is the LCP element; fetch it before CSS is parsed.
+  preload("/images/common/header-bg.avif", { as: "image", type: "image/avif", fetchPriority: "high" });
   const breadcrumbSchema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",

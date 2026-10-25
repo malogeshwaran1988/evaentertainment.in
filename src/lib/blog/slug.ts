@@ -1,7 +1,7 @@
 import anyAscii from "any-ascii";
 
 /**
- * Blog URL slugs. One function makes every slug (auto from the title, or typed by hand), and the
+ * Blog URL slugs. One function makes every slug (auto from the title or typed by hand) and the
  * same validator runs in the browser and in the server action, so the two can never disagree.
  */
 export const BLOG_SLUG_MAX = 80;
@@ -25,7 +25,7 @@ export function slugifyBlog(text: string, max = BLOG_SLUG_MAX): string {
   return (lastHyphen > max / 2 ? cut.slice(0, lastHyphen) : ascii.slice(0, max)).replace(/-+$/, "");
 }
 
-/** Returns an error message, or null when the slug is valid. */
+/** Returns an error message or null when the slug is valid. */
 export function validateBlogSlug(slug: string): string | null {
   if (!slug) return "Enter a URL slug.";
   if (slug.length > BLOG_SLUG_MAX) return `Keep the slug to ${BLOG_SLUG_MAX} characters or fewer.`;

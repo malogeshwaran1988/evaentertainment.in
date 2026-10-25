@@ -10,7 +10,12 @@ export const AdminRoutes = {
   BLOG: "/admin/blog",
   BLOG_NEW: "/admin/blog/new",
   FOUNDER: "/admin/founder",
+  CLIENTS: "/admin/clients",
+  CLIENTS_NEW: "/admin/clients/new",
 } as const;
+
+export const clientEditPath = (id: string) =>
+  `${AdminRoutes.CLIENTS}/${encodeURIComponent(id)}/edit`;
 
 export const projectEditPath = (id: string) =>
   `${AdminRoutes.PROJECTS}/${encodeURIComponent(id)}/edit`;

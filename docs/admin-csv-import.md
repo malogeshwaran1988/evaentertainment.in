@@ -3,13 +3,13 @@
 On **/admin/projects**: **Export CSV** downloads every project in this format; **Import CSV** opens the importer (Download template, Column guide, Check file → preview → Import).
 
 - Same rules as Add project (`src/lib/admin/project-validation.ts`), run on the server. Titles must be unique, also against existing projects and other rows.
-- **All-or-nothing:** the Import button stays disabled until every row is valid, and the server re-checks inside the write queue; if anything is invalid nothing is written.
+- **All-or-nothing:** the Import button stays disabled until every row is valid and the server re-checks inside the write queue; if anything is invalid nothing is written.
 - New rows are unpublished unless `published` is `true`. A `posterUrl` is fetched (SSRF-safe server fetch) and converted to AVIF in the browser, one at a time; if that fails the row is imported **unpublished without a poster** and reported.
 - Limits: 1 MB, 200 rows. One read + one write of projects.json per import (plus one write per poster).
 - UTF-8 (BOM ok), RFC 4180 quoting; rows starting with `#` are ignored. Header names are case-insensitive (`sourceLanguage`/`targetLanguages` accepted as aliases).
-- The old page-content columns (synopsis, director, cast, originalRelease, productionHouse, trailerUrl, whereToWatch, eva*, voiceCast, faqs) were removed with the form section; project SEO is generated automatically. Such stored values are ignored at read time (not deleted).
+- The old page-content columns (synopsis, director, cast originalRelease, productionHouse, trailerUrl, whereToWatch, eva*, voiceCast, faqs) were removed with the form section; project SEO is generated automatically. Such stored values are ignored at read time (not deleted).
 - Stored projects with an old category are mapped the same way when read (projects.json itself is not rewritten).
-- Round trip: an exported row re-imports to identical data (blocked only by the duplicate-title check, and by a missing `year` on older projects, which the form requires too). Test: `node scripts/test-project-csv.mjs`.
+- Round trip: an exported row re-imports to identical data (blocked only by the duplicate-title check and by a missing `year` on older projects, which the form requires too). Test: `node scripts/test-project-csv.mjs`.
 
 ## Columns (flattening for nested fields)
 

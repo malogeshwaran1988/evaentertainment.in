@@ -46,13 +46,17 @@ import {
   projectSeoTitle,
 } from "@@/lib/project-seo";
 import { cn } from "@@/lib/utils";
+import { NO_CLIENT } from "@@/data/clients";
 import PosterField, { type PickedPoster } from "./PosterField";
 import ProjectCardPreview from "./ProjectCardPreview";
+import ProjectContentFields from "./ProjectContentFields";
 
 type ProjectFormProps = {
   action: (state: ProjectFormState, formData: FormData) => Promise<ProjectFormState>;
   initial?: ProjectInput;
   submitLabel: string;
+  /** Existing clients for the optional Client select (admin Clients section). */
+  clients?: { id: string; name: string }[];
 };
 
 const STEP_LABEL: Record<PosterBusyStep, string> = {
@@ -85,7 +89,10 @@ function FieldError({ id, message }: { id: string; message?: string }) {
   );
 }
 
-export default function ProjectForm({ action, initial, submitLabel }: ProjectFormProps) {
+export default function ProjectForm({ action, initial, submitLabel, clients = [] }: ProjectFormProps) {
+  const [clientId, setClientId] = useState(
+    initial?.clientId && clients.some((c) => c.id === initial.clientId) ? initial.clientId : NO_CLIENT,
+  );
   const router = useRouter();
   const [state, formAction, pending] = useActionState(action, {});
   const [title, setTitle] = useState(initial?.title ?? "");
@@ -501,6 +508,27 @@ export default function ProjectForm({ action, initial, submitLabel }: ProjectFor
           </div>
         </div>
 
+        <div className="space-y-2">
+          <Label htmlFor="clientId">Client (optional)</Label>
+          <Select name="clientId" value={clientId} onValueChange={setClientId}>
+            <SelectTrigger id="clientId" aria-describedby="clientId-hint" className="w-full sm:max-w-sm">
+              <SelectValue placeholder="No client" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value={NO_CLIENT}>No client</SelectItem>
+              {clients.map((c) => (
+                <SelectItem key={c.id} value={c.id}>
+                  {c.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <p id="clientId-hint" className="text-sm text-muted-foreground">
+            The client&apos;s logo and name show on this project&apos;s page. Not listed yet? Leave it
+            empty then add the client under Clients and pick it here later.
+          </p>
+        </div>
+
         <fieldset
           className="space-y-3"
           aria-describedby={errors.to ? "to-error" : "to-hint"}
@@ -560,6 +588,7 @@ export default function ProjectForm({ action, initial, submitLabel }: ProjectFor
           <FieldError id="services-error" message={errors.services} />
         </fieldset>
 
+        <ProjectContentFields initial={initial} errors={errors} description={description} />
 
         <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
           <Button variant="outline" asChild disabled={overlayBusy}>

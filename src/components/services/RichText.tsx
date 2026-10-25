@@ -14,11 +14,11 @@ export function inline(text: string): ReactNode[] {
     if (link) {
       const [, label, href] = link;
       return href.startsWith("/") ? (
-        <Link key={i} href={href}>
+        <Link key={i} href={href} className="eva-copy-link">
           {label}
         </Link>
       ) : (
-        <a key={i} href={href}>
+        <a key={i} href={href} className="eva-copy-link">
           {label}
         </a>
       );

@@ -1,0 +1,468 @@
+"use client";
+
+import { useEffect, useId, useRef, useState, type RefObject } from "react";
+import { claimAudio, otherHasAudio, registerAudio, releaseAudio, SOUND_BTN_SELECTOR } from "@@/lib/audio-focus";
+import type { ServiceSfx, ServiceVideo as Video } from "@@/data/service-media";
+import BrandMark from "@@/components/common/BrandMark";
+import FullscreenStage, { FsControls } from "@@/components/common/FullscreenStage";
+import s from "./ServiceVideo.module.scss";
+
+/** Pick the first audio source the browser can play (Opus webm, then AAC m4a). */
+export function pickAudio(webm: string, m4a: string): string {
+  const probe = document.createElement("audio");
+  return probe.canPlayType('audio/webm; codecs="opus"') ? webm : m4a;
+}
+
+export function SoundIcon({ on }: { on: boolean }) {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor" />
+      {on ? (
+        <path d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" />
+      ) : (
+        <path d="M16 9l5 6M21 9l-5 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+      )}
+    </svg>
+  );
+}
+
+/** Track play/pause of a clip; `held` is set when the visitor paused it (scrolling back does not resume). */
+function usePlayback(ref: RefObject<HTMLVideoElement | null>) {
+  const [paused, setPaused] = useState(true);
+  const held = useRef(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const on = () => setPaused(el.paused);
+    el.addEventListener("play", on);
+    el.addEventListener("pause", on);
+    return () => { el.removeEventListener("play", on); el.removeEventListener("pause", on); };
+  }, [ref]);
+  const toggle = (ensureLoad: () => void) => {
+    const el = ref.current;
+    if (!el) return;
+    if (el.paused) {
+      held.current = false;
+      ensureLoad();
+      void el.play().catch(() => undefined);
+    } else {
+      held.current = true;
+      el.pause();
+    }
+  };
+  return { paused, held, toggle };
+}
+
+/** Full-screen panel controls for a plain clip: play/pause plus a short description. */
+function PanelExtras({ paused, onToggle, label, cue }: { paused: boolean; onToggle: () => void; label: string; cue?: string }) {
+  return (
+    <FsControls only>
+      <button type="button" className="eva-media-sound" aria-pressed={!paused} onClick={onToggle}>
+        <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          {paused ? <path d="M8 5v14l11-7z" fill="currentColor" /> : <path d="M6 5h4v14H6zM14 5h4v14h-4z" fill="currentColor" />}
+        </svg>
+        <span>{paused ? "Play" : "Pause"}</span>
+        <span className="sr-only"> video</span>
+      </button>
+      {cue !== undefined ? (
+        <p className={s.panelCue} aria-live="polite">
+          <span>Now playing</span> {cue || "…"}
+        </p>
+      ) : null}
+      <p className={s.panelText}>{label}</p>
+    </FsControls>
+  );
+}
+
+/**
+ * Muted looping clip: loads near the viewport, pauses off screen, poster only under reduced motion.
+ * With `sfx`, a 44px sound toggle (muted by default) plays an effect kept in sync with the video time.
+ * The audio file is fetched only after the visitor turns sound on.
+ * With `video.audio`, the same toggle unmutes the clip's own soundtrack instead.
+ */
+function LoopVideo({ video, poster, label, sfx }: { video: Video; poster: string; label: string; sfx?: ServiceSfx }) {
+  const ref = useRef<HTMLVideoElement>(null);
+  const audio = useRef<HTMLAudioElement | null>(null);
+  const visible = useRef(false);
+  const [load, setLoad] = useState(false);
+  const [sound, setSound] = useState(false);
+  const reducedRef = useRef(false);
+  const focusId = `clip-${useId()}`;
+  const pb = usePlayback(ref);
+
+  // One sound at a time: when another clip takes sound, this one goes back to muted.
+  useEffect(
+    () =>
+      registerAudio(focusId, () => {
+        if (ref.current) ref.current.muted = true;
+        audio.current?.pause();
+        setSound(false);
+      }),
+    [focusId],
+  );
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const rm = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (rm) {
+      reducedRef.current = true;
+      return;
+    }
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        visible.current = entry.isIntersecting;
+        if (entry.isIntersecting) {
+          setLoad(true);
+          if (!pb.held.current) el.play().catch(() => {});
+        } else {
+          el.pause();
+          audio.current?.pause();
+        }
+      },
+      { rootMargin: "200px 0px" },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- pb.held is a stable ref
+  }, []);
+
+  useEffect(() => {
+    if (load && !pb.held.current) ref.current?.play().catch(() => {});
+  }, [load, pb.held]);
+
+  // Keep the effect locked to the picture: follow video play/pause and correct drift (also on each loop).
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || !sfx) return;
+    const sync = () => {
+      const a = audio.current;
+      if (!a || !sound) return;
+      if (Math.abs(a.currentTime - el.currentTime) > 0.12) a.currentTime = el.currentTime;
+      if (el.paused) a.pause();
+      else if (a.paused) a.play().catch(() => {});
+    };
+    const pause = () => audio.current?.pause();
+    el.addEventListener("timeupdate", sync);
+    el.addEventListener("play", sync);
+    el.addEventListener("seeked", sync);
+    el.addEventListener("pause", pause);
+    return () => {
+      el.removeEventListener("timeupdate", sync);
+      el.removeEventListener("play", sync);
+      el.removeEventListener("seeked", sync);
+      el.removeEventListener("pause", pause);
+    };
+  }, [sfx, sound]);
+
+  useEffect(() => () => audio.current?.pause(), []);
+
+  const own = video.audio;
+  const toggle = () => {
+    const el = ref.current;
+    if (!el) return;
+    if (own) {
+      const next = !sound;
+      setSound(next);
+      if (next) claimAudio(focusId);
+      else releaseAudio(focusId);
+      el.muted = !next;
+      if (next) {
+        if (!load) setLoad(true);
+        if (reducedRef.current || visible.current) el.play().catch(() => {});
+      }
+      return;
+    }
+    if (!sfx) return;
+    const next = !sound;
+    setSound(next);
+    if (!next) {
+      audio.current?.pause();
+      releaseAudio(focusId);
+      return;
+    }
+    claimAudio(focusId);
+    if (!audio.current) {
+      audio.current = new Audio(pickAudio(sfx.webm, sfx.m4a));
+      audio.current.loop = true;
+    }
+    const a = audio.current;
+    if (reducedRef.current) {
+      // Reduced motion: no autoplaying picture, so the effect plays once on its own.
+      a.loop = false;
+      a.currentTime = 0;
+      a.play().catch(() => {});
+      return;
+    }
+    if (!load) setLoad(true);
+    a.currentTime = el.currentTime;
+    if (visible.current) {
+      el.play().catch(() => {});
+      a.play().catch(() => {});
+    }
+  };
+
+  return (
+    <>
+      <video
+        ref={ref}
+        className="eva-svc-video"
+        poster={poster}
+        muted
+        loop
+        playsInline
+        preload="none"
+        aria-label={label}
+        disablePictureInPicture
+        data-audio-focus={focusId}
+      >
+        {load && (
+          <>
+            <source src={video.webm} type="video/webm" />
+            <source src={video.mp4} type="video/mp4" />
+          </>
+        )}
+      </video>
+      {(sfx || own) && (
+        <FsControls>
+          <button
+            type="button"
+            className="eva-media-sound"
+            data-audio-btn=""
+            aria-pressed={sound}
+            onClick={toggle}
+          >
+            <SoundIcon on={sound} />
+            <span>Sound</span>
+            <span className="sr-only">: {own ? `turn sound on/off, ${own}` : sfx?.label}</span>
+          </button>
+        </FsControls>
+      )}
+      <PanelExtras paused={pb.paused} onToggle={() => pb.toggle(() => setLoad(true))} label={label} />
+    </>
+  );
+}
+
+type Sound = "on" | "off" | "blocked";
+
+/**
+ * Clip with its own soundtrack that starts with sound when it comes into view (`video.autoSound`).
+ * Browsers often block unmuted autoplay until a tap; then the clip plays muted and the sound button
+ * pulses "Tap for sound" (the first tap anywhere on the page also turns it on).
+ * Turning sound off is remembered for the session. Reduced motion: poster plus a play button.
+ */
+function AutoSoundVideo({ video, poster, label }: { video: Video; poster: string; label: string }) {
+  const ref = useRef<HTMLVideoElement>(null);
+  const [load, setLoad] = useState(false);
+  const [sound, setSound] = useState<Sound>("off");
+  const [reduced, setReduced] = useState(false);
+  const [started, setStarted] = useState(false);
+  const wantSound = useRef(true);
+  const inView = useRef(false);
+  const focusId = `auto-${useId()}`;
+  const [cue, setCue] = useState("");
+  const pb = usePlayback(ref);
+
+  // Crisp HTML label for the current part of the clip (e.g. before / after).
+  useEffect(() => {
+    const el = ref.current;
+    const cues = video.cues;
+    if (!el || !cues?.length) return;
+    const tick = () => {
+      const now = cues.find((c) => el.currentTime >= c.from && el.currentTime < c.to);
+      setCue(now ? now.text : "");
+    };
+    tick();
+    el.addEventListener("timeupdate", tick);
+    el.addEventListener("seeked", tick);
+    return () => {
+      el.removeEventListener("timeupdate", tick);
+      el.removeEventListener("seeked", tick);
+    };
+  }, [video.cues]);
+
+  // Another clip took sound: mute, show off, and never take sound back by itself.
+  useEffect(
+    () =>
+      registerAudio(focusId, () => {
+        wantSound.current = false;
+        if (ref.current) ref.current.muted = true;
+        setSound("off");
+      }),
+    [focusId],
+  );
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    try {
+      if (sessionStorage.getItem("eva-video-sound") === "off") wantSound.current = false;
+    } catch { /* storage blocked */ }
+    const rm = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (rm) {
+      queueMicrotask(() => setReduced(true));
+      return;
+    }
+    const start = () => {
+      if (pb.held.current) return;
+      if (otherHasAudio(focusId)) wantSound.current = false;
+      if (!wantSound.current) {
+        el.muted = true;
+        void el.play().catch(() => undefined);
+        setSound("off");
+        return;
+      }
+      el.muted = false;
+      el.play().then(
+        () => setSound("on"),
+        () => {
+          el.muted = true;
+          setSound("blocked");
+          void el.play().catch(() => undefined);
+        },
+      );
+    };
+    const near = new IntersectionObserver(([e]) => { if (e.isIntersecting) setLoad(true); }, { threshold: 0.01 });
+    const seen = new IntersectionObserver(
+      ([e]) => {
+        inView.current = e.isIntersecting;
+        if (e.isIntersecting) start();
+        else el.pause();
+      },
+      { threshold: 0.5 },
+    );
+    near.observe(el);
+    seen.observe(el);
+    return () => { near.disconnect(); seen.disconnect(); };
+  }, []);
+
+  // While blocked, the visitor's first tap or key press anywhere unlocks sound.
+  useEffect(() => {
+    if (sound !== "blocked") return;
+    const unlock = (ev: Event) => {
+      const el = ref.current;
+      if (!el || (ev.target as Element | null)?.closest?.(SOUND_BTN_SELECTOR) || otherHasAudio(focusId) || !wantSound.current) return;
+      el.muted = false;
+      el.play().then(() => setSound("on"), () => { el.muted = true; });
+    };
+    window.addEventListener("pointerdown", unlock, { once: true });
+    window.addEventListener("keydown", unlock, { once: true });
+    return () => {
+      window.removeEventListener("pointerdown", unlock);
+      window.removeEventListener("keydown", unlock);
+    };
+  }, [sound]);
+
+  const remember = (on: boolean) => {
+    wantSound.current = on;
+    try { sessionStorage.setItem("eva-video-sound", on ? "on" : "off"); } catch { /* storage blocked */ }
+  };
+
+  const toggle = () => {
+    const el = ref.current;
+    if (!el) return;
+    if (sound === "on") {
+      el.muted = true;
+      setSound("off");
+      remember(false);
+      return;
+    }
+    remember(true);
+    claimAudio(focusId);
+    el.muted = false;
+    if (!load) setLoad(true);
+    setSound("on");
+    if (inView.current || reduced) void el.play().catch(() => undefined);
+  };
+
+  const playReduced = () => {
+    const el = ref.current;
+    if (!el) return;
+    setLoad(true);
+    setStarted(true);
+    if (otherHasAudio(focusId)) wantSound.current = false;
+    if (wantSound.current) claimAudio(focusId);
+    el.muted = !wantSound.current;
+    setSound(wantSound.current ? "on" : "off");
+    requestAnimationFrame(() => void el.play().catch(() => undefined));
+  };
+
+  const text = sound === "on" ? "Sound on" : sound === "blocked" ? "Tap for sound" : "Sound off";
+
+  return (
+    <>
+      <video
+        ref={ref}
+        className="eva-svc-video"
+        poster={poster}
+        muted
+        loop
+        playsInline
+        preload="none"
+        aria-label={label}
+        disablePictureInPicture
+        controls={reduced && started}
+        data-audio-focus={focusId}
+      >
+        {load && (
+          <>
+            <source src={video.webm} type="video/webm" />
+            <source src={video.mp4} type="video/mp4" />
+          </>
+        )}
+      </video>
+      {cue ? (
+        <span className={s.cue} aria-hidden="true">
+          {cue}
+        </span>
+      ) : null}
+      {reduced && !started ? (
+        <button type="button" className={s.play} onClick={playReduced}>
+          <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 5v14l11-7z" fill="currentColor" /></svg>
+          Play video<span className="sr-only"> with {video.audio ?? "sound"}</span>
+        </button>
+      ) : (
+        <FsControls>
+          <button
+            type="button"
+            data-eva-sound=""
+            data-audio-btn=""
+            className={`eva-media-sound ${sound === "blocked" ? s.pulse : ""}`}
+            aria-pressed={sound === "on"}
+            onClick={toggle}
+          >
+            <SoundIcon on={sound === "on"} />
+            <span>{text}</span>
+            <span className="sr-only">: {video.audio ?? "clip sound"}</span>
+          </button>
+        </FsControls>
+      )}
+      <PanelExtras
+        paused={pb.paused}
+        onToggle={() => { setStarted(true); pb.toggle(() => setLoad(true)); }}
+        label={label}
+        cue={video.cues?.length ? cue : undefined}
+      />
+    </>
+  );
+}
+
+/** Short panel title from the clip's alt text: its first clause, at most about 60 characters. */
+function shortTitle(alt: string) {
+  const first = alt.split(/[:;]|\. |, (?=[a-z])/)[0].trim();
+  return first.length > 64 ? `${first.slice(0, 60).replace(/\s+\S*$/, "")}…` : first || "Video";
+}
+
+/**
+ * Muted looping clip (optionally with a synced effect or its own soundtrack behind a toggle),
+ * or, with `video.autoSound`, a clip that starts with sound when in view.
+ */
+export default function ServiceVideo(props: { video: Video; poster: string; label: string; sfx?: ServiceSfx; fsTitle?: string }) {
+  return (
+    <FullscreenStage label={props.fsTitle ?? shortTitle(props.label)} fill>
+      {props.video.autoSound ? <AutoSoundVideo {...props} /> : <LoopVideo {...props} />}
+      {/* Brand standard: overlay unless the logo is already burned into the footage. */}
+      {props.video.burnedInBrand ? null : <BrandMark />}
+    </FullscreenStage>
+  );
+}

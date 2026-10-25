@@ -1,11 +1,10 @@
 {
-  "/": "2026-10-18",
-  "/our-projects": "2026-10-18",
-  "/about-us": "2026-10-11",
-  "/studio-equipment": "2026-10-11",
-  "/contact-us": "2026-10-11",
-  "/book-studio-session": "2026-10-11",
-  "/privacy-policy": "2026-10-17",
-  "/terms-conditions": "2026-10-11",
-  "service:*": "2026-10-11"
+  "/": "2026-10-25",
+  "/our-projects": "2026-10-19",
+  "/about-us": "2026-10-25",
+  "/studio-equipment": "2026-10-24",
+  "/contact-us": "2026-10-24",
+  "/privacy-policy": "2026-10-18",
+  "/terms-conditions": "2026-10-18",
+  "service:*": "2026-10-25"
 }

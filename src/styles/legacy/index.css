@@ -1,0 +1,6 @@
+/* Legacy Glory chrome CSS, bundled by Next (was five render-blocking <link>s in WebHead). Order matters. */
+@import "./bootstrap.min.css";
+@import "./slick.css";
+@import "./recording-icons.css";
+@import "./custom.css";
+@import "./site-style.css";

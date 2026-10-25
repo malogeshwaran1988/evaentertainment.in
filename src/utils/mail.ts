@@ -23,6 +23,8 @@ type MailInput = {
   to?: string;
   fromName?: string;
   headers?: Record<string, string>;
+  /** Extra file attachments (in-memory buffers only; file/URL access stays disabled). */
+  attachments?: Mail.Attachment[];
 };
 
 /** Builds the nodemailer message (exported so tests can render it with jsonTransport). */
@@ -51,17 +53,20 @@ export function buildMailOptions(options: MailInput): Mail.Options {
     html: options.html,
     headers: options.headers,
     // Inline logo: referenced as cid:eva-logo by every template; only attached when used.
-    attachments: options.html?.includes(`cid:${EMAIL_LOGO_CID}`)
+    attachments: [
+      ...(options.html?.includes(`cid:${EMAIL_LOGO_CID}`)
       ? [
           {
             filename: "eva-logo.png",
             content: Buffer.from(EMAIL_LOGO_PNG_BASE64, "base64"),
             contentType: "image/png",
             cid: EMAIL_LOGO_CID,
-            contentDisposition: "inline",
+            contentDisposition: "inline" as const,
           },
         ]
-      : undefined,
+      : []),
+      ...(options.attachments ?? []),
+    ],
   };
 }
 
@@ -99,14 +104,14 @@ export async function sendMail(options: MailInput) {
   // MAIL_MOCK=1 ALWAYS wins, even when SMTP_* is configured: nothing leaves the machine.
   const mock = process.env.MAIL_MOCK === "1";
   if (mock || !host || !user || !pass) {
-    // Mock, or local/dev without SMTP: accept and log. Production must set SMTP_*.
+    // Mock or local/dev without SMTP: accept and log. Production must set SMTP_*.
     if (mock || process.env.NODE_ENV !== "production") {
       console.info("[mail:mock]", options.to ?? "(internal)", options.subject);
       await writeMailPreview(options);
       return { ok: true as const, mocked: true as const };
     }
     throw new Error(
-      "Mail is not configured. Set SMTP_HOST, SMTP_USER, SMTP_PASS, and CONTACT_TO.",
+      "Mail is not configured. Set SMTP_HOST, SMTP_USER, SMTP_PASS and CONTACT_TO.",
     );
   }
 

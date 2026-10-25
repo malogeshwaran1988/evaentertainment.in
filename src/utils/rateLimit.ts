@@ -2,8 +2,8 @@ import { Redis } from "@upstash/redis";
 
 /**
  * Fixed-window rate limiter shared across Vercel instances when Upstash Redis is configured
- * (UPSTASH_REDIS_REST_URL + UPSTASH_REDIS_REST_TOKEN, or the KV_REST_API_* names Vercel sets).
- * Falls back to a per-instance in-memory Map (local dev, or if Redis is unreachable).
+ * (UPSTASH_REDIS_REST_URL + UPSTASH_REDIS_REST_TOKEN or the KV_REST_API_* names Vercel sets).
+ * Falls back to a per-instance in-memory Map (local dev or if Redis is unreachable).
  */
 type RateBucket = { count: number; resetAt: number };
 export type RateResult = { ok: true } | { ok: false; retryAfterSec: number };

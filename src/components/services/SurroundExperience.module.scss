@@ -1,0 +1,134 @@
+$green: #70b615;
+
+/* Full-width section, no scroll pinning: the clip keeps its 16:9 frame up to the viewport height. */
+.wrap {
+  position: relative;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  background: #0b0b0b;
+  color: #fff;
+  font-family: Raleway, sans-serif;
+  overflow: hidden;
+  contain: paint;
+}
+
+.scene { position: relative; width: 100%; aspect-ratio: var(--ar); max-height: 100svh; margin: 0 auto; }
+.still, .video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+.video { background: transparent; }
+.wrap[data-still="true"] .video { visibility: hidden; }
+.scene::after { content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(to bottom, rgba(0,0,0,.3) 0%, rgba(0,0,0,0) 28%, rgba(0,0,0,0) 62%, rgba(0,0,0,.45) 100%); }
+
+.bigPlay {
+  position: absolute; z-index: 3; left: 50%; top: 50%; translate: -50% -50%;
+  display: inline-flex; align-items: center; gap: 10px; min-height: 56px; padding: 12px 24px; cursor: pointer;
+  font: 700 16px Raleway, sans-serif; color: #111; background: $green; border: 0; border-radius: 999px;
+  &:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+}
+
+.head { position: absolute; z-index: 2; top: 64px; right: 3vw; width: min(400px, 32vw); padding: 16px 18px; background: rgba(8,8,8,.78); border-radius: 12px; text-align: left; text-shadow: 0 1px 6px #000;
+  :global(.eva-svc-title) { margin: 0; color: #fff; } }
+.sub { margin: 6px 0 0; color: #e8e8e8; font-size: 15px; }
+.controls { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+.sound, .skip {
+  min-height: 44px; min-width: 44px; display: inline-flex; align-items: center; gap: 8px; cursor: pointer;
+  font: 700 14px Raleway, sans-serif; color: #fff; background: rgba(0,0,0,.55); border: 1px solid rgba(255,255,255,.55);
+  border-radius: 999px; padding: 8px 16px; transition: border-color .2s, color .2s;
+  &:hover, &:focus-visible { border-color: $green; color: #b6ff52; }
+  &:focus-visible { outline: 2px solid #b6ff52; outline-offset: 2px; }
+}
+.sound[aria-pressed="true"] { background: $green; border-color: $green; color: #111;
+  &:hover, &:focus-visible { color: #111; } }
+.pulse { background: $green; border-color: $green; color: #111; animation: pulse 1.6s ease-out infinite;
+  &:hover, &:focus-visible { color: #111; } }
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(112,182,21,.75); }
+  100% { box-shadow: 0 0 0 16px rgba(112,182,21,0); }
+}
+.hint { margin: 6px 0 0; font-size: 12px; color: #d8d8d8; }
+
+.meters {
+  display: flex; gap: 10px; position: absolute; left: 3vw; bottom: 72px; z-index: 2;
+  background: rgba(0,0,0,.5); padding: 10px 12px; border-radius: 12px; border: 1px solid rgba(255,255,255,.12);
+}
+.meter { display: flex; flex-direction: column; align-items: center; gap: 5px; b { font-size: 12px; font-weight: 700; } }
+.track { width: 12px; height: 64px; background: rgba(255,255,255,.12); border-radius: 3px; overflow: hidden; display: flex; align-items: flex-end; }
+.bar { width: 100%; height: 100%; transform-origin: bottom; transform: scaleY(0); border-radius: 3px;
+  background: linear-gradient(to top, $green 0%, #b6ff52 80%, #ffd23f 100%); }
+
+.caps { list-style: none; margin: 0; padding: 0; position: absolute; right: 3vw; bottom: 72px; width: min(360px, 32vw); min-height: 110px; z-index: 2; }
+.cap {
+  position: absolute; inset: auto 0 0 0; padding: 14px 16px; border-left: 3px solid $green;
+  background: rgba(0,0,0,.6); border-radius: 0 12px 12px 0;
+  opacity: 0; transform: translateY(12px); transition: opacity .35s, transform .35s;
+  h3 { margin: 0 0 4px; font-size: 17px; font-weight: 800; color: #fff; }
+  p { margin: 0; color: #e0e0e0; font-size: 14px; line-height: 1.5; }
+}
+@for $i from 0 through 3 {
+  .wrap[data-stage="#{$i}"] .cap[data-i="#{$i}"] { opacity: 1; transform: none; }
+}
+.foot { position: absolute; z-index: 2; left: 3vw; right: 3vw; bottom: 18px; margin: 0; font-size: 14px; color: #e8e8e8; text-shadow: 0 1px 6px #000; }
+.link { /* colours come from shared .link-on-dark */ }
+.credit { margin: 0; padding: 6px; text-align: center; font-size: 11px; color: #bbb;
+}
+
+/* Speaker sound rings. The layer copies the video's object-fit: cover box so % positions stay on the cones. */
+.scene { container-type: size; }
+.spkLayer { position: absolute; left: 50%; top: 50%; width: max(100cqw, 100cqh * 16 / 9); aspect-ratio: 16 / 9; transform: translate(-50%, -50%); pointer-events: none; z-index: 1; }
+.spk {
+  --lvl: 0; --sz: 3.6;
+  position: absolute; width: calc(var(--sz) * 1%); aspect-ratio: 1; transform: translate(-50%, -50%);
+  opacity: calc(0.25 + var(--lvl) * 0.75); transition: opacity .25s linear;
+  i { position: absolute; inset: 0; border-radius: 50%; border: 2px solid #b6ff52; opacity: 0; transform: scale(.7); will-change: transform, opacity;
+      animation: ring 1.5s cubic-bezier(.2,.6,.35,1) infinite paused; }
+  i:nth-child(2) { animation-delay: .5s; }
+  i:nth-child(3) { animation-delay: 1s; }
+  b { position: absolute; left: 50%; top: 100%; transform: translate(-50%, 4px); padding: 1px 6px; border-radius: 8px; font-size: 11px; font-weight: 700; line-height: 1.4; color: #fff; background: rgba(0,0,0,.6); opacity: 0; transition: opacity .3s; white-space: nowrap; }
+  &[data-top] b { opacity: .9; }
+}
+.spk[data-ch="LFE"] i { animation-duration: 2.1s; border-color: #ffd23f; }
+.spk[data-ch="LFE"] i:nth-child(2) { animation-delay: .7s; }
+.spk[data-ch="LFE"] i:nth-child(3) { animation-delay: 1.4s; }
+.wrap[data-playing] .spk i { animation-play-state: running; }
+@keyframes ring {
+  0% { opacity: .5; transform: scale(.7); }
+  100% { opacity: 0; transform: scale(2.3); }
+}
+.wrap:not([data-playing]) .spk { opacity: 0; }
+.wrap[data-still="true"] .spk[data-top] { opacity: 1; }
+.wrap[data-still="true"] .spk[data-top] i:first-child { opacity: .45; transform: scale(1.3); }
+@media (max-width: 767px) { .spk b { font-size: 9px; padding: 0 4px; } .spk i { border-width: 1.5px; } }
+@media (prefers-reduced-motion: reduce) {
+  .spk i { animation: none !important; }
+  .spk[data-top] i:first-child { opacity: .45; transform: scale(1.3); }
+}
+
+@media (max-width: 767px) {
+  /* Phones: the clip sits in flow at full 16:9, controls and captions stack below it. */
+  .wrap { display: flex; flex-direction: column; padding-bottom: 20px; }
+  .scene::after { display: none; }
+  .head, .meters, .caps, .foot { position: static; translate: none; width: auto; }
+  .head { order: -1; padding: 48px 12px 14px; background: none; border-radius: 0; text-align: center; }
+  .sub { font-size: 13px; }
+  .controls { justify-content: center; }
+  .meters { align-self: center; margin: 12px 0 0; gap: 8px; padding: 8px 10px; }
+  .caps { margin: 12px 12px 0; min-height: 0; display: grid; }
+  .cap { position: static; grid-area: 1 / 1; }
+  .foot { margin: 12px 12px 0; font-size: 13px; text-align: center; }
+  .sound, .skip { font-size: 13px; padding: 8px 12px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cap { transition: none; }
+  .pulse { animation: none; outline: 2px solid #fff; outline-offset: 2px; }
+}
+
+/* Full-screen mode (FullscreenStage): scene fills the letterboxed frame, controls live in the panel. */
+.fs[data-fs] .scene { width: 100%; height: 100%; max-height: none; aspect-ratio: auto; }
+.fsControls { display: flex; flex-wrap: wrap; gap: 10px; }
+.fsStages {
+  list-style: none; margin: 0; padding: 0; display: grid; gap: 8px;
+  li { padding: 10px 12px; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.16); color: #d0d0d0; font-size: 14px; line-height: 1.45; }
+  li[aria-current] { border-color: #b6ff52; background: rgba(112, 182, 21, 0.14); color: #fff; }
+  b { display: block; color: #fff; font-size: 15px; }
+}

@@ -1,6 +1,6 @@
 /**
  * Small RFC 4180 CSV reader/writer for the admin project import (no dependency).
- * Handles a UTF-8 BOM, quoted fields with commas, doubled quotes and line breaks, and CRLF/LF/CR.
+ * Handles a UTF-8 BOM, quoted fields with commas, doubled quotes and line breaks and CRLF/LF/CR.
  */
 
 export class CsvError extends Error {}

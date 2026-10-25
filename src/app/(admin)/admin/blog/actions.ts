@@ -216,7 +216,7 @@ export async function updateBlogPostAction(
   if (!existing) return { message: "This post no longer exists." };
 
   // Once a post has been public its URL is locked: the slug only changes when the editor
-  // explicitly unlocked it ("Change URL"), and the old URL then 301-redirects.
+  // explicitly unlocked it ("Change URL") and the old URL then 301-redirects.
   let slugResult: { slug?: string; error?: string };
   if (existing.firstPublishedAt && formData.get("slugEdit") !== "on") {
     slugResult = { slug: existing.slug };
@@ -262,7 +262,7 @@ export async function updateBlogPostAction(
       ok: true,
       message: movedFrom
         ? `Saved. The URL is now ${blogHref(post.slug)}${
-            post.firstPublishedAt ? `, and ${blogHref(movedFrom)} redirects to it` : ""
+            post.firstPublishedAt ? ` and ${blogHref(movedFrom)} redirects to it` : ""
           }.`
         : `“${post.title}” saved.`,
       saved: { id: post.id, slug: post.slug, status: post.status, movedFrom },

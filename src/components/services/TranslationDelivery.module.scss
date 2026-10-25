@@ -1,0 +1,124 @@
+// Same cover-crop maths as .eva-fx-stage so every item stays on the spot it was measured on.
+$cycle: 12s; // 3 scenes x 4s
+
+.stage {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 1;
+  width: max(100cqw, 100cqh * 1.3333);
+  aspect-ratio: 4 / 3;
+  translate: -50% -50%;
+  container-type: inline-size;
+  pointer-events: none;
+  // Same slow Ken Burns as the photo and .eva-fx-stage, so the screen patches stay locked to the TV.
+  animation: lead-zoom 16s ease-in-out infinite alternate;
+  will-change: transform;
+
+  :global(.eva-fx-lazy:not([data-inview])) & {
+    animation-play-state: paused;
+  }
+}
+
+@keyframes lead-zoom {
+  from { transform: scale(1); }
+  to { transform: scale(1.08); }
+}
+
+// Screen patch: source box x 820-1410, y 122-486 of the 1440x1080 image (wall TV plus a sliver
+// of wall, foreground monitor kept intact), so it lands exactly on the TV at every width.
+.screen {
+  position: absolute;
+  top: 11.2963%;
+  left: 56.9444%;
+  width: 40.9722%;
+  height: 33.7037%;
+  max-width: none;
+  opacity: 0;
+  animation: slot $cycle ease-in-out infinite backwards;
+  animation-delay: calc(var(--i) * #{$cycle} / 3);
+}
+
+// Subtitle band of the wall TV (picture spans x 57.6-97.4%, picture bottom ~44%).
+.subtitle {
+  position: absolute;
+  top: 37.6%;
+  left: 77.5%;
+  translate: -50% 0;
+  padding: 0.2cqw 0.7cqw;
+  border-radius: 0.2cqw;
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  font-size: 1.6cqw;
+  font-weight: 600;
+  line-height: 1.35;
+  white-space: nowrap;
+  opacity: 0;
+  animation: slot $cycle ease-in-out infinite backwards;
+  animation-delay: calc(var(--i) * #{$cycle} / 3);
+}
+
+.chips {
+  position: absolute;
+  right: 3%;
+  bottom: 4%;
+  display: flex;
+  gap: 0.8cqw;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    padding: 0.5cqw 1.2cqw;
+    border-radius: 2cqw;
+    background: rgba(17, 17, 17, 0.82);
+    border: 1px solid rgba(140, 200, 60, 0.4);
+    color: #fff;
+    font-size: 1.7cqw;
+    font-weight: 600;
+    animation: chip $cycle ease-in-out infinite backwards;
+    animation-delay: calc(var(--i) * #{$cycle} / 3);
+  }
+}
+
+// Visible for the first third of the cycle, with soft crossfades.
+@keyframes slot {
+  0% { opacity: 0; }
+  4%,
+  30% { opacity: 1; }
+  34%,
+  100% { opacity: 0; }
+}
+
+@keyframes chip {
+  0%,
+  34%,
+  100% {
+    border-color: rgba(140, 200, 60, 0.4);
+    background: rgba(17, 17, 17, 0.82);
+  }
+
+  4%,
+  30% {
+    border-color: rgba(140, 200, 60, 1);
+    background: rgba(84, 140, 24, 0.95);
+  }
+}
+
+// Static first scene: Hindi movie with its subtitle and the Movies chip lit.
+@media (prefers-reduced-motion: reduce) {
+  .stage,
+  .screen,
+  .subtitle,
+  .chips li {
+    animation: none;
+  }
+
+  .screen { display: none; }
+  .subtitle:first-of-type { opacity: 1; }
+
+  .chips li:first-child {
+    border-color: rgba(140, 200, 60, 1);
+    background: rgba(84, 140, 24, 0.95);
+  }
+}

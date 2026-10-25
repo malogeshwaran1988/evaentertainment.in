@@ -21,7 +21,7 @@ Mirror AVR Energies marketing patterns. No admin panel in this phase.
 
 ## Visual rule
 
-Do not redesign. Preserve existing EVA CSS classes, colors, and copy from `public/css`.
+Do not redesign. Preserve existing EVA CSS classes, colors and copy from `public/css`.
 
 ## SEO
 
@@ -45,7 +45,7 @@ Apply Laws of UX and WCAG 2.2 AA without changing brand look:
 
 - First visible image on every page: `loading="eager"` + `fetchPriority="high"`. In lists, spread `imageLoading(i)` from `src/lib/image-loading.ts`.
 - Every other image is lazy (`next/image` default; plain `<img>` needs `loading="lazy"`).
-- Never use the deprecated `priority` prop, and don't combine `preload` with `loading` / `fetchPriority`.
+- Never use the deprecated `priority` prop and don't combine `preload` with `loading` / `fetchPriority`.
 - Prefer `next/image` `fill` over CSS `background-image` so it can lazy-load. A CSS background that is the main image gets one `<link rel="preload" as="image" fetchPriority="high">`.
 - Site images are AVIF under 150 KB: drop the JPG/PNG into `public/images/` and run `npm run images`.
 - Social previews stay JPG (platforms don't read AVIF): each page has its own 1200x630 `public/images/og/<page>.jpg` with an `*_OG_IMAGE_ALT`, built by the same script.

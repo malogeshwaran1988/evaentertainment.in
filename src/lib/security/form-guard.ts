@@ -22,7 +22,7 @@ export function checkBotSignals(body: Record<string, unknown>): BotCheck {
 
 /**
  * Single-line text field: strips CR/LF and other control chars (prevents mail header
- * injection), trims, and enforces a max length.
+ * injection), trims and enforces a max length.
  */
 export function cleanLine(v: unknown, max: number): string {
   return String(v ?? "")

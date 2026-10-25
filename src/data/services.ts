@@ -1,7 +1,9 @@
+import { SERVICE_MEDIA } from "@@/data/service-media";
 import { APP_BASE_URL } from "@@/constants/constants";
 import { serviceHref, type ServiceSlug } from "@@/constants/routes";
 import type { SvgIconName } from "@@/components/common/Icons";
-import { HERO_FX, SERVICE_FX, type ImageFx } from "@@/data/image-fx";
+import { SERVICE_FX, type ImageFx } from "@@/data/image-fx";
+import { MARKET_SERVICES } from "@@/data/services-markets";
 
 type ServiceIcon = { icon: string; svg?: never } | { svg: SvgIconName; icon?: never };
 
@@ -48,7 +50,7 @@ export const SERVICES: Service[] = [
     ogImageAlt: "Condenser microphones in EVA Entertainment's dubbing booth",
     introHeading: "One-stop dubbing in any language",
     intro: [
-      "We offer to dub in various languages for movies, Fiction & Non-Fictions, ad films, documentaries, E-learning etc. Normally, a professional dubbing team consists of Sound Eng, Dubbing Artists, Dubbing Directors, Scriptwriter, Artist coordinator, and Translator. The main idea behind Dubbing is to ensure that the voice behind the video is in synchronization with the display.",
+      "We offer to dub in various languages for movies, Fiction & Non-Fictions, ad films, documentaries, E-learning etc. Normally, a professional dubbing team consists of Sound Eng, Dubbing Artists, Dubbing Directors, Scriptwriter, Artist coordinator and Translator. The main idea behind Dubbing is to ensure that the voice behind the video is in synchronization with the display.",
       "We offer complete one-stop dubbing solutions. You can simply hand over your video in the source language to us and we shall provide you a final finished video in the target language of your choice.",
       "Our Dubbing team works in complete coordination to yield a finished output video which looks natural. We provide you dubbed videos with complete lip sync.",
     ],
@@ -60,7 +62,7 @@ export const SERVICES: Service[] = [
     idealFor: ["Feature films", "Web and TV series", "Fiction and non-fiction shows", "Ad films", "Documentaries", "E-learning"],
     faqs: [
       { q: "What is lip-sync dubbing?", a: "Lip-sync dubbing replaces the original dialogue with a new language recorded so that it matches the actors' lip movements on screen, making the film feel as if it was shot in that language." },
-      { q: "What do I need to send you?", a: "Your video in the source language, plus a script if you have one. We handle translation, casting, recording, direction and the final mix." },
+      { q: "What do I need to send you?", a: "Your video in the source language, plus a script if you have one. We handle translation, casting recording, direction and the final mix." },
       { q: "Which languages can you dub into?", a: "We work with native dubbing artists for Indian and international languages. Tell us your target languages when you contact us and we will share voice samples." },
     ],
     related: ["voice-over-studio", "translation-services", "5-1-mixing-studio"],
@@ -113,14 +115,14 @@ export const SERVICES: Service[] = [
       description:
         "Foley recording, sound effects and sound design in Andheri, Mumbai for films, series, shows, events and special projects.",
     },
-    image: "/images/services/equipment-03.avif",
-    alt: "Foley and sound design workstation",
-    fx: SERVICE_FX.workstation,
+    image: SERVICE_MEDIA["foley-lead"].src,
+    alt: SERVICE_MEDIA["foley-lead"].alt,
+    fx: SERVICE_MEDIA["foley-lead"].fx,
     ogImage: "/images/og/foley-recording-mumbai.jpg",
     ogImageAlt: "Foley and sound design workstation at EVA Entertainment",
     introHeading: "What Foley and sound design add",
     intro: [
-      "Sound design is commonly known as foley and sound effects. It is a process of specifying, acquiring, manipulating or generating audio elements. It employs a variety of disciplines including filmmaking, television, theatre, sound recording, live performance, sound art, and post-production.",
+      "Sound design is commonly known as foley and sound effects. It is a process of specifying, acquiring, manipulating or generating audio elements. It employs a variety of disciplines including filmmaking, television, theatre, sound recording, live performance, sound art and post-production.",
       "Sound design most commonly involves the manipulation of previously composed or recorded audio, such as sound effects and dialogue. In some instances, it may also involve the composition or manipulation of audio to create a desired effect or mood. A sound designer is one who practices the art of sound design.",
     ],
     extra: {
@@ -132,7 +134,7 @@ export const SERVICES: Service[] = [
     highlights: [
       { title: "Foley performed to picture", text: "Footsteps, cloth, props and movement recorded in sync with your edit." },
       { title: "Sound effects and design", text: "Effects created, edited and layered to set the mood of each scene." },
-      { title: "Ready for the mix", text: "Foley and effects delivered on clean tracks for the final mix, or mixed in-house." },
+      { title: "Ready for the mix", text: "Foley and effects delivered on clean tracks for the final mix or mixed in-house." },
     ],
     idealFor: ["Films and series", "Dubbed versions that need new effects tracks", "Variety shows", "Events", "Special projects", "Ads"],
     faqs: [
@@ -154,9 +156,9 @@ export const SERVICES: Service[] = [
       description:
         "5.1 surround and stereo mixing and mastering in Andheri, Mumbai for broadcast, film, corporate and multimedia, from IVR voice tracks to Dolby E.",
     },
-    image: "/images/services/equipment-04.avif",
-    alt: "Studio patch cables for 5.1 mixing",
-    fx: SERVICE_FX.cables,
+    image: SERVICE_MEDIA["mix51-lead"].src,
+    alt: SERVICE_MEDIA["mix51-lead"].alt,
+    fx: SERVICE_MEDIA["mix51-lead"].fx,
     ogImage: "/images/og/5-1-mixing-studio-mumbai.jpg",
     ogImageAlt: "Studio patch bay used for 5.1 mixing at EVA Entertainment",
     introHeading: "Creative mixes, on budget and on time",
@@ -182,12 +184,12 @@ export const SERVICES: Service[] = [
     name: "Subtitling",
     icon: "icon-translate1",
     h1: "Subtitling Services in Mumbai",
-    subtitle: "Time-stamped subtitles written by native speakers, in the language your audience reads.",
+    subtitle: "Time-stamped subtitles for movies, TV series and web series, written by native speakers.",
     summary: "Time-stamped subtitles written by native speakers.",
     seo: {
       title: "Subtitling Services in Mumbai | Movie & Video Subtitles | EVA",
       description:
-        "Time-stamped subtitling in Indian and international languages for movies, corporate videos, games and ads, written by native speakers. Based in Mumbai.",
+        "Subtitles for movies, TV series and web series in English and India's top 10 languages, written by native speakers. Based in Mumbai.",
     },
     image: "/images/services/equipment-05.avif",
     alt: "Subtitled video beside a subtitle file",
@@ -196,15 +198,15 @@ export const SERVICES: Service[] = [
     ogImageAlt: "Subtitled video beside a subtitle file at EVA Entertainment",
     introHeading: "Subtitles that carry the meaning",
     intro: [
-      "We offer International language subtitles for your English/Other language movies in the language of your requirement. If you require our services for subtitling projects with time stamping, we can provide you with a range of text services for corporate videos, movies, DVDs, games, advertisements and other media. So in case you are a professional/amateur filmmaker and require subtitling to be done for your movies/advertisement, you are welcome to contact us. By this way, you can increase potential viewers for your films.",
+      "We create time-stamped subtitles for movies, TV series and web series in English and India's top 10 languages. Whether you are releasing a regional film across India or bringing an international title to Indian viewers, subtitles help your film reach more people.",
       "EVA ENTERTAINMENT uses only native speakers when it comes to creating subtitles for movies, so you can be sure that the depth of your film's dialogues has been conveyed. Translation and subtitling experts of EVA Entertainment can develop subtitles in English for foreign to international language movies and voice over. Our experience in providing subtitles for movies to several filmmakers has made us a leading provider of subtitles for movies.",
     ],
     highlights: [
       { title: "Native-speaker subtitlers", text: "Subtitles written by native speakers, so the depth of your dialogue comes across." },
       { title: "Time-stamped files", text: "Subtitles timed to your video and delivered ready to use." },
-      { title: "Every kind of media", text: "Movies, corporate videos, DVDs, games, advertisements and more." },
+      { title: "Films and series", text: "Movies, TV series and web series for cinema, TV and OTT." },
     ],
-    idealFor: ["Feature films and shorts", "Independent filmmakers", "Corporate videos", "Games", "Advertisements", "Festival submissions"],
+    idealFor: ["Feature films and shorts", "TV series", "Web series", "Independent filmmakers", "Festival submissions"],
     faqs: [
       { q: "Do you provide time-stamped subtitle files?", a: "Yes. Subtitles are timed to your video and delivered as files ready for your player or platform." },
       { q: "Who writes the subtitles?", a: "Native speakers of the target language, working with our translation team." },
@@ -224,9 +226,9 @@ export const SERVICES: Service[] = [
       description:
         "Song recording studio in Andheri, Mumbai for vocals and instruments, with mixing and mastering under one roof. Contact EVA Entertainment to plan your session.",
     },
-    image: "/images/home/slide-2.avif",
-    alt: "Recording studio control room with mixing console",
-    fx: HERO_FX.console,
+    image: SERVICE_MEDIA["song-lead"].src,
+    alt: SERVICE_MEDIA["song-lead"].alt,
+    fx: SERVICE_MEDIA["song-lead"].fx,
     ogImage: "/images/og/song-recording-studio-mumbai.jpg",
     ogImageAlt: "Control room and mixing console at EVA Entertainment's recording studio",
     introHeading: "A studio built for recording",
@@ -241,7 +243,7 @@ export const SERVICES: Service[] = [
     ],
     idealFor: ["Singers and bands", "Film and album songs", "Jingles for ads", "Covers and demos", "Devotional music", "Podcasts and narration"],
     faqs: [
-      { q: "How do I book a recording session?", a: "Use the Contact Us page to send your preferred date and time, and we will confirm availability." },
+      { q: "How do I book a recording session?", a: "Use the Contact Us page to send your preferred date and time and we will confirm availability." },
       { q: "Can you mix and master my song too?", a: "Yes. We can mix and master the song in the same studio after recording." },
       { q: "Do you record jingles for ads?", a: "Yes. We record jingles and songs for ad films as well as film and independent music." },
     ],
@@ -259,9 +261,9 @@ export const SERVICES: Service[] = [
       description:
         "Script translation for dubbing, voice-over and subtitling in Indian and international languages by native translators. Based in Andheri, Mumbai.",
     },
-    image: "/images/services/equipment-05.avif",
-    alt: "Translated script and subtitle file on a laptop",
-    fx: SERVICE_FX.subtitles,
+    image: SERVICE_MEDIA["translation-lead"].src,
+    alt: SERVICE_MEDIA["translation-lead"].alt,
+    fx: SERVICE_MEDIA["translation-lead"].fx,
     ogImage: "/images/og/translation-services-mumbai.jpg",
     ogImageAlt: "Translated script and subtitle file at EVA Entertainment",
     introHeading: "Translation made for the screen",
@@ -294,15 +296,15 @@ export const SERVICES: Service[] = [
       description:
         "Curated stock music and sound library from EVA Entertainment, Mumbai, for films, ads, corporate videos, e-learning and online content.",
     },
-    image: "/images/services/equipment-03.avif",
-    alt: "Producer workstation used to browse the stock music library",
-    fx: SERVICE_FX.workstation,
+    image: SERVICE_MEDIA["stock-lead"].src,
+    alt: SERVICE_MEDIA["stock-lead"].alt,
+    fx: SERVICE_MEDIA["stock-lead"].fx,
     ogImage: "/images/og/stock-music-library.jpg",
-    ogImageAlt: "Music workstation for EVA Entertainment's stock music library",
+    ogImageAlt: "Producer and music editor choosing music for an ad film in EVA Entertainment's Mumbai studio",
     introHeading: "Music for your next project",
     intro: [
       "Amplify your ideas and explore our curated stock music library. Find background music and sounds for films, ads, corporate videos, e-learning and online content.",
-      "Tell us about your project and its mood, and we will suggest tracks from the library that fit. Music can also be edited to length and mixed with your voice-over in our studio.",
+      "Tell us about your project and its mood and we will suggest tracks from the library that fit. Music can also be edited to length and mixed with your voice-over in our studio.",
     ],
     highlights: [
       { title: "Curated tracks", text: "A library chosen for film, advertising and corporate work." },
@@ -311,12 +313,13 @@ export const SERVICES: Service[] = [
     ],
     idealFor: ["Ad films", "Corporate videos", "E-learning", "Documentaries", "YouTube and social videos", "Podcasts"],
     faqs: [
-      { q: "How do I choose music from the library?", a: "Contact us with a short description of your project and its mood, and we will share suitable tracks." },
+      { q: "How do I choose music from the library?", a: "Contact us with a short description of your project and its mood and we will share suitable tracks." },
       { q: "Can you edit a track to my video's length?", a: "Yes. We can edit music to length and mix it with your voice-over or dialogue." },
-      { q: "Do you also offer sound effects?", a: "Yes. Ask us about sound effects, or see our Foley recording service for custom effects." },
+      { q: "Do you also offer sound effects?", a: "Yes. Ask us about sound effects or see our Foley recording service for custom effects." },
     ],
     related: ["song-recording-studio", "foley-recording", "5-1-mixing-studio"],
   },
+  ...MARKET_SERVICES,
 ];
 
 export const getService = (slug: string) => SERVICES.find((s) => s.slug === slug);
