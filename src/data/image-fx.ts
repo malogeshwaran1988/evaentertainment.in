@@ -119,11 +119,11 @@ export const SERVICE_FX: Record<string, ImageFx> = {
       { kind: "bokeh", x: 72.9, y: 17.3, size: 5, color: BLUE, delay: 4 },
     ],
   },
+  // No "caption" typing mask here: its opaque block sat over the baked-in subtitle on the new lead image.
   subtitles: {
     width: 960,
     height: 577,
     items: [
-      { kind: "caption", x: 43, y: 35.5, w: 21, h: 3.6 },
       { kind: "cursor", x: 61.5, y: 50.5, h: 2.4 },
       { kind: "playhead", x: 80, y: 43, w: 19, h: 18 },
     ],
