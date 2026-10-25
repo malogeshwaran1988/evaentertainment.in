@@ -4300,6 +4300,16 @@ html body .eva-footer-contact-block a {
   min-height: 24px;
   padding-block: 2px;
 }
+/* Legal links in the footer bar: full 44px tap targets (WCAG 2.5.8 / 2.5.5). */
+html body .eva-footer-legal a,
+html body .eva-footer-legal button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  min-width: 44px;
+  padding: 0 6px;
+}
 html body .eva-footer-social a {
   display: inline-flex;
   align-items: center;
@@ -4748,7 +4758,7 @@ h2.eva-coming-soon-title {
 }
 
 /* Home services grid: image-matched "live" overlays (ServicesGrid.tsx).
-   .svc-frame keeps the image's own aspect ratio (cover-style centred crop on mobile), and
+   .svc-frame keeps the image's own aspect ratio (cover-style centred crop on mobile) and
    .svc-stage carries the drift + hover tilt for both the <img> and the overlay layer, so the
    overlays stay locked to the devices. Only transform/opacity/scale animate; paused off screen. */
 .service-item-photo.svc-live { position: relative; overflow: hidden; }
