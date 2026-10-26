@@ -5342,7 +5342,7 @@ html:not(.eva-bg-ready) .home-page > .eva-what-we-do {
     inset: 0;
     z-index: 1;
     pointer-events: none;
-    background: linear-gradient(to top, rgb(0 0 0 / 0.92) 0%, rgb(0 0 0 / 0.78) 30%, rgb(0 0 0 / 0.25) 55%, rgb(0 0 0 / 0) 70%);
+    background: linear-gradient(to top, rgb(0 0 0 / 0.95) 0%, rgb(0 0 0 / 0.88) 38%, rgb(0 0 0 / 0.55) 58%, rgb(0 0 0 / 0) 78%);
   }
   .mainSlider .eva-hero-slider .slide-content,
   .mainSlider.eva-hero-slider .slide-content {
@@ -5384,5 +5384,28 @@ html:not(.eva-bg-ready) .home-page > .eva-what-we-do {
   .eva-hero-slider .eva-hero-media-img { object-position: var(--fx-x, 70%) 30% !important; }
   .eva-hero-slider .eva-hero-media::after {
     background: linear-gradient(to right, rgb(0 0 0 / 0.85) 0%, rgb(0 0 0 / 0.6) 45%, rgb(0 0 0 / 0) 75%) !important;
+  }
+}
+
+/* Inner page title spacing matched to the compact header (81px desktop, 61px below 1200, 53px landscape) */
+.block.block--title { padding-top: 116px; }
+@media (max-width: 1199px) {
+  .block.block--title { padding-top: 96px; padding-bottom: 40px; }
+}
+@media (max-height: 500px) and (orientation: landscape) {
+  .block.block--title { padding-top: 84px; }
+}
+
+/* Drawer Contact CTA: dark text on green for AA contrast (white on #70b615 is 2.5:1) */
+.header-contact-cta.header-contact-cta--drawer,
+.header-contact-cta.header-contact-cta--drawer:hover,
+.header-contact-cta.header-contact-cta--drawer:focus-visible { color: #0b0d10 !important; }
+
+/* Scrim hero layouts: lighter blue start keeps the gradient headline above 3:1 (large text AA) on the scrim */
+@media (max-width: 767px), (max-width: 1024px) and (orientation: portrait), (max-height: 500px) and (orientation: landscape) {
+  .mainSlider .slide-content .h-gradient .slide-line-text {
+    background: linear-gradient(90deg, #6cb8f5, #abee2d);
+    -webkit-background-clip: text;
+    background-clip: text;
   }
 }
