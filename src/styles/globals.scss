@@ -5140,15 +5140,16 @@ html:not(.eva-bg-ready) .home-page > .eva-what-we-do {
 /* Home hero (HeroSlider.tsx): original line-box style (black boxes hugging each line, gradient
    heading, white tagline, pill CTAs) at about 62% of the old size. Text block sits on the left edge
    of the site container (in line with the header logo); arrows move beside the dots so the text
-   never touches them. Hero is 80vh (80svh on phones) so the next section peeks. */
+   never touches them. Hero is full height: 100vh on desktop and tablet, 100svh on phones (stable under the
+   mobile browser toolbar, so no layout shift). */
 .mainSlider.eva-hero-slider,
 .mainSliderWrapper .mainSlider.eva-hero-slider,
 .mainSlider.eva-hero-slider .img--holder,
 .mainSliderWrapper .mainSlider.eva-hero-slider .img--holder {
-  height: 80vh !important;
+  height: 100vh !important;
   min-height: 460px !important;
 }
-.eva-hero-slider .slide { min-height: 80vh; }
+.eva-hero-slider .slide { min-height: 100vh; }
 .mainSlider .slide-content {
   --hero-title: 46px;
   --hero-line2: 32px;
@@ -5186,10 +5187,11 @@ html:not(.eva-bg-ready) .home-page > .eva-what-we-do {
   .mainSliderWrapper .mainSlider.eva-hero-slider,
   .mainSlider.eva-hero-slider .img--holder,
   .mainSliderWrapper .mainSlider.eva-hero-slider .img--holder {
-    height: 80svh !important;
+    height: 100vh !important;
+    height: 100svh !important;
     min-height: 420px !important;
   }
-  .eva-hero-slider .slide { min-height: 80svh; }
+  .eva-hero-slider .slide { min-height: 100vh; min-height: 100svh; }
   .mainSlider .slide-content { --hero-title: 28px; --hero-line2: 22px; }
   .mainSlider .slide-content .eva-hero-lines { margin-left: 12px; margin-right: 40px; }
 }
