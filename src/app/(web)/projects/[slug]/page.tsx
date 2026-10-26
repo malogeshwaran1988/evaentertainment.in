@@ -8,7 +8,7 @@ import { SvgIcon } from "@@/components/common/Icons";
 import { PosterPlaceholder } from "@@/components/projects/ProjectPoster";
 import ProjectAdjacentNav from "@@/components/projects/ProjectAdjacentNav";
 import ProjectExplore from "@@/components/projects/ProjectExplore";
-import { languageHubHref } from "@@/lib/project-links";
+import { isMergedPair, languageHubHref } from "@@/lib/project-links";
 import ProjectTrailer from "@@/components/projects/ProjectTrailer";
 import ProjectClientBadge from "@@/components/clients/ProjectClientBadge";
 import { toProjectClient } from "@@/data/clients";
@@ -413,7 +413,7 @@ export default async function ProjectDetailPage({
           <nav className="eva-project-content eva-hub-links" aria-labelledby="pc-related">
             <h2 id="pc-related" className="h--md">Related dubbing work</h2>
             <ul>
-              {project.to.map((lang) => (
+              {project.to.filter((lang) => !isMergedPair(project.from, lang)).map((lang) => (
                 <li key={lang}>
                   <Link className="link-on-dark" href={languageHubHref(project.from, lang)}>
                     More {project.from} to {lang} dubbing projects

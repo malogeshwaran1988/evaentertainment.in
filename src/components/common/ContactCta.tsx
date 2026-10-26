@@ -33,15 +33,11 @@ export default function ContactCta({
       <div className={`container ${styles.inner}`}>
         <div className={styles.card}>
           <div className={styles.copy}>
-            <h2 id="eva-contact-cta-title">
-              <span className="sr-only">
-                Make your film speak {languages.join(", ")}
-              </span>
-              <span className={styles.lead} aria-hidden="true">
-                Make your film speak{" "}
-              </span>
+            {/* A styled paragraph, not a heading: the band repeats on every page. Text appears once. */}
+            <p id="eva-contact-cta-title" className={styles.title}>
+              <span className={styles.lead}>Make your film speak </span>
               <CtaLanguageCycle languages={languages} />
-            </h2>
+            </p>
             <p className="p--lg">
               Experienced voice artists, frame-accurate sync and a final quality
               review on every reel, delivered on schedule and ready for release.

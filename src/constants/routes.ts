@@ -24,7 +24,6 @@ export const SERVICE_SLUGS = [
   "hollywood-dubbing-indian-languages",
   "pan-india-film-dubbing",
   "regional-film-dubbing",
-  "indian-languages",
   "voice-over-studio",
   "foley-recording",
   "5-1-mixing-studio",
@@ -42,7 +41,6 @@ const NO_LEGACY_SLUGS = new Set<ServiceSlug>([
   "hollywood-dubbing-indian-languages",
   "pan-india-film-dubbing",
   "regional-film-dubbing",
-  "indian-languages",
 ]);
 
 export const serviceHref = (slug: ServiceSlug) => `/${slug}`;
@@ -73,6 +71,9 @@ export const LEGACY_REDIRECTS: { from: string; to: string; statusCode?: 301 }[] 
   })),
   // Next matches redirect sources case-insensitively, so these also cover /OURCLIENTS, /Our-Clients …
   // (never list a casing of /clients itself: that would loop).
+  // Content merges (Oct 2026 uniqueness audit): one 308 hop each, never chained.
+  { from: "/indian-languages", to: "/dubbing" },
+  { from: "/dubbing/english-to-hindi", to: "/hollywood-dubbing-indian-languages" },
   ...["/our-clients", "/ourclients"].map(
     (from) => ({ from, to: Routes.CLIENTS, statusCode: 301 as const }),
   ),

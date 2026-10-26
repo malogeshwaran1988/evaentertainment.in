@@ -55,7 +55,6 @@ export default async function ClientsPage() {
         title="Our Clients"
         subtitle="The studios, platforms and producers we work with"
         trail={[{ label: "Our Clients", href: Routes.CLIENTS }]}
-        schema={false}
       />
       <section className="block eva-clients-block" aria-labelledby="clients-heading">
         <div className="container">
@@ -65,11 +64,9 @@ export default async function ClientsPage() {
               Trusted by <span>studios, platforms and producers</span>
             </h2>
             <p>
-              From our studio in Andheri West, Mumbai, EVA Entertainment dubs records and mixes films, web
-              series, animation and advertising for production houses, OTT platforms, broadcasters and
-              independent creators. Our clients come to us for natural-sounding Hindi and regional dubbing,
-              experienced voice artists, careful lip-sync and a dependable delivery schedule and many have
-              worked with us across several seasons and releases.
+              EVA Entertainment dubs, mixes and records films, web series, animation and audiobooks for OTT
+              platforms, broadcasters, audio publishers and producers. Below are the clients whose logos we can
+              show. Where a client has a published project, its name links to that project page.
             </p>
           </div>
           <ul className="eva-clients-grid" aria-label="Our clients">
@@ -88,6 +85,9 @@ export default async function ClientsPage() {
               </li>
             ))}
           </ul>
+          <p className="eva-clients-more">
+            See every title on <Link href={Routes.PROJECTS}>our projects</Link>.
+          </p>
         </div>
       </section>
     </main>

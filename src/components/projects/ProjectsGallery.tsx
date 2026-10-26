@@ -1,4 +1,5 @@
 "use client";
+import ProjectLanguages from "@@/components/projects/ProjectLanguages";
 
 import Image from "next/image";
 import NextLink from "next/link";
@@ -8,7 +9,7 @@ import Link from "@@/components/common/NavLink";
 import { NoScriptLinks } from "@@/components/projects/PosterBatchGrid";
 import { PosterPlaceholder, YearBadge } from "@@/components/projects/ProjectPoster";
 import { Routes } from "@@/constants/routes";
-import { projectLanguageLine, type PublicProject } from "@@/data/projects";
+import type { PublicProject } from "@@/data/projects";
 import { gridImageLoading } from "@@/lib/image-loading";
 import { projectPosterAlt } from "@@/lib/project-seo";
 import { FILTER_ALL, facetOptions, matchesFacets } from "@@/lib/project-filters";
@@ -126,7 +127,7 @@ export default function ProjectsGallery({ projects, tabs, selected, otherLinks =
                   <span className="sr-only">, view project page</span>
                 </Link>
               </h2>
-              <p className="eva-project-meta">{projectLanguageLine(project)}</p>
+              <p className="eva-project-meta"><ProjectLanguages project={project} /></p>
               <p className="eva-project-meta">{project.category}</p>
             </li>
           ))}

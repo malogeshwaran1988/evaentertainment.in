@@ -20,7 +20,6 @@ export const TOP_10_LANGUAGE_NAMES = [
 export const STUDIO_CONTACT: ServicePageContent["cta"]["contact"] = [
   { label: "WhatsApp Felix", value: "+91 86520 63177", href: "https://wa.me/918652063177" },
   { label: "Email", value: "info@evaentertainment.in", href: "mailto:info@evaentertainment.in" },
-  { label: "Visit", value: "No. 228, 2nd Floor, Mohid Heights, near RTO Office, Andheri West, Mumbai 400053" },
 ];
 
 const REGIONAL_CREDITS = [
@@ -100,7 +99,7 @@ export const MARKET_SERVICE_PAGES: Record<string, ServicePageContent> = {
         blocks: [
           {
             t: "p",
-            text: "Hindi reaches the widest audience, but a film released in all ten languages reaches viewers across every state in their own language. See all the [Indian languages we dub](/indian-languages).",
+            text: "Hindi reaches the widest audience, but a film released in all ten languages reaches viewers across every state in their own language. See all the [Indian languages we dub](/dubbing).",
           },
         ],
       },
@@ -140,7 +139,22 @@ export const MARKET_SERVICE_PAGES: Record<string, ServicePageContent> = {
           },
         ],
       },
+      {
+        heading: "English to Hindi dubbing: our recent work",
+        icon: "icon-play-circle",
+        blocks: [
+          {
+            t: "p",
+            text: "English to Hindi is the pair most international titles start with. We adapt idioms and jokes for Hindi audiences, match the timing of fast dialogue and deliver mixes to platform specifications.",
+          },
+          {
+            t: "p",
+            text: "Our recent English to Hindi work includes [Night of the Zoopocalypse](/projects/night-of-the-zoopocalypse-hindi-dubbing), a 2024 movie we dubbed into Hindi. See every title on [our projects](/our-projects) page.",
+          },
+        ],
+      },
     ],
+    posterStrip: ["night-of-the-zoopocalypse-hindi-dubbing"],
     faqs: [
       {
         q: "Can you dub a Hollywood film into Hindi?",
@@ -179,127 +193,11 @@ export const MARKET_SERVICE_PAGES: Record<string, ServicePageContent> = {
     },
   },
 
-  "indian-languages": {
-    seoTitle: "Dubbing in India's Top 10 Languages and English | EVA",
-    description:
-      "Dubbing, voice over and subtitles in Hindi, Bengali, Marathi, Telugu, Tamil, Gujarati, Urdu, Kannada, Odia and Malayalam from Mumbai. Get a quote.",
-    h1: "Dubbing in India's Top 10 Languages",
-    serviceType: "Film dubbing",
-    languages: ["English", ...TOP_10_LANGUAGE_NAMES],
-    leadHeading: "English plus India's ten most spoken languages",
-    lead: [
-      "**Hindi, Bengali, Marathi, Telugu, Tamil, Gujarati, Urdu, Kannada, Odia and Malayalam are the ten most spoken languages in India.** EVA Entertainment dubs films, TV series and web series in all ten, plus English, from our studio in Andheri West, Mumbai.",
-      "For international titles, our professional English voice artist performs the same character in English and all 10 Indian languages, so one voice carries across every version. Other Indian and international languages are available on request with native voice artists.",
-    ],
-    sections: [
-      {
-        heading: "The ten languages we dub",
-        icon: "icon-translate2",
-        languages: {
-          groups: [{ label: "Indian languages", codes: TOP_10_LANGUAGES, main: "hi" }],
-          caption: "Plus English as a source or target language.",
-        },
-        blocks: [
-          {
-            t: "ul",
-            items: [
-              "**Hindi.** India's most spoken language and the language of Bollywood. Our most requested dubbing language.",
-              "**Bengali.** The language of Bengali cinema in Kolkata and of a large audience in Bangladesh.",
-              "**Marathi.** Spoken across Maharashtra, home to Marathi cinema and to our studio in Mumbai.",
-              "**Telugu.** The language of Tollywood in Hyderabad, one of India's biggest film industries.",
-              "**Tamil.** The language of Kollywood in Chennai, with a large audience in India and abroad.",
-              "**Gujarati.** Spoken across Gujarat and by a large Gujarati audience overseas.",
-              "**Urdu.** Close to Hindi in speech, with its own vocabulary and poetry that a dub must respect.",
-              "**Kannada.** The language of Sandalwood in Bengaluru.",
-              "**Odia.** The language of Odisha and its Ollywood film industry.",
-              "**Malayalam.** The language of Mollywood in Kerala, known for dialogue-heavy dramas.",
-            ],
-          },
-        ],
-      },
-      {
-        heading: "Why these ten languages",
-        icon: "icon-like",
-        blocks: [
-          {
-            t: "p",
-            text: "These are the ten most spoken languages in India according to the 2011 Census. A film released in all ten reaches most of the country in its own language, from Kolkata to Kochi.",
-          },
-          {
-            t: "p",
-            text: "Planning a release in several of them at once? Our [pan-India film dubbing](/pan-india-film-dubbing) page explains how we keep every version consistent.",
-          },
-        ],
-      },
-      {
-        heading: "Native teams for every language",
-        icon: "icon-people",
-        blocks: [
-          {
-            t: "p",
-            text: "Each language is adapted by a native writer and recorded under a native-language dubbing director, so dialogue sounds like it was written in that language.",
-          },
-          {
-            t: "p",
-            text: "For [Hollywood and international films](/hollywood-dubbing-indian-languages), one professional voice artist performs the lead in English and all 10 Indian languages. Every line is a live human performance; we never use voice cloning.",
-          },
-        ],
-        media: "languages-artists",
-      },
-      {
-        heading: "More languages on request",
-        icon: "icon-mic-2",
-        blocks: [
-          {
-            t: "p",
-            text: "Beyond the ten, we can arrange Punjabi, Bhojpuri, Assamese and other Indian languages, plus international languages such as Arabic and Spanish, with native voice artists. Tell us what you need and we will confirm availability.",
-          },
-          {
-            t: "p",
-            text: "Every language is also available as [subtitles](/subtitling-services) and [voice over](/voice-over-studio).",
-          },
-        ],
-      },
-    ],
-    faqs: [
-      {
-        q: "What are the top 10 languages in India?",
-        a: "By number of speakers in the 2011 Census: Hindi, Bengali, Marathi, Telugu, Tamil, Gujarati, Urdu, Kannada, Odia and Malayalam.",
-      },
-      {
-        q: "Can one voice artist dub a character in all 10 languages?",
-        a: "Yes. For international titles our professional English voice artist performs the character in English and all 10 Indian languages. It is a live human performance in every language, not voice cloning.",
-      },
-      {
-        q: "Do you dub into languages beyond the ten?",
-        a: "Yes, on request. Punjabi, Bhojpuri, Assamese and international languages such as Arabic and Spanish can be arranged with native voice artists.",
-      },
-      {
-        q: "Can you dub between two Indian languages, such as Tamil to Telugu?",
-        a: "Yes. We dub between Indian languages as well as from and into English. See [regional film dubbing](/regional-film-dubbing).",
-      },
-      {
-        q: "Do you offer subtitles in these languages?",
-        a: "Yes. We create subtitles for movies, TV series and web series in all ten languages and English.",
-      },
-      {
-        q: "How do I get a quote for several languages?",
-        a: "Send us the title, its runtime and the list of languages on WhatsApp or by email. We will reply with a plan and a quote.",
-      },
-    ],
-    cta: {
-      heading: "Dub your film in every language",
-      text: "Tell us the title, its runtime and the languages you need. We will reply with a plan and a quote.",
-      label: "Get a dubbing quote",
-      contact: STUDIO_CONTACT,
-    },
-  },
-
   "regional-film-dubbing": {
-    seoTitle: "Regional Film Dubbing - Tamil Telugu to Hindi | EVA",
+    seoTitle: "Regional Film Dubbing: South Indian Films to Hindi | EVA",
     description:
-      "Regional film dubbing studio in Mumbai. Telugu, Tamil, Malayalam and Kannada films dubbed into Hindi and other Indian languages with lip sync. Get a quote.",
-    h1: "Regional Film Dubbing Studio in Mumbai",
+      "Regional film dubbing from Mumbai. Telugu, Tamil, Malayalam and Kannada films dubbed into Hindi and other Indian languages with lip sync. Get a quote.",
+    h1: "Regional Film Dubbing: South Indian Films in Hindi",
     serviceType: "Film dubbing",
     languages: ["Hindi", "Telugu", "Tamil", "Malayalam", "Kannada", "English"],
     leadHeading: "Kollywood and Tollywood films for every Indian audience",
@@ -309,20 +207,16 @@ export const MARKET_SERVICE_PAGES: Record<string, ServicePageContent> = {
     ],
     sections: [
       {
-        heading: "Dialogue adaptation that keeps the punch",
+        heading: "Mass films that land with a new audience",
         icon: "icon-translate2",
         blocks: [
           {
             t: "p",
-            text: "A mass dialogue that works in Telugu can fall flat when translated word for word. Our writers adapt each line so it lands with the new audience and still fits the actor's lips.",
+            text: "A mass dialogue that works in Telugu can fall flat when translated word for word. Character names, places and cultural details stay true to the original film while the line itself is rewritten for the new audience.",
           },
           {
-            t: "ul",
-            items: [
-              "**Punch lines that land.** Signature dialogues are rewritten to hit just as hard in Hindi.",
-              "**Humour that travels.** Local jokes and wordplay are reworked so the new audience laughs in the same place.",
-              "**Names and places kept.** Character names, places and cultural details stay true to the original film.",
-            ],
+            t: "p",
+            text: "How our writers do this is covered on our [script translation and lip-sync adaptation](/translation-services) page.",
           },
         ],
         media: "regional-adapt",
@@ -363,12 +257,12 @@ export const MARKET_SERVICE_PAGES: Record<string, ServicePageContent> = {
         ],
       },
       {
-        heading: "From M&E to final mix",
+        heading: "A final mix that matches the original",
         icon: "icon-settings",
         blocks: [
           {
             t: "p",
-            text: "We mix the new dialogue with your music and effects track in stereo or [5.1 surround](/5-1-mixing-studio). If the M&E has gaps we rebuild the missing sounds with [Foley](/foley-recording), so the dubbed version sounds as full as the original.",
+            text: "We mix the new dialogue with your music and effects track in stereo or [5.1 surround](/5-1-mixing-studio). Missing effects are rebuilt on our [Foley recording](/foley-recording) stage so the dubbed version sounds as full as the original.",
           },
         ],
       },
@@ -384,7 +278,7 @@ export const MARKET_SERVICE_PAGES: Record<string, ServicePageContent> = {
       },
       {
         q: "How many films have you dubbed?",
-        a: "Around 30 films, mostly South Indian titles dubbed into Hindi. See our [projects](/projects).",
+        a: "Around 30 films, mostly South Indian titles dubbed into Hindi. See [our projects](/our-projects).",
       },
       {
         q: "Can the same artist voice a star across several films?",
@@ -392,7 +286,7 @@ export const MARKET_SERVICE_PAGES: Record<string, ServicePageContent> = {
       },
       {
         q: "What do I need to send for a regional dub?",
-        a: "A locked cut of the film, the dialogue list if you have one and the M&E track.",
+        a: "A locked cut of the film, the dialogue list if you have one and the music and effects track.",
       },
       {
         q: "Do you also subtitle regional films?",
@@ -450,7 +344,7 @@ export const MARKET_SERVICE_PAGES: Record<string, ServicePageContent> = {
         blocks: [
           {
             t: "p",
-            text: "Read more about each of the [ten Indian languages](/indian-languages) we dub.",
+            text: "Read more about each of the [ten Indian languages](/dubbing) we dub.",
           },
         ],
       },
@@ -464,7 +358,7 @@ export const MARKET_SERVICE_PAGES: Record<string, ServicePageContent> = {
           },
           {
             t: "p",
-            text: "Need an English version too? For international titles one professional voice artist performs the lead in English and all 10 Indian languages. See [Hollywood dubbing](/hollywood-dubbing-indian-languages).",
+            text: "Releasing an English title in India? See [Hollywood dubbing into Indian languages](/hollywood-dubbing-indian-languages).",
           },
         ],
         media: "panindia-mix",
@@ -521,3 +415,116 @@ export const MARKET_SERVICE_PAGES: Record<string, ServicePageContent> = {
     },
   },
 };
+
+/** Copy for the /dubbing hub (moved from the retired /indian-languages page, which 308-redirects there). */
+export const DUBBING_LANGUAGES_PAGE: ServicePageContent = {
+    seoTitle: "Dubbing by Language: 10 Indian Languages + English | EVA",
+    description:
+      "Every language pair EVA Entertainment dubs with real project counts plus the ten Indian languages we work in, from Hindi and Bengali to Odia and Malayalam.",
+    h1: "Dubbing by Language: Pairs and 10 Indian Languages",
+    serviceType: "Film dubbing",
+    languages: ["English", ...TOP_10_LANGUAGE_NAMES],
+    leadHeading: "English plus India's ten most spoken languages",
+    lead: [
+      "**Hindi, Bengali, Marathi, Telugu, Tamil, Gujarati, Urdu, Kannada, Odia and Malayalam are the ten most spoken languages in India.** EVA Entertainment dubs films, TV series and web series in all ten, plus English, from our studio in Andheri West, Mumbai.",
+      "Below you will find every language pair we have dubbed with the real projects behind it, followed by a short guide to each of the ten languages. Other Indian and international languages are available on request with native voice artists.",
+    ],
+    sections: [
+      {
+        heading: "The ten languages we dub",
+        icon: "icon-translate2",
+        languages: {
+          groups: [{ label: "Indian languages", codes: TOP_10_LANGUAGES, main: "hi" }],
+          caption: "Plus English as a source or target language.",
+        },
+        blocks: [
+          {
+            t: "ul",
+            items: [
+              "**Hindi.** India's most spoken language and the language of Bollywood. Our most requested dubbing language.",
+              "**Bengali.** The language of Bengali cinema in Kolkata and of a large audience in Bangladesh.",
+              "**Marathi.** Spoken across Maharashtra, home to Marathi cinema and to our studio in Mumbai.",
+              "**Telugu.** The language of Tollywood in Hyderabad, one of India's biggest film industries.",
+              "**Tamil.** The language of Kollywood in Chennai, with a large audience in India and abroad.",
+              "**Gujarati.** Spoken across Gujarat and by a large Gujarati audience overseas.",
+              "**Urdu.** Close to Hindi in speech, with its own vocabulary and poetry that a dub must respect.",
+              "**Kannada.** The language of Sandalwood in Bengaluru.",
+              "**Odia.** The language of Odisha and its Ollywood film industry.",
+              "**Malayalam.** The language of Mollywood in Kerala, known for dialogue-heavy dramas.",
+            ],
+          },
+        ],
+      },
+      {
+        heading: "Why these ten languages",
+        icon: "icon-like",
+        blocks: [
+          {
+            t: "p",
+            text: "These are the ten most spoken languages in India according to the 2011 Census. A film released in all ten reaches most of the country in its own language, from Kolkata to Kochi.",
+          },
+          {
+            t: "p",
+            text: "Planning a release in several of them at once? Our [pan-India film dubbing](/pan-india-film-dubbing) page explains how we keep every version consistent.",
+          },
+        ],
+      },
+      {
+        heading: "Native teams for every language",
+        icon: "icon-people",
+        blocks: [
+          {
+            t: "p",
+            text: "Each language is adapted by a native writer and recorded under a native-language dubbing director, so dialogue sounds like it was written in that language.",
+          },
+          {
+            t: "p",
+            text: "Every line is a live human performance recorded in our booth. Dubbing [Hollywood and international films](/hollywood-dubbing-indian-languages) works the same way.",
+          },
+        ],
+        media: "languages-artists",
+      },
+      {
+        heading: "More languages on request",
+        icon: "icon-mic-2",
+        blocks: [
+          {
+            t: "p",
+            text: "Beyond the ten, we can arrange Punjabi, Bhojpuri, Assamese and other Indian languages, plus international languages such as Arabic and Spanish, with native voice artists. Tell us what you need and we will confirm availability.",
+          },
+          {
+            t: "p",
+            text: "Every language is also available as [subtitles](/subtitling-services) and [voice over](/voice-over-studio).",
+          },
+        ],
+      },
+    ],
+    faqs: [
+      {
+        q: "What are the top 10 languages in India?",
+        a: "By number of speakers in the 2011 Census: Hindi, Bengali, Marathi, Telugu, Tamil, Gujarati, Urdu, Kannada, Odia and Malayalam.",
+      },
+      {
+        q: "Do you dub into languages beyond the ten?",
+        a: "Yes, on request. Punjabi, Bhojpuri, Assamese and international languages such as Arabic and Spanish can be arranged with native voice artists.",
+      },
+      {
+        q: "Can you dub between two Indian languages, such as Tamil to Telugu?",
+        a: "Yes. We dub between Indian languages as well as from and into English. See [regional film dubbing](/regional-film-dubbing).",
+      },
+      {
+        q: "Do you offer subtitles in these languages?",
+        a: "Yes. We create subtitles for movies, TV series and web series in all ten languages and English.",
+      },
+      {
+        q: "How do I get a quote for several languages?",
+        a: "Send us the title, its runtime and the list of languages on WhatsApp or by email. We will reply with a plan and a quote.",
+      },
+    ],
+    cta: {
+      heading: "Dub your film in every language",
+      text: "Tell us the title, its runtime and the languages you need. We will reply with a plan and a quote.",
+      label: "Get a dubbing quote",
+      contact: STUDIO_CONTACT,
+    },
+  };

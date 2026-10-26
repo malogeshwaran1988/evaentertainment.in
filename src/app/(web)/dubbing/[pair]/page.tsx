@@ -24,6 +24,7 @@ import {
   pairTitle,
   pairWhy,
 } from "@@/data/dubbing-pairs";
+import { inline, plain } from "@@/components/services/RichText";
 import { PROJECTS_OG_IMAGE, projectIsPublished } from "@@/data/projects";
 import { getProjects } from "@@/lib/projects-store";
 import { LANGUAGE_HUB_PREFIX, languagePairs } from "@@/lib/project-links";
@@ -73,7 +74,12 @@ export default async function LanguageHubPage({
   const heading = pairHeading(pair);
   const h = pairSections(pair);
   const image = pairImage(pair);
-  const faqs = pairFaqs(pair);
+  const faqs = pairFaqs(
+    pair,
+    pairs
+      .filter((p) => p.from === pair.from && p.to !== pair.to)
+      .map((p) => p.to),
+  );
   const hours = pair.projects.reduce((sum, p) => sum + (p.audioHours ?? 0), 0);
   const languages = new Set(pairs.flatMap((p) => [p.from, p.to])).size;
   const related = pairs.filter(
@@ -84,13 +90,17 @@ export default async function LanguageHubPage({
     : pairs.filter((p) => p.slug !== pair.slug);
 
   const stats = [
-    {
-      value: String(pair.projects.length),
-      label:
-        pair.projects.length === 1
-          ? `${pair.from} to ${pair.to} title`
-          : `${pair.from} to ${pair.to} titles`,
-    },
+    ...(pair.projects.length
+      ? [
+          {
+            value: String(pair.projects.length),
+            label:
+              pair.projects.length === 1
+                ? `${pair.from} to ${pair.to} title`
+                : `${pair.from} to ${pair.to} titles`,
+          },
+        ]
+      : []),
     ...(hours > 0
       ? [{ value: String(Math.round(hours)), label: "Hours of audio dubbed" }]
       : []),
@@ -112,16 +122,20 @@ export default async function LanguageHubPage({
         name: SITE_NAME,
         url: absoluteUrl(Routes.HOME),
       },
-      hasOfferCatalog: {
-        "@type": "OfferCatalog",
-        name: h.projects,
-        itemListElement: pair.projects.map((p, i) => ({
-          "@type": "ListItem",
-          position: i + 1,
-          url: absoluteUrl(projectHref(p.slug)),
-          name: p.title,
-        })),
-      },
+      ...(pair.projects.length
+        ? {
+            hasOfferCatalog: {
+              "@type": "OfferCatalog",
+              name: h.projects,
+              itemListElement: pair.projects.map((p, i) => ({
+                "@type": "ListItem",
+                position: i + 1,
+                url: absoluteUrl(projectHref(p.slug)),
+                name: p.title,
+              })),
+            },
+          }
+        : {}),
     },
     {
       "@context": "https://schema.org",
@@ -129,7 +143,7 @@ export default async function LanguageHubPage({
       mainEntity: faqs.map((f) => ({
         "@type": "Question",
         name: f.q,
-        acceptedAnswer: { "@type": "Answer", text: f.a },
+        acceptedAnswer: { "@type": "Answer", text: plain(f.a) },
       })),
     },
   ];
@@ -202,26 +216,28 @@ export default async function LanguageHubPage({
         </div>
       </section>
 
-      <section
-        className="block block--darkbg eva-svc-section"
-        aria-labelledby="pair-projects"
-      >
-        <div className="container">
-          <h2 id="pair-projects" className="h--md">
-            {h.projects}
-          </h2>
-          <PosterBatchGrid
-            titleAs="h3"
-            items={pair.projects.map((p) => ({
-              id: p.id,
-              href: projectHref(p.slug),
-              title: p.title,
-              ...(p.poster ? { poster: p.poster } : {}),
-              alt: projectPosterAlt(p),
-            }))}
-          />
-        </div>
-      </section>
+      {pair.projects.length > 0 && (
+        <section
+          className="block block--darkbg eva-svc-section"
+          aria-labelledby="pair-projects"
+        >
+          <div className="container">
+            <h2 id="pair-projects" className="h--md">
+              {h.projects}
+            </h2>
+            <PosterBatchGrid
+              titleAs="h3"
+              items={pair.projects.map((p) => ({
+                id: p.id,
+                href: projectHref(p.slug),
+                title: p.title,
+                ...(p.poster ? { poster: p.poster } : {}),
+                alt: projectPosterAlt(p),
+              }))}
+            />
+          </div>
+        </section>
+      )}
 
       <section className="block eva-svc-section" aria-labelledby="pair-process">
         <div className="container">
@@ -295,7 +311,7 @@ export default async function LanguageHubPage({
             {faqs.map((f, i) => (
               <details key={f.q} className="eva-faq-item" open={i === 0}>
                 <summary>{f.q}</summary>
-                <p>{f.a}</p>
+                <p>{inline(f.a)}</p>
               </details>
             ))}
           </div>

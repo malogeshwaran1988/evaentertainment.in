@@ -5430,7 +5430,7 @@ html:not(.eva-bg-ready) .home-page > .eva-what-we-do {
   --pc-chip-bg: #f2f4ef;
   --pc-badge-text: #fff;
 }
-.eva-pair-cards .eva-pair-cards__title { text-align: left; margin-bottom: 24px; color: var(--pc-text); }
+.eva-pair-cards .eva-pair-cards__title { text-align: center; margin-bottom: 24px; color: var(--pc-text); }
 .eva-pair-cards__grid {
   list-style: none;
   margin: 0;
@@ -5523,4 +5523,55 @@ html:not(.eva-bg-ready) .home-page > .eva-what-we-do {
     --lm-a11y-accent-ink: #0b0d10;
     --lm-a11y-focus: #70b615;
   }
+}
+
+/* Pair cards to tabs breathing room (only when content follows the card grid) */
+.eva-projects-intro .eva-pair-cards {
+  margin-bottom: 60px;
+}
+.eva-projects-filters + .eva-projects-filters ~ .eva-projects-grid,
+.eva-projects-filters ~ .eva-projects-grid {
+  margin-top: 56px;
+}
+@media (max-width: 767px) {
+  .eva-projects-intro .eva-pair-cards {
+    margin-bottom: 40px;
+  }
+  .eva-projects-filters ~ .eva-projects-grid {
+    margin-top: 40px;
+  }
+}
+
+/* Center the language pair section on every page */
+.eva-pair-cards .eva-pair-cards__title {
+  text-align: center;
+}
+.eva-pair-cards .eva-pair-cards__grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+}
+.eva-pair-cards .eva-pair-cards__grid > li {
+  flex: 0 1 260px;
+  min-width: 0;
+  display: flex;
+}
+.eva-pair-cards .eva-pair-cards__grid > li > .eva-pair-card {
+  width: 100%;
+}
+@media (max-width: 767px) {
+  .eva-pair-cards .eva-pair-cards__grid {
+    gap: 12px;
+  }
+  .eva-pair-cards .eva-pair-cards__grid > li {
+    flex: 0 1 calc(50% - 6px);
+  }
+}
+
+/* Related services: the page's own 3 related links as name-only cards, centred (Oct 2026 uniqueness pass). */
+.eva-related-services--compact .eva-wwd-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; max-width: 1100px; }
+.eva-related-services--compact .eva-wwd-grid > li { flex: 0 1 300px; }
+@media (max-width: 767px) {
+  .eva-related-services--compact .eva-wwd-grid > li { flex-basis: 100%; }
 }
