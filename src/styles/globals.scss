@@ -5506,3 +5506,21 @@ html:not(.eva-bg-ready) .home-page > .eva-what-we-do {
   .eva-pair-card { transition: none; }
   .eva-pair-card:hover { transform: none; }
 }
+
+/* LasMind a11y menu in EVA green. 0.2.3 has no primary colour option, so its documented
+   --lm-a11y-* tokens are set on the shadow hosts (page styles beat the package's :host tokens).
+   Light panel: darker green for AA with white text. Dark panel: brand green with dark text. */
+[data-lasmind-a11y-portal],
+[data-lasmind-a11y-ui] {
+  --lm-a11y-accent: #4e7e0f;
+  --lm-a11y-accent-ink: #ffffff;
+  --lm-a11y-focus: #4e7e0f;
+}
+@media (prefers-color-scheme: dark) {
+  [data-lasmind-a11y-portal],
+  [data-lasmind-a11y-ui] {
+    --lm-a11y-accent: #70b615;
+    --lm-a11y-accent-ink: #0b0d10;
+    --lm-a11y-focus: #70b615;
+  }
+}
