@@ -5,6 +5,12 @@ import { absoluteUrl, buildPageMetadata } from "@@/lib/seo";
 import { connection } from "next/server";
 import { SvgIcon } from "@@/components/common/Icons";
 import ProjectsGallery from "@@/components/projects/ProjectsGallery";
+import LanguageHubLinks from "@@/components/projects/LanguageHubLinks";
+import Link from "@@/components/common/NavLink";
+import { serviceHref } from "@@/constants/routes";
+import { languagePairs } from "@@/lib/project-links";
+import { getProjects } from "@@/lib/projects-store";
+import { projectIsPublished } from "@@/data/projects";
 import ProjectImpactStrip, { IMPACT_STRIP_ENABLED } from "@@/components/projects/ProjectImpactStrip";
 import { getPublicProjects } from "@@/lib/projects-public";
 import {
@@ -46,6 +52,7 @@ export default async function ProjectsPage({
   // Same cached reader as before (unstable_cache), so no extra Blob reads per request.
   const { projects: allProjects } = await getPublicProjects();
   const impact = aggregateProjectImpact(allProjects);
+  const pairs = languagePairs((await getProjects()).filter(projectIsPublished));
 
   // Only the selected language tab is rendered and serialised; other tabs load on click.
   const ranked = rankLanguages(allProjects);
@@ -112,6 +119,20 @@ export default async function ProjectsPage({
         aria-label="Project portfolio"
       >
         <div className="container">
+          <div className="eva-projects-intro">
+            <p className="p--lg">
+              These are the films and series our team has dubbed at our studio in Andheri West, Mumbai.
+              Most are South Indian films dubbed into Hindi with lip-sync dialogue adaptation, Hindi
+              voice casting and a final mix ready for OTT, TV or theatrical release.
+            </p>
+            <p>
+              Each project page lists the language pair and release year. To see how we handle a
+              language, open its hub below or read about our{" "}
+              <Link className="link-on-dark" href={serviceHref("dubbing-studio")}>lip-sync dubbing studio</Link> and{" "}
+              <Link className="link-on-dark" href={serviceHref("regional-film-dubbing")}>regional film dubbing</Link>.
+            </p>
+            <LanguageHubLinks pairs={pairs} heading="Projects by language pair" id="projects-hubs" />
+          </div>
           <ProjectsGallery projects={projects} tabs={tabs} selected={selected} otherLinks={otherLinks} />
         </div>
       </section>

@@ -8,6 +8,7 @@ import { SvgIcon } from "@@/components/common/Icons";
 import { PosterPlaceholder } from "@@/components/projects/ProjectPoster";
 import ProjectAdjacentNav from "@@/components/projects/ProjectAdjacentNav";
 import ProjectExplore from "@@/components/projects/ProjectExplore";
+import { languageHubHref } from "@@/lib/project-links";
 import ProjectTrailer from "@@/components/projects/ProjectTrailer";
 import ProjectClientBadge from "@@/components/clients/ProjectClientBadge";
 import { toProjectClient } from "@@/data/clients";
@@ -43,8 +44,19 @@ export const dynamicParams = true;
 /** ISR: cached at the edge, refreshed hourly and on every admin save (revalidatePath). */
 export const revalidate = 3600;
 
-const ogImageFor = (p: Project) =>
-  `/og/projects/${p.slug}?v=${new Date(p.updatedAt || p.createdAt).getTime().toString(36)}`;
+/**
+ * Stable share-card URL: the version follows the poster file itself (its upload ?v= or a hash of
+ * its path), not updatedAt, so text edits and rebuilds never mint new /og URLs for crawlers.
+ */
+const ogImageFor = (p: Project) => `/og/projects/${p.slug}?v=${posterVersion(p.poster ?? "")}`;
+
+function posterVersion(poster: string) {
+  const v = poster.split("?v=")[1];
+  if (v && /^[a-z0-9]+$/i.test(v)) return v;
+  let h = 0;
+  for (let i = 0; i < poster.length; i++) h = (Math.imul(31, h) + poster.charCodeAt(i)) | 0;
+  return (h >>> 0).toString(36);
+}
 
 /** Tiny optimizer rendition for the blurred hero backdrop (the full poster is loaded once below). */
 const heroBackdrop = (poster: string | undefined) =>
@@ -71,6 +83,8 @@ export async function generateMetadata({
     ogImageAlt: projectPosterAlt(project),
   });
 }
+
+const REGIONAL_LANGUAGES = new Set<string>(["Telugu", "Tamil", "Malayalam", "Kannada"]);
 
 function neighbors(projects: Project[], slug: string) {
   const index = projects.findIndex((p) => p.slug === slug);
@@ -111,6 +125,12 @@ export default async function ProjectDetailPage({
     return { name, href: svc ? serviceHref(svc.slug) : undefined };
   });
   const yearChip = projectYearChip(project);
+  const marketPage =
+    project.from === "English"
+      ? { slug: "hollywood-dubbing-indian-languages" as const, label: "Hollywood dubbing into Indian languages" }
+      : REGIONAL_LANGUAGES.has(project.from)
+        ? { slug: "regional-film-dubbing" as const, label: "Regional film dubbing" }
+        : null;
   const trailerId = youtubeId(project.trailerUrl);
   // No target language: sections read "Voice cast" / "Trailer".
   const mainTarget = project.to[0] ?? "";
@@ -384,6 +404,30 @@ export default async function ProjectDetailPage({
               </section>
             ) : null}
           </div>
+
+          <nav className="eva-project-content eva-hub-links" aria-labelledby="pc-related">
+            <h2 id="pc-related" className="h--md">Related dubbing work</h2>
+            <ul>
+              {project.to.map((lang) => (
+                <li key={lang}>
+                  <Link className="link-on-dark" href={languageHubHref(project.from, lang)}>
+                    More {project.from} to {lang} dubbing projects
+                  </Link>
+                </li>
+              ))}
+              {marketPage ? (
+                <li>
+                  <Link className="link-on-dark" href={serviceHref(marketPage.slug)}>{marketPage.label}</Link>
+                </li>
+              ) : null}
+              <li>
+                <Link className="link-on-dark" href={serviceHref("dubbing-studio")}>Our lip-sync dubbing studio in Mumbai</Link>
+              </li>
+              <li>
+                <Link className="link-on-dark" href={Routes.PROJECTS}>All our projects</Link>
+              </li>
+            </ul>
+          </nav>
 
           <ProjectExplore projects={exploreProjects} />
         </div>

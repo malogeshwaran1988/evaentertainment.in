@@ -94,10 +94,10 @@ export default async function LanguageHubPage({ params }: { params: Promise<{ pa
           <p>
             {SITE_NAME} has dubbed {pair.projects.length} {pair.from} title
             {pair.projects.length === 1 ? "" : "s"} into {pair.to}. Learn more about our{" "}
-            <Link href={serviceHref("dubbing-studio")}>lip-sync dubbing studio in Mumbai</Link>,{" "}
-            <Link href={serviceHref("translation-services")}>script translation</Link> and{" "}
-            <Link href={serviceHref("5-1-mixing-studio")}>5.1 mixing</Link> or{" "}
-            <Link href={Routes.CONTACT}>contact us</Link> for a quote.
+            <Link className="link-on-dark" href={serviceHref("dubbing-studio")}>lip-sync dubbing studio in Mumbai</Link>,{" "}
+            <Link className="link-on-dark" href={serviceHref("translation-services")}>script translation</Link> and{" "}
+            <Link className="link-on-dark" href={serviceHref("5-1-mixing-studio")}>5.1 mixing</Link> or{" "}
+            <Link className="link-on-dark" href={Routes.CONTACT}>contact us</Link> for a quote.
           </p>
           <PosterBatchGrid
             items={pair.projects.map((p) => ({
