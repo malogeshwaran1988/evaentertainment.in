@@ -9,7 +9,6 @@ Disallow: /login
 Disallow: /admin
 Disallow: /admin/
 Disallow: /preview/
-Disallow: /thank-you
 
 User-agent: Googlebot
 Allow: /
@@ -18,7 +17,6 @@ Disallow: /login
 Disallow: /admin
 Disallow: /admin/
 Disallow: /preview/
-Disallow: /thank-you
 
 User-agent: Google-InspectionTool
 Allow: /

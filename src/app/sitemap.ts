@@ -7,17 +7,29 @@ import { blogHref } from "@@/lib/blog/slug";
 import { getPublicBlogPosts } from "@@/lib/blog/store";
 import { getProjects } from "@@/lib/projects-store";
 import { LANGUAGE_HUB_PREFIX, languagePairs } from "@@/lib/project-links";
-import { projectHref } from "@@/lib/project-seo";
-import { absoluteUrl, isNoindexRoute } from "@@/lib/seo";
+import { projectAbsolutePosterUrl, projectHref } from "@@/lib/project-seo";
+import { absoluteUrl, isIndexable } from "@@/lib/seo";
 
 /** Rebuilt hourly and on every admin save (revalidatePath("/sitemap.xml")). */
 export const revalidate = 3600;
 
-type Entry = [path: string, changeFrequency: "weekly" | "monthly" | "yearly", priority: number];
+/** changefreq is left out on purpose: Google ignores it. lastmod is the real content edit date. */
+type Entry = [path: string, priority: number];
 
-const LASTMOD = STATIC_LASTMOD as Record<string, string | null>;
+const MARKET_SLUGS = new Set<string>([
+  "hollywood-dubbing-indian-languages",
+  "pan-india-film-dubbing",
+  "regional-film-dubbing",
+  "indian-languages",
+]);
+
+const LASTMOD = STATIC_LASTMOD as Record<string, string | null | undefined>;
+/** Real last-changed date from git from scripts/gen-static-lastmod.mjs at prebuild. */
 const lastmodFor = (path: string) => {
-  const raw = SERVICE_SLUGS.some((s) => serviceHref(s) === path) ? LASTMOD["service:*"] : LASTMOD[path];
+  const slug = SERVICE_SLUGS.find((s) => serviceHref(s) === path);
+  const raw = slug
+    ? (MARKET_SLUGS.has(slug) ? LASTMOD["service:markets"] : LASTMOD["service:core"]) ?? LASTMOD["service:*"]
+    : LASTMOD[path];
   return raw ? new Date(raw) : undefined;
 };
 
@@ -26,27 +38,24 @@ const lastmodFor = (path: string) => {
  * see NOINDEX_ROUTES in src/lib/seo.ts.
  */
 const ENTRIES: Entry[] = [
-  [Routes.HOME, "weekly", 1],
-  ...SERVICE_SLUGS.map((slug): Entry => [serviceHref(slug), "monthly", 0.9]),
-  [Routes.PROJECTS, "weekly", 0.8],
-  [Routes.ABOUT, "monthly", 0.8],
-  [Routes.EQUIPMENT, "monthly", 0.7],
-  [Routes.CONTACT, "monthly", 0.8],
-  [Routes.CLIENTS, "monthly", 0.7],
-  [Routes.CAREERS, "monthly", 0.6],
-  [Routes.PRIVACY, "yearly", 0.3],
-  [Routes.TERMS, "yearly", 0.3],
+  [Routes.HOME, 1],
+  ...SERVICE_SLUGS.map((slug): Entry => [serviceHref(slug), 0.9]),
+  [Routes.PROJECTS, 0.8],
+  [Routes.ABOUT, 0.6],
+  [Routes.EQUIPMENT, 0.6],
+  [Routes.CONTACT, 0.6],
+  [Routes.CLIENTS, 0.5],
+  [Routes.CAREERS, 0.4],
+  [Routes.PRIVACY, 0.2],
+  [Routes.TERMS, 0.2],
 ];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const staticEntries: MetadataRoute.Sitemap = ENTRIES.filter(([path]) => !isNoindexRoute(path)).map(
-    ([path, changeFrequency, priority]) => ({
-      url: absoluteUrl(path),
-      lastModified: lastmodFor(path),
-      changeFrequency,
-      priority,
-    }),
-  );
+  const staticEntries: MetadataRoute.Sitemap = ENTRIES.map(([path, priority]) => ({
+    url: absoluteUrl(path),
+    lastModified: lastmodFor(path),
+    priority,
+  }));
 
   let projects: Awaited<ReturnType<typeof getProjects>> = [];
   try {
@@ -57,12 +66,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }
 
   // Every published project is indexable with a self canonical.
-  const projectEntries: MetadataRoute.Sitemap = projects.map((project) => ({
-    url: absoluteUrl(projectHref(project.slug)),
-    lastModified: new Date(project.updatedAt || project.createdAt),
-    changeFrequency: "monthly" as const,
-    priority: 0.7,
-  }));
+  const projectEntries: MetadataRoute.Sitemap = projects.map((project) => {
+    const poster = projectAbsolutePosterUrl(project.poster);
+    return {
+      url: absoluteUrl(projectHref(project.slug)),
+      lastModified: new Date(project.updatedAt || project.createdAt),
+      priority: 0.6,
+      ...(poster ? { images: [poster] } : {}),
+    };
+  });
 
   const hubEntries: MetadataRoute.Sitemap = languagePairs(projects)
     .map((pair) => ({
@@ -70,8 +82,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: new Date(
         Math.max(...pair.projects.map((p) => new Date(p.updatedAt || p.createdAt).getTime())),
       ),
-      changeFrequency: "weekly" as const,
-      priority: 0.8,
+      priority: 0.7,
     }));
 
   // Only live posts (published and publish date reached); drafts and scheduled posts never appear.
@@ -86,17 +97,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         {
           url: absoluteUrl(Routes.BLOG),
           lastModified: new Date(Math.max(...posts.map((p) => new Date(p.updatedAt).getTime()))),
-          changeFrequency: "weekly" as const,
           priority: 0.7,
         },
         ...posts.map((post) => ({
           url: absoluteUrl(blogHref(post.slug)),
           lastModified: new Date(post.updatedAt),
-          changeFrequency: "monthly" as const,
           priority: 0.6,
         })),
       ]
     : [];
 
-  return [...staticEntries, ...hubEntries, ...projectEntries, ...blogEntries];
+  // Last guard: never list a private or utility URL (see isIndexable in src/lib/seo.ts).
+  return [...staticEntries, ...hubEntries, ...projectEntries, ...blogEntries].filter((e) =>
+    isIndexable(new URL(e.url).pathname),
+  );
 }

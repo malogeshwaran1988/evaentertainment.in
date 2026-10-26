@@ -71,6 +71,12 @@ const nextConfig: NextConfig = {
             },
           ]),
       {
+        // Share-card images: fetchable by Google and social crawlers (not blocked in robots.txt)
+        // but never indexed as pages.
+        source: "/og/:path*",
+        headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }],
+      },
+      {
         // Admin-only blog preview: never cached, never indexed.
         source: "/preview/:path*",
         headers: [
@@ -91,7 +97,7 @@ const nextConfig: NextConfig = {
           },
         ],
       },
-      ...["/login", "/admin", "/admin/:path*", "/thank-you"].map((source) => ({
+      ...["/login", "/admin", "/admin/:path*", "/preview", "/thank-you"].map((source) => ({
         source,
         headers: [{ key: "X-Robots-Tag", value: "noindex, follow, noarchive" }],
       })),

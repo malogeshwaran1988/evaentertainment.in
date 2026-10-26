@@ -17,7 +17,24 @@ const ROUTES = {
   "/contact-us": ["src/app/(web)/contact-us", "src/data/contact.ts"],
   "/privacy-policy": ["src/app/(web)/privacy-policy", "src/data/privacy.ts"],
   "/terms-conditions": ["src/app/(web)/terms-conditions", "src/data/terms.ts"],
+  "/clients": ["src/app/(web)/clients", "src/data/clients.ts", "src/components/clients"],
+  "/careers": ["src/app/(web)/careers", "src/data/careers.ts"],
   "service:*": ["src/app/(web)/[service]", "src/data/services.ts", "src/components/services"],
+  // Core service pages: shared template plus their own copy and media.
+  "service:core": [
+    "src/app/(web)/[service]",
+    "src/data/services.ts",
+    "src/data/service-pages.ts",
+    "src/data/service-media.ts",
+    "src/components/services",
+  ],
+  // The 4 market pages (Hollywood, pan-India, Indian languages and regional) have their own copy files.
+  "service:markets": [
+    "src/app/(web)/[service]",
+    "src/data/services-markets.ts",
+    "src/data/service-pages-markets.ts",
+    "src/components/services",
+  ],
 };
 
 function lastCommit(paths) {

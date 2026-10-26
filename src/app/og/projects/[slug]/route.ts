@@ -5,7 +5,7 @@ import { getProjectBySlug } from "@@/lib/projects-store";
 
 /**
  * 1200×630 JPG share card per project: the poster centred on a blurred, darkened copy of
- * itself. Linked from og:image with ?v=<updatedAt> so caches refresh after edits.
+ * itself. Linked from og:image with ?v=<poster version> so caches refresh only when the poster changes.
  */
 const W = 1200;
 const H = 630;

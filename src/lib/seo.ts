@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { APP_BASE_URL, SITE_NAME } from "@@/constants/constants";
+import { BLOG_ENABLED } from "@@/lib/blog/enabled";
 
 type PageSeo = {
   title: string;
@@ -22,8 +23,17 @@ export const STATUS_PAGE_ROBOTS: Metadata["robots"] = {
   googleBot: { index: false, follow: true },
 };
 
-/** Status/utility routes that must never be indexed or appear in sitemap.xml. */
-export const NOINDEX_ROUTES = ["/thank-you", "/login", "/admin", "/preview"] as const;
+/**
+ * Single source of truth for indexability. Private or utility prefixes (and everything under them)
+ * are never indexed or listed in sitemap.xml; next.config.ts sends a matching X-Robots-Tag header.
+ */
+export const NOINDEX_ROUTES = ["/thank-you", "/login", "/admin", "/preview", "/api", "/og"] as const;
+
+/**
+ * Exact paths kept out of search for now. /blog is a "Coming soon" stub until real posts are live
+ * (the blog page sets its own noindex until then). It is indexable once NEXT_PUBLIC_BLOG_ENABLED is on.
+ */
+export const NOINDEX_EXACT: readonly string[] = BLOG_ENABLED ? [] : ["/blog"];
 
 /**
  * Live but unpublished pages: reachable and linked, but `noindex, follow` and left out of
@@ -34,8 +44,16 @@ export const UNPUBLISHED_ROUTES: readonly string[] = [];
 export const isUnpublishedRoute = (path: string) => UNPUBLISHED_ROUTES.includes(path.replace(/\/+$/, "") || "/");
 
 export function isNoindexRoute(path: string) {
-  return isUnpublishedRoute(path) || NOINDEX_ROUTES.some((r) => path === r || path.startsWith(`${r}/`));
+  const clean = path.replace(/\/+$/, "") || "/";
+  return (
+    isUnpublishedRoute(clean) ||
+    NOINDEX_EXACT.includes(clean) ||
+    NOINDEX_ROUTES.some((r) => clean === r || clean.startsWith(`${r}/`))
+  );
 }
+
+/** True for every public page: all published projects, dubbing hubs and static pages. */
+export const isIndexable = (path: string) => !isNoindexRoute(path);
 
 const pathOf = (url: string) => {
   try {
