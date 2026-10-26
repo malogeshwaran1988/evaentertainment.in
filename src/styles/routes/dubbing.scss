@@ -78,3 +78,11 @@
   .eva-pair-steps li, .eva-pair-page .eva-project-card { transition: none; }
   .eva-pair-steps li:hover, .eva-pair-page .eva-project-card:hover, .eva-pair-page .eva-project-card:focus-within { transform: none; }
 }
+
+/* Intro: text top-aligned with the image and a tighter top pad under the hero. */
+.eva-pair-page .block.eva-pair-intro { padding-top: 48px; }
+.eva-pair-intro .eva-svc-split { align-items: start; }
+.eva-pair-intro .eva-svc-copy > :first-child { margin-top: 0; }
+@media (max-width: 767px) {
+  .eva-pair-page .block.eva-pair-intro { padding-top: 32px; }
+}
