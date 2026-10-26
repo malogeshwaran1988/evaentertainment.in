@@ -8,7 +8,6 @@ import ContactCtaServer from "@@/components/common/ContactCtaServer";
 import GoToTopButton from "@@/components/common/GoToTopButton";
 import BodyClass from "@@/components/common/BodyClass";
 import CookieConsent from "@@/components/common/CookieConsent";
-import WebHead from "@@/components/common/WebHead";
 import { GtmHead, GtmNoscript } from "@@/components/common/GoogleTagManager";
 import {
   APP_BASE_URL,
@@ -70,7 +69,6 @@ export default function WebLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
         <GtmHead />
-        <WebHead />
       </head>
       <body className="is-loaded">
         <GtmNoscript />

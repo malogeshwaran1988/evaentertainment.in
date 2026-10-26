@@ -120,7 +120,7 @@ export default function HeroSlider() {
                   alt={slide.alt}
                   fill
                   {...imageLoading(i)}
-                  sizes="100vw"
+                  sizes="108vw"
                   className={`eva-hero-media-img${slide.flip ? " eva-hero-media-img--flip" : ""}`}
                 />
                 <ImageEffects fx={slide.fx} />

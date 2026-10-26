@@ -3,7 +3,7 @@
   --eva-content-max: 1536px;
 }
 
-/* Self-hosted Raleway (variable 100-900, OFL). The latin file is preloaded in WebHead. */
+/* Self-hosted Raleway (variable 100-900, OFL). Not preloaded: the CSS discovers it early enough. */
 @font-face {
   font-family: "Raleway";
   font-style: normal;
@@ -3997,6 +3997,11 @@ body:not(.page-blog) .block--darkbg h3.eva-service-ideal-title,
   }
 
   a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 2px;
+    vertical-align: middle;
     color: #abee2d;
     text-decoration: underline;
     text-underline-offset: 2px;
