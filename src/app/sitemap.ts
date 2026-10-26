@@ -2,23 +2,34 @@ import type { MetadataRoute } from "next";
 import { Routes, SERVICE_SLUGS, serviceHref } from "@@/constants/routes";
 import { projectIsPublished } from "@@/data/projects";
 import STATIC_LASTMOD from "@@/data/static-lastmod.json";
-import { BLOG_ENABLED } from "@@/lib/blog/enabled";
+import { BLOG_ENABLED, BLOG_HUB_MIN_POSTS } from "@@/lib/blog/enabled";
 import { blogHref } from "@@/lib/blog/slug";
 import { getPublicBlogPosts } from "@@/lib/blog/store";
 import { getProjects } from "@@/lib/projects-store";
-import { projectIsIndexable } from "@@/lib/project-content";
-import { LANGUAGE_HUB_MIN_PROJECTS, LANGUAGE_HUB_PREFIX, languagePairs } from "@@/lib/project-links";
-import { projectHref } from "@@/lib/project-seo";
-import { absoluteUrl, isNoindexRoute } from "@@/lib/seo";
+import { LANGUAGE_HUB_PREFIX, languagePairs } from "@@/lib/project-links";
+import { projectAbsolutePosterUrl, projectHref } from "@@/lib/project-seo";
+import { absoluteUrl, isIndexable } from "@@/lib/seo";
 
-/** Rebuilt hourly and on every admin save (revalidatePath("/sitemap.xml")). */
+/** Rebuilt hourly and on every admin save (revalidateContent in src/lib/revalidate-content.ts). */
 export const revalidate = 3600;
 
-type Entry = [path: string, changeFrequency: "weekly" | "monthly" | "yearly", priority: number];
+/** changefreq is left out on purpose: Google ignores it. lastmod is the real content edit date. */
+type Entry = [path: string, priority: number];
 
-const LASTMOD = STATIC_LASTMOD as Record<string, string | null>;
+const MARKET_SLUGS = new Set<string>([
+  "hollywood-dubbing-indian-languages",
+  "pan-india-film-dubbing",
+  "regional-film-dubbing",
+  "indian-languages",
+]);
+
+const LASTMOD = STATIC_LASTMOD as Record<string, string | null | undefined>;
+/** Real last-changed date from git from scripts/gen-static-lastmod.mjs at prebuild. */
 const lastmodFor = (path: string) => {
-  const raw = SERVICE_SLUGS.some((s) => serviceHref(s) === path) ? LASTMOD["service:*"] : LASTMOD[path];
+  const slug = SERVICE_SLUGS.find((s) => serviceHref(s) === path);
+  const raw = slug
+    ? (MARKET_SLUGS.has(slug) ? LASTMOD["service:markets"] : LASTMOD["service:core"]) ?? LASTMOD["service:*"]
+    : LASTMOD[path];
   return raw ? new Date(raw) : undefined;
 };
 
@@ -27,78 +38,93 @@ const lastmodFor = (path: string) => {
  * see NOINDEX_ROUTES in src/lib/seo.ts.
  */
 const ENTRIES: Entry[] = [
-  [Routes.HOME, "weekly", 1],
-  ...SERVICE_SLUGS.map((slug): Entry => [serviceHref(slug), "monthly", 0.9]),
-  [Routes.PROJECTS, "weekly", 0.8],
-  [Routes.ABOUT, "monthly", 0.8],
-  [Routes.EQUIPMENT, "monthly", 0.7],
-  [Routes.CONTACT, "monthly", 0.8],
-  [Routes.CLIENTS, "monthly", 0.7],
-  [Routes.CAREERS, "monthly", 0.6],
-  [Routes.PRIVACY, "yearly", 0.3],
-  [Routes.TERMS, "yearly", 0.3],
+  [Routes.HOME, 1],
+  ...SERVICE_SLUGS.map((slug): Entry => [serviceHref(slug), 0.9]),
+  [Routes.PROJECTS, 0.8],
+  [Routes.ABOUT, 0.6],
+  [Routes.EQUIPMENT, 0.6],
+  [Routes.CONTACT, 0.6],
+  [Routes.CLIENTS, 0.5],
+  [Routes.CAREERS, 0.4],
+  [Routes.PRIVACY, 0.2],
+  [Routes.TERMS, 0.2],
 ];
 
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const staticEntries: MetadataRoute.Sitemap = ENTRIES.filter(([path]) => !isNoindexRoute(path)).map(
-    ([path, changeFrequency, priority]) => ({
-      url: absoluteUrl(path),
-      lastModified: lastmodFor(path),
-      changeFrequency,
-      priority,
-    }),
-  );
+type Section = () => Promise<MetadataRoute.Sitemap>;
+type PublishedProjects = Awaited<ReturnType<typeof getProjects>>;
 
-  let projects: Awaited<ReturnType<typeof getProjects>> = [];
+/** Published projects are read once per sitemap build; a store hiccup never drops the static URLs. */
+async function publishedProjects(): Promise<PublishedProjects> {
   try {
-    projects = (await getProjects()).filter(projectIsPublished);
+    return (await getProjects()).filter(projectIsPublished);
   } catch (err) {
-    // Never drop the whole sitemap because the project store is briefly unavailable.
     console.error("[sitemap] projects unavailable", err);
+    return [];
   }
+}
 
-  // Thin project pages are noindex until enriched, so they stay out of the sitemap too.
-  const projectEntries: MetadataRoute.Sitemap = projects.filter((p) => projectIsIndexable(p)).map((project) => ({
-    url: absoluteUrl(projectHref(project.slug)),
-    lastModified: new Date(project.updatedAt || project.createdAt),
-    changeFrequency: "monthly" as const,
+const staticSection: Section = async () =>
+  ENTRIES.map(([path, priority]) => ({ url: absoluteUrl(path), lastModified: lastmodFor(path), priority }));
+
+/** Every published project is indexable with a self canonical. lastmod is its admin updatedAt. */
+const projectSection = (projects: PublishedProjects): MetadataRoute.Sitemap =>
+  projects.map((project) => {
+    const poster = projectAbsolutePosterUrl(project.poster);
+    return {
+      url: absoluteUrl(projectHref(project.slug)),
+      lastModified: new Date(project.updatedAt || project.createdAt),
+      priority: 0.6,
+      ...(poster ? { images: [poster] } : {}),
+    };
+  });
+
+const hubSection = (projects: PublishedProjects): MetadataRoute.Sitemap => [
+  ...(projects.length ? [{ url: absoluteUrl(LANGUAGE_HUB_PREFIX), priority: 0.6 }] : []),
+  ...languagePairs(projects).map((pair) => ({
+    url: absoluteUrl(`${LANGUAGE_HUB_PREFIX}/${pair.slug}`),
+    lastModified: new Date(Math.max(...pair.projects.map((p) => new Date(p.updatedAt || p.createdAt).getTime()))),
     priority: 0.7,
-  }));
+  })),
+];
 
-  const hubEntries: MetadataRoute.Sitemap = languagePairs(projects)
-    .filter((pair) => pair.projects.length >= LANGUAGE_HUB_MIN_PROJECTS)
-    .map((pair) => ({
-      url: absoluteUrl(`${LANGUAGE_HUB_PREFIX}/${pair.slug}`),
-      lastModified: new Date(
-        Math.max(...pair.projects.map((p) => new Date(p.updatedAt || p.createdAt).getTime())),
-      ),
-      changeFrequency: "weekly" as const,
-      priority: 0.8,
-    }));
-
-  // Only live posts (published and publish date reached); drafts and scheduled posts never appear.
+/** Only live posts (published and publish date reached). /blog itself joins at BLOG_HUB_MIN_POSTS. */
+const blogSection: Section = async () => {
+  if (!BLOG_ENABLED) return [];
   let posts: Awaited<ReturnType<typeof getPublicBlogPosts>> = [];
   try {
-    if (BLOG_ENABLED) posts = await getPublicBlogPosts();
+    posts = await getPublicBlogPosts();
   } catch (err) {
     console.error("[sitemap] blog unavailable", err);
   }
-  const blogEntries: MetadataRoute.Sitemap = posts.length
-    ? [
-        {
-          url: absoluteUrl(Routes.BLOG),
-          lastModified: new Date(Math.max(...posts.map((p) => new Date(p.updatedAt).getTime()))),
-          changeFrequency: "weekly" as const,
-          priority: 0.7,
-        },
-        ...posts.map((post) => ({
-          url: absoluteUrl(blogHref(post.slug)),
-          lastModified: new Date(post.updatedAt),
-          changeFrequency: "monthly" as const,
-          priority: 0.6,
-        })),
-      ]
-    : [];
+  const hub: MetadataRoute.Sitemap =
+    posts.length >= BLOG_HUB_MIN_POSTS
+      ? [
+          {
+            url: absoluteUrl(Routes.BLOG),
+            lastModified: new Date(Math.max(...posts.map((p) => new Date(p.updatedAt).getTime()))),
+            priority: 0.7,
+          },
+        ]
+      : [];
+  return [
+    ...hub,
+    ...posts.map((post) => ({ url: absoluteUrl(blogHref(post.slug)), lastModified: new Date(post.updatedAt), priority: 0.6 })),
+  ];
+};
 
-  return [...staticEntries, ...hubEntries, ...projectEntries, ...blogEntries];
+/**
+ * Sections are independent so a sitemap index can be added later without rewriting them:
+ * near 5,000 URLs, export generateSitemaps() returning one id per section and call the matching
+ * section here by id. Until then one sitemap.xml is simpler for Search Console.
+ */
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const projects = await publishedProjects();
+  const all = [
+    ...(await staticSection()),
+    ...hubSection(projects),
+    ...projectSection(projects),
+    ...(await blogSection()),
+  ];
+  // Last guard: never list a private or utility URL (see isIndexable in src/lib/seo.ts).
+  return all.filter((e) => isIndexable(new URL(e.url).pathname));
 }

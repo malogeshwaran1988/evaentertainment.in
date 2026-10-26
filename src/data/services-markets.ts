@@ -33,7 +33,7 @@ export const MARKET_SERVICES: Service[] = [
   {
     slug: "pan-india-film-dubbing",
     name: "Pan-India Dubbing",
-    icon: "icon-lip-syncdubbing-01",
+    svg: "film",
     h1: "Pan-India Film Dubbing for Multi-Language Releases",
     subtitle: "One studio for every language version of your release, from Hindi to Malayalam.",
     summary: "One film released in up to 10 Indian languages.",
@@ -55,7 +55,7 @@ export const MARKET_SERVICES: Service[] = [
   {
     slug: "regional-film-dubbing",
     name: "Regional Film Dubbing",
-    icon: "icon-voiceover",
+    svg: "video",
     h1: "Regional Film Dubbing Studio in Mumbai",
     subtitle: "Telugu, Tamil, Malayalam and Kannada films dubbed into Hindi and other Indian languages.",
     summary: "South Indian films dubbed into Hindi and more.",
@@ -77,7 +77,7 @@ export const MARKET_SERVICES: Service[] = [
   {
     slug: "indian-languages",
     name: "Indian Languages",
-    icon: "icon-translate2",
+    svg: "globe",
     h1: "Dubbing in India's Top 10 Languages",
     subtitle: "Hindi, Bengali, Marathi, Telugu, Tamil, Gujarati, Urdu, Kannada, Odia and Malayalam, plus English.",
     summary: "Dubbing and subtitles in India's top 10 languages.",

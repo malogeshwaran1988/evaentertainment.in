@@ -1,12 +1,11 @@
 "use server";
 
-import { revalidatePath, updateTag } from "next/cache";
-import { Routes } from "@@/constants/routes";
+import { revalidatePath } from "next/cache";
+import { revalidateContent } from "@@/lib/revalidate-content";
 import { CLIENT_NAME_MAX } from "@@/data/clients";
 import { requireAdmin } from "@@/lib/admin-auth";
 import { AdminRoutes } from "@@/lib/admin-session";
 import {
-  CLIENTS_TAG,
   createClient,
   deleteClient,
   deleteClientLogoQuietly,
@@ -29,13 +28,6 @@ const nameKey = (name: string) => name.toLowerCase().replace(/[^a-z0-9]+/g, "");
 function logoFile(formData: FormData) {
   const value = formData.get("logo");
   return value instanceof File && value.size > 0 ? value : null;
-}
-
-function revalidateClients() {
-  updateTag(CLIENTS_TAG);
-  revalidatePath(Routes.CLIENTS);
-  revalidatePath("/projects/[slug]", "page");
-  revalidatePath(AdminRoutes.CLIENTS);
 }
 
 async function duplicate(name: string, exceptId?: string): Promise<ClientFormState | null> {
@@ -61,7 +53,7 @@ export async function createClientAction(_prev: ClientFormState, formData: FormD
     if (!saved.ok) return { fieldErrors: { logo: saved.error }, message: saved.error };
     logo = saved.logo;
     const client = await createClient({ name, logo: saved.logo, width: saved.width, height: saved.height });
-    revalidateClients();
+    revalidateContent("client");
     return { ok: true, message: `“${client.name}” added.` };
   } catch (err) {
     console.error("Failed to create client", err);
@@ -96,7 +88,7 @@ export async function updateClientAction(
       return { message: "This client no longer exists." };
     }
     if (uploaded && result.previous.logo !== uploaded) await deleteClientLogoQuietly(result.previous.logo);
-    revalidateClients();
+    revalidateContent("client");
     revalidatePath(`${AdminRoutes.CLIENTS}/${id}/edit`);
     return { ok: true, message: `“${result.client.name}” updated.` };
   } catch (err) {
@@ -117,6 +109,6 @@ export async function deleteClientAction(id: string): Promise<ClientFormState> {
   }
   if (!removed) return { message: "This client was already deleted." };
   await deleteClientLogoQuietly(removed.logo);
-  revalidateClients();
+  revalidateContent("client");
   return { ok: true, message: `“${removed.name}” deleted.` };
 }

@@ -170,6 +170,7 @@ export function Header({ serviceNames }: { serviceNames: Record<ServiceSlug, str
                 alt={LOGO_ALT}
                 width={160}
                 height={45}
+                style={{ width: "auto", height: "auto" }}
                 loading="eager"
               />
               <span className="sr-only">{SITE_NAME} home</span>

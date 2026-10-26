@@ -1,3 +1,4 @@
+import { FontIcon } from "@@/components/common/Icons";
 import type { ReactNode } from "react";
 import { preload } from "react-dom";
 import Breadcrumbs, { type Crumb } from "@@/components/common/Breadcrumbs";
@@ -80,7 +81,7 @@ export default function PageHero({
       <div className="container">
         <div className="text-center">
           <h1>
-            {svg ?? (icon ? <i className={`icon ${icon}`} aria-hidden="true" /> : null)}
+            {svg ?? (icon ? <FontIcon name={icon} /> : null)}
             {title}
           </h1>
           {subtitle ? <p className="eva-page-hero__subtitle">{subtitle}</p> : null}

@@ -364,7 +364,7 @@ export default function ProjectsTable({ projects }: { projects: Project[] }) {
           }}
           options={[
             [ALL, "Any SEO status"],
-            ["thin", "Thin (noindex)"],
+            ["thin", "Thin (under word target)"],
             ["indexable", "Indexable"],
           ]}
         />

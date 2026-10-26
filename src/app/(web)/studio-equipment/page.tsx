@@ -1,3 +1,4 @@
+import { FontIcon } from "@@/components/common/Icons";
 import JsonLd from "@@/components/common/JsonLd";
 import PageHero from "@@/components/common/PageHero";
 import { Routes } from "@@/constants/routes";
@@ -60,7 +61,7 @@ export default function EquipmentPage() {
           <ul className="eva-equipment-highlights" aria-label="Studio highlights">
             {EQUIPMENT_EXPERIENCE.highlights.map((h) => (
               <li key={h.label}>
-                <i className={`icon ${h.icon}`} aria-hidden="true" />
+                <FontIcon name={h.icon} />
                 <span className="heading-as-h4">{h.value}</span>{" "}
                 <span className="eva-equipment-highlight-label">{h.label}</span>
               </li>

@@ -5,3 +5,6 @@
  * so redeploy after changing it).
  */
 export const BLOG_ENABLED = process.env.NEXT_PUBLIC_BLOG_ENABLED === "true";
+
+/** /blog is indexable (and listed in the sitemap) only once at least this many posts are live. */
+export const BLOG_HUB_MIN_POSTS = 2;

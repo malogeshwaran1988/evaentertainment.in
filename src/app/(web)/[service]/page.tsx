@@ -8,6 +8,10 @@ import ServiceFaq from "@@/components/services/ServiceFaq";
 import ServiceLead, { ServicePageCta } from "@@/components/services/ServiceLead";
 import ServiceSections from "@@/components/services/ServiceSections";
 import ServicePosterStrip from "@@/components/services/ServicePosterStrip";
+import LanguageHubLinks from "@@/components/projects/LanguageHubLinks";
+import { projectIsPublished } from "@@/data/projects";
+import { getProjects } from "@@/lib/projects-store";
+import { languagePairs } from "@@/lib/project-links";
 import { plain } from "@@/components/services/RichText";
 import { APP_BASE_URL, CONTACT, POSTAL_ADDRESS, SITE_NAME } from "@@/constants/constants";
 import { serviceHref } from "@@/constants/routes";
@@ -18,6 +22,23 @@ import { buildPageMetadata } from "@@/lib/seo";
 export const dynamicParams = false;
 /** Daily, so the {years} experience figure stays current. */
 export const revalidate = 86400;
+
+/** Dubbing pages that link every language hub (internal links to /dubbing/<pair>). */
+const HUB_LINK_PAGES = new Set<string>([
+  "dubbing-studio",
+  "hollywood-dubbing-indian-languages",
+  "pan-india-film-dubbing",
+  "regional-film-dubbing",
+  "indian-languages",
+]);
+
+async function hubPairs() {
+  try {
+    return languagePairs((await getProjects()).filter(projectIsPublished));
+  } catch {
+    return [];
+  }
+}
 
 export function generateStaticParams() {
   return SERVICES.map((s) => ({ service: s.slug }));
@@ -42,6 +63,7 @@ export default async function ServicePage({ params }: PageProps<"/[service]">) {
   const page = SERVICE_PAGES[service.slug];
   if (!page) notFound();
 
+  const pairs = HUB_LINK_PAGES.has(service.slug) ? await hubPairs() : [];
   const url = servicePageUrl(service.slug);
   const faqs = page.faqs.map((f) => ({ q: f.q, a: f.a }));
   const serviceSchema = {
@@ -93,6 +115,7 @@ export default async function ServicePage({ params }: PageProps<"/[service]">) {
       <ServiceLead service={service} page={page} />
       <ServiceSections sections={page.sections} />
       <ServicePosterStrip slugs={page.posterStrip} />
+      <LanguageHubLinks pairs={pairs} heading="Our dubbing work by language pair" section />
       <ServicePageCta page={page} />
       <ServiceFaq faqs={faqs} />
       <RelatedServices current={service.slug} />

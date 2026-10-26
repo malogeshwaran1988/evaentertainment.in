@@ -1,0 +1,89 @@
+/* /dubbing/<pair> language pages. Light sections use #47760d for green text (5.4:1 on white). */
+.eva-pair-page h2.h--md { margin: 0 0 28px; }
+.eva-pair-lead { font-size: 20px; line-height: 1.7; color: #13161d; }
+.eva-pair-intro .eva-svc-copy p { max-width: 68ch; }
+
+.eva-pair-stats {
+  list-style: none;
+  margin: 48px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+}
+.eva-pair-stats li {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 22px 24px;
+  border-radius: 12px;
+  border-top: 3px solid #70b615;
+  background: #f4f6f1;
+}
+.eva-pair-stat-value { font-size: 40px; line-height: 1; font-weight: 700; color: #47760d; }
+.eva-pair-stat-label { font-size: 15px; line-height: 1.4; color: #3a3f47; }
+
+.eva-pair-steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 20px;
+}
+.eva-pair-steps li {
+  padding: 24px 20px;
+  border-radius: 12px;
+  border: 1px solid #e3e6df;
+  background: #fff;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+.eva-pair-steps li:hover { border-color: #70b615; transform: translateY(-2px); }
+.eva-pair-steps .eva-svc-step { color: #47760d; }
+.eva-pair-steps h3 { margin: 14px 0 8px; font-size: 19px; line-height: 1.35; }
+.eva-pair-steps p { margin: 0; font-size: 16px; line-height: 1.6; color: #3a3f47; }
+
+.eva-pair-two { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 56px; }
+.eva-pair-two p { font-size: 17px; line-height: 1.7; color: rgba(255, 255, 255, 0.85); }
+.eva-pair-why { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+.eva-pair-why li { padding: 18px 20px; border-radius: 12px; border-left: 3px solid #70b615; background: #181818; }
+.eva-pair-why h3 { margin: 0 0 6px; font-size: 18px; color: #fff; }
+.eva-pair-why p { margin: 0; font-size: 16px; }
+
+.eva-pair-related .eva-hub-links ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 12px; }
+.eva-pair-related .eva-hub-links li {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: 1px solid #d8dcd2;
+  color: #3a3f47;
+}
+.eva-pair-related .eva-hub-links a { color: #13161d; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+.eva-pair-related .eva-hub-links a:hover, .eva-pair-related .eva-hub-links a:focus-visible { color: #47760d; }
+
+.eva-pair-page .eva-project-card { transition: transform 0.25s ease; }
+.eva-pair-page .eva-project-card:hover, .eva-pair-page .eva-project-card:focus-within { transform: translateY(-4px); }
+
+@media (max-width: 1199px) { .eva-pair-steps { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 991px) { .eva-pair-two { grid-template-columns: 1fr; gap: 40px; } }
+@media (max-width: 767px) {
+  .eva-pair-steps { grid-template-columns: 1fr; }
+  .eva-pair-lead { font-size: 18px; }
+  .eva-pair-stat-value { font-size: 32px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .eva-pair-steps li, .eva-pair-page .eva-project-card { transition: none; }
+  .eva-pair-steps li:hover, .eva-pair-page .eva-project-card:hover, .eva-pair-page .eva-project-card:focus-within { transform: none; }
+}
+
+/* Intro: text top-aligned with the image and a tighter top pad under the hero. */
+.eva-pair-page > .block.block--title { margin-bottom: 0; }
+.eva-pair-page .block.eva-pair-intro { padding-top: 56px; }
+.eva-pair-intro .eva-svc-split { align-items: start; }
+.eva-pair-intro .eva-svc-copy > :first-child { margin-top: 0; }
+@media (max-width: 767px) {
+  .eva-pair-page .block.eva-pair-intro { padding-top: 40px; }
+}

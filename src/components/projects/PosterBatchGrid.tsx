@@ -10,7 +10,14 @@ import { gridImageLoading } from "@@/lib/image-loading";
 export type PosterGridItem = { id: string; href: string; title: string; poster?: string; alt: string };
 
 /** Poster grid revealed 10 at a time from data already in the page (no extra requests). */
-export default function PosterBatchGrid({ items }: { items: PosterGridItem[] }) {
+export default function PosterBatchGrid({
+  items,
+  titleAs: Title = "h2",
+}: {
+  items: PosterGridItem[];
+  /** Heading level for card titles; use h3 when the grid sits under its own h2. */
+  titleAs?: "h2" | "h3";
+}) {
   const { shown, hasMore, more, announce } = useBatchReveal(items.length);
   const gridRef = useRef<HTMLUListElement>(null);
   const firstNew = useRef(0);
@@ -37,11 +44,11 @@ export default function PosterBatchGrid({ items }: { items: PosterGridItem[] }) 
                 <PosterPlaceholder title={p.title} />
               )}
             </div>
-            <h2 className="eva-project-title">
+            <Title className="eva-project-title">
               <Link className="eva-project-open" href={p.href}>
                 {p.title}
               </Link>
-            </h2>
+            </Title>
           </li>
         ))}
       </ul>

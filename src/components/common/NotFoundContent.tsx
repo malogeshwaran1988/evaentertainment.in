@@ -1,3 +1,4 @@
+import { FontIcon } from "@@/components/common/Icons";
 import Link from "@@/components/common/NavLink";
 import { Routes, WHAT_WE_DO_HREF } from "@@/constants/routes";
 
@@ -12,7 +13,7 @@ export default function NotFoundContent() {
           <div className="eva-404-inner text-center">
             <p className="eva-404-code" aria-hidden="true">
               <span>4</span>
-              <i className="icon-lip-syncdubbing-01 eva-404-icon" />
+              <FontIcon name="icon-lip-syncdubbing-01" className="eva-404-icon" />
               <span>4</span>
             </p>
             <p className="eva-404-kicker">Error 404</p>

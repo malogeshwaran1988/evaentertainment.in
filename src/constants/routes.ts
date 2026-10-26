@@ -52,6 +52,8 @@ export const WHAT_WE_DO_HREF = "/";
 
 /** Old URLs, permanently redirected to their replacements (see next.config.ts). */
 export const LEGACY_REDIRECTS: { from: string; to: string; statusCode?: 301 }[] = [
+  // Old static-site home URL (GSC 404): one 308 hop to the real home page.
+  { from: "/index.html", to: Routes.HOME },
   { from: "/about", to: Routes.ABOUT },
   { from: "/contact", to: Routes.CONTACT },
   { from: "/projects", to: Routes.PROJECTS },

@@ -1,5 +1,5 @@
 import Link from "@@/components/common/NavLink";
-import { SvgIcon } from "@@/components/common/Icons";
+import { FontIcon, SvgIcon } from "@@/components/common/Icons";
 import { serviceHref, type ServiceSlug } from "@@/constants/routes";
 import { getService, type Service } from "@@/data/services";
 
@@ -18,7 +18,7 @@ export default function ServiceCardGrid({
         <li key={service.slug}>
           <Link className="eva-wwd-card" href={serviceHref(service.slug)}>
             <span className="eva-wwd-icon" aria-hidden="true">
-              {service.svg ? <SvgIcon name={service.svg} /> : <i className={`icon ${service.icon}`} />}
+              {service.svg ? <SvgIcon name={service.svg} /> : <FontIcon name={service.icon} />}
             </span>
             <Heading className="eva-wwd-title">{service.name}</Heading>
             <p className="eva-wwd-text">{service.summary}</p>

@@ -2,3 +2,44 @@
 .eva-clients-block .eva-coming-soon-intro h2 span {
   color: #4f7d0e;
 }
+
+/* Visible client names under each logo, with links to the client's projects. */
+.eva-clients-block .eva-clients-item {
+  flex-direction: column;
+  gap: 12px;
+  height: auto;
+  min-height: 152px;
+  text-align: center;
+}
+.eva-clients-name {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: #13161d;
+}
+.eva-clients-name a,
+.eva-clients-projects a {
+  color: #13161d;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.eva-clients-name a:hover,
+.eva-clients-projects a:hover {
+  color: #4f7d0e;
+}
+.eva-clients-projects {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 14px;
+  line-height: 1.6;
+}
+.eva-clients-projects a {
+  display: inline-block;
+  min-height: 24px;
+}

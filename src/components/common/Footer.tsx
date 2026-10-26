@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "@@/components/common/NavLink";
+import FooterDubbing from "@@/components/common/FooterDubbing";
 import CookieSettingsButton from "@@/components/common/CookieSettingsButton";
 import {
   CONTACT,
@@ -32,6 +33,7 @@ export default function Footer() {
                 alt={LOGO_ALT}
                 width={160}
                 height={45}
+                style={{ width: "auto", height: "auto" }}
                 loading="lazy"
                 fetchPriority="low"
               />
@@ -75,6 +77,8 @@ export default function Footer() {
               ))}
             </ul>
           </div>
+
+          <FooterDubbing />
 
           <div className="eva-footer-contact">
             <p className="eva-footer-title">Contact us</p>

@@ -4,10 +4,10 @@ import { MARKET_SERVICE_PAGES } from "@@/data/service-pages-markets";
 
 export const SERVICE_PAGES: Record<string, ServicePageContent> = {
   "dubbing-studio": {
-    seoTitle: "Dubbing Studio in Mumbai - Lip-Sync Film Dubbing | EVA",
+    seoTitle: "Dubbing Studio in Andheri West, Mumbai | Lip-Sync | EVA",
     description:
-      "Lip-sync dubbing studio in Mumbai for regional, pan-India and Hollywood films. Hindi, Telugu, Tamil and 7 more Indian languages plus English. Get a quote.",
-    h1: "Lip-Sync Dubbing Studio in Mumbai for Films and Series",
+      "Lip-sync dubbing studio on RTO Lane, Andheri West, Mumbai. Record in our soundproof booth in Hindi, Telugu, Tamil and 7 more Indian languages plus English. Get a quote.",
+    h1: "Lip-Sync Dubbing Studio in Andheri West, Mumbai",
     serviceType: "Lip-sync dubbing",
     languages: ["English", "Hindi", "Bengali", "Marathi", "Telugu", "Tamil", "Gujarati", "Urdu", "Kannada", "Odia", "Malayalam"],
     leadHeading: "Hindi versions that feel native",
@@ -908,10 +908,10 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
     },
   },
   "subtitling-services": {
-    seoTitle: "Subtitling Services for Films and Web Series | EVA",
+    seoTitle: "Subtitling Services | SRT Subtitles for Films and OTT | EVA",
     description:
-      "Subtitles for movies, TV series and web series in English and India's top 10 languages. Native subtitlers, accurate timing and platform-ready files.",
-    h1: "Subtitling Services for Movies, TV Series and Web Series",
+      "Time-coded SRT subtitles for movies, TV series and web series in English and India's top 10 languages, written to your OTT platform's style guide.",
+    h1: "Subtitling Services: SRT Subtitle Files for Films, TV and OTT",
     serviceType: "Subtitling",
     languages: ["English", "Hindi", "Bengali", "Marathi", "Telugu", "Tamil", "Gujarati", "Urdu", "Kannada", "Odia", "Malayalam"],
     leadHeading: "Subtitles people can actually read",
@@ -1369,10 +1369,10 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
     },
   },
   "translation-services": {
-    seoTitle: "Script Translation for Dubbing and Subtitles | EVA",
+    seoTitle: "Script Translation and Lip-Sync Adaptation for Dubbing | EVA",
     description:
       "Script translation and lip-sync adaptation for film dubbing. English, Telugu, Tamil, Malayalam and Kannada into Hindi and India's top 10 languages.",
-    h1: "Script Translation and Adaptation for Film Dubbing",
+    h1: "Script Translation and Lip-Sync Adaptation for Film Dubbing",
     serviceType: "Script translation and adaptation",
     languages: ["Hindi", "English", "Telugu", "Tamil", "Malayalam", "Kannada"],
     leadHeading: "Scripts written for the screen",

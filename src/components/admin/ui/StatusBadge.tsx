@@ -109,11 +109,11 @@ export function SeoBadge({ words, min }: { words: number; min: number }) {
       icon={ok ? CheckCircle2 : TriangleAlert}
       title={
         ok
-          ? "Enough unique content: indexed by Google and listed in the sitemap."
-          : `Thin: noindex and left out of the sitemap until it has ${min}+ words of unique content.`
+          ? "Enough unique content: indexed and listed in the sitemap."
+          : `Thin: indexed and in the sitemap, but under ${min} words of unique content Google may judge it low quality.`
       }
     >
-      {ok ? "Indexable" : "Thin"} · {words} {words === 1 ? "word" : "words"}
+      {ok ? "Good" : "Thin"} · {words} {words === 1 ? "word" : "words"}
     </StatusBadge>
   );
 }

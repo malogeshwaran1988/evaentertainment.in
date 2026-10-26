@@ -3,7 +3,7 @@
   --eva-content-max: 1536px;
 }
 
-/* Self-hosted Raleway (variable 100-900, OFL). The latin file is preloaded in WebHead. */
+/* Self-hosted Raleway (variable 100-900, OFL). Not preloaded: the CSS discovers it early enough. */
 @font-face {
   font-family: "Raleway";
   font-style: normal;
@@ -649,7 +649,7 @@ body .block.block--full.no-pad-gutter > .container.container--bleed {
   outline-offset: 3px;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1199px) {
   .eva-header-bar > .logo {
     text-align: left !important;
     width: auto !important;
@@ -678,8 +678,8 @@ body .block.block--full.no-pad-gutter > .container.container--bleed {
   }
 }
 
-/* Desktop ≥1025 */
-@media (min-width: 1025px) {
+/* Desktop ≥1200: full inline nav (all eight items plus a11y and Contact fit) */
+@media (min-width: 1200px) {
   .eva-header-bar > .logo,
   .header-actions {
     flex: 0 0 280px;
@@ -748,159 +748,8 @@ body .block.block--full.no-pad-gutter > .container.container--bleed {
   }
 }
 
-/* Tablet 768–1024: centered inline nav + Contact CTA + tap gaps */
-@media (min-width: 768px) and (max-width: 1024px) {
-  .eva-header-bar {
-    flex-wrap: nowrap;
-    align-items: center;
-    padding-top: 10px;
-    padding-bottom: 10px;
-  }
-
-  .eva-header-bar > .logo,
-  .header-actions {
-    flex: 0 0 160px;
-    width: 160px;
-    min-width: 140px;
-  }
-
-  .eva-header-bar .header-menu,
-  .header .header-menu {
-    position: static !important;
-    left: auto !important;
-    top: auto !important;
-    width: auto !important;
-    max-height: none !important;
-    opacity: 1 !important;
-    visibility: visible !important;
-    background: transparent !important;
-    border: 0 !important;
-    overflow: visible !important;
-    flex: 1 1 auto;
-    display: flex !important;
-    justify-content: center;
-    margin: 0 !important;
-    padding: 0 !important;
-    z-index: 2;
-  }
-
-  .eva-header-bar .header-menu .menu {
-    display: flex !important;
-    flex-direction: row !important;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    gap: 0.75rem 1.75rem;
-    margin: 0 !important;
-    padding: 0 !important;
-    list-style: none;
-    min-height: 0;
-    max-height: none !important;
-  }
-
-  .eva-header-bar .header-menu .menu > li,
-  .header .header-menu ul li {
-    display: inline-flex !important;
-    float: none !important;
-    width: auto !important;
-    max-width: none !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    border: 0 !important;
-    border-bottom: 0 !important;
-    background: none !important;
-  }
-
-  .eva-header-bar .header-menu .menu > li > a,
-  .header .header-menu ul li a {
-    display: inline-flex !important;
-    align-items: center;
-    min-height: 44px;
-    padding: 0.5rem 0.35rem !important;
-    font-size: 13px !important;
-    line-height: 1.2 !important;
-    font-weight: 500 !important;
-    letter-spacing: 0.02em;
-    text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.92) !important;
-    white-space: nowrap;
-  }
-
-  .eva-header-bar .header-menu .menu > li.active > a,
-  .eva-header-bar .header-menu .menu > li > a:hover,
-  .header .header-menu ul li.active > a,
-  .header .header-menu ul li a:hover {
-    color: #fff !important;
-    border-bottom-color: rgba(255, 255, 255, 0.7);
-  }
-
-  .eva-header-bar .header-menu .menu > li > a:focus-visible,
-  .header .header-menu ul li a:focus-visible {
-    color: #fff !important;
-    border-bottom-color: transparent;
-    outline: 2px solid #fff;
-    outline-offset: 3px;
-  }
-
-  .header-actions {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 0.5rem;
-    position: relative;
-    z-index: 100002;
-  }
-
-  .header-contact-cta--bar {
-    display: inline-flex;
-    padding: 0.4rem 0.9rem;
-    font-size: 12px;
-    min-height: 40px;
-  }
-
-  .menu-toggle,
-  .darkOverlay {
-    display: none !important;
-  }
-
-  .eva-header-bar .header-menu .menu > li.header-menu-contact-item,
-  .header-menu-contact-item {
-    display: none !important;
-  }
-}
-
-/* Narrow tablet 768–991: fit five nav items on one line */
-@media (min-width: 768px) and (max-width: 991px) {
-  .eva-header-bar {
-    gap: 0.75rem;
-  }
-
-  .eva-header-bar > .logo,
-  .header-actions {
-    flex: 0 0 auto;
-    width: auto;
-    min-width: 0;
-  }
-
-  .eva-header-bar > .logo img {
-    max-width: 120px;
-  }
-
-  .eva-header-bar .header-menu .menu {
-    flex-wrap: nowrap;
-    gap: 0.25rem 0.9rem;
-  }
-
-  .eva-header-bar .header-menu .menu > li > a,
-  .header .header-menu ul li a {
-    padding: 0.5rem 0.2rem !important;
-    font-size: 12px !important;
-    letter-spacing: 0;
-  }
-}
-
-/* Phone ≤767: logo + hamburger; Glory drawer with Contact */
-@media (max-width: 767px) {
+/* Below 1200 (phones, landscape phones, tablets): logo + hamburger; Glory drawer with Contact */
+@media (max-width: 1199px) {
   .eva-header-bar {
     flex-wrap: nowrap;
     align-items: center;
@@ -1156,7 +1005,7 @@ body .block.block--full.no-pad-gutter > .container.container--bleed {
 
 @media (min-width: 1025px) {
   .eva-footer-grid {
-    grid-template-columns: 1.2fr 1fr 1fr 1.4fr;
+    grid-template-columns: 1.1fr 0.9fr 1fr 1.1fr 1.3fr;
     gap: 2rem 1.5rem;
   }
 }
@@ -3901,14 +3750,6 @@ body:not(.page-blog) .block--darkbg h3.eva-service-ideal-title,
 }
 
 /* Small desktops: narrower side columns so the menu (with the chevron) stays on one line */
-@media (min-width: 1025px) and (max-width: 1199px) {
-  .eva-header-bar > .logo,
-  .header-actions {
-    flex-basis: 200px;
-    width: 200px;
-    min-width: 200px;
-  }
-}
 
 /* Phone drawer: inline list that the chevron expands */
 @media (max-width: 767px) {
@@ -3997,6 +3838,11 @@ body:not(.page-blog) .block--darkbg h3.eva-service-ideal-title,
   }
 
   a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 2px;
+    vertical-align: middle;
     color: #abee2d;
     text-decoration: underline;
     text-underline-offset: 2px;
@@ -4547,7 +4393,7 @@ h2.eva-coming-soon-title {
     font-size: 12px !important;
   }
 }
-@media (min-width: 1025px) {
+@media (min-width: 1200px) {
   .eva-header-bar > .logo,
   .header-actions {
     flex-basis: 180px;
@@ -4556,17 +4402,6 @@ h2.eva-coming-soon-title {
   }
   .eva-header-bar .header-menu .menu {
     gap: 0.5rem 1.1rem;
-  }
-}
-@media (min-width: 1025px) and (max-width: 1199px) {
-  .eva-header-bar > .logo,
-  .header-actions {
-    flex-basis: 150px;
-    width: 150px;
-    min-width: 150px;
-  }
-  .eva-header-bar .header-menu .menu {
-    gap: 0.5rem 0.8rem;
   }
 }
 
@@ -4710,8 +4545,8 @@ h2.eva-coming-soon-title {
   .eva-clients-item:hover { transform: none; }
 }
 
-/* Desktop nav breathing room: wider gaps, slight tracking, active underline set lower. Stays one line 1025-1280px. */
-@media (min-width: 1025px) {
+/* Desktop nav breathing room: wider gaps, slight tracking, active underline set lower. Stays one line from 1200px. */
+@media (min-width: 1200px) {
   .eva-header-bar .header-menu .menu {
     flex-wrap: nowrap !important;
     gap: 0 20px !important;
@@ -4740,11 +4575,6 @@ h2.eva-coming-soon-title {
     transform: scaleX(1);
   }
   .eva-header-bar .header-menu .menu > li > a:focus-visible::after { transform: scaleX(0); }
-}
-/* 1025-1199px: 8 top-level links + Contact CTA need a slightly smaller type and gap to stay on one line. */
-@media (min-width: 1025px) and (max-width: 1199px) {
-  .eva-header-bar .header-menu .menu { gap: 0 clamp(8px, calc(2vw - 12px), 12px) !important; }
-  .eva-header-bar .header-menu .menu > li > a { font-size: 12.5px !important; letter-spacing: 0.03em !important; }
 }
 @media (min-width: 1200px) {
   /* Fluid gap so 8 top-level links + Contact CTA fit from 1200px up. */
@@ -5446,8 +5276,136 @@ html:not(.eva-bg-ready) .home-page > .eva-what-we-do {
   outline-offset: 2px;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1199px) {
   .eva-header-bar .eva-a11y-trigger {
     margin-right: 8px;
+  }
+}
+
+/* ---- Header balance and responsive switch (Oct 2026) ----
+   Desktop (>=1200): logo and actions cells share the spare width equally so the menu sits
+   in the true centre; the a11y button and Contact CTA are one 44px-high group.
+   Below 1200: hamburger drawer (phones, landscape phones, tablets) with no horizontal overflow. */
+@media (min-width: 1200px) {
+  .eva-header-bar { gap: 24px; padding-top: 12px; padding-bottom: 12px; }
+  .eva-header-bar > .logo,
+  .header-actions {
+    flex: 1 1 0 !important;
+    width: auto !important;
+    min-width: max-content !important;
+  }
+  .eva-header-bar > .logo img { max-height: 52px; }
+  .eva-header-bar .header-menu { flex: 0 1 auto; }
+  .eva-header-bar .header-menu .menu { gap: 0 clamp(14px, calc(2.4vw - 14px), 24px) !important; }
+  .header-actions { gap: 12px; }
+  .header-actions .eva-a11y-trigger { margin: 0; border-radius: 8px; }
+  .header-contact-cta--bar { height: 44px; min-height: 44px; padding: 0 20px; }
+}
+@media (min-width: 1200px) and (max-width: 1365px) {
+  .eva-header-bar .header-menu .menu > li > a { font-size: 13px !important; letter-spacing: 0.04em !important; }
+}
+@media (max-width: 1199px) {
+  html, body { overflow-x: clip; }
+  .eva-header-bar { gap: 12px; padding-top: 8px; padding-bottom: 8px; }
+  .eva-header-bar > .logo { flex: 1 1 auto !important; width: auto !important; min-width: 0 !important; }
+  .eva-header-bar > .logo img { max-height: 40px; max-width: 140px; }
+  .header-actions { flex: 0 0 auto !important; width: auto !important; min-width: 0 !important; gap: 8px; }
+  .header-actions .eva-a11y-trigger { margin: 0 !important; border-radius: 8px; }
+  .eva-header-bar .menu-toggle, .header .menu-toggle { border-radius: 8px; }
+  .eva-header-bar .header-menu, .header .header-menu { max-height: calc(100svh - 80px) !important; }
+}
+/* Tablets: keep the Contact CTA beside the hamburger; phones get it inside the drawer. */
+@media (min-width: 768px) and (max-width: 1199px) {
+  .header-contact-cta--bar { display: inline-flex !important; height: 44px; padding: 0 18px; font-size: 13px; }
+}
+/* Landscape phones: compact header. */
+@media (max-width: 1199px) and (max-height: 500px) and (orientation: landscape) {
+  .eva-header-bar { padding-top: 4px; padding-bottom: 4px; }
+  .eva-header-bar > .logo img { max-height: 34px; }
+  .eva-header-bar .header-menu, .header .header-menu { max-height: calc(100svh - 64px) !important; }
+}
+/* The wrap carried its own Glory padding on top of the bar padding; the bar owns the spacing now. */
+.header .header-wrap,
+.header.is-sticky .header-wrap { padding-top: 0 !important; padding-bottom: 0 !important; }
+@media (min-width: 1200px) {
+  .eva-header-bar { padding-top: 14px; padding-bottom: 14px; }
+}
+
+/* ---- Mobile portrait hero: photo first ----
+   Text sits at the bottom over a gradient scrim (no solid line boxes), smaller clamp headline,
+   one compact CTA. The photo subject shows in the upper part (per-slide focus in data/home.ts).
+   Landscape phones (short viewports) use the same layout so the headline never hides under the header. */
+@media (max-width: 767px), (max-width: 1024px) and (orientation: portrait), (max-height: 500px) and (orientation: landscape) {
+  .eva-hero-slider .eva-hero-media::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background: linear-gradient(to top, rgb(0 0 0 / 0.95) 0%, rgb(0 0 0 / 0.88) 38%, rgb(0 0 0 / 0.55) 58%, rgb(0 0 0 / 0) 78%);
+  }
+  .mainSlider .eva-hero-slider .slide-content,
+  .mainSlider.eva-hero-slider .slide-content {
+    top: auto !important;
+    bottom: 0 !important;
+    height: auto !important;
+    transform: none !important;
+    padding: 0 16px 76px !important;
+    --hero-title: clamp(22px, 6.2vw, 34px);
+    --hero-line2: clamp(16px, 2.6vw, 20px);
+    --hero-pad: 0px;
+    --hero-gap: 6px;
+  }
+  .mainSlider .slide-content .vert-wrap,
+  .mainSlider .slide-content .vert { display: block !important; height: auto !important; }
+  .mainSlider .slide-content .container { padding-left: 0 !important; padding-right: 0 !important; }
+  .mainSlider .slide-content .eva-hero-lines { margin: 0 !important; max-width: 100% !important; }
+  .mainSlider .slide-content .eva-hero-lines :is(.eva-hero-heading, .eva-hero-tagline) > span::before,
+  .mainSlider .slide-content .h-gradient > span::before { background: transparent !important; }
+  .mainSlider .slide-content .eva-hero-lines .eva-hero-heading .slide-line-text { line-height: 1.22 !important; }
+  .mainSlider .slide-content .eva-hero-lines .eva-hero-tagline > span {
+    color: rgb(255 255 255 / 0.92);
+    text-shadow: 0 1px 2px rgb(0 0 0 / 0.6);
+  }
+  .eva-hero-ctas { margin-top: 12px; }
+  html body .eva-hero-ctas .btn { min-height: 44px !important; height: 44px !important; padding: 0 20px !important; font-size: 14px !important; }
+  html body .eva-hero-ctas .eva-hero-cta-secondary { display: none !important; }
+  /* Arrows move down beside the dots so they never sit on the photo subject or the text. */
+  .eva-hero-slider > .slick-arrow { top: auto !important; bottom: 14px !important; transform: none !important; }
+}
+@media (max-height: 500px) and (orientation: landscape) and (min-width: 768px) {
+  .mainSlider.eva-hero-slider,
+  .mainSliderWrapper .mainSlider.eva-hero-slider,
+  .mainSlider.eva-hero-slider .img--holder,
+  .mainSliderWrapper .mainSlider.eva-hero-slider .img--holder { height: 100svh !important; min-height: 320px !important; }
+  .eva-hero-slider .slide { min-height: 100svh; }
+  .mainSlider.eva-hero-slider .slide-content { padding: 0 72px 64px !important; --hero-title: 24px; }
+  .mainSlider .slide-content .eva-hero-lines { max-width: 60% !important; }
+  .eva-hero-slider .eva-hero-media-img { object-position: var(--fx-x, 70%) 30% !important; }
+  .eva-hero-slider .eva-hero-media::after {
+    background: linear-gradient(to right, rgb(0 0 0 / 0.85) 0%, rgb(0 0 0 / 0.6) 45%, rgb(0 0 0 / 0) 75%) !important;
+  }
+}
+
+/* Inner page title spacing matched to the compact header (81px desktop, 61px below 1200, 53px landscape) */
+.block.block--title { padding-top: 116px; }
+@media (max-width: 1199px) {
+  .block.block--title { padding-top: 96px; padding-bottom: 40px; }
+}
+@media (max-height: 500px) and (orientation: landscape) {
+  .block.block--title { padding-top: 84px; }
+}
+
+/* Drawer Contact CTA: dark text on green for AA contrast (white on #70b615 is 2.5:1) */
+.header-contact-cta.header-contact-cta--drawer,
+.header-contact-cta.header-contact-cta--drawer:hover,
+.header-contact-cta.header-contact-cta--drawer:focus-visible { color: #0b0d10 !important; }
+
+/* Scrim hero layouts: lighter blue start keeps the gradient headline above 3:1 (large text AA) on the scrim */
+@media (max-width: 767px), (max-width: 1024px) and (orientation: portrait), (max-height: 500px) and (orientation: landscape) {
+  .mainSlider .slide-content .h-gradient .slide-line-text {
+    background: linear-gradient(90deg, #6cb8f5, #abee2d);
+    -webkit-background-clip: text;
+    background-clip: text;
   }
 }
