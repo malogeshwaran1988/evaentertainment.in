@@ -8,10 +8,12 @@ type LanguageHubLinksProps = {
   /** Wrap in a dark section block (service pages); off when already inside one. */
   section?: boolean;
   id?: string;
+  /** Link colour for dark blocks (default); false on light sections. */
+  onDark?: boolean;
 };
 
 /** Crawlable links to every /dubbing/<pair> hub with its real project count. */
-export default function LanguageHubLinks({ pairs, heading, section = false, id = "hub-links" }: LanguageHubLinksProps) {
+export default function LanguageHubLinks({ pairs, heading, section = false, id = "hub-links", onDark = true }: LanguageHubLinksProps) {
   if (!pairs.length) return null;
   const body = (
     <nav aria-labelledby={id} className="eva-hub-links">
@@ -21,7 +23,7 @@ export default function LanguageHubLinks({ pairs, heading, section = false, id =
       <ul>
         {pairs.map((p) => (
           <li key={p.slug}>
-            <Link className="link-on-dark" href={`${LANGUAGE_HUB_PREFIX}/${p.slug}`}>
+            <Link className={onDark ? "link-on-dark" : undefined} href={`${LANGUAGE_HUB_PREFIX}/${p.slug}`}>
               {p.from} to {p.to} dubbing
             </Link>{" "}
             ({p.projects.length} {p.projects.length === 1 ? "project" : "projects"})

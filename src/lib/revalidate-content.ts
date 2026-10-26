@@ -27,7 +27,7 @@ type ContentSpec = {
 const SPECS: Record<ContentType, ContentSpec> = {
   project: {
     tag: PROJECTS_TAG,
-    paths: [Routes.PROJECTS, Routes.CLIENTS],
+    paths: [Routes.PROJECTS, Routes.CLIENTS, "/dubbing"],
     // Service pages show poster strips and language hub links built from projects.
     patterns: ["/projects/[slug]", "/dubbing/[pair]", "/[service]"],
     admin: AdminRoutes.PROJECTS,

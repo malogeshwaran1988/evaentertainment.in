@@ -78,12 +78,14 @@ const projectSection = (projects: PublishedProjects): MetadataRoute.Sitemap =>
     };
   });
 
-const hubSection = (projects: PublishedProjects): MetadataRoute.Sitemap =>
-  languagePairs(projects).map((pair) => ({
+const hubSection = (projects: PublishedProjects): MetadataRoute.Sitemap => [
+  ...(projects.length ? [{ url: absoluteUrl(LANGUAGE_HUB_PREFIX), priority: 0.6 }] : []),
+  ...languagePairs(projects).map((pair) => ({
     url: absoluteUrl(`${LANGUAGE_HUB_PREFIX}/${pair.slug}`),
     lastModified: new Date(Math.max(...pair.projects.map((p) => new Date(p.updatedAt || p.createdAt).getTime()))),
     priority: 0.7,
-  }));
+  })),
+];
 
 /** Only live posts (published and publish date reached). /blog itself joins at BLOG_HUB_MIN_POSTS. */
 const blogSection: Section = async () => {
