@@ -5568,3 +5568,10 @@ html:not(.eva-bg-ready) .home-page > .eva-what-we-do {
     flex: 0 1 calc(50% - 6px);
   }
 }
+
+/* Related services: the page's own 3 related links as name-only cards, centred (Oct 2026 uniqueness pass). */
+.eva-related-services--compact .eva-wwd-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; max-width: 1100px; }
+.eva-related-services--compact .eva-wwd-grid > li { flex: 0 1 300px; }
+@media (max-width: 767px) {
+  .eva-related-services--compact .eva-wwd-grid > li { flex-basis: 100%; }
+}

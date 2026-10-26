@@ -7,9 +7,12 @@ import { getService, type Service } from "@@/data/services";
 export default function ServiceCardGrid({
   slugs,
   heading: Heading = "h3",
+  summary = true,
 }: {
   slugs: readonly ServiceSlug[];
   heading?: "h2" | "h3";
+  /** Off for related-service links, so the summaries appear only on the home page grid. */
+  summary?: boolean;
 }) {
   const services = slugs.map(getService).filter((s): s is Service => Boolean(s));
   return (
@@ -21,7 +24,7 @@ export default function ServiceCardGrid({
               {service.svg ? <SvgIcon name={service.svg} /> : <FontIcon name={service.icon} />}
             </span>
             <Heading className="eva-wwd-title">{service.name}</Heading>
-            <p className="eva-wwd-text">{service.summary}</p>
+            {summary ? <p className="eva-wwd-text">{service.summary}</p> : null}
           </Link>
         </li>
       ))}

@@ -18,9 +18,13 @@ export default function CtaLanguageCycle({ languages }: { languages: string[] })
   }, [languages.length]);
 
   return (
-    <span className={styles.cycle} aria-hidden="true">
+    <span className={styles.cycle}>
       {languages.map((lang, i) => (
-        <span key={lang} className={`${styles.word} ${i === index ? styles.wordActive : ""}`}>
+        <span
+          key={lang}
+          className={`${styles.word} ${i === index ? styles.wordActive : ""}`}
+          aria-hidden={i === index ? undefined : true}
+        >
           {lang}
         </span>
       ))}

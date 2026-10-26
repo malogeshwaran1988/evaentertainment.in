@@ -29,7 +29,6 @@ const HUB_LINK_PAGES = new Set<string>([
   "hollywood-dubbing-indian-languages",
   "pan-india-film-dubbing",
   "regional-film-dubbing",
-  "indian-languages",
 ]);
 
 async function hubPairs() {

@@ -75,6 +75,8 @@ export default function ServiceLead({
   );
 }
 
+const ADDRESS_LABELS = new Set(["Studio", "Visit"]);
+
 export function ServicePageCta({ page }: { page: Pick<ServicePageContent, "cta"> }) {
   return (
     <section className="block eva-svc-cta" aria-labelledby="service-cta-title">
@@ -86,7 +88,8 @@ export function ServicePageCta({ page }: { page: Pick<ServicePageContent, "cta">
           </h2>
           <p>{page.cta.text}</p>
           <ul className="eva-svc-cta-contact">
-            {page.cta.contact.map((c) => (
+            {/* The studio address shows only in the footer and on /contact-us. */}
+            {page.cta.contact.filter((c) => !ADDRESS_LABELS.has(c.label)).map((c) => (
               <li key={c.label}>
                 <strong>{c.label}:</strong>{" "}
                 {c.href ? (

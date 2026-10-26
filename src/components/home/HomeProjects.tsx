@@ -1,4 +1,5 @@
 "use client";
+import ProjectLanguages from "@@/components/projects/ProjectLanguages";
 
 import Image from "next/image";
 import { useEffect, useRef, useState, type KeyboardEvent } from "react";
@@ -7,7 +8,6 @@ import { SvgIcon } from "@@/components/common/Icons";
 import { PosterPlaceholder, YearBadge } from "@@/components/projects/ProjectPoster";
 import { Routes } from "@@/constants/routes";
 import {
-  projectLanguageLine,
   type PublicProject,
 } from "@@/data/projects";
 import { HOME_PROJECTS_LIMIT } from "@@/data/home";
@@ -121,7 +121,7 @@ export default function HomeProjects({ projects }: { projects: PublicProject[] }
                     {project.title}
                   </Link>
                 </h3>
-                <p className="eva-project-meta">{projectLanguageLine(project)}</p>
+                <p className="eva-project-meta"><ProjectLanguages project={project} /></p>
               </li>
             ))}
           </ul>

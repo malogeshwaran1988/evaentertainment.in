@@ -6,13 +6,13 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
   "dubbing-studio": {
     seoTitle: "Dubbing Studio in Andheri West, Mumbai | Lip-Sync | EVA",
     description:
-      "Lip-sync dubbing studio on RTO Lane, Andheri West, Mumbai. Record in our soundproof booth in Hindi, Telugu, Tamil and 7 more Indian languages plus English. Get a quote.",
+      "Lip-sync dubbing studio in Andheri West, Mumbai. Record in our soundproof booth in Hindi, Telugu, Tamil and 7 more Indian languages plus English. Get a quote.",
     h1: "Lip-Sync Dubbing Studio in Andheri West, Mumbai",
     serviceType: "Lip-sync dubbing",
     languages: ["English", "Hindi", "Bengali", "Marathi", "Telugu", "Tamil", "Gujarati", "Urdu", "Kannada", "Odia", "Malayalam"],
     leadHeading: "Hindi versions that feel native",
     lead: [
-      "**From a Telugu action drama to a Malayalam comedy, we turn South Indian films into Hindi versions that feel as if they were shot in Hindi.** EVA Entertainment is a lip-sync dubbing studio on RTO Lane, Andheri West run by a team that spends most of its working day matching new Hindi dialogue to someone else's lips. Send us your film in its original language; we hand back a finished, mixed Hindi version ready for OTT, satellite TV or theatrical release.",
+      "**From a Telugu action drama to a Malayalam comedy, we turn South Indian films into Hindi versions that feel as if they were shot in Hindi.** EVA Entertainment is a lip-sync dubbing studio in Andheri West run by a team that spends most of its working day matching new Hindi dialogue to someone else's lips. Send us your film in its original language; we hand back a finished, mixed Hindi version ready for OTT, satellite TV or theatrical release.",
       "Most of our work is feature films from Telugu, Tamil, Malayalam and Kannada cinema. The same team dubs [Hollywood and international films](/hollywood-dubbing-indian-languages) into India's top 10 languages, prepares [pan-India releases](/pan-india-film-dubbing) and dubs web series, documentaries and ad films.",
     ],
     sections: [
@@ -98,7 +98,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
         blocks: [
           {
             t: "p",
-            text: "We also dub into Bengali, Marathi, Gujarati, Urdu and Odia. See all [ten Indian languages](/indian-languages) we work in.",
+            text: "We also dub into Bengali, Marathi, Gujarati, Urdu and Odia. See all [ten Indian languages](/dubbing) we work in.",
           },
         ],
       },
@@ -111,7 +111,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
             items: [
               "**Regional films.** Telugu, Tamil, Malayalam and Kannada films dubbed into Hindi and other Indian languages. See [regional film dubbing](/regional-film-dubbing).",
               "**Pan-India releases.** One film dubbed into several Indian languages from one studio with one mix standard. See [pan-India film dubbing](/pan-india-film-dubbing).",
-              "**Hollywood and international films.** A professional English voice artist records the English version and the same voice artist performs the character in all 10 Indian languages. See [Hollywood dubbing](/hollywood-dubbing-indian-languages).",
+              "**Hollywood and international films.** English titles dubbed into Hindi and other Indian languages. See [Hollywood dubbing](/hollywood-dubbing-indian-languages).",
             ],
           },
         ],
@@ -134,19 +134,17 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
         ],
       },
       {
-        heading: "The studio",
+        heading: "Built for long dubbing days",
         icon: "icon-mic-2",
         blocks: [
           {
             t: "p",
-            text: "Our Andheri West facility is built for long dubbing days:",
+            text: "Our Andheri West facility is set up for full days of dubbing:",
           },
           {
             t: "ul",
             items: [
               "A separate soundproof recording booth for artists and a control room for the director and engineer",
-              "Pro Tools multi-track recording, with Neumann and Rode microphones",
-              "Genelec and Yamaha studio monitors for accurate playback",
               "Engineers with {years} years of studio experience",
             ],
           },
@@ -217,11 +215,6 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
           label: "Email",
           value: "info@evaentertainment.in",
           href: "mailto:info@evaentertainment.in",
-        },
-        {
-          label: "Visit",
-          value:
-            "No. 228, 2nd Floor, Mohid Heights, near RTO Office, Andheri West, Mumbai 400053",
         },
       ],
       secondary: "Book a studio session",
@@ -340,16 +333,12 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
         ],
       },
       {
-        heading: "One English voice in all 10 Indian languages",
+        heading: "Live voices, never cloned",
         icon: "icon-voiceover",
         blocks: [
           {
             t: "p",
-            text: "Our professional English voice artist also performs in Hindi, Bengali, Marathi, Telugu, Tamil, Gujarati, Urdu, Kannada, Odia and Malayalam. A brand film, a documentary narrator or a film character can keep the same voice in English and all 10 Indian languages.",
-          },
-          {
-            t: "p",
-            text: "Every version is a live human performance captured in our booth with a native-language director. We do not use voice cloning. For films see [Hollywood dubbing into Indian languages](/hollywood-dubbing-indian-languages).",
+            text: "Every voice over is a live human performance captured in our booth with a native-language director. We do not use voice cloning. For films and series see [Hollywood dubbing into Indian languages](/hollywood-dubbing-indian-languages).",
           },
         ],
       },
@@ -375,17 +364,14 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
         ],
       },
       {
-        heading: "The studio",
+        heading: "The voice booth",
         icon: "icon-mic-2",
         blocks: [
           {
             t: "ul",
             items: [
               "A dedicated, soundproof voice booth, separate from the control room",
-              "Pro Tools recording and editing, with Neumann and Rode microphones",
-              "Genelec and Yamaha monitors in the control room",
               "An engineer and director on every session",
-              "Easy to reach, near the RTO office in Andheri West, close to Mumbai's ad and production hubs",
             ],
           },
           {
@@ -452,10 +438,6 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
       {
         q: "Can you record the same script in several languages?",
         a: "Yes. We translate the script, cast a native artist for each language and deliver all versions with matching timing.",
-      },
-      {
-        q: "Can the same voice artist record English and Indian languages?",
-        a: "Yes. Our professional English voice artist also performs in all 10 of India's top languages, from Hindi to Malayalam, so one voice carries across every version. It is always a live human performance, never voice cloning.",
       },
       {
         q: "Do you provide child voices?",
@@ -581,16 +563,13 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
         ],
       },
       {
-        heading: "The studio",
+        heading: "One room for Foley, dialogue and mix",
         icon: "icon-mic-2",
         blocks: [
           {
             t: "ul",
             items: [
               "Soundproof recording booth and control room in Andheri West",
-              "Pro Tools multi-track recording and editing",
-              "Neumann and Rode microphones",
-              "Genelec and Yamaha monitors",
               "The same rooms used for dubbing and mixing, so Foley, dialogue and mix stay in one place",
             ],
           },
@@ -807,8 +786,6 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
           {
             t: "ul",
             items: [
-              "Pro Tools mixing environment",
-              "Genelec and Yamaha monitoring",
               "Recording booth next door, so dialogue fixes and pickups can be recorded during the mix",
             ],
           },
@@ -1139,7 +1116,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
     leadHeading: "A calm room for your best take",
     lead: [
       "**A great take needs a quiet room, a good microphone, an engineer who knows when to stop you and when to keep going and no clock-watching.** EVA Entertainment's recording studio in Andheri West gives singers, composers, bands and agencies exactly that. Record lead vocals, harmonies, instruments, jingles and voice parts, then take the song through editing, mixing and mastering without changing studios.",
-      "We are near the RTO office in Andheri West, minutes from the film and music offices of Andheri, Versova, Oshiwara and Lokhandwala.",
+      "We are in Andheri West, minutes from the film and music offices of Andheri, Versova, Oshiwara and Lokhandwala.",
     ],
     sections: [
       {
@@ -1247,16 +1224,13 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
         ],
       },
       {
-        heading: "The studio",
+        heading: "The recording room",
         icon: "icon-mic-2",
         blocks: [
           {
             t: "ul",
             items: [
               "A soundproof recording booth with a separate control room",
-              "Pro Tools multi-track recording",
-              "Neumann and Rode condenser microphones",
-              "Genelec and Yamaha monitors",
               "An engineer on every session",
             ],
           },
@@ -1359,11 +1333,6 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
           label: "Booking email",
           value: "felixanthony@evaentertainment.in",
           href: "mailto:felixanthony@evaentertainment.in",
-        },
-        {
-          label: "Studio",
-          value:
-            "No. 228, 2nd Floor, Mohid Heights, near RTO Office, opp. Four Bungalows, Andheri West, Mumbai 400053",
         },
       ],
     },

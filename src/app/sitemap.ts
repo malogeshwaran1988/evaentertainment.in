@@ -20,7 +20,6 @@ const MARKET_SLUGS = new Set<string>([
   "hollywood-dubbing-indian-languages",
   "pan-india-film-dubbing",
   "regional-film-dubbing",
-  "indian-languages",
 ]);
 
 const LASTMOD = STATIC_LASTMOD as Record<string, string | null | undefined>;
@@ -28,7 +27,9 @@ const LASTMOD = STATIC_LASTMOD as Record<string, string | null | undefined>;
 const lastmodFor = (path: string) => {
   const slug = SERVICE_SLUGS.find((s) => serviceHref(s) === path);
   const raw = slug
-    ? (MARKET_SLUGS.has(slug) ? LASTMOD["service:markets"] : LASTMOD["service:core"]) ?? LASTMOD["service:*"]
+    ? ((MARKET_SLUGS.has(slug)
+        ? LASTMOD["service:markets"]
+        : LASTMOD["service:core"]) ?? LASTMOD["service:*"])
     : LASTMOD[path];
   return raw ? new Date(raw) : undefined;
 };
@@ -64,7 +65,11 @@ async function publishedProjects(): Promise<PublishedProjects> {
 }
 
 const staticSection: Section = async () =>
-  ENTRIES.map(([path, priority]) => ({ url: absoluteUrl(path), lastModified: lastmodFor(path), priority }));
+  ENTRIES.map(([path, priority]) => ({
+    url: absoluteUrl(path),
+    lastModified: lastmodFor(path),
+    priority,
+  }));
 
 /** Every published project is indexable with a self canonical. lastmod is its admin updatedAt. */
 const projectSection = (projects: PublishedProjects): MetadataRoute.Sitemap =>
@@ -79,10 +84,22 @@ const projectSection = (projects: PublishedProjects): MetadataRoute.Sitemap =>
   });
 
 const hubSection = (projects: PublishedProjects): MetadataRoute.Sitemap => [
-  ...(projects.length ? [{ url: absoluteUrl(LANGUAGE_HUB_PREFIX), priority: 0.6 }] : []),
+  ...(projects.length
+    ? [{ url: absoluteUrl(LANGUAGE_HUB_PREFIX), priority: 0.6 }]
+    : []),
   ...languagePairs(projects).map((pair) => ({
     url: absoluteUrl(`${LANGUAGE_HUB_PREFIX}/${pair.slug}`),
-    lastModified: new Date(Math.max(...pair.projects.map((p) => new Date(p.updatedAt || p.createdAt).getTime()))),
+    ...(pair.projects.length
+      ? {
+          lastModified: new Date(
+            Math.max(
+              ...pair.projects.map((p) =>
+                new Date(p.updatedAt || p.createdAt).getTime(),
+              ),
+            ),
+          ),
+        }
+      : {}),
     priority: 0.7,
   })),
 ];
@@ -101,14 +118,20 @@ const blogSection: Section = async () => {
       ? [
           {
             url: absoluteUrl(Routes.BLOG),
-            lastModified: new Date(Math.max(...posts.map((p) => new Date(p.updatedAt).getTime()))),
+            lastModified: new Date(
+              Math.max(...posts.map((p) => new Date(p.updatedAt).getTime())),
+            ),
             priority: 0.7,
           },
         ]
       : [];
   return [
     ...hub,
-    ...posts.map((post) => ({ url: absoluteUrl(blogHref(post.slug)), lastModified: new Date(post.updatedAt), priority: 0.6 })),
+    ...posts.map((post) => ({
+      url: absoluteUrl(blogHref(post.slug)),
+      lastModified: new Date(post.updatedAt),
+      priority: 0.6,
+    })),
   ];
 };
 

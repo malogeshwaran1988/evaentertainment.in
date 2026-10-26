@@ -5,7 +5,7 @@ export const ABOUT_OG_IMAGE = "/images/og/about.jpg";
 export const ABOUT_OG_IMAGE_ALT = "EVA Entertainment recording and mixing control room";
 
 export const ABOUT_SEO = {
-  title: "About Us | EVA Entertainment Dubbing Studio, Mumbai",
+  title: "About Us | EVA Entertainment, Andheri West, Mumbai",
   description:
     "Learn about EVA Entertainment - India's lip-sync dubbing, voice-over, Foley, subtitling and multimedia localization studio based in Andheri, Mumbai.",
 };

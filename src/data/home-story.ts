@@ -4,13 +4,13 @@ import { STUDIO_CONTACT, TOP_10_LANGUAGES } from "@@/data/service-pages-markets"
 
 export const HOME_SECTIONS: ServicePageSection[] = [
   {
-    heading: "A film dubbing studio for three kinds of cinema",
+    heading: "One team for three kinds of cinema",
     media: "home-three-cinemas",
     icon: "icon-mic",
     blocks: [
       {
         t: "p",
-        text: "**EVA Entertainment is a film dubbing studio in Andheri West, Mumbai that dubs regional, pan-India and Hollywood films into Hindi and India's other top languages.** We have dubbed around 30 films, mostly Telugu, Tamil, Malayalam and Kannada titles for Hindi audiences. We bring the same craft to English-language films made for the rest of the world.",
+        text: "**EVA Entertainment is a Mumbai team that dubs regional, pan-India and Hollywood films into Hindi and India's other top languages.** We have dubbed around 30 films, mostly Telugu, Tamil, Malayalam and Kannada titles for Hindi audiences. We bring the same craft to English-language films made for the rest of the world.",
       },
       {
         t: "p",
@@ -49,13 +49,13 @@ export const HOME_SECTIONS: ServicePageSection[] = [
     ],
   },
   {
-    heading: "Hollywood and international films: one voice across India",
+    heading: "Hollywood and international films",
     media: "home-hollywood",
     icon: "icon-voiceover",
     blocks: [
       {
         t: "p",
-        text: "For Hollywood and other international films, a professional English voice artist records the primary English version of a character. The same voice artist then performs that character in Hindi, Bengali, Marathi, Telugu, Tamil, Gujarati, Urdu, Kannada, Odia and Malayalam. Viewers hear one familiar voice in English and all 10 Indian languages.",
+        text: "We also dub Hollywood and other international films into Hindi and India's other major languages. Our recent English to Hindi work includes Night of the Zoopocalypse.",
       },
       {
         t: "p",
@@ -89,7 +89,6 @@ export const HOME_SECTIONS: ServicePageSection[] = [
         items: [
           "**One team from script to mix.** Translation, casting, direction, studio recording and mixing happen in one studio, so nothing is lost between vendors.",
           "**Film dialogue is our daily work.** We know how South Indian dialogue maps onto Hindi and how English dialogue maps onto every major Indian language.",
-          "**One voice in 11 languages.** For international titles the same voice artist performs in English and all 10 Indian languages.",
           "**Direct contact.** You deal with Felix and the studio team directly on WhatsApp or email.",
         ],
       },
@@ -108,18 +107,18 @@ export const HOME_SECTIONS: ServicePageSection[] = [
     blocks: [
       {
         t: "p",
-        text: "We dub, voice and subtitle in English plus India's ten most spoken languages: Hindi, Bengali, Marathi, Telugu, Tamil, Gujarati, Urdu, Kannada, Odia and Malayalam. See every [Indian language we dub](/indian-languages).",
+        text: "We dub, voice and subtitle in English plus India's ten most spoken languages: Hindi, Bengali, Marathi, Telugu, Tamil, Gujarati, Urdu, Kannada, Odia and Malayalam. See every [Indian language we dub](/dubbing).",
       },
     ],
   },
   {
-    heading: "Our studio in Andheri West",
+    heading: "More than dubbing",
     media: "console",
     icon: "icon-travel",
     blocks: [
       {
         t: "p",
-        text: "Our studio is at No. 228, 2nd Floor, Mohid Heights, near the RTO Office in Andheri West, Mumbai. Alongside dubbing we offer [voice over](/voice-over-studio), [Foley recording](/foley-recording), [5.1 mixing](/5-1-mixing-studio), [song recording](/song-recording-studio) and a [stock music library](/stock-music-library). Producers in India can visit the studio. Producers abroad can work with us by WhatsApp and email.",
+        text: "Alongside dubbing we offer [voice over](/voice-over-studio), [Foley recording](/foley-recording), [5.1 mixing](/5-1-mixing-studio), [song recording](/song-recording-studio) and a [stock music library](/stock-music-library). Producers in India can visit the studio. Producers abroad can work with us by WhatsApp and email.",
       },
     ],
   },
@@ -133,10 +132,6 @@ export const HOME_FAQS = [
   {
     q: "Can you dub Hollywood films into Hindi and other Indian languages?",
     a: "Yes. We dub English-language films into Hindi, Bengali, Marathi, Telugu, Tamil, Gujarati, Urdu, Kannada, Odia and Malayalam with lip sync.",
-  },
-  {
-    q: "Can the same voice artist voice a character in English and Indian languages?",
-    a: "Yes. A professional English voice artist records the English version and performs the same character in all 10 Indian languages. It is a live human performance, never voice cloning.",
   },
   {
     q: "Which languages do you dub into?",
