@@ -5409,3 +5409,100 @@ html:not(.eva-bg-ready) .home-page > .eva-what-we-do {
     background-clip: text;
   }
 }
+
+/* ---- Language pair cards (/dubbing hub, service and market pages, /our-projects) ---- */
+.eva-pair-cards {
+  --pc-bg: rgb(255 255 255 / 0.04);
+  --pc-border: rgb(255 255 255 / 0.12);
+  --pc-text: #fff;
+  --pc-muted: rgb(255 255 255 / 0.78);
+  --pc-accent: #70b615;
+  --pc-chip-bg: rgb(255 255 255 / 0.08);
+  --pc-badge-text: #0b0d10;
+  margin-top: 40px;
+}
+.eva-pair-cards--light {
+  --pc-bg: #fff;
+  --pc-border: rgb(0 0 0 / 0.12);
+  --pc-text: #111;
+  --pc-muted: #444;
+  --pc-accent: #3d6b06;
+  --pc-chip-bg: #f2f4ef;
+  --pc-badge-text: #fff;
+}
+.eva-pair-cards .eva-pair-cards__title { text-align: left; margin-bottom: 24px; color: var(--pc-text); }
+.eva-pair-cards__grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+}
+.eva-pair-cards__grid > li { margin: 0; padding: 0; min-width: 0; }
+.eva-pair-cards__grid > li::before { content: none; }
+.eva-pair-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  height: 100%;
+  min-height: 132px;
+  padding: 18px;
+  border: 1px solid var(--pc-border);
+  border-radius: 12px;
+  background: var(--pc-bg);
+  color: var(--pc-text) !important;
+  text-decoration: none !important;
+  transition: border-color 0.2s ease, transform 0.2s ease, background-color 0.2s ease;
+}
+.eva-pair-card:hover { border-color: var(--pc-accent); transform: translateY(-2px); background-color: rgb(112 182 21 / 0.08); }
+.eva-pair-card:focus-visible { outline: 3px solid var(--pc-accent); outline-offset: 3px; border-color: var(--pc-accent); }
+.eva-pair-card__langs { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.eva-pair-card__chip {
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--pc-chip-bg);
+  color: var(--pc-muted);
+  font-size: 13px;
+  line-height: 1.4;
+  font-weight: 600;
+}
+.eva-pair-card__chip--to { color: var(--pc-accent); box-shadow: inset 0 0 0 1px var(--pc-accent); background: transparent; }
+.eva-pair-card__arrow { color: var(--pc-accent); flex: none; }
+.eva-pair-card__name { font-size: 18px; line-height: 1.35; font-weight: 600; }
+.eva-pair-card__foot { margin-top: auto; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.eva-pair-card__badge {
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: var(--pc-accent);
+  color: var(--pc-badge-text);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+.eva-pair-card__posters { display: flex; }
+.eva-pair-card__poster {
+  position: relative;
+  width: 32px;
+  height: 46px;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 2px solid var(--pc-border);
+  background: #222;
+}
+.eva-pair-card__poster + .eva-pair-card__poster { margin-left: -10px; }
+.eva-pair-card__poster img { object-fit: cover; }
+@media (max-width: 767px) {
+  .eva-pair-cards { margin-top: 28px; }
+  .eva-pair-cards__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .eva-pair-card { min-height: 0; padding: 14px 12px; gap: 10px; border-radius: 10px; }
+  .eva-pair-card__langs { display: none; }
+  .eva-pair-card__name { font-size: 15px; }
+  .eva-pair-card__badge { font-size: 12px; padding: 3px 10px; }
+  .eva-pair-card__posters { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .eva-pair-card { transition: none; }
+  .eva-pair-card:hover { transform: none; }
+}
