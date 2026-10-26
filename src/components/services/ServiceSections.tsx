@@ -1,3 +1,4 @@
+import { FontIcon } from "@@/components/common/Icons";
 import Reveal from "@@/components/equipment/Reveal";
 import LanguageCards from "@@/components/services/LanguageCards";
 import ServiceMedia from "@@/components/services/ServiceMedia";
@@ -18,7 +19,7 @@ function Heading({ id, icon, text }: { id: string; icon: string; text: string })
   const cut = Math.max(1, words.length - 2);
   return (
     <h2 id={id} className="eva-svc-title">
-      <i className={`icon ${icon}`} aria-hidden="true" /> {words.slice(0, cut).join(" ")}{" "}
+      <FontIcon name={icon} /> {words.slice(0, cut).join(" ")}{" "}
       <span>{words.slice(cut).join(" ")}</span>
     </h2>
   );
