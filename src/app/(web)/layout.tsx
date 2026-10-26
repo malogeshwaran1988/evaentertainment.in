@@ -67,7 +67,7 @@ export default function WebLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <GtmHead />
         <WebHead />

@@ -33,6 +33,7 @@ export default function Footer() {
                 alt={LOGO_ALT}
                 width={160}
                 height={45}
+                style={{ width: "auto", height: "auto" }}
                 loading="lazy"
                 fetchPriority="low"
               />
