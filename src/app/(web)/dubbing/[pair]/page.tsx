@@ -9,7 +9,7 @@ import { SITE_NAME } from "@@/constants/constants";
 import { Routes, serviceHref } from "@@/constants/routes";
 import { PROJECTS_OG_IMAGE, projectIsPublished } from "@@/data/projects";
 import { getProjects } from "@@/lib/projects-store";
-import { LANGUAGE_HUB_MIN_PROJECTS, LANGUAGE_HUB_PREFIX, languagePairs } from "@@/lib/project-links";
+import { LANGUAGE_HUB_PREFIX, languagePairs } from "@@/lib/project-links";
 import { projectHref, projectPosterAlt } from "@@/lib/project-seo";
 import { absoluteUrl, buildPageMetadata } from "@@/lib/seo";
 
@@ -51,7 +51,6 @@ export async function generateMetadata({ params }: { params: Promise<{ pair: str
     url: absoluteUrl(`${LANGUAGE_HUB_PREFIX}/${pair.slug}`),
     ogImage: PROJECTS_OG_IMAGE,
     ogImageAlt: `${pair.from} to ${pair.to} dubbing projects`,
-    noindex: pair.projects.length < LANGUAGE_HUB_MIN_PROJECTS,
   });
 }
 

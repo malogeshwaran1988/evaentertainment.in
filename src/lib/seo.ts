@@ -29,12 +29,7 @@ export const NOINDEX_ROUTES = ["/thank-you", "/login", "/admin", "/preview"] as 
  * Live but unpublished pages: reachable and linked, but `noindex, follow` and left out of
  * sitemap.xml. To publish one later, delete its line here.
  */
-export const UNPUBLISHED_ROUTES: readonly string[] = [
-  "/hollywood-dubbing-indian-languages",
-  "/indian-languages",
-  "/regional-film-dubbing",
-  "/pan-india-film-dubbing",
-];
+export const UNPUBLISHED_ROUTES: readonly string[] = [];
 
 export const isUnpublishedRoute = (path: string) => UNPUBLISHED_ROUTES.includes(path.replace(/\/+$/, "") || "/");
 

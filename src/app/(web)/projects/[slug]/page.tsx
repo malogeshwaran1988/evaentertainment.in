@@ -12,7 +12,7 @@ import ProjectTrailer from "@@/components/projects/ProjectTrailer";
 import ProjectClientBadge from "@@/components/clients/ProjectClientBadge";
 import { toProjectClient } from "@@/data/clients";
 import { getClients } from "@@/lib/clients-store";
-import { projectIsIndexable, youtubeId } from "@@/lib/project-content";
+import { youtubeId } from "@@/lib/project-content";
 import { APP_BASE_URL, SITE_NAME } from "@@/constants/constants";
 import { Routes, serviceHref } from "@@/constants/routes";
 import { SERVICES } from "@@/data/services";
@@ -64,7 +64,6 @@ export async function generateMetadata({
   if (!project || !projectIsPublished(project)) return {};
   const ogImage = project.poster ? ogImageFor(project) : PROJECTS_OG_IMAGE;
   return buildPageMetadata({
-    noindex: !projectIsIndexable(project),
     title: projectSeoTitle(project),
     description: projectSeoDescription(project),
     url: absoluteUrl(projectHref(project.slug)),
