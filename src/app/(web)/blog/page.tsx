@@ -7,7 +7,7 @@ import { DEFAULT_OG_IMAGE, DEFAULT_OG_IMAGE_ALT, SITE_NAME } from "@@/constants/
 import { Routes } from "@@/constants/routes";
 import BlogComingSoon from "@@/components/blog/BlogComingSoon";
 import { BLOG_SEO } from "@@/data/blog";
-import { BLOG_ENABLED } from "@@/lib/blog/enabled";
+import { BLOG_ENABLED, BLOG_HUB_MIN_POSTS } from "@@/lib/blog/enabled";
 import { imageLoading } from "@@/lib/image-loading";
 import { blogAbsoluteUrl, blogCoverAlt, formatBlogDate } from "@@/lib/blog/seo";
 import { blogHref } from "@@/lib/blog/slug";
@@ -37,8 +37,8 @@ export async function generateMetadata(): Promise<Metadata> {
     url: BLOG_URL,
     ogImage: DEFAULT_OG_IMAGE,
     ogImageAlt: DEFAULT_OG_IMAGE_ALT,
-    // An empty blog is a thin page: keep it out of search until the first post is live.
-    noindex: posts.length === 0,
+    // A near-empty blog is a thin page: checked on every render, so it turns indexable on its own.
+    noindex: posts.length < BLOG_HUB_MIN_POSTS,
   });
 }
 

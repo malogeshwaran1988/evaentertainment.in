@@ -198,6 +198,11 @@ export async function getProjectBySlug(slug: string) {
   return (await readAll()).find((p) => p.slug === slug) ?? null;
 }
 
+/** The project that used to live at this slug (renamed since), or null. */
+export async function getProjectByPreviousSlug(slug: string) {
+  return (await readAll()).find((p) => p.slug !== slug && p.previousSlugs?.includes(slug)) ?? null;
+}
+
 export function createProject(input: ProjectInput & { slug: string }) {
   return mutate((projects) => {
     const now = new Date().toISOString();
@@ -262,9 +267,15 @@ export function updateProject(id: string, input: ProjectInput & { slug: string }
   return mutate((projects) => {
     const index = projects.findIndex((p) => p.id === id);
     if (index === -1) return { next: projects, result: null };
+    const current = projects[index];
+    // Keep the old URL as a redirect; going back to a former slug drops it from the list.
+    const former = new Set(current.previousSlugs ?? []);
+    if (current.slug && current.slug !== input.slug) former.add(current.slug);
+    former.delete(input.slug);
     const updated: Project = {
-      ...projects[index],
+      ...current,
       ...input,
+      previousSlugs: [...former],
       published: input.published !== false,
       updatedAt: new Date().toISOString(),
     };
@@ -272,6 +283,7 @@ export function updateProject(id: string, input: ProjectInput & { slug: string }
     if (!updated.posterAlt) delete updated.posterAlt;
     if (!updated.description) delete updated.description;
     if (!updated.audioHours) delete updated.audioHours;
+    if (!updated.previousSlugs?.length) delete updated.previousSlugs;
     dropEmptyContent(updated);
     const next = [...projects];
     next[index] = updated;

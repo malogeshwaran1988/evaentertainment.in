@@ -1,11 +1,10 @@
 "use server";
 
-import { revalidatePath, updateTag } from "next/cache";
-import { Routes } from "@@/constants/routes";
+import { revalidateContent } from "@@/lib/revalidate-content";
 import { FOUNDER_FEATURED_MAX, FOUNDER_HIGHLIGHTS_MAX } from "@@/data/founder";
 import { projectIsPublished } from "@@/data/projects";
 import { requireAdmin } from "@@/lib/admin-auth";
-import { FOUNDER_TAG, getFounderFresh, saveFounder, saveFounderPhoto } from "@@/lib/founder-store";
+import { getFounderFresh, saveFounder, saveFounderPhoto } from "@@/lib/founder-store";
 import { getProjectsFresh } from "@@/lib/projects-store";
 
 export type FounderFormState = { ok?: boolean; message?: string };
@@ -67,7 +66,6 @@ export async function saveFounderAction(
     console.error("Failed to save founder", err);
     return { message: "Couldn't save. Please try again." };
   }
-  updateTag(FOUNDER_TAG);
-  revalidatePath(Routes.ABOUT);
+  revalidateContent("founder");
   return { ok: true, message: "Saved. The About page is updated." };
 }

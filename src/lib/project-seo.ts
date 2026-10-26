@@ -121,13 +121,15 @@ export function uniquePosterBaseName(
 }
 
 export function takenProjectSlugs(
-  projects: readonly Pick<Project, "id" | "slug">[],
+  projects: readonly (Pick<Project, "id" | "slug"> & { previousSlugs?: string[] })[],
   excludeProjectId?: string,
 ): Set<string> {
   const taken = new Set<string>();
   for (const p of projects) {
     if (excludeProjectId && p.id === excludeProjectId) continue;
     if (p.slug) taken.add(p.slug);
+    // Another project's old URL still redirects to it, so it can't be reused.
+    for (const s of p.previousSlugs ?? []) taken.add(s);
   }
   return taken;
 }

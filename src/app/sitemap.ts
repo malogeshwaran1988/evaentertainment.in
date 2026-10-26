@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 import { Routes, SERVICE_SLUGS, serviceHref } from "@@/constants/routes";
 import { projectIsPublished } from "@@/data/projects";
 import STATIC_LASTMOD from "@@/data/static-lastmod.json";
-import { BLOG_ENABLED } from "@@/lib/blog/enabled";
+import { BLOG_ENABLED, BLOG_HUB_MIN_POSTS } from "@@/lib/blog/enabled";
 import { blogHref } from "@@/lib/blog/slug";
 import { getPublicBlogPosts } from "@@/lib/blog/store";
 import { getProjects } from "@@/lib/projects-store";
@@ -10,7 +10,7 @@ import { LANGUAGE_HUB_PREFIX, languagePairs } from "@@/lib/project-links";
 import { projectAbsolutePosterUrl, projectHref } from "@@/lib/project-seo";
 import { absoluteUrl, isIndexable } from "@@/lib/seo";
 
-/** Rebuilt hourly and on every admin save (revalidatePath("/sitemap.xml")). */
+/** Rebuilt hourly and on every admin save (revalidateContent in src/lib/revalidate-content.ts). */
 export const revalidate = 3600;
 
 /** changefreq is left out on purpose: Google ignores it. lastmod is the real content edit date. */
@@ -50,23 +50,25 @@ const ENTRIES: Entry[] = [
   [Routes.TERMS, 0.2],
 ];
 
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const staticEntries: MetadataRoute.Sitemap = ENTRIES.map(([path, priority]) => ({
-    url: absoluteUrl(path),
-    lastModified: lastmodFor(path),
-    priority,
-  }));
+type Section = () => Promise<MetadataRoute.Sitemap>;
+type PublishedProjects = Awaited<ReturnType<typeof getProjects>>;
 
-  let projects: Awaited<ReturnType<typeof getProjects>> = [];
+/** Published projects are read once per sitemap build; a store hiccup never drops the static URLs. */
+async function publishedProjects(): Promise<PublishedProjects> {
   try {
-    projects = (await getProjects()).filter(projectIsPublished);
+    return (await getProjects()).filter(projectIsPublished);
   } catch (err) {
-    // Never drop the whole sitemap because the project store is briefly unavailable.
     console.error("[sitemap] projects unavailable", err);
+    return [];
   }
+}
 
-  // Every published project is indexable with a self canonical.
-  const projectEntries: MetadataRoute.Sitemap = projects.map((project) => {
+const staticSection: Section = async () =>
+  ENTRIES.map(([path, priority]) => ({ url: absoluteUrl(path), lastModified: lastmodFor(path), priority }));
+
+/** Every published project is indexable with a self canonical. lastmod is its admin updatedAt. */
+const projectSection = (projects: PublishedProjects): MetadataRoute.Sitemap =>
+  projects.map((project) => {
     const poster = projectAbsolutePosterUrl(project.poster);
     return {
       url: absoluteUrl(projectHref(project.slug)),
@@ -76,39 +78,51 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     };
   });
 
-  const hubEntries: MetadataRoute.Sitemap = languagePairs(projects)
-    .map((pair) => ({
-      url: absoluteUrl(`${LANGUAGE_HUB_PREFIX}/${pair.slug}`),
-      lastModified: new Date(
-        Math.max(...pair.projects.map((p) => new Date(p.updatedAt || p.createdAt).getTime())),
-      ),
-      priority: 0.7,
-    }));
+const hubSection = (projects: PublishedProjects): MetadataRoute.Sitemap =>
+  languagePairs(projects).map((pair) => ({
+    url: absoluteUrl(`${LANGUAGE_HUB_PREFIX}/${pair.slug}`),
+    lastModified: new Date(Math.max(...pair.projects.map((p) => new Date(p.updatedAt || p.createdAt).getTime()))),
+    priority: 0.7,
+  }));
 
-  // Only live posts (published and publish date reached); drafts and scheduled posts never appear.
+/** Only live posts (published and publish date reached). /blog itself joins at BLOG_HUB_MIN_POSTS. */
+const blogSection: Section = async () => {
+  if (!BLOG_ENABLED) return [];
   let posts: Awaited<ReturnType<typeof getPublicBlogPosts>> = [];
   try {
-    if (BLOG_ENABLED) posts = await getPublicBlogPosts();
+    posts = await getPublicBlogPosts();
   } catch (err) {
     console.error("[sitemap] blog unavailable", err);
   }
-  const blogEntries: MetadataRoute.Sitemap = posts.length
-    ? [
-        {
-          url: absoluteUrl(Routes.BLOG),
-          lastModified: new Date(Math.max(...posts.map((p) => new Date(p.updatedAt).getTime()))),
-          priority: 0.7,
-        },
-        ...posts.map((post) => ({
-          url: absoluteUrl(blogHref(post.slug)),
-          lastModified: new Date(post.updatedAt),
-          priority: 0.6,
-        })),
-      ]
-    : [];
+  const hub: MetadataRoute.Sitemap =
+    posts.length >= BLOG_HUB_MIN_POSTS
+      ? [
+          {
+            url: absoluteUrl(Routes.BLOG),
+            lastModified: new Date(Math.max(...posts.map((p) => new Date(p.updatedAt).getTime()))),
+            priority: 0.7,
+          },
+        ]
+      : [];
+  return [
+    ...hub,
+    ...posts.map((post) => ({ url: absoluteUrl(blogHref(post.slug)), lastModified: new Date(post.updatedAt), priority: 0.6 })),
+  ];
+};
 
+/**
+ * Sections are independent so a sitemap index can be added later without rewriting them:
+ * near 5,000 URLs, export generateSitemaps() returning one id per section and call the matching
+ * section here by id. Until then one sitemap.xml is simpler for Search Console.
+ */
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const projects = await publishedProjects();
+  const all = [
+    ...(await staticSection()),
+    ...hubSection(projects),
+    ...projectSection(projects),
+    ...(await blogSection()),
+  ];
   // Last guard: never list a private or utility URL (see isIndexable in src/lib/seo.ts).
-  return [...staticEntries, ...hubEntries, ...projectEntries, ...blogEntries].filter((e) =>
-    isIndexable(new URL(e.url).pathname),
-  );
+  return all.filter((e) => isIndexable(new URL(e.url).pathname));
 }

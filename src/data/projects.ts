@@ -69,6 +69,8 @@ export type Project = {
   id: string;
   /** Public URL segment under /projects/[slug]. */
   slug: string;
+  /** Former slugs: /projects/<old> answers with a 308 to the current slug. */
+  previousSlugs?: string[];
   title: string;
   from: ProjectLanguage;
   to: ProjectLanguage[];

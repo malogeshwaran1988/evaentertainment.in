@@ -1,13 +1,12 @@
 "use server";
 
-import { revalidatePath, updateTag } from "next/cache";
-import { PROJECTS_TAG } from "@@/lib/cache-tags";
+import { revalidatePath } from "next/cache";
+import { revalidateContent } from "@@/lib/revalidate-content";
 import {
   projectNameKey,
   type Project,
   type ProjectInput,
 } from "@@/data/projects";
-import { Routes } from "@@/constants/routes";
 import { requireAdmin } from "@@/lib/admin-auth";
 import { AdminRoutes } from "@@/lib/admin-session";
 import { fetchPosterImageFromUrl } from "@@/lib/admin/fetch-poster-url";
@@ -71,18 +70,6 @@ function posterNameCtx(data: ProjectInput) {
   };
 }
 
-function revalidateProjects(slug?: string) {
-  // Drop the cached Blob JSON first so this request and the next visitors read the saved data.
-  updateTag(PROJECTS_TAG);
-  revalidatePath(Routes.HOME);
-  revalidatePath(Routes.PROJECTS);
-  revalidatePath("/sitemap.xml");
-  revalidatePath("/projects/[slug]", "page");
-  revalidatePath("/dubbing/[pair]", "page");
-  revalidatePath(AdminRoutes.PROJECTS);
-  if (slug) revalidatePath(Routes.project(slug));
-}
-
 export async function createProjectAction(
   _prev: ProjectFormState,
   formData: FormData,
@@ -112,7 +99,7 @@ export async function createProjectAction(
       poster,
       posterAlt: poster ? data.posterAlt : undefined,
     });
-    revalidateProjects(project.slug);
+    revalidateContent("project", [project.slug]);
     return { ok: true, message: `“${project.title}” added.` };
   } catch (err) {
     console.error("Failed to create project", err);
@@ -174,10 +161,7 @@ export async function updateProjectAction(
       return { message: "This project no longer exists." };
     }
     if (!isSamePosterFile(existing.poster, poster)) await deletePosterQuietly(existing.poster);
-    revalidateProjects(project.slug);
-    if (existing.slug && existing.slug !== project.slug) {
-      revalidatePath(Routes.project(existing.slug));
-    }
+    revalidateContent("project", [project.slug, existing.slug, ...(project.previousSlugs ?? [])]);
     revalidatePath(`${AdminRoutes.PROJECTS}/${id}/edit`);
     return { ok: true, message: `“${project.title}” updated.` };
   } catch (err) {
@@ -198,7 +182,7 @@ export async function deleteProjectAction(id: string): Promise<ProjectFormState>
   }
   if (!removed) return { message: "This project was already deleted." };
   await deletePosterQuietly(removed.poster);
-  revalidateProjects();
+  revalidateContent("project", [removed.slug, ...(removed.previousSlugs ?? [])]);
   return { ok: true, message: "Project deleted." };
 }
 
@@ -327,8 +311,7 @@ export async function importProjectCsvAction(formData: FormData): Promise<CsvImp
     // A Blob version conflict re-runs the batch; drop posters the final write doesn't reference.
     const kept = new Set(added.map((p) => p.poster));
     for (const p of savedPosters) if (!kept.has(p)) await deletePosterQuietly(p);
-    revalidateProjects();
-    for (const p of added) revalidatePath(Routes.project(p.slug));
+    revalidateContent("project", added.map((p) => p.slug));
     const n = added.length;
     return {
       ok: true,

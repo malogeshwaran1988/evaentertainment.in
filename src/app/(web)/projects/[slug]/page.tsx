@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import JsonLd from "@@/components/common/JsonLd";
 import PageHero from "@@/components/common/PageHero";
 import Link from "@@/components/common/NavLink";
@@ -24,7 +24,7 @@ import {
   projectIsPublished,
   type Project,
 } from "@@/data/projects";
-import { getProjectBySlug, getProjects } from "@@/lib/projects-store";
+import { getProjectByPreviousSlug, getProjectBySlug, getProjects } from "@@/lib/projects-store";
 import {
   EVA_ORG_ID,
   evaOrganizationLd,
@@ -107,7 +107,12 @@ export default async function ProjectDetailPage({
   const project =
     projects.find((p) => p.slug === slug) ??
     (await getProjectBySlug(slug).then((p) => (p && projectIsPublished(p) ? p : null)));
-  if (!project) notFound();
+  if (!project) {
+    // A renamed project: its old URL moves permanently (308) to the current one.
+    const moved = await getProjectByPreviousSlug(slug);
+    if (moved && projectIsPublished(moved)) permanentRedirect(projectHref(moved.slug));
+    notFound();
+  }
   const clientsById = new Map((await getClients()).map((c) => [c.id, c]));
   const client = toProjectClient(project.clientId ? clientsById.get(project.clientId) : undefined);
 

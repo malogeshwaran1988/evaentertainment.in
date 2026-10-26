@@ -1,9 +1,8 @@
 "use server";
 
-import { revalidatePath, updateTag } from "next/cache";
-import { BLOG_TAG } from "@@/lib/cache-tags";
+import { revalidatePath } from "next/cache";
+import { revalidateContent } from "@@/lib/revalidate-content";
 import { z } from "zod";
-import { Routes } from "@@/constants/routes";
 import {
   BLOG_AUTHOR_MAX,
   BLOG_CATEGORIES,
@@ -21,7 +20,7 @@ import {
   type BlogPostInput,
 } from "@@/data/blog";
 import { requireAdmin } from "@@/lib/admin-auth";
-import { AdminRoutes, blogEditPath } from "@@/lib/admin-session";
+import { blogEditPath } from "@@/lib/admin-session";
 import { blogImageFileName, blogImagesOf, deleteBlogImage, saveBlogImage } from "@@/lib/blog/images";
 import { sanitizeBlogHtml } from "@@/lib/blog/sanitize";
 import { blogHref, slugifyBlog, uniqueBlogSlug, validateBlogSlug } from "@@/lib/blog/slug";
@@ -151,13 +150,7 @@ function slugTakenState(err: store.BlogSlugTakenError): BlogFormState {
 }
 
 function revalidateBlog(...slugs: (string | undefined)[]) {
-  // Drop the cached Blob JSON first so this request and the next visitors read the saved data.
-  updateTag(BLOG_TAG);
-  revalidatePath(Routes.BLOG);
-  revalidatePath("/blog/[slug]", "page");
-  revalidatePath("/sitemap.xml");
-  revalidatePath(AdminRoutes.BLOG);
-  for (const slug of slugs) if (slug) revalidatePath(blogHref(slug));
+  revalidateContent("blog", slugs);
 }
 
 /** Uploaded images no post uses any more. */
