@@ -199,9 +199,9 @@ export const LANGUAGE_PAGES: Record<string, DubbingLanguage> = Object.fromEntrie
           leadExtra:
             "Most of our published credits today are titles dubbed into Hindi from Telugu Tamil Malayalam and English sources. Browse exact pairs on the [language pair index](/dubbing) when you already know the source language.",
           accentNote:
-            "We cast Hindi artists to the register the brief asks for (neutral film Hindi or a named regional colour). Owner dialect sheet for each title still sets the final choice. [NEED OWNER ACCENT GUIDE]",
+            "We cast Hindi artists to the register the brief asks for (neutral film Hindi or a named regional colour). Owner dialect sheet for each title still sets the final choice.",
           castingNote:
-            "Casting starts from the character list age gender and tone in your brief. We propose Hindi artists from our Mumbai roster then lock them after your approval. [NEED OWNER CASTING NOTES]",
+            "Casting starts from the character list age gender and tone in your brief. We propose Hindi artists from our Mumbai roster then lock them after your approval.",
           faqs: [
             {
               q: "Is this the same as a Telugu to Hindi dubbing page?",
@@ -224,9 +224,9 @@ export const LANGUAGE_PAGES: Record<string, DubbingLanguage> = Object.fromEntrie
           leadExtra:
             "When published projects target Bengali this page lists those titles. Pair pages that end in Bengali stay the owners of each source-to-Bengali query.",
           accentNote:
-            "Bengali accent and dialect choices follow the brief (standard film Bengali or a named regional colour). [NEED OWNER ACCENT GUIDE]",
+            "Bengali accent and dialect choices follow the brief (standard film Bengali or a named regional colour).",
           castingNote:
-            "We cast Bengali-speaking artists to match character age gender and tone then confirm with you before the session. [NEED OWNER CASTING NOTES]",
+            "We cast Bengali-speaking artists to match character age gender and tone then confirm with you before the session.",
           faqs: [
             {
               q: "Does this page replace Bengali pair pages?",
@@ -245,9 +245,9 @@ export const LANGUAGE_PAGES: Record<string, DubbingLanguage> = Object.fromEntrie
           leadExtra:
             "Marathi destination work appears here once published projects list Marathi in the target languages. Exact pairs keep their own pages under /dubbing.",
           accentNote:
-            "Marathi register follows the brief. Name any city or community colour you need before casting. [NEED OWNER ACCENT GUIDE]",
+            "Marathi register follows the brief. Name any city or community colour you need before casting.",
           castingNote:
-            "We propose Marathi artists against your character list and lock them after approval. [NEED OWNER CASTING NOTES]",
+            "We propose Marathi artists against your character list and lock them after approval.",
           faqs: [
             {
               q: "Is Marathi film content covered here?",
@@ -266,9 +266,9 @@ export const LANGUAGE_PAGES: Record<string, DubbingLanguage> = Object.fromEntrie
           leadExtra:
             "Telugu as a destination (content dubbed into Telugu) is what this page owns. Telugu-source titles dubbed into Hindi or Tamil stay on their pair pages and on segments such as regional film work.",
           accentNote:
-            "Telugu accent choices follow the brief (standard film Telugu or a named regional colour). [NEED OWNER ACCENT GUIDE]",
+            "Telugu accent choices follow the brief (standard film Telugu or a named regional colour).",
           castingNote:
-            "Casting for Telugu destination roles uses artists who match the character brief. We confirm the slate with you before recording. [NEED OWNER CASTING NOTES]",
+            "Casting for Telugu destination roles uses artists who match the character brief. We confirm the slate with you before recording.",
           faqs: [
             {
               q: "How is this different from Telugu to Hindi dubbing?",
@@ -287,9 +287,9 @@ export const LANGUAGE_PAGES: Record<string, DubbingLanguage> = Object.fromEntrie
           leadExtra:
             "Published credits that target Tamil appear on this page. Kollywood is the Tamil-film content-type page when the source is Tamil cinema. This page owns Tamil as the language you convert into.",
           accentNote:
-            "Tamil register follows the brief. Call out any regional colour before we cast. [NEED OWNER ACCENT GUIDE]",
+            "Tamil register follows the brief. Call out any regional colour before we cast.",
           castingNote:
-            "We cast Tamil artists to character age gender and tone then lock the slate after your approval. [NEED OWNER CASTING NOTES]",
+            "We cast Tamil artists to character age gender and tone then lock the slate after your approval.",
           faqs: [
             {
               q: "Is this the same as Kollywood movies dubbing?",
@@ -312,9 +312,9 @@ export const LANGUAGE_PAGES: Record<string, DubbingLanguage> = Object.fromEntrie
           leadExtra:
             "Gujarati destination credits appear here when published projects list Gujarati as a target. Pair pages ending in Gujarati keep the exact-pair keywords.",
           accentNote:
-            "Gujarati accent and dialect follow the brief. [NEED OWNER ACCENT GUIDE]",
+            "Gujarati accent and dialect follow the brief.",
           castingNote:
-            "We cast Gujarati-speaking artists to the character brief and confirm before the session. [NEED OWNER CASTING NOTES]",
+            "We cast Gujarati-speaking artists to the character brief and confirm before the session.",
           faqs: [
             {
               q: "Can you dub ads into Gujarati?",
@@ -333,9 +333,9 @@ export const LANGUAGE_PAGES: Record<string, DubbingLanguage> = Object.fromEntrie
           leadExtra:
             "Urdu destination work is listed here once published projects target Urdu. Exact pairs remain under /dubbing.",
           accentNote:
-            "Urdu register and formality follow the brief (film Urdu or a named style). [NEED OWNER ACCENT GUIDE]",
+            "Urdu register and formality follow the brief (film Urdu or a named style).",
           castingNote:
-            "Casting proposes Urdu artists against your character list then locks after approval. [NEED OWNER CASTING NOTES]",
+            "Casting proposes Urdu artists against your character list then locks after approval.",
           faqs: [
             {
               q: "Is Urdu voice-over included?",
@@ -354,9 +354,9 @@ export const LANGUAGE_PAGES: Record<string, DubbingLanguage> = Object.fromEntrie
           leadExtra:
             "Kannada as a destination is owned here. Kannada-source titles dubbed into other languages stay on their pair and segment pages.",
           accentNote:
-            "Kannada accent choices follow the brief. [NEED OWNER ACCENT GUIDE]",
+            "Kannada accent choices follow the brief.",
           castingNote:
-            "We cast Kannada artists to match the character brief and confirm the slate with you. [NEED OWNER CASTING NOTES]",
+            "We cast Kannada artists to match the character brief and confirm the slate with you.",
           faqs: [
             {
               q: "Do you convert content into Kannada from Hindi or English?",
@@ -375,9 +375,9 @@ export const LANGUAGE_PAGES: Record<string, DubbingLanguage> = Object.fromEntrie
           leadExtra:
             "Odia destination credits appear when published projects list Odia as a target language.",
           accentNote:
-            "Odia accent and dialect follow the brief. [NEED OWNER ACCENT GUIDE]",
+            "Odia accent and dialect follow the brief.",
           castingNote:
-            "Casting proposes Odia-speaking artists against your character list. [NEED OWNER CASTING NOTES]",
+            "Casting proposes Odia-speaking artists against your character list.",
           faqs: [
             {
               q: "Can platforms book Odia dubbing here?",
@@ -396,9 +396,9 @@ export const LANGUAGE_PAGES: Record<string, DubbingLanguage> = Object.fromEntrie
           leadExtra:
             "Malayalam as a destination is owned here. Malayalam-source titles (for example Malayalam to Hindi) stay on their pair pages.",
           accentNote:
-            "Malayalam register follows the brief. Name any regional colour before casting. [NEED OWNER ACCENT GUIDE]",
+            "Malayalam register follows the brief. Name any regional colour before casting.",
           castingNote:
-            "We cast Malayalam artists to character age gender and tone then lock after your approval. [NEED OWNER CASTING NOTES]",
+            "We cast Malayalam artists to character age gender and tone then lock after your approval.",
           faqs: [
             {
               q: "How is this different from Malayalam to Hindi?",
@@ -417,9 +417,9 @@ export const LANGUAGE_PAGES: Record<string, DubbingLanguage> = Object.fromEntrie
           leadExtra:
             "English destination work (titles dubbed or voiced into English) is owned here. English-source Hollywood work sits on the [Hollywood movies dubbing](/dubbing-studio/hollywood) segment and on English-source pair pages.",
           accentNote:
-            "English accent (Indian English British or American colour) follows the brief. [NEED OWNER ACCENT GUIDE]",
+            "English accent (Indian English British or American colour) follows the brief.",
           castingNote:
-            "We cast English-speaking artists to the character brief and confirm before recording. [NEED OWNER CASTING NOTES]",
+            "We cast English-speaking artists to the character brief and confirm before recording.",
           faqs: [
             {
               q: "Is this for dubbing Indian films into English?",
