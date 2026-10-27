@@ -12,13 +12,13 @@ export const MARKET_SERVICES: Service[] = [
     slug: "hollywood-dubbing-indian-languages",
     name: "Hollywood Dubbing",
     icon: "icon-play-circle",
-    h1: "Hollywood Film Dubbing into Hindi and Indian Languages",
-    subtitle: "One professional voice artist in English and all 10 of India's top languages, for international films and series.",
-    summary: "English films dubbed into India's top 10 languages.",
+    h1: "Hollywood Dubbing for Distributors and Studios",
+    subtitle: "One professional voice artist in English and all 10 of India's top languages for international films and series.",
+    summary: "Hollywood dubbing for foreign distributors and studios.",
     seo: {
-      title: "Hollywood Dubbing into Hindi and Indian Languages | EVA",
+      title: "Hollywood Dubbing for Distributors | Indian Languages | EVA",
       description:
-        "Dub Hollywood and international films into Hindi, Tamil, Telugu and 7 more Indian languages. One English voice artist voices every version. Get a quote.",
+        "Hollywood dubbing for foreign distributors and studios. One English voice artist carries each character into Hindi Tamil Telugu and 7 more Indian languages. Get a quote.",
     },
     ...media("hollywood-lead"),
     ogImage: "/images/og/hollywood-dubbing-indian-languages.jpg",

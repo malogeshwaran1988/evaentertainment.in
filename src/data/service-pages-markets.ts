@@ -34,15 +34,15 @@ const REGIONAL_CREDITS = [
 
 export const MARKET_SERVICE_PAGES: Record<string, ServicePageContent> = {
   "hollywood-dubbing-indian-languages": {
-    seoTitle: "Hollywood Dubbing into Hindi and Indian Languages | EVA",
+    seoTitle: "Hollywood Dubbing for Distributors | Indian Languages | EVA",
     description:
-      "Dub Hollywood and international films into Hindi, Tamil, Telugu and 7 more Indian languages. One English voice artist voices every version. Get a quote.",
-    h1: "Hollywood Film Dubbing into Hindi and Indian Languages",
+      "Hollywood dubbing for foreign distributors and studios. One English voice artist carries each character into Hindi Tamil Telugu and 7 more Indian languages. Get a quote.",
+    h1: "Hollywood Dubbing for Distributors and Studios",
     serviceType: "Film dubbing",
     languages: ["English", ...TOP_10_LANGUAGE_NAMES],
     leadHeading: "One voice from English to every Indian screen",
     lead: [
-      "**Hollywood dubbing into Indian languages turns an English-language film into versions Indian audiences can watch in Hindi, Tamil, Telugu and other languages, with dialogue that matches the actors' lips and emotion.** EVA Entertainment does this from our studio in Andheri West, Mumbai for studios, distributors and OTT platforms in the US, the UK, the UAE and India.",
+      "**Hollywood dubbing for distributors turns an English-language film into versions Indian audiences can watch in Hindi Tamil Telugu and other languages with dialogue that matches the actors' lips and emotion.** EVA Entertainment does this from our studio in Andheri West Mumbai for studios distributors and OTT platforms in the US the UK the UAE and India. For the content-type craft page see [Hollywood movies dubbing](/dubbing-studio/hollywood).",
       "What sets us apart is the voice. A professional English voice artist records the primary English version of a character. The same voice artist then performs that character in Hindi, Bengali, Marathi, Telugu, Tamil, Gujarati, Urdu, Kannada, Odia and Malayalam. Your audience hears one familiar voice in all 11 versions.",
     ],
     sections: [
@@ -202,7 +202,7 @@ export const MARKET_SERVICE_PAGES: Record<string, ServicePageContent> = {
     languages: ["Hindi", "Telugu", "Tamil", "Malayalam", "Kannada", "English"],
     leadHeading: "Kollywood and Tollywood films for every Indian audience",
     lead: [
-      "**Regional film dubbing takes a film made for one Indian language audience and gives it a natural, lip-synced version in another.** At EVA Entertainment most of our feature film work is exactly that: Telugu, Tamil, Malayalam and Kannada films dubbed into Hindi for OTT, satellite TV and cinema.",
+      "**Regional film dubbing takes a film made for one Indian language audience and gives it a natural, lip-synced version in another.** At EVA Entertainment most of our feature film work is exactly that: Telugu, Tamil, Malayalam and Kannada films dubbed into Hindi for OTT, satellite TV and cinema. Tamil titles also sit on [Kollywood dubbing](/dubbing-studio/kollywood).",
       "We have dubbed around 30 films from Tollywood, Kollywood, Mollywood and Sandalwood. We work the other way too, taking Hindi and English content into South Indian and other Indian languages.",
     ],
     sections: [
@@ -311,7 +311,7 @@ export const MARKET_SERVICE_PAGES: Record<string, ServicePageContent> = {
     languages: ["English", ...TOP_10_LANGUAGE_NAMES],
     leadHeading: "One release, ten languages, one standard",
     lead: [
-      "**Pan-India film dubbing prepares one film for release in several Indian languages at the same time.** EVA Entertainment handles every version from one studio in Andheri West, Mumbai, so the Hindi, Telugu, Tamil and other versions share the same script decisions, casting notes and mix standard.",
+      "**Pan-India film dubbing prepares one film for release in several Indian languages at the same time.** EVA Entertainment handles every version from one studio in Andheri West, Mumbai, so the Hindi, Telugu, Tamil and other versions share the same script decisions, casting notes and mix standard. See also [Kollywood dubbing](/dubbing-studio/kollywood) when the title is a Tamil feature. Hindi multi-language releases stay on this pan-India hub until Bollywood segment credits are published.",
       "We dub into India's top 10 languages: Hindi, Bengali, Marathi, Telugu, Tamil, Gujarati, Urdu, Kannada, Odia and Malayalam. More languages are available on request.",
     ],
     sections: [

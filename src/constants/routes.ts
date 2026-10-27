@@ -80,7 +80,23 @@ export const LEGACY_REDIRECTS: { from: string; to: string; statusCode?: 301 }[] 
 ];
 
 
-export type NavItem = { label: string; href: string; children?: readonly ServiceSlug[] };
+export type NavLinkChild = { label: string; href: string };
+
+export type NavItem = {
+  label: string;
+  href: string;
+  /** Service slug children (resolved to names via SERVICE_NAMES). */
+  children?: readonly ServiceSlug[];
+  /** Plain label+href children (e.g. Segments under /dubbing-studio). */
+  links?: readonly NavLinkChild[];
+};
+
+/** Nav links for segment pages that resolve on the live admin store (non-empty match).
+ * Bollywood stays in SEGMENT_PAGES + sitemap (zero-hide) but out of the menu until Hindi-from credits exist. */
+export const SEGMENT_NAV: readonly NavLinkChild[] = [
+  { label: "Hollywood", href: "/dubbing-studio/hollywood" },
+  { label: "Kollywood", href: "/dubbing-studio/kollywood" },
+];
 
 /** Primary nav links (Contact is a separate header CTA). */
 export const NAV_ITEMS: NavItem[] = [
@@ -88,6 +104,8 @@ export const NAV_ITEMS: NavItem[] = [
   { label: "ABOUT", href: Routes.ABOUT },
   // Parent links to the flagship service page: "/" would duplicate HOME (React key clash) and # URLs are not allowed.
   { label: "SERVICES", href: serviceHref("dubbing-studio"), children: SERVICE_SLUGS },
+  // Separate Segments drop-down (SEO tree v2). Only shipped segment pages; languages come later.
+  { label: "SEGMENTS", href: serviceHref("dubbing-studio"), links: SEGMENT_NAV },
   { label: "OUR PROJECTS", href: Routes.PROJECTS },
   { label: "OUR CLIENTS", href: Routes.CLIENTS },
   { label: "EQUIPMENT", href: Routes.EQUIPMENT },

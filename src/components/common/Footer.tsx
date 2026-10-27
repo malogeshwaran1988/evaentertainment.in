@@ -13,7 +13,7 @@ import { SERVICES } from "@@/data/services";
 
 /** The Services column already lists every service page. */
 const FOOTER_LINKS = [
-  ...NAV_ITEMS.filter((item) => !item.children),
+  ...NAV_ITEMS.filter((item) => !item.children && !item.links),
   { label: "CONTACT", href: Routes.CONTACT },
 ];
 

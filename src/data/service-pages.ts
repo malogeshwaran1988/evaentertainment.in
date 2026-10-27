@@ -13,7 +13,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
     leadHeading: "Hindi versions that feel native",
     lead: [
       "**From a Telugu action drama to a Malayalam comedy, we turn South Indian films into Hindi versions that feel as if they were shot in Hindi.** EVA Entertainment is a lip-sync dubbing studio in Andheri West run by a team that spends most of its working day matching new Hindi dialogue to someone else's lips. Send us your film in its original language; we hand back a finished, mixed Hindi version ready for OTT, satellite TV or theatrical release.",
-      "Most of our work is feature films from Telugu, Tamil, Malayalam and Kannada cinema. The same team dubs [Hollywood and international films](/hollywood-dubbing-indian-languages) into India's top 10 languages, prepares [pan-India releases](/pan-india-film-dubbing) and dubs web series, documentaries and ad films.",
+      "Most of our work is feature films from Telugu Tamil Malayalam and Kannada cinema. The same team dubs [Hollywood movies](/dubbing-studio/hollywood) and [Kollywood](/dubbing-studio/kollywood) titles works with [foreign distributors](/hollywood-dubbing-indian-languages) prepares [pan-India releases](/pan-india-film-dubbing) and handles web series documentaries and ad films.",
     ],
     sections: [
       {
@@ -58,6 +58,27 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
           {
             t: "p",
             text: "Rush schedules are possible when the booth and cast are free.",
+          },
+        ],
+      },
+      {
+        heading: "Content types we dub",
+        icon: "icon-play-circle",
+        blocks: [
+          {
+            t: "p",
+            text: "Lip-sync work is organised by content type as well as by language. Start with the segment that matches your title:",
+          },
+          {
+            t: "ul",
+            items: [
+              "**[Hollywood movies dubbing](/dubbing-studio/hollywood)** - English and international features into Indian languages.",
+              "**[Kollywood and Tamil film dubbing](/dubbing-studio/kollywood)** - Tamil features into Hindi and other languages.",
+            ],
+          },
+          {
+            t: "p",
+            text: "Market hubs for buyers stay at [Hollywood for distributors](/hollywood-dubbing-indian-languages), [pan-India film dubbing](/pan-india-film-dubbing) and [regional film dubbing](/regional-film-dubbing).",
           },
         ],
       },
@@ -111,7 +132,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
             items: [
               "**Regional films.** Telugu, Tamil, Malayalam and Kannada films dubbed into Hindi and other Indian languages. See [regional film dubbing](/regional-film-dubbing).",
               "**Pan-India releases.** One film dubbed into several Indian languages from one studio with one mix standard. See [pan-India film dubbing](/pan-india-film-dubbing).",
-              "**Hollywood and international films.** English titles dubbed into Hindi and other Indian languages. See [Hollywood dubbing](/hollywood-dubbing-indian-languages).",
+              "**Hollywood and international films.** English titles dubbed into Hindi and other Indian languages. See [Hollywood movies dubbing](/dubbing-studio/hollywood) and the [distributors hub](/hollywood-dubbing-indian-languages).",
             ],
           },
         ],
@@ -198,7 +219,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
       },
       {
         q: "Do you only dub South Indian films?",
-        a: "No. South Indian films into Hindi are a large part of our work, but we also dub [Hollywood and international films](/hollywood-dubbing-indian-languages) into India's top 10 languages, pan-India releases, web series and documentaries.",
+        a: "No. South Indian films into Hindi are a large part of our work, but we also dub [Hollywood movies](/dubbing-studio/hollywood) and [international titles for distributors](/hollywood-dubbing-indian-languages) into India's top 10 languages plus [Kollywood](/dubbing-studio/kollywood) films Hindi titles for pan-India releases web series and documentaries.",
       },
     ],
     cta: {

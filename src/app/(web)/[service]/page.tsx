@@ -16,6 +16,8 @@ import { plain } from "@@/components/services/RichText";
 import { APP_BASE_URL, CONTACT, POSTAL_ADDRESS, SITE_NAME } from "@@/constants/constants";
 import { serviceHref } from "@@/constants/routes";
 import { SERVICE_PAGES } from "@@/data/service-pages";
+import { liveSegmentLinks } from "@@/data/dubbing-segments";
+import type { ServicePageSection } from "@@/data/service-page-types";
 import { SERVICES, getService, servicePageUrl } from "@@/data/services";
 import { buildPageMetadata } from "@@/lib/seo";
 
@@ -65,6 +67,44 @@ export default async function ServicePage({ params }: PageProps<"/[service]">) {
   if (!page) notFound();
 
   const pairs = HUB_LINK_PAGES.has(service.slug) ? await hubPairs() : [];
+  let sections = page.sections;
+  if (service.slug === "dubbing-studio") {
+    try {
+      const published = (await getProjects()).filter(projectIsPublished);
+      const live = liveSegmentLinks(published);
+      if (live.length) {
+        const segmentSection: ServicePageSection = {
+          heading: "Content types we dub",
+          icon: "icon-play-circle",
+          blocks: [
+            {
+              t: "p",
+              text: "Lip-sync work is organised by content type as well as by language. Start with the segment that matches your title:",
+            },
+            {
+              t: "ul",
+              items: live.map(
+                (s) => `**[${s.keyword}](${s.href})** - ${s.label} titles we dub with lip sync.`,
+              ),
+            },
+            {
+              t: "p",
+              text: "Market hubs for buyers stay at [Hollywood for distributors](/hollywood-dubbing-indian-languages), [pan-India film dubbing](/pan-india-film-dubbing) and [regional film dubbing](/regional-film-dubbing).",
+            },
+          ],
+        };
+        const without = sections.filter((s) => s.heading !== "Content types we dub");
+        const insertAt = Math.min(1, without.length);
+        sections = [
+          ...without.slice(0, insertAt),
+          segmentSection,
+          ...without.slice(insertAt),
+        ];
+      }
+    } catch {
+      // Keep static sections if projects are unavailable.
+    }
+  }
   const url = servicePageUrl(service.slug);
   const faqs = page.faqs.map((f) => ({ q: f.q, a: f.a }));
   const serviceSchema = {
@@ -114,7 +154,7 @@ export default async function ServicePage({ params }: PageProps<"/[service]">) {
         trail={[{ label: service.name, href: serviceHref(service.slug) }]}
       />
       <ServiceLead service={service} page={page} />
-      <ServiceSections sections={page.sections} />
+      <ServiceSections sections={sections} />
       <ServicePosterStrip slugs={page.posterStrip} />
       <LanguageHubLinks pairs={pairs} heading="Our dubbing work by language pair" section />
       <ServicePageCta page={page} />

@@ -10,7 +10,14 @@ import { getProjects } from "@@/lib/projects-store";
  * published projects fill the strip to six. A card opens a quick-view dialog; the dialog links
  * to the full project page. Hidden when nothing is published.
  */
-export default async function ServicePosterStrip({ slugs }: { slugs?: string[] }) {
+export default async function ServicePosterStrip({
+  slugs,
+  heading,
+}: {
+  slugs?: string[];
+  /** Override the default "Films we have dubbed into Hindi" heading. */
+  heading?: string;
+}) {
   if (!slugs?.length) return null;
   let cards: PosterCard[] = [];
   try {
@@ -38,8 +45,14 @@ export default async function ServicePosterStrip({ slugs }: { slugs?: string[] }
     <section className="block eva-svc-section eva-svc-posters" aria-labelledby="svc-poster-strip">
       <div className="container">
         <h2 id="svc-poster-strip" className="eva-svc-title">
-          <i className="icon icon-play-circle" aria-hidden="true" />Films we have{" "}
-          <span>dubbed into Hindi</span>
+          <i className="icon icon-play-circle" aria-hidden="true" />
+          {heading ? (
+            heading
+          ) : (
+            <>
+              Films we have <span>dubbed into Hindi</span>
+            </>
+          )}
         </h2>
         <PosterCards cards={cards} />
       </div>

@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { Routes, SERVICE_SLUGS, serviceHref } from "@@/constants/routes";
+import { SEGMENT_SLUGS, getSegment, projectsForSegment, segmentHref } from "@@/data/dubbing-segments";
 import { projectIsPublished } from "@@/data/projects";
 import STATIC_LASTMOD from "@@/data/static-lastmod.json";
 import { BLOG_ENABLED, BLOG_HUB_MIN_POSTS } from "@@/lib/blog/enabled";
@@ -47,6 +48,7 @@ const ENTRIES: Entry[] = [
   [Routes.CONTACT, 0.6],
   [Routes.CLIENTS, 0.5],
   [Routes.CAREERS, 0.4],
+  [Routes.BLOG, 0.7],
   [Routes.PRIVACY, 0.2],
   [Routes.TERMS, 0.2],
 ];
@@ -140,14 +142,41 @@ const blogSection: Section = async () => {
  * near 5,000 URLs, export generateSitemaps() returning one id per section and call the matching
  * section here by id. Until then one sitemap.xml is simpler for Search Console.
  */
+const segmentSection = (projects: PublishedProjects): MetadataRoute.Sitemap =>
+  SEGMENT_SLUGS.flatMap((slug) => {
+    const segment = getSegment(slug);
+    if (!segment) return [];
+    const matched = projectsForSegment(segment, projects);
+    if (!matched.length) return [];
+    return [
+      {
+        url: absoluteUrl(segmentHref(slug)),
+        lastModified: new Date(
+          Math.max(
+            ...matched.map((p) => new Date(p.updatedAt || p.createdAt).getTime()),
+          ),
+        ),
+        priority: 0.85,
+      },
+    ];
+  });
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const projects = await publishedProjects();
   const all = [
     ...(await staticSection()),
+    ...segmentSection(projects),
     ...hubSection(projects),
     ...projectSection(projects),
     ...(await blogSection()),
   ];
+  // Dedupe by URL (e.g. /blog may appear in ENTRIES and blogSection).
+  const seen = new Set<string>();
+  const deduped = all.filter((e) => {
+    if (seen.has(e.url)) return false;
+    seen.add(e.url);
+    return true;
+  });
   // Last guard: never list a private or utility URL (see isIndexable in src/lib/seo.ts).
-  return all.filter((e) => isIndexable(new URL(e.url).pathname));
+  return deduped.filter((e) => isIndexable(new URL(e.url).pathname));
 }

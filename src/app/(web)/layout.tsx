@@ -14,6 +14,9 @@ import {
   SITE_NAME,
 } from "@@/constants/constants";
 import { SERVICE_NAMES } from "@@/data/services";
+import { liveSegmentLinks } from "@@/data/dubbing-segments";
+import { projectIsPublished } from "@@/data/projects";
+import { getProjects } from "@@/lib/projects-store";
 import { HOME_OG_IMAGE, HOME_OG_IMAGE_ALT, HOME_PAGE_URL, HOME_SEO } from "@@/data/home";
 
 export const metadata: Metadata = {
@@ -62,9 +65,16 @@ export const metadata: Metadata = {
 };
 
 /** Root layout for all public `(web)` routes — Glory chrome and a single Header mount. */
-export default function WebLayout({
+export default async function WebLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  let segmentLinks: { label: string; href: string }[] = [];
+  try {
+    const published = (await getProjects()).filter(projectIsPublished);
+    segmentLinks = liveSegmentLinks(published).map(({ label, href }) => ({ label, href }));
+  } catch {
+    segmentLinks = [];
+  }
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
@@ -77,7 +87,7 @@ export default function WebLayout({
           <a className="eva-skip-link" href="#main-content">
             Skip to main content
           </a>
-          <Header serviceNames={SERVICE_NAMES} />
+          <Header serviceNames={SERVICE_NAMES} segmentLinks={segmentLinks} />
           <div className="flex-1">{children}</div>
           <ContactCtaServer />
           <GoToTopButton />

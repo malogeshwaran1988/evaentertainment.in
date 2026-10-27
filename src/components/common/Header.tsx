@@ -6,27 +6,34 @@ import Link from "@@/components/common/NavLink";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { LOGO_ALT, SITE_NAME } from "@@/constants/constants";
-import { NAV_ITEMS, Routes, serviceHref, type NavItem, type ServiceSlug } from "@@/constants/routes";
+import { NAV_ITEMS, Routes, serviceHref, type NavItem, type NavLinkChild, type ServiceSlug } from "@@/constants/routes";
 
 const SCROLL_TOP_THRESHOLD = 80;
 
 /** Site chrome header — mounted once via `(web)/layout` for all public pages. */
-export function Header({ serviceNames }: { serviceNames: Record<ServiceSlug, string> }) {
+export function Header({
+  serviceNames,
+  segmentLinks,
+}: {
+  serviceNames: Record<ServiceSlug, string>;
+  /** Live segment pages with projects; overrides SEGMENTS.links. Empty hides the dropdown. */
+  segmentLinks?: readonly NavLinkChild[];
+}) {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
-  const [subOpen, setSubOpen] = useState(false);
+  /** Which top-level dropdown is open (item.label), or null. */
+  const [openSubId, setOpenSubId] = useState<string | null>(null);
   const [subDismissed, setSubDismissed] = useState(false);
   const [isSticky, setIsSticky] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
   const lastScrollY = useRef(0);
   const navRef = useRef<HTMLElement>(null);
   const toggleRef = useRef<HTMLButtonElement>(null);
-  const subRef = useRef<HTMLLIElement>(null);
 
   /** Close every menu after a pick; blur so :focus-within can't hold the panel open. */
   const closeAfterNav = () => {
     setMenuOpen(false);
-    setSubOpen(false);
+    setOpenSubId(null);
     setSubDismissed(true);
     const active = document.activeElement as HTMLElement | null;
     if (active && navRef.current?.contains(active)) active.blur();
@@ -34,8 +41,8 @@ export function Header({ serviceNames }: { serviceNames: Record<ServiceSlug, str
 
   useEffect(() => {
     setMenuOpen(false);
-    setSubOpen(false);
-    // Pointer may still rest on SERVICES after a client-side navigation; keep the panel hidden until it re-enters.
+    setOpenSubId(null);
+    // Pointer may still rest on a dropdown after a client-side navigation; keep panels hidden until re-entry.
     setSubDismissed(true);
     const active = document.activeElement as HTMLElement | null;
     if (active && navRef.current?.contains(active)) active.blur();
@@ -43,12 +50,14 @@ export function Header({ serviceNames }: { serviceNames: Record<ServiceSlug, str
 
   // Desktop dropdown: close on outside click / tap and on Escape from anywhere.
   useEffect(() => {
-    if (!subOpen) return;
+    if (!openSubId) return;
     const onDown = (e: PointerEvent) => {
-      if (!subRef.current?.contains(e.target as Node)) setSubOpen(false);
+      const target = e.target as Node;
+      const openLi = navRef.current?.querySelector(".eva-nav-has-sub.is-sub-open");
+      if (openLi && !openLi.contains(target)) setOpenSubId(null);
     };
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setSubOpen(false);
+      if (e.key === "Escape") setOpenSubId(null);
     };
     document.addEventListener("pointerdown", onDown);
     document.addEventListener("keydown", onKey);
@@ -56,7 +65,7 @@ export function Header({ serviceNames }: { serviceNames: Record<ServiceSlug, str
       document.removeEventListener("pointerdown", onDown);
       document.removeEventListener("keydown", onKey);
     };
-  }, [subOpen]);
+  }, [openSubId]);
 
   useEffect(() => {
     document.body.classList.toggle("menu-open", menuOpen);
@@ -140,9 +149,89 @@ export function Header({ serviceNames }: { serviceNames: Record<ServiceSlug, str
   }, [isSticky]);
 
   const isActive = (item: NavItem) => {
-    if (item.children) return item.children.some((slug) => pathname === serviceHref(slug));
+    if (item.links?.length) {
+      return item.links.some((l) => pathname === l.href || pathname.startsWith(`${l.href}/`));
+    }
+    if (item.children) {
+      // Segment URLs sit under /dubbing-studio/<slug>; keep them off the Services highlight.
+      if (pathname.startsWith("/dubbing-studio/")) return false;
+      return item.children.some((slug) => pathname === serviceHref(slug));
+    }
     if (item.href === Routes.HOME) return pathname === "/";
     return pathname === item.href || pathname.startsWith(`${item.href}/`);
+  };
+
+  const renderDropdown = (item: NavItem) => {
+    const subId = `nav-sub-${item.label.toLowerCase()}`;
+    const isOpen = openSubId === item.label;
+    const linkChildren = item.links
+      ? item.links.map((l) => ({ key: l.href, href: l.href, label: l.label }))
+      : (item.children ?? []).map((slug) => ({
+          key: slug,
+          href: serviceHref(slug),
+          label: serviceNames[slug],
+        }));
+    return (
+      <li
+        key={item.label}
+        className={[
+          "eva-nav-has-sub",
+          isActive(item) ? "active" : "",
+          isOpen ? "is-sub-open" : "",
+          subDismissed ? "is-sub-dismissed" : "",
+        ]
+          .filter(Boolean)
+          .join(" ")}
+        onMouseEnter={() => setSubDismissed(false)}
+        onFocus={(e) => {
+          if (!e.currentTarget.contains(e.relatedTarget as Node | null)) setSubDismissed(false);
+        }}
+        onBlur={(e) => {
+          if (!e.currentTarget.contains(e.relatedTarget as Node | null)) {
+            setOpenSubId((id) => (id === item.label ? null : id));
+          }
+        }}
+        onKeyDown={(e) => {
+          if (e.key !== "Escape") return;
+          setOpenSubId(null);
+          setSubDismissed(true);
+          e.currentTarget.querySelector<HTMLButtonElement>(".eva-nav-sub-toggle")?.focus();
+        }}
+      >
+        <Link
+          href={item.href}
+          aria-current={pathname === item.href ? "page" : isActive(item) ? "true" : undefined}
+        >
+          {item.label}
+        </Link>
+        <button
+          type="button"
+          className="eva-nav-sub-toggle"
+          aria-expanded={isOpen}
+          aria-controls={subId}
+          aria-label={`${item.label.charAt(0)}${item.label.slice(1).toLowerCase()} submenu`}
+          onClick={() => {
+            setOpenSubId((id) => (id === item.label ? null : item.label));
+            setSubDismissed(false);
+          }}
+        >
+          <span aria-hidden="true" />
+        </button>
+        <ul id={subId} className="eva-nav-sub">
+          {linkChildren.map((child) => (
+            <li key={child.key}>
+              <Link
+                href={child.href}
+                aria-current={pathname === child.href ? "page" : undefined}
+                onClick={closeAfterNav}
+              >
+                {child.label}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </li>
+    );
   };
 
   const contactCurrent =
@@ -184,72 +273,18 @@ export function Header({ serviceNames }: { serviceNames: Record<ServiceSlug, str
             aria-label="Primary"
           >
             <ul className="menu">
-              {NAV_ITEMS.map((item) =>
-                item.children ? (
-                  <li
-                    key={item.href}
-                    ref={subRef}
-                    className={[
-                      "eva-nav-has-sub",
-                      isActive(item) ? "active" : "",
-                      subOpen ? "is-sub-open" : "",
-                      subDismissed ? "is-sub-dismissed" : "",
-                    ]
-                      .filter(Boolean)
-                      .join(" ")}
-                    onMouseEnter={() => setSubDismissed(false)}
-                    onFocus={(e) => {
-                      // Fresh keyboard entry re-enables :focus-within opening.
-                      if (!e.currentTarget.contains(e.relatedTarget as Node | null)) setSubDismissed(false);
-                    }}
-                    onBlur={(e) => {
-                      if (!e.currentTarget.contains(e.relatedTarget as Node | null)) setSubOpen(false);
-                    }}
-                    onKeyDown={(e) => {
-                      if (e.key !== "Escape") return;
-                      setSubOpen(false);
-                      setSubDismissed(true);
-                      e.currentTarget.querySelector<HTMLButtonElement>(".eva-nav-sub-toggle")?.focus();
-                    }}
-                  >
-                    <Link
-                      href={item.href}
-                      aria-current={pathname === item.href ? "page" : isActive(item) ? "true" : undefined}
-                    >
-                      {item.label}
-                    </Link>
-                    <button
-                      type="button"
-                      className="eva-nav-sub-toggle"
-                      aria-expanded={subOpen}
-                      aria-controls="nav-services-menu"
-                      aria-label={`${item.label.charAt(0)}${item.label.slice(1).toLowerCase()} submenu`}
-                      onClick={() => {
-                        setSubOpen((v) => !v);
-                        setSubDismissed(false);
-                      }}
-                    >
-                      <span aria-hidden="true" />
-                    </button>
-                    <ul id="nav-services-menu" className="eva-nav-sub">
-                      {item.children.map((slug) => {
-                        const href = serviceHref(slug);
-                        return (
-                          <li key={slug}>
-                            <Link
-                              href={href}
-                              aria-current={pathname === href ? "page" : undefined}
-                              onClick={closeAfterNav}
-                            >
-                              {serviceNames[slug]}
-                            </Link>
-                          </li>
-                        );
-                      })}
-                    </ul>
-                  </li>
+              {NAV_ITEMS.flatMap((item) => {
+                const resolved: NavItem =
+                  item.label === "SEGMENTS" && segmentLinks !== undefined
+                    ? { ...item, links: segmentLinks }
+                    : item;
+                if (resolved.label === "SEGMENTS" && !(resolved.links?.length)) return [];
+                return [resolved];
+              }).map((item) =>
+                item.children || item.links ? (
+                  renderDropdown(item)
                 ) : (
-                  <li key={item.href} className={isActive(item) ? "active" : undefined}>
+                  <li key={item.label} className={isActive(item) ? "active" : undefined}>
                     <Link
                       href={item.href}
                       onClick={closeAfterNav}
