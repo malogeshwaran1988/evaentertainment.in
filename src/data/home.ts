@@ -7,7 +7,7 @@ export const HOME_OG_IMAGE = DEFAULT_OG_IMAGE;
 export const HOME_OG_IMAGE_ALT = "Singer recording vocals at a studio microphone at EVA Entertainment";
 
 export const HOME_SEO = {
-  title: "Post Production Audio and SFX Studio in Andheri West, Mumbai",
+  title: "Post production audio sound sfx studio andheri west mumbai india",
   description:
     "Post production audio studio in Andheri West, Mumbai. Dubbing, voice-over, Foley, SFX and 5.1 mixing under one roof. Get a quote from EVA.",
 };
