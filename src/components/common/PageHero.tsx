@@ -81,10 +81,9 @@ export default function PageHero({
       <div className="container">
         <div className="text-center">
           <h1>
-            {svg ?? (icon ? <FontIcon name={icon} /> : null)}
-            {title}
+            {svg ?? (icon ? <FontIcon name={icon} /> : null)}{typeof title === "string" ? title.trim() : title}
           </h1>
-          {subtitle ? <p className="eva-page-hero__subtitle">{subtitle}</p> : null}
+          {subtitle ? <p className="eva-page-hero__subtitle">{typeof subtitle === "string" ? subtitle.trim() : subtitle}</p> : null}
           <Breadcrumbs trail={trail} />
         </div>
       </div>

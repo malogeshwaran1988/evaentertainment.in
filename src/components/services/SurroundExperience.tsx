@@ -392,7 +392,7 @@ export default function SurroundExperience({ headingId }: { headingId: string })
 
       <div className={s.head}>
         <h2 id={headingId} className="eva-svc-title">
-          <i className="icon icon-mic-2" aria-hidden="true" /> The mixing <span>room</span>
+          <i className="icon icon-mic-2" aria-hidden="true" />The mixing <span>room</span>
         </h2>
         <p className={s.sub}>A jet takes off on screen and flies toward you. Watch every channel of the 5.1 room respond.</p>
         <div className={s.controls}>

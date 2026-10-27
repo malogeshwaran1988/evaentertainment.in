@@ -6,8 +6,7 @@ export default function ServiceHighlights({ service }: { service: Service }) {
     <section className="block block--darkbg eva-service-highlights" aria-labelledby="service-why-title">
       <div className="container">
         <h2 id="service-why-title" className="text-center">
-          <i className="icon icon-like" aria-hidden="true" />
-          Why EVA Entertainment
+          <i className="icon icon-like" aria-hidden="true" />Why EVA Entertainment
         </h2>
         <ul className="eva-service-points">
           {service.highlights.map((h) => (

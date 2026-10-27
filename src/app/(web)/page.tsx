@@ -97,8 +97,7 @@ export default async function HomePage() {
       >
         <div className="container">
           <h2 className="h--lg text-center">
-            <i className="icon icon-mic" aria-hidden="true" />
-            What We Do?
+            <i className="icon icon-mic" aria-hidden="true" />What We Do?
           </h2>
           <div className="text-center">
             <p className="p--lg eva-wwd-intro">
@@ -112,8 +111,7 @@ export default async function HomePage() {
       <section className="block block--full no-pad-gutter">
         <div className="container title-wrap text-center">
           <h2 className="h--lg">
-            <i className="icon icon-travel" aria-hidden="true" />
-            Our Services
+            <i className="icon icon-travel" aria-hidden="true" />Our Services
           </h2>
           <p className="p--lg">
             At EVA Entertainment specialize in the following services and can

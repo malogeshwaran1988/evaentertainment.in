@@ -41,8 +41,7 @@ export default function AboutPage() {
         <div className="container">
           <div className="title-wrap text-center">
             <h2 className="h--lg">
-              <i className="icon icon-promotion-1" aria-hidden="true" />
-              {ABOUT_CONTENT.sectionTitle}
+              <i className="icon icon-promotion-1" aria-hidden="true" />{ABOUT_CONTENT.sectionTitle}
             </h2>
             <p>{ABOUT_CONTENT.sectionIntro}</p>
           </div>

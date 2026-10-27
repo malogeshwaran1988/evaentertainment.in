@@ -38,7 +38,7 @@ export default async function ServicePosterStrip({ slugs }: { slugs?: string[] }
     <section className="block eva-svc-section eva-svc-posters" aria-labelledby="svc-poster-strip">
       <div className="container">
         <h2 id="svc-poster-strip" className="eva-svc-title">
-          <i className="icon icon-play-circle" aria-hidden="true" /> Films we have{" "}
+          <i className="icon icon-play-circle" aria-hidden="true" />Films we have{" "}
           <span>dubbed into Hindi</span>
         </h2>
         <PosterCards cards={cards} />

@@ -15,11 +15,11 @@ const LanguagePairs = dynamic(() => import("@@/components/services/LanguagePairs
 const slugify = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 
 function Heading({ id, icon, text }: { id: string; icon: string; text: string }) {
-  const words = text.split(" ");
+  const words = text.trim().replace(/\s+/g, " ").split(" ").filter(Boolean);
   const cut = Math.max(1, words.length - 2);
   return (
     <h2 id={id} className="eva-svc-title">
-      <FontIcon name={icon} /> {words.slice(0, cut).join(" ")}{" "}
+      <FontIcon name={icon} />{words.slice(0, cut).join(" ")}{" "}
       <span>{words.slice(cut).join(" ")}</span>
     </h2>
   );

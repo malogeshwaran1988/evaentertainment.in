@@ -15,8 +15,7 @@ export default async function FounderSection() {
     <section className={`block ${styles.founder}`} aria-labelledby="founder-heading">
       <div className="container">
         <h2 id="founder-heading" className={`text-center ${styles.heading}`}>
-          <i className="icon icon-user" aria-hidden="true" />
-          {FOUNDER.sectionTitle}
+          <i className="icon icon-user" aria-hidden="true" />{FOUNDER.sectionTitle}
         </h2>
         <div className={styles.card}>
           <div className={styles.media}>
@@ -39,8 +38,7 @@ export default async function FounderSection() {
                 aria-label={`${founder.name} on LinkedIn (opens in a new tab)`}
               >
                 <span>
-                  <i className="icon icon-linkedin-logo" aria-hidden="true" />
-                  View LinkedIn profile
+                  <i className="icon icon-linkedin-logo" aria-hidden="true" />View LinkedIn profile
                 </span>
               </a>
             ) : null}
@@ -64,8 +62,7 @@ export default async function FounderSection() {
         {work.length > 0 ? (
           <div className={styles.recent}>
             <h3 id="founder-work-heading" className={styles.recentHeading}>
-              <i className="icon icon-promotion-1" aria-hidden="true" />
-              Recent work
+              <i className="icon icon-promotion-1" aria-hidden="true" />Recent work
             </h3>
             <ul className={styles.recentList} aria-labelledby="founder-work-heading">
               {work.map((p) => (

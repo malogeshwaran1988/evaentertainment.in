@@ -60,8 +60,7 @@ export default async function ClientsPage() {
         <div className="container">
           <div className="eva-coming-soon-intro">
             <h2 id="clients-heading">
-              <i className="icon icon-like" aria-hidden="true" />
-              Trusted by <span>studios, platforms and producers</span>
+              <i className="icon icon-like" aria-hidden="true" />Trusted by <span>studios, platforms and producers</span>
             </h2>
             <p>
               EVA Entertainment dubs, mixes and records films, web series, animation and audiobooks for OTT

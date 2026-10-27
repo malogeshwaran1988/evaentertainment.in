@@ -48,8 +48,7 @@ export default function EquipmentPage() {
         <div className="container">
           <div className="title-wrap text-center eva-equipment-intro">
             <h2 id="equipment-heading">
-              <i className="icon icon-mic-2" aria-hidden="true" />
-              Equipment at <span>EVA Entertainment</span>
+              <i className="icon icon-mic-2" aria-hidden="true" />Equipment at <span>EVA Entertainment</span>
             </h2>
             {EQUIPMENT_CONTENT.paragraphs.map((p, i) => (
               <p key={p.slice(0, 40)} className={i === 0 ? "p--lg" : undefined}>
@@ -61,8 +60,7 @@ export default function EquipmentPage() {
           <ul className="eva-equipment-highlights" aria-label="Studio highlights">
             {EQUIPMENT_EXPERIENCE.highlights.map((h) => (
               <li key={h.label}>
-                <FontIcon name={h.icon} />
-                <span className="heading-as-h4">{h.value}</span>{" "}
+                <FontIcon name={h.icon} /><span className="heading-as-h4">{h.value}</span>{" "}
                 <span className="eva-equipment-highlight-label">{h.label}</span>
               </li>
             ))}
@@ -74,8 +72,7 @@ export default function EquipmentPage() {
         <div className="container">
           <div className="title-wrap text-center eva-equipment-intro">
             <h2 id="equipment-experience-heading">
-              <i className="icon icon-music-equalizer" aria-hidden="true" />
-              {EQUIPMENT_EXPERIENCE.heading}
+              <i className="icon icon-music-equalizer" aria-hidden="true" />{EQUIPMENT_EXPERIENCE.heading}
             </h2>
             <p>{EQUIPMENT_EXPERIENCE.intro}</p>
           </div>

@@ -6,8 +6,7 @@ export default function ServiceFaq({ faqs }: { faqs: Service["faqs"] }) {
     <section className="block eva-service-faq" aria-labelledby="service-faq-title">
       <div className="container">
         <h2 id="service-faq-title" className="text-center">
-          <i className="icon icon-quotation" aria-hidden="true" />
-          Frequently Asked Questions
+          <i className="icon icon-quotation" aria-hidden="true" />Frequently Asked Questions
         </h2>
         <div className="eva-faq-list">
           {faqs.map((faq, i) => (

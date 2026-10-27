@@ -16,8 +16,7 @@ export default function RelatedServices({ current }: { current: ServiceSlug }) {
     >
       <div className="container">
         <h2 id="related-services-title" className="text-center">
-          <i className="icon icon-audio" aria-hidden="true" />
-          Related Services
+          <i className="icon icon-audio" aria-hidden="true" />Related Services
         </h2>
         <ServiceCardGrid slugs={slugs} summary={false} />
       </div>
