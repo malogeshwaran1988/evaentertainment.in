@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { Routes, SERVICE_SLUGS, serviceHref } from "@@/constants/routes";
 import { SEGMENT_SLUGS, getSegment, projectsForSegment, segmentHref } from "@@/data/dubbing-segments";
+import { LANGUAGE_SLUGS, getLanguage, projectsForLanguage, languageHref } from "@@/data/dubbing-languages";
 import { projectIsPublished } from "@@/data/projects";
 import STATIC_LASTMOD from "@@/data/static-lastmod.json";
 import { BLOG_ENABLED, BLOG_HUB_MIN_POSTS } from "@@/lib/blog/enabled";
@@ -161,11 +162,32 @@ const segmentSection = (projects: PublishedProjects): MetadataRoute.Sitemap =>
     ];
   });
 
+
+const languageSection = (projects: PublishedProjects): MetadataRoute.Sitemap =>
+  LANGUAGE_SLUGS.flatMap((slug) => {
+    const lang = getLanguage(slug);
+    if (!lang) return [];
+    const matched = projectsForLanguage(lang, projects);
+    if (!matched.length) return [];
+    return [
+      {
+        url: absoluteUrl(languageHref(slug)),
+        lastModified: new Date(
+          Math.max(
+            ...matched.map((p) => new Date(p.updatedAt || p.createdAt).getTime()),
+          ),
+        ),
+        priority: 0.85,
+      },
+    ];
+  });
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const projects = await publishedProjects();
   const all = [
     ...(await staticSection()),
     ...segmentSection(projects),
+    ...languageSection(projects),
     ...hubSection(projects),
     ...projectSection(projects),
     ...(await blogSection()),

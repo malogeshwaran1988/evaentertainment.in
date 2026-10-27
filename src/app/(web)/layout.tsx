@@ -15,6 +15,7 @@ import {
 } from "@@/constants/constants";
 import { SERVICE_NAMES } from "@@/data/services";
 import { liveSegmentLinks } from "@@/data/dubbing-segments";
+import { liveLanguageLinks } from "@@/data/dubbing-languages";
 import { projectIsPublished } from "@@/data/projects";
 import { getProjects } from "@@/lib/projects-store";
 import { HOME_OG_IMAGE, HOME_OG_IMAGE_ALT, HOME_PAGE_URL, HOME_SEO } from "@@/data/home";
@@ -69,11 +70,14 @@ export default async function WebLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   let segmentLinks: { label: string; href: string }[] = [];
+  let languageLinks: { label: string; href: string }[] = [];
   try {
     const published = (await getProjects()).filter(projectIsPublished);
     segmentLinks = liveSegmentLinks(published).map(({ label, href }) => ({ label, href }));
+    languageLinks = liveLanguageLinks(published).map(({ label, href }) => ({ label, href }));
   } catch {
     segmentLinks = [];
+    languageLinks = [];
   }
   return (
     <html lang="en" suppressHydrationWarning>
@@ -87,7 +91,7 @@ export default async function WebLayout({
           <a className="eva-skip-link" href="#main-content">
             Skip to main content
           </a>
-          <Header serviceNames={SERVICE_NAMES} segmentLinks={segmentLinks} />
+          <Header serviceNames={SERVICE_NAMES} segmentLinks={segmentLinks} languageLinks={languageLinks} />
           <div className="flex-1">{children}</div>
           <ContactCtaServer />
           <GoToTopButton />

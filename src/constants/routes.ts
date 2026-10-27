@@ -98,14 +98,21 @@ export const SEGMENT_NAV: readonly NavLinkChild[] = [
   { label: "Kollywood", href: "/dubbing-studio/kollywood" },
 ];
 
+/** Nav seed for language pages; layout overrides with liveLanguageLinks (zero-hide). */
+export const LANGUAGE_NAV: readonly NavLinkChild[] = [
+  { label: "Hindi", href: "/dubbing-studio/hindi" },
+  { label: "Tamil", href: "/dubbing-studio/tamil" },
+];
+
 /** Primary nav links (Contact is a separate header CTA). */
 export const NAV_ITEMS: NavItem[] = [
   { label: "HOME", href: Routes.HOME },
   { label: "ABOUT", href: Routes.ABOUT },
   // Parent links to the flagship service page: "/" would duplicate HOME (React key clash) and # URLs are not allowed.
   { label: "SERVICES", href: serviceHref("dubbing-studio"), children: SERVICE_SLUGS },
-  // Separate Segments drop-down (SEO tree v2). Only shipped segment pages; languages come later.
+  // Separate Segments + Languages drop-downs (SEO tree v2). Live links override in Header.
   { label: "SEGMENTS", href: serviceHref("dubbing-studio"), links: SEGMENT_NAV },
+  { label: "LANGUAGES", href: serviceHref("dubbing-studio"), links: LANGUAGE_NAV },
   { label: "OUR PROJECTS", href: Routes.PROJECTS },
   { label: "OUR CLIENTS", href: Routes.CLIENTS },
   { label: "EQUIPMENT", href: Routes.EQUIPMENT },

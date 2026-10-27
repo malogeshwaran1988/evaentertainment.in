@@ -17,6 +17,7 @@ import { APP_BASE_URL, CONTACT, POSTAL_ADDRESS, SITE_NAME } from "@@/constants/c
 import { serviceHref } from "@@/constants/routes";
 import { SERVICE_PAGES } from "@@/data/service-pages";
 import { liveSegmentLinks } from "@@/data/dubbing-segments";
+import { liveLanguageLinks } from "@@/data/dubbing-languages";
 import type { ServicePageSection } from "@@/data/service-page-types";
 import { SERVICES, getService, servicePageUrl } from "@@/data/services";
 import { buildPageMetadata } from "@@/lib/seo";
@@ -72,8 +73,10 @@ export default async function ServicePage({ params }: PageProps<"/[service]">) {
     try {
       const published = (await getProjects()).filter(projectIsPublished);
       const live = liveSegmentLinks(published);
+      const liveLangs = liveLanguageLinks(published);
+      const extras: ServicePageSection[] = [];
       if (live.length) {
-        const segmentSection: ServicePageSection = {
+        extras.push({
           heading: "Content types we dub",
           icon: "icon-play-circle",
           blocks: [
@@ -92,12 +95,34 @@ export default async function ServicePage({ params }: PageProps<"/[service]">) {
               text: "Market hubs for buyers stay at [Hollywood for distributors](/hollywood-dubbing-indian-languages), [pan-India film dubbing](/pan-india-film-dubbing) and [regional film dubbing](/regional-film-dubbing).",
             },
           ],
-        };
-        const without = sections.filter((s) => s.heading !== "Content types we dub");
+        });
+      }
+      if (liveLangs.length) {
+        extras.push({
+          heading: "Languages we dub for",
+          icon: "icon-translate2",
+          blocks: [
+            {
+              t: "p",
+              text: "Destination language pages for converting content into that language. Pair pages under /dubbing keep each source-to-target keyword.",
+            },
+            {
+              t: "ul",
+              items: liveLangs.map(
+                (l) => `**[${l.keyword}](${l.href})** - convert titles into ${l.label}.`,
+              ),
+            },
+          ],
+        });
+      }
+      if (extras.length) {
+        const without = sections.filter(
+          (s) => s.heading !== "Content types we dub" && s.heading !== "Languages we dub for",
+        );
         const insertAt = Math.min(1, without.length);
         sections = [
           ...without.slice(0, insertAt),
-          segmentSection,
+          ...extras,
           ...without.slice(insertAt),
         ];
       }

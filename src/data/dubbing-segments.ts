@@ -1,5 +1,5 @@
 /* Content-type (segment) pages under /dubbing-studio/<slug> (SEO lip-sync tree v2).
-   Language children are out of scope for this wave. One primary keyword per page.
+   Language children live in dubbing-languages.ts on the same URL prefix.
    Credits come from live admin projects at render time; pages with zero matches 404. */
 import type { Project } from "@@/data/projects";
 import type { ServicePageContent } from "@@/data/service-page-types";

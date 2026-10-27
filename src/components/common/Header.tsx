@@ -14,10 +14,13 @@ const SCROLL_TOP_THRESHOLD = 80;
 export function Header({
   serviceNames,
   segmentLinks,
+  languageLinks,
 }: {
   serviceNames: Record<ServiceSlug, string>;
   /** Live segment pages with projects; overrides SEGMENTS.links. Empty hides the dropdown. */
   segmentLinks?: readonly NavLinkChild[];
+  /** Live language pages with target projects; overrides LANGUAGES.links. Empty hides the dropdown. */
+  languageLinks?: readonly NavLinkChild[];
 }) {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -274,11 +277,14 @@ export function Header({
           >
             <ul className="menu">
               {NAV_ITEMS.flatMap((item) => {
-                const resolved: NavItem =
-                  item.label === "SEGMENTS" && segmentLinks !== undefined
-                    ? { ...item, links: segmentLinks }
-                    : item;
+                let resolved: NavItem = item;
+                if (item.label === "SEGMENTS" && segmentLinks !== undefined) {
+                  resolved = { ...item, links: segmentLinks };
+                } else if (item.label === "LANGUAGES" && languageLinks !== undefined) {
+                  resolved = { ...item, links: languageLinks };
+                }
                 if (resolved.label === "SEGMENTS" && !(resolved.links?.length)) return [];
+                if (resolved.label === "LANGUAGES" && !(resolved.links?.length)) return [];
                 return [resolved];
               }).map((item) =>
                 item.children || item.links ? (
