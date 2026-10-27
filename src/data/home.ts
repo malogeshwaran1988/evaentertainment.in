@@ -7,9 +7,9 @@ export const HOME_OG_IMAGE = DEFAULT_OG_IMAGE;
 export const HOME_OG_IMAGE_ALT = "Singer recording vocals at a studio microphone at EVA Entertainment";
 
 export const HOME_SEO = {
-  title: "EVA Entertainment | Dubbing, Voice-over and Sound, Mumbai",
+  title: "Post Production Audio and SFX Studio in Andheri West, Mumbai",
   description:
-    "Dubbing, voice over, subtitles, translation and 5.1 mixing for regional, pan-India and Hollywood films. One studio for India's top 10 languages. Get a quote.",
+    "Post production audio studio in Andheri West, Mumbai. Dubbing, voice-over, Foley, SFX and 5.1 mixing under one roof. Get a quote from EVA.",
 };
 
 /** "What We Do" cards on the home page, in display order. */
@@ -28,7 +28,7 @@ export const WHAT_WE_DO: ServiceSlug[] = [
 ];
 
 export const HOME_INTRO =
-  "The EVA Entertainment Recording Studio is the brainchild of Sound who understand that the best art comes from the best environment.";
+  "EVA Entertainment is a post production audio studio in Andheri West, Mumbai for film and OTT sound work.";
 
 /** How many posters the home strip shows (keep out of client modules — server imports can see `0`). */
 export const HOME_PROJECTS_LIMIT = 10;
@@ -112,8 +112,8 @@ export const HERO_SLIDES: readonly HeroSlide[] = [
     alt: "Singer at the microphone in the EVA recording booth",
     fx: HERO_FX.iconic,
     focus: "80% 30%",
-    heading: "Dubbing, Voice and Sound for Indian Cinema",
-    tagline: "We can record Anything",
+    heading: "Post Production Audio Studio in Andheri West, Mumbai",
+    tagline: "Dubbing, voice, Foley and mix",
     headingLevel: "h1",
     cta: { label: "Explore dubbing", href: "/dubbing-studio" },
   },

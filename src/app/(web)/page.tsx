@@ -15,6 +15,7 @@ import {
   HOME_INTRO,
   HOME_PAGE_URL,
   HOME_PROJECTS_LIMIT,
+  HOME_SEO,
   WHAT_WE_DO,
 } from "@@/data/home";
 import { getPublicProjects } from "@@/lib/projects-public";
@@ -59,6 +60,13 @@ export default async function HomePage() {
     areaServed: ["India", "United States", "United Kingdom", "United Arab Emirates"].map((name) => ({ "@type": "Country", name })),
     knowsLanguage: ["en", "hi", "bn", "mr", "te", "ta", "gu", "ur", "kn", "or", "ml"],
   };
+  const webPageSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: HOME_SEO.title,
+    description: HOME_SEO.description,
+    url: HOME_PAGE_URL,
+  };
   const faqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -71,6 +79,7 @@ export default async function HomePage() {
 
   return (
     <main id="main-content" tabIndex={-1} className="page-main home-page">
+      <JsonLd id="home-webpage-jsonld" data={webPageSchema} />
       <JsonLd id="home-localbusiness-jsonld" data={orgSchema} />
       <JsonLd id="home-faq-jsonld" data={faqSchema} />
       <HeroSlider />

@@ -10,7 +10,7 @@ export const HOME_SECTIONS: ServicePageSection[] = [
     blocks: [
       {
         t: "p",
-        text: "**EVA Entertainment is a Mumbai team that dubs regional, pan-India and Hollywood films into Hindi and India's other top languages.** We have dubbed around 30 films, mostly Telugu, Tamil, Malayalam and Kannada titles for Hindi audiences. We bring the same craft to English-language films made for the rest of the world.",
+        text: "**EVA Entertainment is a post production audio studio in Andheri West, Mumbai.** Our team dubs regional, pan-India and Hollywood films into Hindi and India's other top languages. We have dubbed around 30 films, mostly Telugu, Tamil, Malayalam and Kannada titles for Hindi audiences. We bring the same craft to English-language films made for the rest of the world.",
       },
       {
         t: "p",
@@ -112,13 +112,13 @@ export const HOME_SECTIONS: ServicePageSection[] = [
     ],
   },
   {
-    heading: "More than dubbing",
+    heading: "Post production services under one roof",
     media: "console",
     icon: "icon-travel",
     blocks: [
       {
         t: "p",
-        text: "Alongside dubbing we offer [voice over](/voice-over-studio), [Foley recording](/foley-recording), [5.1 mixing](/5-1-mixing-studio), [song recording](/song-recording-studio) and a [stock music library](/stock-music-library). Producers in India can visit the studio. Producers abroad can work with us by WhatsApp and email.",
+        text: "Our [dubbing studio](/dubbing-studio) sits alongside [voice over](/voice-over-studio), [Foley and sound design](/foley-recording), [5.1 mixing](/5-1-mixing-studio), [song recording](/song-recording-studio) and a [stock music library](/stock-music-library). Visit us in Andheri West or brief us by WhatsApp and email from anywhere.",
       },
     ],
   },
@@ -127,7 +127,7 @@ export const HOME_SECTIONS: ServicePageSection[] = [
 export const HOME_FAQS = [
   {
     q: "What does EVA Entertainment do?",
-    a: "We are a film dubbing studio in Andheri West, Mumbai. We dub regional, pan-India and Hollywood films into Hindi and India's other top languages. We also offer voice over, subtitling, script translation, Foley and 5.1 mixing.",
+    a: "We are a post production audio studio in Andheri West, Mumbai. Our work covers dubbing, voice-over, Foley, SFX, sound design and 5.1 mixing for regional, pan-India and Hollywood films. Each craft has its own service page.",
   },
   {
     q: "Can you dub Hollywood films into Hindi and other Indian languages?",
@@ -158,9 +158,9 @@ export const HOME_FAQS = [
 /** Home CTA, shaped like a service page so the shared CTA block can render it. */
 export const HOME_CTA: Pick<ServicePageContent, "cta"> = {
   cta: {
-    heading: "Tell us about your film",
-    text: "Share the title, its runtime and the languages you need. We will reply with a plan and a quote.",
-    label: "Get a dubbing quote",
+    heading: "Tell us about your project",
+    text: "Share the title, its runtime and the languages or mix format you need. We will reply with a plan and a quote.",
+    label: "Get a quote",
     contact: STUDIO_CONTACT,
   },
 };
