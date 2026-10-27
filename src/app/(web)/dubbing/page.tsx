@@ -10,7 +10,7 @@ import { DUBBING_HUB } from "@@/data/dubbing-pairs";
 import { PROJECTS_OG_IMAGE, projectIsPublished } from "@@/data/projects";
 import { DUBBING_LANGUAGES_PAGE as page } from "@@/data/service-pages-markets";
 import { getProjects } from "@@/lib/projects-store";
-import { LANGUAGE_HUB_PREFIX, languagePairs } from "@@/lib/project-links";
+import { LANGUAGE_HUB_PREFIX, languagePairs, pairsWithProjects } from "@@/lib/project-links";
 import { absoluteUrl, buildPageMetadata } from "@@/lib/seo";
 
 export const revalidate = 3600;
@@ -25,7 +25,9 @@ export const metadata: Metadata = buildPageMetadata({
 
 /** Language hub: the ten languages (moved here from /indian-languages) plus every pair with its real project count. */
 export default async function DubbingHubPage() {
-  const pairs = languagePairs((await getProjects()).filter(projectIsPublished));
+  const pairs = pairsWithProjects(
+    languagePairs((await getProjects()).filter(projectIsPublished)),
+  );
   const faqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -35,21 +37,23 @@ export default async function DubbingHubPage() {
       acceptedAnswer: { "@type": "Answer", text: plain(f.a) },
     })),
   };
-  const listSchema = {
-    "@context": "https://schema.org",
-    "@type": "ItemList",
-    name: DUBBING_HUB.listHeading,
-    itemListElement: pairs.map((p, i) => ({
-      "@type": "ListItem",
-      position: i + 1,
-      url: absoluteUrl(`${LANGUAGE_HUB_PREFIX}/${p.slug}`),
-      name: `${p.from} to ${p.to} dubbing`,
-    })),
-  };
+  const listSchema = pairs.length
+    ? {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        name: DUBBING_HUB.listHeading,
+        itemListElement: pairs.map((p, i) => ({
+          "@type": "ListItem",
+          position: i + 1,
+          url: absoluteUrl(`${LANGUAGE_HUB_PREFIX}/${p.slug}`),
+          name: `${p.from} to ${p.to} dubbing`,
+        })),
+      }
+    : null;
   return (
     <main id="main-content" tabIndex={-1} className="page-main eva-svc-page">
       <JsonLd id="faq-jsonld" data={faqSchema} />
-      <JsonLd id="pairs-jsonld" data={listSchema} />
+      {listSchema ? <JsonLd id="pairs-jsonld" data={listSchema} /> : null}
       <PageHero
         svg={<SvgIcon name="film" />}
         title={page.h1}
@@ -64,11 +68,12 @@ export default async function DubbingHubPage() {
           ))}
         </div>
       </section>
-      <section className="block block--darkbg">
-        <div className="container">
-          <LanguageHubLinks pairs={pairs} heading={DUBBING_HUB.listHeading} id="dubbing-pairs" />
-        </div>
-      </section>
+      <LanguageHubLinks
+        pairs={pairs}
+        heading={DUBBING_HUB.listHeading}
+        id="dubbing-pairs"
+        section
+      />
       <ServiceSections sections={page.sections} />
       <ServiceFaq faqs={page.faqs} />
     </main>

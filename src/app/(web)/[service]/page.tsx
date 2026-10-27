@@ -11,7 +11,7 @@ import ServicePosterStrip from "@@/components/services/ServicePosterStrip";
 import LanguageHubLinks from "@@/components/projects/LanguageHubLinks";
 import { projectIsPublished } from "@@/data/projects";
 import { getProjects } from "@@/lib/projects-store";
-import { languagePairs } from "@@/lib/project-links";
+import { languagePairs, pairsWithProjects } from "@@/lib/project-links";
 import { plain } from "@@/components/services/RichText";
 import { APP_BASE_URL, CONTACT, POSTAL_ADDRESS, SITE_NAME } from "@@/constants/constants";
 import { serviceHref } from "@@/constants/routes";
@@ -33,7 +33,9 @@ const HUB_LINK_PAGES = new Set<string>([
 
 async function hubPairs() {
   try {
-    return languagePairs((await getProjects()).filter(projectIsPublished));
+    return pairsWithProjects(
+      languagePairs((await getProjects()).filter(projectIsPublished)),
+    );
   } catch {
     return [];
   }

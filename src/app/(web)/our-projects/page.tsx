@@ -8,7 +8,7 @@ import ProjectsGallery from "@@/components/projects/ProjectsGallery";
 import LanguageHubLinks from "@@/components/projects/LanguageHubLinks";
 import Link from "@@/components/common/NavLink";
 import { serviceHref } from "@@/constants/routes";
-import { languagePairs } from "@@/lib/project-links";
+import { languagePairs, pairsWithProjects } from "@@/lib/project-links";
 import { getProjects } from "@@/lib/projects-store";
 import { projectIsPublished } from "@@/data/projects";
 import ProjectImpactStrip, { IMPACT_STRIP_ENABLED } from "@@/components/projects/ProjectImpactStrip";
@@ -52,7 +52,9 @@ export default async function ProjectsPage({
   // Same cached reader as before (unstable_cache), so no extra Blob reads per request.
   const { projects: allProjects } = await getPublicProjects();
   const impact = aggregateProjectImpact(allProjects);
-  const pairs = languagePairs((await getProjects()).filter(projectIsPublished));
+  const pairs = pairsWithProjects(
+    languagePairs((await getProjects()).filter(projectIsPublished)),
+  );
 
   // Only the selected language tab is rendered and serialised; other tabs load on click.
   const ranked = rankLanguages(allProjects);
@@ -74,26 +76,30 @@ export default async function ProjectsPage({
     name: PROJECTS_SEO.title,
     description: PROJECTS_SEO.description,
     url: PROJECTS_PAGE_URL,
-    mainEntity: {
-      "@type": "ItemList",
-      itemListElement: projects.map((project, index) => {
-        const poster = projectAbsolutePosterUrl(project.poster);
-        return {
-          "@type": "ListItem",
-          position: index + 1,
-          url: absoluteUrl(projectHref(project.slug)),
-          item: {
-            "@type": "Movie",
-            name: project.title,
-            url: absoluteUrl(projectHref(project.slug)),
-            ...(poster ? { image: poster } : {}),
-            ...(project.year && project.year !== PROJECT_YEAR_ONGOING
-              ? { dateCreated: project.year }
-              : {}),
+    ...(projects.length
+      ? {
+          mainEntity: {
+            "@type": "ItemList",
+            itemListElement: projects.map((project, index) => {
+              const poster = projectAbsolutePosterUrl(project.poster);
+              return {
+                "@type": "ListItem",
+                position: index + 1,
+                url: absoluteUrl(projectHref(project.slug)),
+                item: {
+                  "@type": "Movie",
+                  name: project.title,
+                  url: absoluteUrl(projectHref(project.slug)),
+                  ...(poster ? { image: poster } : {}),
+                  ...(project.year && project.year !== PROJECT_YEAR_ONGOING
+                    ? { dateCreated: project.year }
+                    : {}),
+                },
+              };
+            }),
           },
-        };
-      }),
-    },
+        }
+      : {}),
   };
 
   return (

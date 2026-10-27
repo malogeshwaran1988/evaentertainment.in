@@ -49,9 +49,8 @@ export default function ProjectsGallery({ projects, tabs, selected, otherLinks =
     return target;
   }, [shown]);
 
-  if (projects.length === 0) {
-    return <p className="eva-projects-empty">Projects coming soon.</p>;
-  }
+  // Hide the whole projects container when this division has no published projects.
+  if (projects.length === 0) return null;
 
   return (
     <>

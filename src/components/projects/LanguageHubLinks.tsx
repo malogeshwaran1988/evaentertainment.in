@@ -18,14 +18,16 @@ type LanguageHubLinksProps = {
  * and up to three real posters from that pair. The whole card is one crawlable link.
  */
 export default function LanguageHubLinks({ pairs, heading, section = false, id = "hub-links", onDark = true }: LanguageHubLinksProps) {
-  if (!pairs.length) return null;
+  // Live admin counts: hide pairs with no published projects so "0 projects" never shows.
+  const visible = pairs.filter((p) => p.projects.length > 0);
+  if (!visible.length) return null;
   const body = (
     <nav aria-labelledby={id} className={`eva-pair-cards${onDark ? "" : " eva-pair-cards--light"}`}>
       <h2 id={id} className="h--md eva-pair-cards__title">
         {heading}
       </h2>
       <ul className="eva-pair-cards__grid">
-        {pairs.map((p) => {
+        {visible.map((p) => {
           const count = p.projects.length;
           const posters = p.projects.filter((x) => x.poster).slice(0, 3);
           return (

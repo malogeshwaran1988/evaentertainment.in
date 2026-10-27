@@ -27,7 +27,7 @@ import {
 import { inline, plain } from "@@/components/services/RichText";
 import { PROJECTS_OG_IMAGE, projectIsPublished } from "@@/data/projects";
 import { getProjects } from "@@/lib/projects-store";
-import { LANGUAGE_HUB_PREFIX, languagePairs } from "@@/lib/project-links";
+import { LANGUAGE_HUB_PREFIX, languagePairs, pairsWithProjects } from "@@/lib/project-links";
 import { projectHref, projectPosterAlt } from "@@/lib/project-seo";
 import { absoluteUrl, buildPageMetadata } from "@@/lib/seo";
 import "@@/styles/routes/dubbing.scss";
@@ -85,9 +85,10 @@ export default async function LanguageHubPage({
   const related = pairs.filter(
     (p) => p.slug !== pair.slug && (p.from === pair.from || p.to === pair.to),
   );
-  const others = related.length
-    ? related
-    : pairs.filter((p) => p.slug !== pair.slug);
+  // Cards with 0 projects are hidden; drop the whole related block when none remain.
+  const others = pairsWithProjects(
+    related.length ? related : pairs.filter((p) => p.slug !== pair.slug),
+  );
 
   const stats = [
     ...(pair.projects.length

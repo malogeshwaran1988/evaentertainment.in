@@ -43,6 +43,11 @@ export type LanguagePair = {
   projects: Project[];
 };
 
+/** Pairs that currently have at least one published project (for cards, footer and ItemList). */
+export function pairsWithProjects(pairs: readonly LanguagePair[]): LanguagePair[] {
+  return pairs.filter((p) => p.projects.length > 0);
+}
+
 export function languagePairs(projects: readonly Project[]): LanguagePair[] {
   const map = new Map<string, LanguagePair>();
   for (const p of projects) {
