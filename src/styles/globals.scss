@@ -3698,8 +3698,9 @@ body:not(.page-blog) .block--darkbg h3.eva-service-ideal-title,
   text-transform: none;
 }
 
-/* Tablet and desktop: floating panel under SERVICES */
-@media (min-width: 768px) {
+/* Desktop bar only: floating panel under SERVICES / SEGMENTS / LANGUAGES.
+   Drawer widths (<=1199) use the inline expand block below so submenus are not clipped. */
+@media (min-width: 1200px) {
   .eva-header-bar .header-menu .menu > li.eva-nav-has-sub {
     display: inline-flex !important;
     align-items: center;
@@ -3780,8 +3781,8 @@ body:not(.page-blog) .block--darkbg h3.eva-service-ideal-title,
 
 /* Small desktops: narrower side columns so the menu (with the chevron) stays on one line */
 
-/* Phone drawer: inline list that the chevron expands */
-@media (max-width: 767px) {
+/* Drawer (phone + tablet <=1199): inline list the chevron expands - not a clipped float. */
+@media (max-width: 1199px) {
   .eva-header-bar .header-menu .menu > li.eva-nav-has-sub {
     display: flex !important;
     flex-wrap: wrap;
@@ -3796,12 +3797,23 @@ body:not(.page-blog) .block--darkbg h3.eva-service-ideal-title,
     width: 56px;
     height: 48px;
     margin: 0;
+    color: rgba(255, 255, 255, 0.92);
   }
 
   .eva-header-bar .header-menu .menu .eva-nav-sub {
     display: none;
+    position: static;
     flex: 0 0 100%;
+    width: 100%;
+    min-width: 0;
     padding: 0 0 8px !important;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
   }
 
   .eva-nav-has-sub.is-sub-open > .eva-nav-sub {
