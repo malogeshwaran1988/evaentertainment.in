@@ -36,40 +36,16 @@ export const MARKET_SERVICE_PAGES: Record<string, ServicePageContent> = {
   "hollywood-dubbing-indian-languages": {
     seoTitle: "Hollywood Dubbing for Distributors | Indian Languages | EVA",
     description:
-      "Hollywood dubbing for foreign distributors and studios. One English voice artist carries each character into Hindi Tamil Telugu and 7 more Indian languages. Get a quote.",
+      "Hollywood dubbing for foreign distributors and studios. Lip-sync Indian-language versions from an English master with casting mix and delivery timed to your release. Get a quote.",
     h1: "Hollywood Dubbing for Distributors and Studios",
     serviceType: "Film dubbing",
     languages: ["English", ...TOP_10_LANGUAGE_NAMES],
     leadHeading: "One voice from English to every Indian screen",
     lead: [
       "**Hollywood dubbing for distributors turns an English-language film into versions Indian audiences can watch in Hindi Tamil Telugu and other languages with dialogue that matches the actors' lips and emotion.** EVA Entertainment does this from our studio in Andheri West Mumbai for studios distributors and OTT platforms in the US the UK the UAE and India. For the content-type craft page see [Hollywood movies dubbing](/dubbing-studio/hollywood).",
-      "What sets us apart is the voice. A professional English voice artist records the primary English version of a character. The same voice artist then performs that character in Hindi, Bengali, Marathi, Telugu, Tamil, Gujarati, Urdu, Kannada, Odia and Malayalam. Your audience hears one familiar voice in all 11 versions.",
+      "What sets us apart is the voice. See [English dubbing and voice-over](/dubbing-studio/english) for the one-voice demo: the same artist records the English lead and then the Hindi Bengali Marathi Telugu Tamil and other Indian versions so a franchise character stays familiar across markets.",
     ],
     sections: [
-      {
-        heading: "One English voice carried into India's top 10 languages",
-        icon: "icon-voiceover",
-        blocks: [
-          {
-            t: "p",
-            text: "International titles often reach India through a different vendor for each language, so a lead character can sound like five different people in five markets. We cast once and keep that voice across every version.",
-          },
-          {
-            t: "ul",
-            items: [
-              "**The English lead voice.** A professional English voice artist records the primary English version, matched to the original actor's age, tone and energy.",
-              "**The same voice in 10 Indian languages.** That same voice artist performs the character in Hindi, Bengali, Marathi, Telugu, Tamil, Gujarati, Urdu, Kannada, Odia and Malayalam, guided by native-language dubbing directors.",
-              "**Human performance only.** Every line in every language is performed live in our booth. We do not use AI voices or voice cloning.",
-              "**More languages on request.** Punjabi, Bhojpuri, Assamese and international languages such as Arabic and Spanish can be added with native voice artists.",
-            ],
-          },
-          {
-            t: "p",
-            text: "One casting decision then holds in every market, which keeps a franchise character consistent from the first trailer to the last sequel.",
-          },
-        ],
-        media: "hollywood-onevoice",
-      },
       {
         heading: "What we deliver for international titles",
         icon: "icon-play-circle",

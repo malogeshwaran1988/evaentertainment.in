@@ -191,7 +191,7 @@ export const SEGMENT_PAGES: Record<string, DubbingSegment> = {
         },
         {
           q: "How is this different from the Hollywood distributors page?",
-          a: "This page covers the craft of dubbing Hollywood titles. The [distributors hub](/hollywood-dubbing-indian-languages) is for foreign producers and buyers who want the one-voice multi-language package.",
+          a: "This page covers the craft of dubbing Hollywood titles. The [English language page](/dubbing-studio/english) holds the one-voice multi-language demo. The [distributors hub](/hollywood-dubbing-indian-languages) is for foreign producers and buyers packaging a release.",
         },
         {
           q: "Can you meet a fixed OTT or theatrical date?",

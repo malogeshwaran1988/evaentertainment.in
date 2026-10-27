@@ -18,7 +18,7 @@ export const MARKET_SERVICES: Service[] = [
     seo: {
       title: "Hollywood Dubbing for Distributors | Indian Languages | EVA",
       description:
-        "Hollywood dubbing for foreign distributors and studios. One English voice artist carries each character into Hindi Tamil Telugu and 7 more Indian languages. Get a quote.",
+        "Hollywood dubbing for foreign distributors and studios. Lip-sync Indian-language versions from an English master with casting mix and delivery timed to your release. Get a quote.",
     },
     ...media("hollywood-lead"),
     ogImage: "/images/og/hollywood-dubbing-indian-languages.jpg",

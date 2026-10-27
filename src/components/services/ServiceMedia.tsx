@@ -10,7 +10,7 @@ import { SERVICE_MEDIA } from "@@/data/service-media";
 
 // Only the voice-over page uses it: own chunk (still server-rendered) so other service pages skip its JS.
 const VoiceShowcase = dynamic(() => import("@@/components/services/VoiceShowcase"));
-// Only the Hollywood dubbing page uses it.
+// English language page (one-voice section) and any page that sets media hollywood-onevoice.
 const OneVoiceShowcase = dynamic(() => import("@@/components/services/OneVoiceShowcase"));
 
 /** One photo per topic, with its decorative overlay kept inside the same zoom stage. */

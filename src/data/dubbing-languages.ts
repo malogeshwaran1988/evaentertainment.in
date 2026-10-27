@@ -1,6 +1,7 @@
 /* Language hub pages under /dubbing-studio/<lang> (SEO lip-sync tree v2).
    Owns "<Language> dubbing and voice-over". Pair pages keep "X to Y dubbing".
-   A page is indexed and linked only when published projects target that language. */
+   A page is indexed and linked when published projects target that language.
+   English also counts English-source titles so the one-voice capability page can go live. */
 import type { Project } from "@@/data/projects";
 import type { ServicePageContent } from "@@/data/service-page-types";
 import { STUDIO_CONTACT } from "@@/data/service-pages-markets";
@@ -187,7 +188,7 @@ function buildLanguage(name: LanguagePlanName, extras: LangExtras): DubbingLangu
 }
 
 /**
- * All plan language pages. Live visibility is driven by published `to` matches
+ * All plan language pages. Live visibility is driven by published project matches
  * (zero-project pages 404 and stay out of nav/sitemap until credits exist).
  */
 export const LANGUAGE_PAGES: Record<string, DubbingLanguage> = Object.fromEntries(
@@ -415,7 +416,7 @@ export const LANGUAGE_PAGES: Record<string, DubbingLanguage> = Object.fromEntrie
         "English",
         {
           leadExtra:
-            "English destination work (titles dubbed or voiced into English) is owned here. English-source Hollywood work sits on the [Hollywood movies dubbing](/dubbing-studio/hollywood) segment and on English-source pair pages.",
+            "This page owns English as a destination and the English lead-voice craft: one artist records the English master then the same voice into India's top languages. Craft for English-source Hollywood titles also sits on [Hollywood movies dubbing](/dubbing-studio/hollywood) and on English-source pair pages.",
           accentNote:
             "English accent (Indian English British or American colour) follows the brief.",
           castingNote:
@@ -423,11 +424,15 @@ export const LANGUAGE_PAGES: Record<string, DubbingLanguage> = Object.fromEntrie
           faqs: [
             {
               q: "Is this for dubbing Indian films into English?",
-              a: "Yes when English is the target language. Live titles appear below once published in admin.",
+              a: "Yes when English is the target language. Live destination titles appear below once published in admin. English-source titles also list here so buyers can see the English lead work.",
+            },
+            {
+              q: "Where does the one-voice multi-language demo live?",
+              a: "On this page. The same English voice artist performs the lead in Hindi Bengali Marathi Telugu Tamil and more. Distributor packaging for Hollywood buyers stays on [Hollywood dubbing for distributors](/hollywood-dubbing-indian-languages).",
             },
             {
               q: "Where does English to Tamil sit?",
-              a: "[English to Tamil dubbing](/dubbing/english-to-tamil) owns that pair. This page owns English as a destination plus English voice-over.",
+              a: "[English to Tamil dubbing](/dubbing/english-to-tamil) owns that pair. This page owns English destination work English voice-over and the shared English lead voice across Indian languages.",
             },
           ],
         },
@@ -439,21 +444,65 @@ export const LANGUAGE_PAGES: Record<string, DubbingLanguage> = Object.fromEntrie
   }),
 );
 
+
+/** Studio one-voice demo: moved from the Hollywood distributors market page onto English. */
+const ENGLISH_ONE_VOICE_SECTION = {
+  heading: "One English voice carried into India's top 10 languages",
+  icon: "icon-voiceover",
+  blocks: [
+    {
+      t: "p" as const,
+      text: "International titles often reach India through a different vendor for each language, so a lead character can sound like five different people in five markets. We cast once and keep that voice across every version.",
+    },
+    {
+      t: "ul" as const,
+      items: [
+        "**The English lead voice.** A professional English voice artist records the primary English version, matched to the original actor's age, tone and energy.",
+        "**The same voice in 10 Indian languages.** That same voice artist performs the character in Hindi, Bengali, Marathi, Telugu, Tamil, Gujarati, Urdu, Kannada, Odia and Malayalam, guided by native-language dubbing directors.",
+        "**Human performance only.** Every line in every language is performed live in our booth. We do not use AI voices or voice cloning.",
+        "**More languages on request.** Punjabi, Bhojpuri, Assamese and international languages such as Arabic and Spanish can be added with native voice artists.",
+      ],
+    },
+    {
+      t: "p" as const,
+      text: "One casting decision then holds in every market, which keeps a franchise character consistent from the first trailer to the last sequel.",
+    },
+  ],
+  media: "hollywood-onevoice" as const,
+};
+
+{
+  const eng = LANGUAGE_PAGES.english;
+  if (eng) {
+    eng.page.sections = [ENGLISH_ONE_VOICE_SECTION, ...eng.page.sections];
+  }
+}
+
 export const LANGUAGE_SLUGS = Object.keys(LANGUAGE_PAGES);
 
 export const languageHref = (slug: string) => `${DUBBING_STUDIO_HREF}/${slug}`;
 
 export const getLanguage = (slug: string) => LANGUAGE_PAGES[slug];
 
-/** Published projects whose `to` list includes this language name. */
+/**
+ * Published projects for a language page.
+ * Default: `to` includes the language.
+ * English also matches `from` English so English-source Hollywood titles keep /dubbing-studio/english live
+ * while destination-English credits are still empty.
+ */
 export function projectsForLanguage(lang: DubbingLanguage, projects: readonly Project[]) {
   const target = lang.name.toLowerCase();
-  return projects.filter((p) =>
-    (p.to ?? []).some((t) => String(t).toLowerCase() === target),
-  );
+  return projects.filter((p) => {
+    const inTo = (p.to ?? []).some((t) => String(t).toLowerCase() === target);
+    if (inTo) return true;
+    if (lang.slug === "english") {
+      return String(p.from ?? "").toLowerCase() === "english";
+    }
+    return false;
+  });
 }
 
-/** Language nav/hub links for pages that currently have at least one published target match. */
+/** Language nav/hub links for pages that currently have at least one published match. */
 export function liveLanguageLinks(projects: readonly Project[]) {
   return LANGUAGE_SLUGS.flatMap((slug) => {
     const lang = getLanguage(slug);
