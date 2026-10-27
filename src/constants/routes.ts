@@ -80,16 +80,26 @@ export const LEGACY_REDIRECTS: { from: string; to: string; statusCode?: 301 }[] 
 ];
 
 
-export type NavLinkChild = { label: string; href: string };
+export type NavLinkChild = {
+  label: string;
+  href: string;
+  /** Nested flyout under this row (e.g. segment pages under Lip-Sync Dubbing). */
+  children?: readonly NavLinkChild[];
+};
 
 export type NavItem = {
   label: string;
   href: string;
   /** Service slug children (resolved to names via SERVICE_NAMES). */
   children?: readonly ServiceSlug[];
-  /** Plain label+href children (e.g. Segments under /dubbing-studio). */
+  /** Plain label+href children (Languages; Services may be rebuilt with nested segments). */
   links?: readonly NavLinkChild[];
 };
+
+/** Services dropdown rows. Hollywood distributors market page stays routable but is omitted here so it does not duplicate the Hollywood segment under Lip-Sync Dubbing. */
+export const NAV_SERVICE_SLUGS: readonly ServiceSlug[] = SERVICE_SLUGS.filter(
+  (slug) => slug !== "hollywood-dubbing-indian-languages",
+);
 
 /** Nav links for segment pages that resolve on the live admin store (non-empty match).
  * Bollywood stays in SEGMENT_PAGES + sitemap (zero-hide) but out of the menu until Hindi-from credits exist. */
@@ -109,9 +119,9 @@ export const NAV_ITEMS: NavItem[] = [
   { label: "HOME", href: Routes.HOME },
   { label: "ABOUT", href: Routes.ABOUT },
   // Parent links to the flagship service page: "/" would duplicate HOME (React key clash) and # URLs are not allowed.
-  { label: "SERVICES", href: serviceHref("dubbing-studio"), children: SERVICE_SLUGS },
-  // Separate Segments + Languages drop-downs (SEO tree v2). Live links override in Header.
-  { label: "SEGMENTS", href: serviceHref("dubbing-studio"), links: SEGMENT_NAV },
+  // Live segment pages nest under Lip-Sync Dubbing in Header (no top-level SEGMENTS menu).
+  { label: "SERVICES", href: serviceHref("dubbing-studio"), children: NAV_SERVICE_SLUGS },
+  // Languages stay top-level. Live links override in Header.
   { label: "LANGUAGES", href: serviceHref("dubbing-studio"), links: LANGUAGE_NAV },
   { label: "OUR PROJECTS", href: Routes.PROJECTS },
   { label: "OUR CLIENTS", href: Routes.CLIENTS },

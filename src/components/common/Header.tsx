@@ -17,7 +17,7 @@ export function Header({
   languageLinks,
 }: {
   serviceNames: Record<ServiceSlug, string>;
-  /** Live segment pages with projects; overrides SEGMENTS.links. Empty hides the dropdown. */
+  /** Live segment pages with projects; nested under Services > Lip-Sync Dubbing. Empty hides the nest. */
   segmentLinks?: readonly NavLinkChild[];
   /** Live language pages with target projects; overrides LANGUAGES.links. Empty hides the dropdown. */
   languageLinks?: readonly NavLinkChild[];
@@ -26,6 +26,8 @@ export function Header({
   const [menuOpen, setMenuOpen] = useState(false);
   /** Which top-level dropdown is open (item.label), or null. */
   const [openSubId, setOpenSubId] = useState<string | null>(null);
+  /** Which nested flyout is open (child label), or null. */
+  const [openNestedId, setOpenNestedId] = useState<string | null>(null);
   const [subDismissed, setSubDismissed] = useState(false);
   const [isSticky, setIsSticky] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
@@ -37,6 +39,7 @@ export function Header({
   const closeAfterNav = () => {
     setMenuOpen(false);
     setOpenSubId(null);
+    setOpenNestedId(null);
     setSubDismissed(true);
     const active = document.activeElement as HTMLElement | null;
     if (active && navRef.current?.contains(active)) active.blur();
@@ -45,6 +48,7 @@ export function Header({
   useEffect(() => {
     setMenuOpen(false);
     setOpenSubId(null);
+    setOpenNestedId(null);
     // Pointer may still rest on a dropdown after a client-side navigation; keep panels hidden until re-entry.
     setSubDismissed(true);
     const active = document.activeElement as HTMLElement | null;
@@ -60,7 +64,10 @@ export function Header({
       if (openLi && !openLi.contains(target)) setOpenSubId(null);
     };
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setOpenSubId(null);
+      if (e.key === "Escape") {
+        setOpenNestedId(null);
+        setOpenSubId(null);
+      }
     };
     document.addEventListener("pointerdown", onDown);
     document.addEventListener("keydown", onKey);
@@ -151,28 +158,41 @@ export function Header({
     return () => document.body.classList.remove("hdr-sticky");
   }, [isSticky]);
 
+  const pathMatches = (href: string) =>
+    pathname === href || pathname.startsWith(`${href}/`);
+
   const isActive = (item: NavItem) => {
+    if (item.label === "SERVICES") {
+      const onServicePage = (item.links ?? []).some((l) => pathname === l.href)
+        || (item.children ?? []).some((slug) => pathname === serviceHref(slug));
+      const onSegmentPage = (segmentLinks ?? []).some((l) => pathMatches(l.href));
+      return onServicePage || onSegmentPage;
+    }
     if (item.links?.length) {
-      return item.links.some((l) => pathname === l.href || pathname.startsWith(`${l.href}/`));
+      return item.links.some((l) => pathMatches(l.href));
     }
     if (item.children) {
-      // Segment URLs sit under /dubbing-studio/<slug>; keep them off the Services highlight.
-      if (pathname.startsWith("/dubbing-studio/")) return false;
       return item.children.some((slug) => pathname === serviceHref(slug));
     }
     if (item.href === Routes.HOME) return pathname === "/";
-    return pathname === item.href || pathname.startsWith(`${item.href}/`);
+    return pathMatches(item.href);
   };
 
   const renderDropdown = (item: NavItem) => {
     const subId = `nav-sub-${item.label.toLowerCase()}`;
     const isOpen = openSubId === item.label;
     const linkChildren = item.links
-      ? item.links.map((l) => ({ key: l.href, href: l.href, label: l.label }))
+      ? item.links.map((l) => ({
+          key: l.href,
+          href: l.href,
+          label: l.label,
+          nest: l.children,
+        }))
       : (item.children ?? []).map((slug) => ({
           key: slug,
           href: serviceHref(slug),
           label: serviceNames[slug],
+          nest: undefined as readonly NavLinkChild[] | undefined,
         }));
     return (
       <li
@@ -192,10 +212,17 @@ export function Header({
         onBlur={(e) => {
           if (!e.currentTarget.contains(e.relatedTarget as Node | null)) {
             setOpenSubId((id) => (id === item.label ? null : id));
+            setOpenNestedId(null);
           }
         }}
         onKeyDown={(e) => {
           if (e.key !== "Escape") return;
+          if (openNestedId) {
+            setOpenNestedId(null);
+            e.stopPropagation();
+            e.currentTarget.querySelector<HTMLButtonElement>(".eva-nav-nested-toggle")?.focus();
+            return;
+          }
           setOpenSubId(null);
           setSubDismissed(true);
           e.currentTarget.querySelector<HTMLButtonElement>(".eva-nav-sub-toggle")?.focus();
@@ -215,23 +242,90 @@ export function Header({
           aria-label={`${item.label.charAt(0)}${item.label.slice(1).toLowerCase()} submenu`}
           onClick={() => {
             setOpenSubId((id) => (id === item.label ? null : item.label));
+            setOpenNestedId(null);
             setSubDismissed(false);
           }}
         >
           <span aria-hidden="true" />
         </button>
         <ul id={subId} className="eva-nav-sub">
-          {linkChildren.map((child) => (
-            <li key={child.key}>
-              <Link
-                href={child.href}
-                aria-current={pathname === child.href ? "page" : undefined}
-                onClick={closeAfterNav}
-              >
-                {child.label}
-              </Link>
-            </li>
-          ))}
+          {linkChildren.map((child) => {
+            const nest = child.nest;
+            if (nest?.length) {
+              const nestId = `nav-nest-${String(child.key).replace(/[^a-zA-Z0-9_-]+/g, "-").replace(/^-+|-+$/g, "")}`;
+              const nestOpen = openNestedId === child.label;
+              const childActive =
+                pathname === child.href || nest.some((n) => pathMatches(n.href));
+              return (
+                <li
+                  key={child.key}
+                  className={[
+                    "eva-nav-has-nested",
+                    nestOpen ? "is-nested-open" : "",
+                    childActive ? "is-nested-current" : "",
+                  ]
+                    .filter(Boolean)
+                    .join(" ")}
+                  onMouseEnter={() => {
+                    // Desktop float only. Touch fires mouseenter before click and would
+                    // open-then-toggle-closed if we set state here in the drawer.
+                    if (window.matchMedia("(min-width: 1200px)").matches) {
+                      setOpenNestedId(child.label);
+                      setSubDismissed(false);
+                    }
+                  }}
+                >
+                  <Link
+                    href={child.href}
+                    aria-current={
+                      pathname === child.href ? "page" : childActive ? "true" : undefined
+                    }
+                    onClick={closeAfterNav}
+                  >
+                    {child.label}
+                  </Link>
+                  <button
+                    type="button"
+                    className="eva-nav-nested-toggle"
+                    aria-expanded={nestOpen}
+                    aria-controls={nestId}
+                    aria-label={`${child.label} submenu`}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setOpenNestedId((id) => (id === child.label ? null : child.label));
+                      setSubDismissed(false);
+                    }}
+                  >
+                    <span aria-hidden="true" />
+                  </button>
+                  <ul id={nestId} className="eva-nav-nested">
+                    {nest.map((n) => (
+                      <li key={n.href}>
+                        <Link
+                          href={n.href}
+                          aria-current={pathname === n.href ? "page" : undefined}
+                          onClick={closeAfterNav}
+                        >
+                          {n.label}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </li>
+              );
+            }
+            return (
+              <li key={child.key}>
+                <Link
+                  href={child.href}
+                  aria-current={pathname === child.href ? "page" : undefined}
+                  onClick={closeAfterNav}
+                >
+                  {child.label}
+                </Link>
+              </li>
+            );
+          })}
         </ul>
       </li>
     );
@@ -278,12 +372,21 @@ export function Header({
             <ul className="menu">
               {NAV_ITEMS.flatMap((item) => {
                 let resolved: NavItem = item;
-                if (item.label === "SEGMENTS" && segmentLinks !== undefined) {
-                  resolved = { ...item, links: segmentLinks };
+                if (item.label === "SERVICES") {
+                  const links: NavLinkChild[] = (item.children ?? []).map((slug) => {
+                    const row: NavLinkChild = {
+                      label: serviceNames[slug],
+                      href: serviceHref(slug),
+                    };
+                    if (slug === "dubbing-studio" && segmentLinks?.length) {
+                      return { ...row, children: segmentLinks };
+                    }
+                    return row;
+                  });
+                  resolved = { label: item.label, href: item.href, links };
                 } else if (item.label === "LANGUAGES" && languageLinks !== undefined) {
                   resolved = { ...item, links: languageLinks };
                 }
-                if (resolved.label === "SEGMENTS" && !(resolved.links?.length)) return [];
                 if (resolved.label === "LANGUAGES" && !(resolved.links?.length)) return [];
                 return [resolved];
               }).map((item) =>
