@@ -478,7 +478,32 @@ const ENGLISH_ONE_VOICE_SECTION = {
   }
 }
 
-export const LANGUAGE_SLUGS = Object.keys(LANGUAGE_PAGES);
+/** Single ordering source: India gross box office share (Ormax Box Office Report 2024).
+ * Hindi 40% Telugu 20% Tamil 15% Malayalam 10% English 8% Kannada 3% Punjabi 2% Marathi 1% Gujarati 1% Bengali 1%.
+ * Languages not listed (Odia Urdu and others) follow in their data order. */
+export const LANGUAGE_ORDER: readonly string[] = [
+  "hindi",
+  "telugu",
+  "tamil",
+  "malayalam",
+  "english",
+  "kannada",
+  "punjabi",
+  "marathi",
+  "gujarati",
+  "bengali",
+];
+
+const languageRank = (slug: string) => {
+  const i = LANGUAGE_ORDER.indexOf(slug);
+  return i === -1 ? LANGUAGE_ORDER.length : i;
+};
+
+/** Sort language slugs by market share (stable for unlisted languages). */
+export const sortLanguageSlugs = <T extends string>(slugs: readonly T[]): T[] =>
+  [...slugs].sort((a, b) => languageRank(a) - languageRank(b));
+
+export const LANGUAGE_SLUGS = sortLanguageSlugs(Object.keys(LANGUAGE_PAGES));
 
 export const languageHref = (slug: string) => `${DUBBING_STUDIO_HREF}/${slug}`;
 
