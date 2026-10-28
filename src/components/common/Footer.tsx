@@ -125,6 +125,16 @@ export default function Footer() {
           <p className="eva-footer-copyright">
             &copy; {year} {SITE_NAME} Recording Studio. All Rights Reserved.
           </p>
+          <p className="eva-footer-partner">
+            Technology partner{" "}
+            <a
+              href="https://lasmind.com/"
+              target="_blank"
+              rel="nofollow noopener noreferrer"
+            >
+              LasMind
+            </a>
+          </p>
           <nav className="eva-footer-legal" aria-label="Legal">
             <Link href={Routes.PRIVACY}>Privacy Policy</Link>
             <Link href={Routes.TERMS}>Terms of Service</Link>
