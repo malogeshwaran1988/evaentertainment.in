@@ -590,3 +590,131 @@ $eva-line: #d9ddd3;
   font-weight: 400;
   opacity: 1;
 }
+
+/* Resume row: upload | OR | TemplatePix builder card. Stacks on mobile. */
+.eva-cf-resume-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin-bottom: 16px;
+
+  > .eva-cf-field {
+    margin-bottom: 0;
+    min-width: 0;
+  }
+
+  @media (min-width: 768px) {
+    > .eva-cf-field {
+      display: flex;
+      flex-direction: column;
+    }
+
+    > .eva-cf-field > .eva-cf-drop {
+      flex: 1 1 auto;
+    }
+  }
+
+  @media (min-width: 768px) {
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    gap: 16px;
+    align-items: stretch;
+  }
+}
+
+.eva-cf-or {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #5b616b;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+
+  &::before,
+  &::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: $eva-line;
+  }
+
+  @media (min-width: 768px) {
+    flex-direction: column;
+    padding-top: 26px;
+
+    &::before,
+    &::after {
+      width: 1px;
+      height: auto;
+    }
+  }
+}
+
+.eva-cf-builder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 20px 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: linear-gradient(160deg, #26282f 0%, #13161d 70%, #1d2a10 140%);
+  color: #fff;
+  text-align: center;
+
+  @media (min-width: 768px) {
+    margin-top: 26px;
+  }
+}
+
+.eva-cf-builder__logo {
+  display: block;
+  width: auto !important;
+  max-width: 150px;
+  height: 36px !important;
+  object-fit: contain;
+}
+
+.eva-cf-builder__title {
+  margin: 0;
+  color: #fff;
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.eva-cf-builder__text {
+  margin: 0;
+  color: #d5d8de;
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.eva-cf-builder__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  margin-top: 4px;
+  padding: 0 18px;
+  border-radius: 10px;
+  background: #70b615;
+  color: #10130c;
+  font-size: 15px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: filter 0.15s;
+
+  &:hover {
+    filter: brightness(1.08);
+    color: #10130c;
+    text-decoration: none;
+  }
+
+  &:focus-visible {
+    outline: 3px solid #fff;
+    outline-offset: 3px;
+  }
+}

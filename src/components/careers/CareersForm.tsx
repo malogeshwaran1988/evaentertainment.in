@@ -11,6 +11,8 @@ import {
   FILES_TOTAL_MAX_BYTES,
   RESUME_ACCEPT,
   RESUME_MAX_BYTES,
+  RESUME_BUILDER_CTA,
+  RESUME_BUILDER_URL,
   ROLE_OPTIONS,
   VOICE_ACCEPT,
   VOICE_MAX_FILES,
@@ -367,7 +369,40 @@ export default function CareersForm() {
         </div>
 
         <div className="eva-cf-step">
-          {zone("resume", "Resume", RESUME_ACCEPT, "PDF, DOC or DOCX. Up to 1 MB.", false)}
+          <div className="eva-cf-resume-row">
+            {zone("resume", "Resume", RESUME_ACCEPT, "PDF, DOC or DOCX. Up to 1 MB.", false)}
+            <div className="eva-cf-or" aria-hidden="true">
+              <span>OR</span>
+            </div>
+            <section className="eva-cf-builder" aria-labelledby={id("builder-title")}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                className="eva-cf-builder__logo"
+                src="/images/partners/templatepix-logo-w.svg"
+                alt="TemplatePix"
+                width={653}
+                height={161}
+                loading="lazy"
+                decoding="async"
+              />
+              <h3 className="eva-cf-builder__title" id={id("builder-title")}>
+                {RESUME_BUILDER_CTA.heading}
+              </h3>
+              <p className="eva-cf-builder__text">{RESUME_BUILDER_CTA.text}</p>
+              <a
+                className="eva-cf-builder__btn"
+                href={RESUME_BUILDER_URL}
+                target="_blank"
+                rel="noopener"
+                aria-label="Build my resume on TemplatePix (opens in a new tab)"
+              >
+                {RESUME_BUILDER_CTA.linkLabel}
+                <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false">
+                  <path fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" d="M7 17 17 7M8 7h9v9" />
+                </svg>
+              </a>
+            </section>
+          </div>
           {zone(
             "voices",
             "Voice samples",
