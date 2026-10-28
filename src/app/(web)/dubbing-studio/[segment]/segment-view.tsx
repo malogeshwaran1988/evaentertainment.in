@@ -17,6 +17,7 @@ import {
   DUBBING_STUDIO_HREF,
   getSegment,
   projectsForSegment,
+  segmentIsLive,
   segmentHref,
 } from "@@/data/dubbing-segments";
 import { liveLanguageLinks } from "@@/data/dubbing-languages";
@@ -66,7 +67,7 @@ function relatedSegmentsSection(
   const links = related
     .map((slug) => getSegment(slug))
     .filter((s): s is NonNullable<typeof s> => Boolean(s))
-    .filter((s) => projectsForSegment(s, projects).length > 0)
+    .filter((s) => segmentIsLive(s, projects))
     .map((s) => `**[${s.name}](${segmentHref(s.slug)})** - ${s.keyword}`);
   if (!links.length) return null;
   return {
@@ -88,8 +89,8 @@ export default async function SegmentPageView({ slug }: { slug: string }) {
 
   const all = await publishedProjects();
   const matched = projectsForSegment(segment, all);
-  // Zero-project hide: do not ship a thin segment page.
-  if (!matched.length) notFound();
+  // Zero-project hide, except owner-pinned segments (Bollywood) which keep their copy and drop empty grids.
+  if (!segmentIsLive(segment, all)) notFound();
 
   const titles = titlesSection(segment.name, matched);
   const related = relatedSegmentsSection(segment.slug, segment.relatedSegments, all);

@@ -1,6 +1,12 @@
 import type { MetadataRoute } from "next";
 import { Routes, SERVICE_SLUGS, serviceHref } from "@@/constants/routes";
-import { SEGMENT_SLUGS, getSegment, projectsForSegment, segmentHref } from "@@/data/dubbing-segments";
+import {
+  SEGMENT_SLUGS,
+  getSegment,
+  projectsForSegment,
+  segmentHref,
+  segmentIsLive,
+} from "@@/data/dubbing-segments";
 import { LANGUAGE_SLUGS, getLanguage, projectsForLanguage, languageHref } from "@@/data/dubbing-languages";
 import { projectIsPublished } from "@@/data/projects";
 import STATIC_LASTMOD from "@@/data/static-lastmod.json";
@@ -147,16 +153,18 @@ const segmentSection = (projects: PublishedProjects): MetadataRoute.Sitemap =>
   SEGMENT_SLUGS.flatMap((slug) => {
     const segment = getSegment(slug);
     if (!segment) return [];
+    if (!segmentIsLive(segment, projects)) return [];
     const matched = projectsForSegment(segment, projects);
-    if (!matched.length) return [];
     return [
       {
         url: absoluteUrl(segmentHref(slug)),
-        lastModified: new Date(
-          Math.max(
-            ...matched.map((p) => new Date(p.updatedAt || p.createdAt).getTime()),
-          ),
-        ),
+        lastModified: matched.length
+          ? new Date(
+              Math.max(
+                ...matched.map((p) => new Date(p.updatedAt || p.createdAt).getTime()),
+              ),
+            )
+          : lastmodFor(segmentHref(slug)),
         priority: 0.85,
       },
     ];

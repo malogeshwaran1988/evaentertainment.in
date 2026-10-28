@@ -42,6 +42,8 @@ export type DubbingSegment = {
   ogImageAlt: string;
   /** How to pick published projects that belong on this page. */
   match: (project: Project) => boolean;
+  /** Owner exception: page stays live (menu, sitemap, links) even with zero matched projects. */
+  alwaysLive?: boolean;
   page: ServicePageContent;
   /** Related segment slugs (shipped ones only are linked). */
   relatedSegments: SegmentPlanSlug[];
@@ -213,6 +215,7 @@ export const SEGMENT_PAGES: Record<string, DubbingSegment> = {
     ogImage: "/images/og/pan-india-film-dubbing.jpg",
     ogImageAlt: "Release planning board for a multi-language film dub at EVA Entertainment",
     match: (p) => p.from === "Hindi",
+    alwaysLive: true,
     relatedSegments: ["kollywood", "hollywood"],
     marketHref: "/pan-india-film-dubbing",
     marketLabel: "Pan-India film dubbing",
@@ -473,12 +476,24 @@ export function projectsForSegment(segment: DubbingSegment, projects: readonly P
   return projects.filter(segment.match);
 }
 
-/** Segment nav/hub links for pages that currently have at least one published match. */
+/** Live when it has a published match, or when the owner pinned it live (Bollywood). */
+export function segmentIsLive(segment: DubbingSegment, projects: readonly Project[]) {
+  return Boolean(segment.alwaysLive) || projectsForSegment(segment, projects).length > 0;
+}
+
+/** Menu and hub order for segment links. */
+const SEGMENT_LINK_ORDER: readonly string[] = ["hollywood", "kollywood", "bollywood"];
+
+/** Segment nav/hub links for live pages (Hollywood, Kollywood, Bollywood order). */
 export function liveSegmentLinks(projects: readonly Project[]) {
-  return SEGMENT_SLUGS.flatMap((slug) => {
+  const rank = (s: string) => {
+    const i = SEGMENT_LINK_ORDER.indexOf(s);
+    return i === -1 ? SEGMENT_LINK_ORDER.length : i;
+  };
+  return [...SEGMENT_SLUGS].sort((a, b) => rank(a) - rank(b)).flatMap((slug) => {
     const segment = getSegment(slug);
     if (!segment) return [];
-    if (!projectsForSegment(segment, projects).length) return [];
+    if (!segmentIsLive(segment, projects)) return [];
     return [{ label: segment.name, href: segmentHref(slug), keyword: segment.keyword }];
   });
 }

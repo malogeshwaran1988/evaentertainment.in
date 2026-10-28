@@ -101,11 +101,12 @@ export const NAV_SERVICE_SLUGS: readonly ServiceSlug[] = SERVICE_SLUGS.filter(
   (slug) => slug !== "hollywood-dubbing-indian-languages",
 );
 
-/** Nav links for segment pages that resolve on the live admin store (non-empty match).
- * Bollywood stays in SEGMENT_PAGES + sitemap (zero-hide) but out of the menu until Hindi-from credits exist. */
+/** Nav seed for segment pages; layout overrides with liveSegmentLinks.
+ * Bollywood is owner-pinned live (alwaysLive) so it always shows. Others follow the project-count rule. */
 export const SEGMENT_NAV: readonly NavLinkChild[] = [
   { label: "Hollywood", href: "/dubbing-studio/hollywood" },
   { label: "Kollywood", href: "/dubbing-studio/kollywood" },
+  { label: "Bollywood", href: "/dubbing-studio/bollywood" },
 ];
 
 /** Nav seed for language pages; layout overrides with liveLanguageLinks (zero-hide). */
