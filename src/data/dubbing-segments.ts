@@ -465,7 +465,20 @@ export const SEGMENT_PAGES: Record<string, DubbingSegment> = {
   },
 };
 
-export const SEGMENT_SLUGS = Object.keys(SEGMENT_PAGES) as SegmentPlanSlug[];
+/** Single ordering source: largest film market to smallest (Hollywood, Bollywood, Kollywood).
+ * Menu, hub links, cross-links and sitemap all read SEGMENT_SLUGS in this order. */
+export const SEGMENT_ORDER: readonly string[] = ["hollywood", "bollywood", "kollywood"];
+
+const segmentRank = (slug: string) => {
+  const i = SEGMENT_ORDER.indexOf(slug);
+  return i === -1 ? SEGMENT_ORDER.length : i;
+};
+
+/** Sort any list of segment slugs by market size. */
+export const sortSegmentSlugs = <T extends string>(slugs: readonly T[]): T[] =>
+  [...slugs].sort((a, b) => segmentRank(a) - segmentRank(b));
+
+export const SEGMENT_SLUGS = sortSegmentSlugs(Object.keys(SEGMENT_PAGES) as SegmentPlanSlug[]);
 
 export const segmentHref = (slug: string) => `${DUBBING_STUDIO_HREF}/${slug}`;
 
@@ -481,16 +494,9 @@ export function segmentIsLive(segment: DubbingSegment, projects: readonly Projec
   return Boolean(segment.alwaysLive) || projectsForSegment(segment, projects).length > 0;
 }
 
-/** Menu and hub order for segment links. */
-const SEGMENT_LINK_ORDER: readonly string[] = ["hollywood", "kollywood", "bollywood"];
-
-/** Segment nav/hub links for live pages (Hollywood, Kollywood, Bollywood order). */
+/** Segment nav/hub links for live pages, in SEGMENT_ORDER. */
 export function liveSegmentLinks(projects: readonly Project[]) {
-  const rank = (s: string) => {
-    const i = SEGMENT_LINK_ORDER.indexOf(s);
-    return i === -1 ? SEGMENT_LINK_ORDER.length : i;
-  };
-  return [...SEGMENT_SLUGS].sort((a, b) => rank(a) - rank(b)).flatMap((slug) => {
+  return SEGMENT_SLUGS.flatMap((slug) => {
     const segment = getSegment(slug);
     if (!segment) return [];
     if (!segmentIsLive(segment, projects)) return [];

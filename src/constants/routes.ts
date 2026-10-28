@@ -105,8 +105,8 @@ export const NAV_SERVICE_SLUGS: readonly ServiceSlug[] = SERVICE_SLUGS.filter(
  * Bollywood is owner-pinned live (alwaysLive) so it always shows. Others follow the project-count rule. */
 export const SEGMENT_NAV: readonly NavLinkChild[] = [
   { label: "Hollywood", href: "/dubbing-studio/hollywood" },
-  { label: "Kollywood", href: "/dubbing-studio/kollywood" },
   { label: "Bollywood", href: "/dubbing-studio/bollywood" },
+  { label: "Kollywood", href: "/dubbing-studio/kollywood" },
 ];
 
 /** Nav seed for language pages; layout overrides with liveLanguageLinks (zero-hide). */

@@ -287,7 +287,7 @@ export const MARKET_SERVICE_PAGES: Record<string, ServicePageContent> = {
     languages: ["English", ...TOP_10_LANGUAGE_NAMES],
     leadHeading: "One release, ten languages, one standard",
     lead: [
-      "**Pan-India film dubbing prepares one film for release in several Indian languages at the same time.** EVA Entertainment handles every version from one studio in Andheri West, Mumbai, so the Hindi, Telugu, Tamil and other versions share the same script decisions, casting notes and mix standard. See also [Kollywood dubbing](/dubbing-studio/kollywood) when the title is a Tamil feature or [Bollywood movies dubbing](/dubbing-studio/bollywood) when it is a Hindi feature.",
+      "**Pan-India film dubbing prepares one film for release in several Indian languages at the same time.** EVA Entertainment handles every version from one studio in Andheri West, Mumbai, so the Hindi, Telugu, Tamil and other versions share the same script decisions, casting notes and mix standard. See also [Bollywood movies dubbing](/dubbing-studio/bollywood) when the title is a Hindi feature or [Kollywood dubbing](/dubbing-studio/kollywood) when it is a Tamil feature.",
       "We dub into India's top 10 languages: Hindi, Bengali, Marathi, Telugu, Tamil, Gujarati, Urdu, Kannada, Odia and Malayalam. More languages are available on request.",
     ],
     sections: [

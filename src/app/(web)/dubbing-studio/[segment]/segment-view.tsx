@@ -18,6 +18,7 @@ import {
   getSegment,
   projectsForSegment,
   segmentIsLive,
+  sortSegmentSlugs,
   segmentHref,
 } from "@@/data/dubbing-segments";
 import { liveLanguageLinks } from "@@/data/dubbing-languages";
@@ -64,7 +65,7 @@ function relatedSegmentsSection(
   related: string[],
   projects: Awaited<ReturnType<typeof publishedProjects>>,
 ): ServicePageSection | null {
-  const links = related
+  const links = sortSegmentSlugs(related)
     .map((slug) => getSegment(slug))
     .filter((s): s is NonNullable<typeof s> => Boolean(s))
     .filter((s) => segmentIsLive(s, projects))
