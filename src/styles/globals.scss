@@ -3885,15 +3885,22 @@ body:not(.page-blog) .block--darkbg h3.eva-service-ideal-title,
 }
 
 @media (min-width: 1200px) {
-  .eva-header-bar .header-menu .menu .eva-nav-has-nested {
+  /* Beats `.eva-nav-sub > li { display: block !important }` so the chevron stays inline. */
+  .eva-header-bar .header-menu .menu .eva-nav-sub > li.eva-nav-has-nested {
     position: relative;
     display: flex !important;
     flex-wrap: nowrap;
     align-items: center;
   }
 
-  .eva-header-bar .header-menu .menu .eva-nav-has-nested > a {
+  .eva-header-bar .header-menu .menu .eva-nav-sub > li.eva-nav-has-nested > a {
     flex: 1 1 auto;
+    min-width: 0;
+    width: auto !important;
+  }
+
+  .eva-header-bar .header-menu .menu .eva-nav-sub > li.eva-nav-has-nested > .eva-nav-nested-toggle {
+    flex: 0 0 auto;
   }
 
   .eva-header-bar .header-menu .menu .eva-nav-nested {
@@ -3968,15 +3975,21 @@ body:not(.page-blog) .block--darkbg h3.eva-service-ideal-title,
 }
 
 @media (max-width: 1199px) {
-  .eva-header-bar .header-menu .menu .eva-nav-has-nested {
+  .eva-header-bar .header-menu .menu .eva-nav-sub > li.eva-nav-has-nested {
     display: flex !important;
     flex-wrap: wrap;
     align-items: center;
   }
 
-  .eva-header-bar .header-menu .menu .eva-nav-has-nested > a {
-    flex: 1 1 auto;
+  .eva-header-bar .header-menu .menu .eva-nav-sub > li.eva-nav-has-nested > a {
+    flex: 1 1 0;
+    min-width: 0;
+    width: auto !important;
     padding-right: 0 !important;
+  }
+
+  .eva-header-bar .header-menu .menu .eva-nav-sub > li.eva-nav-has-nested > .eva-nav-nested-toggle {
+    flex: 0 0 auto;
   }
 
   .eva-header-bar .header-menu .menu .eva-nav-nested-toggle {
