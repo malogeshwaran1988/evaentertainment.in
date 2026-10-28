@@ -1,10 +1,14 @@
 {
-  "/": "2026-10-25",
-  "/our-projects": "2026-10-19",
-  "/about-us": "2026-10-25",
-  "/studio-equipment": "2026-10-24",
-  "/contact-us": "2026-10-24",
-  "/privacy-policy": "2026-10-18",
-  "/terms-conditions": "2026-10-18",
-  "service:*": "2026-10-25"
+  "/": "2026-10-27",
+  "/our-projects": "2026-10-27",
+  "/about-us": "2026-10-27",
+  "/studio-equipment": "2026-10-27",
+  "/contact-us": "2026-10-25",
+  "/privacy-policy": "2026-10-25",
+  "/terms-conditions": "2026-10-25",
+  "/clients": "2026-10-27",
+  "/careers": "2026-10-28",
+  "service:*": "2026-10-27",
+  "service:core": "2026-10-27",
+  "service:markets": "2026-10-28"
 }
