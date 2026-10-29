@@ -1,12 +1,12 @@
 import { readFile } from "node:fs/promises";
+import { get } from "@vercel/blob";
 import { blogPostIsPublic, type BlogPost } from "@@/data/blog";
 import { blobPath, USE_BLOB } from "@@/lib/blob-path";
 import { BLOG_BLOB_FILE, BLOG_DISK_FILE } from "@@/lib/blog/paths";
-import { readR2Text } from "@@/lib/r2";
 
 /**
  * Old-slug → current-slug lookup for src/proxy.ts, which answers /blog/<old> with a real 301
- * (a redirect from a page would be a 308). Kept in memory for 5 minutes so requests rarely cost an R2 read;
+ * (a redirect from a page would be a 308). Kept in memory for 5 minutes and read with the Blob CDN cache, so requests rarely cost an operation;
  * the post page itself also redirects, which covers the few seconds after a rename.
  */
 const TTL_MS = 5 * 60_000;
@@ -19,9 +19,9 @@ async function readPosts(): Promise<BlogPost[]> {
   try {
     let raw: string;
     if (USE_BLOB) {
-      const text = await readR2Text(blobPath(BLOG_BLOB_FILE));
-      if (text === null) return [];
-      raw = text;
+      const result = await get(blobPath(BLOG_BLOB_FILE), { access: "private" });
+      if (!result || result.statusCode !== 200) return [];
+      raw = await new Response(result.stream).text();
     } else {
       raw = await readFile(BLOG_DISK_FILE, "utf8");
     }

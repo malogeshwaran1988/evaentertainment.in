@@ -14,7 +14,6 @@
     "prebuild": "node scripts/gen-static-lastmod.mjs"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.1159.0",
     "@jsquash/avif": "^2.1.1",
     "@lasmind/website-accessibility": "^0.2.3",
     "@radix-ui/react-alert-dialog": "^1.1.23",
