@@ -44,3 +44,7 @@ next-env.d.ts
 
 # vercel
 .vercel
+
+# Blob -> R2 migration: local keys and copy logs
+.env.migrate
+migrate-blob-to-r2-*.json
