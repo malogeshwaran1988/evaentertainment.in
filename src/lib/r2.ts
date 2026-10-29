@@ -1,4 +1,4 @@
-import { GetObjectCommand, S3Client } from "@aws-sdk/client-s3";
+import { S3Client } from "@aws-sdk/client-s3";
 
 /**
  * Cloudflare R2 through its S3 API. No `server-only` import, because src/proxy.ts reads blog.json
@@ -30,15 +30,4 @@ export function isNotFound(err: unknown) {
 export function isPreconditionFailed(err: unknown) {
   const e = err as { name?: string; $metadata?: { httpStatusCode?: number } };
   return e?.name === "PreconditionFailed" || e?.$metadata?.httpStatusCode === 412;
-}
-
-/** Full key in, text out; null when the object doesn't exist. */
-export async function readR2Text(key: string): Promise<string | null> {
-  try {
-    const res = await r2().send(new GetObjectCommand({ Bucket: r2Bucket(), Key: key }));
-    return res.Body ? await res.Body.transformToString() : null;
-  } catch (err) {
-    if (isNotFound(err)) return null;
-    throw err;
-  }
 }
