@@ -221,7 +221,7 @@ export default async function SegmentPageView({ slug }: { slug: string }) {
       />
       <ServiceLead service={serviceLike as Service} page={page} />
       <ServiceSections sections={page.sections} />
-      <ServicePosterStrip slugs={page.posterStrip} heading={`Films we have dubbed (${segment.name})`} />
+      <ServicePosterStrip slugs={page.posterStrip} fill={false} heading={`Films we have dubbed (${segment.name})`} />
       <DubbingLanguageLinks
         languages={langLinks}
         heading="Languages we dub for"

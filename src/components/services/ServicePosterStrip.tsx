@@ -13,10 +13,13 @@ import { getProjects } from "@@/lib/projects-store";
 export default async function ServicePosterStrip({
   slugs,
   heading,
+  fill = true,
 }: {
   slugs?: string[];
   /** Override the default "Films we have dubbed into Hindi" heading. */
   heading?: string;
+  /** When false, show only the picked slugs (no newest-project filler). */
+  fill?: boolean;
 }) {
   if (!slugs?.length) return null;
   let cards: PosterCard[] = [];
@@ -24,7 +27,7 @@ export default async function ServicePosterStrip({
     const published = (await getProjects()).filter(projectIsPublished);
     const bySlug = new Map(published.map((p) => [p.slug, p]));
     const picked = slugs.flatMap((s) => bySlug.get(s) ?? []);
-    const rest = published.filter((p) => !picked.includes(p));
+    const rest = fill ? published.filter((p) => !picked.includes(p)) : [];
     cards = [...picked, ...rest].slice(0, 6).map((p) => ({
       id: p.id,
       title: p.title,

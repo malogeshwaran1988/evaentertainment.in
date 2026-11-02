@@ -72,7 +72,7 @@ export default function PosterCards({ cards }: { cards: PosterCard[] }) {
 
   return (
     <>
-      <ul className="eva-svc-poster-list">
+      <ul className={`eva-svc-poster-list${cards.length === 1 ? " eva-svc-poster-list--single" : ""}`}>
         {cards.map((c) => (
           <li key={c.id}>
             <button
