@@ -23,6 +23,8 @@ export const SEGMENT_PLAN_SLUGS = [
   "audiobooks",
   "korean-drama",
   "youtube",
+  "web-series-ott",
+  "animation",
 ] as const;
 
 export type SegmentPlanSlug = (typeof SEGMENT_PLAN_SLUGS)[number];
@@ -82,7 +84,7 @@ export const SEGMENT_PAGES: Record<string, DubbingSegment> = {
     ogImageAlt:
       "Sound engineer at EVA Entertainment watching an English film scene while a voice artist dubs it in the booth",
     match: (p) => p.from === "English",
-    relatedSegments: ["bollywood", "kollywood"],
+    relatedSegments: ["bollywood", "kollywood", "animation"],
     marketHref: "/hollywood-dubbing-indian-languages",
     marketLabel: "Hollywood dubbing for distributors",
     page: {
@@ -168,6 +170,10 @@ export const SEGMENT_PAGES: Record<string, DubbingSegment> = {
             {
               t: "p",
               text: "We plan the booth cast and mix schedule backwards from the date you give us so dubbed stems and masters are ready before the release not after. Share the drop date with the brief and we lock the calendar around it.",
+            },
+            {
+              t: "p",
+              text: "Dubbing an animated English film? See [animation and cartoon dubbing](/dubbing-studio/animation).",
             },
           ],
         },
@@ -463,11 +469,207 @@ export const SEGMENT_PAGES: Record<string, DubbingSegment> = {
       cta: { ...CTA },
     },
   },
+
+  "web-series-ott": {
+    slug: "web-series-ott",
+    name: "Web Series and OTT",
+    keyword: "web series dubbing",
+    subtitle:
+      "Episode by episode lip-sync dubbing for web series and OTT shows from our Andheri West studio in Mumbai.",
+    icon: "icon-play-circle",
+    ...media("hollywood-onevoice"),
+    ogImage: "/images/og/dubbing-studio-mumbai.jpg",
+    ogImageAlt: "Voice artist dubbing a series episode at a microphone in the EVA Entertainment booth in Mumbai",
+    // FACTS NEEDED: no published web series or OTT credits yet. Matches TV Series projects once one is published.
+    match: (p) => p.category === "TV Series",
+    alwaysLive: true,
+    relatedSegments: ["animation", "hollywood", "bollywood"],
+    page: {
+      seoTitle: "Web Series and OTT Dubbing Services in Mumbai | EVA",
+      description:
+        "Web series and OTT dubbing from our Andheri West studio in Mumbai. Lip-sync adaptation, native voice casting, directed recording, mixing and QC per episode.",
+      h1: "Web Series and OTT Dubbing Services",
+      serviceType: "Web series and OTT dubbing",
+      languages: [
+        "Hindi",
+        "English",
+        "Bengali",
+        "Marathi",
+        "Telugu",
+        "Tamil",
+        "Gujarati",
+        "Urdu",
+        "Kannada",
+        "Odia",
+        "Malayalam",
+      ],
+      leadHeading: "Series that sound made for the viewer",
+      lead: [
+        "**Web series dubbing gives every episode of a show a new language version with dialogue that matches the actors' lips.** EVA Entertainment does this work in Andheri West Mumbai for production houses and OTT teams who need Hindi or other Indian-language versions of fiction and non-fiction series.",
+        "A series is not one long film. Characters return every episode so we keep the same cast the same terms and the same mix standard from the pilot to the finale. For feature films see [lip-sync dubbing](/dubbing-studio).",
+      ],
+      sections: [
+        {
+          heading: "Who this page is for",
+          icon: "icon-like",
+          blocks: [
+            {
+              t: "ul",
+              items: [
+                "**OTT platforms and aggregators** that need Hindi versions of regional films and series delivered to platform specs.",
+                "**Web series and TV production houses** localising fiction and non-fiction shows.",
+                "**Distributors** selling a series into another Indian language market.",
+              ],
+            },
+          ],
+          media: "hollywood-onevoice",
+        },
+        {
+          heading: "How we dub a series",
+          icon: "icon-settings",
+          blocks: [
+            {
+              t: "ol",
+              items: [
+                "**Brief and assets.** Locked episodes with scripts or dialogue lists plus the M&E track target languages and the drop date.",
+                "**Lip-sync adaptation.** Native writers fit each line to mouth shapes while names and terms stay the same across episodes. See [script translation](/translation-services).",
+                "**Casting once for the season.** We share samples per character before the first session and keep the approved artist on that character.",
+                "**Directed recording.** Artists record loop by loop with a dubbing director and engineer in our soundproof booth.",
+                "**Mix and QC per episode.** New dialogue is mixed with the M&E in [stereo or 5.1](/5-1-mixing-studio) and each episode gets a sync check before delivery.",
+                "**Delivery.** Full mix dialogue stem and M&E named to your spec. Need subtitles too? See [subtitling services](/subtitling-services).",
+              ],
+            },
+          ],
+        },
+        {
+          heading: "Consistency across episodes",
+          icon: "icon-voiceover",
+          blocks: [
+            {
+              t: "p",
+              text: "Viewers notice when a voice or a name changes halfway through a season. We keep a character sheet and a term list for the show so every episode sounds like the same series.",
+            },
+          ],
+        },
+      ],
+      faqs: [
+        {
+          q: "What is web series dubbing?",
+          a: "It is lip-sync dubbing of a series episode by episode so viewers hear dialogue in their own language that fits the actors' mouths.",
+        },
+        {
+          q: "Which languages can you dub a series into?",
+          a: "We work in Hindi English Bengali Marathi Telugu Tamil Gujarati Urdu Kannada Odia and Malayalam. Other languages are available on request.",
+        },
+        {
+          q: "Do you keep the same voice for a character in every episode?",
+          a: "Yes. The artist approved for a character stays on that character for the season so the show sounds consistent.",
+        },
+      ],
+      cta: {
+        ...CTA,
+        text: "Tell us the show episode count target languages and drop date. We will reply with a plan and a quote.",
+      },
+    },
+  },
+
+  animation: {
+    slug: "animation",
+    name: "Animation",
+    keyword: "cartoon dubbing studio",
+    subtitle:
+      "Character voice casting and lip-sync dubbing for animated films and cartoons in Hindi from our Mumbai studio.",
+    icon: "icon-voiceover",
+    ...media("dub-studio"),
+    ogImage: "/images/og/dubbing-studio-mumbai.jpg",
+    ogImageAlt: "Voice artist performing a character voice at a microphone in the EVA Entertainment booth in Mumbai",
+    // FACTS NEEDED: add more animated titles here once they are published in admin.
+    match: (p) => p.slug === "night-of-the-zoopocalypse-hindi-dubbing",
+    alwaysLive: true,
+    relatedSegments: ["hollywood", "web-series-ott"],
+    page: {
+      seoTitle: "Animation and Cartoon Dubbing Studio in Mumbai | EVA",
+      description:
+        "Cartoon dubbing in Hindi from Mumbai. Character voice casting, lip-sync adaptation, directed recording and mixing. We dubbed Night of the Zoopocalypse.",
+      h1: "Animation and Cartoon Dubbing in Hindi",
+      serviceType: "Animation and cartoon dubbing",
+      languages: ["English", "Hindi"],
+      leadHeading: "Characters that stay in character",
+      lead: [
+        "**A cartoon dubbing studio has to give every character a voice children and families believe.** EVA Entertainment casts character voices and dubs animated films into Hindi from Andheri West Mumbai with lip-sync adaptation directed recording and a clean mix.",
+        "Our English to Hindi animation work includes [Night of the Zoopocalypse](/projects/night-of-the-zoopocalypse-hindi-dubbing). For live-action English films see [Hollywood movies dubbing](/dubbing-studio/hollywood).",
+      ],
+      sections: [
+        {
+          heading: "Who this page is for",
+          icon: "icon-like",
+          blocks: [
+            {
+              t: "ul",
+              items: [
+                "**Animation and gaming studios** that need character voices in Hindi or other Indian languages.",
+                "**Distributors** bringing an animated film to Hindi audiences.",
+                "**OTT and channel teams** that need a Hindi version of an animated title.",
+              ],
+            },
+          ],
+          media: "dub-studio",
+        },
+        {
+          heading: "How we dub animation",
+          icon: "icon-settings",
+          blocks: [
+            {
+              t: "ol",
+              items: [
+                "**Brief and assets.** Locked picture script or dialogue list M&E and the release date.",
+                "**Adaptation.** Writers rework jokes and songs so they land in Hindi while the lines still fit each mouth. See [script translation](/translation-services).",
+                "**Character casting.** Male female and child voices with samples per character before any booth session.",
+                "**Directed recording.** A dubbing director keeps energy and timing in the cartoon style of the original.",
+                "**Mix and delivery.** Dialogue mixed with the M&E in [stereo or 5.1](/5-1-mixing-studio). Missing effects can be rebuilt with [Foley](/foley-recording).",
+              ],
+            },
+          ],
+        },
+        {
+          heading: "Voices for every character",
+          icon: "icon-voiceover",
+          blocks: [
+            {
+              t: "p",
+              text: "Animated films need more range than live action. Our artist pool covers male female and child voices from young children to senior characters so a full cast can be built in one studio.",
+            },
+          ],
+        },
+      ],
+      faqs: [
+        {
+          q: "Do you dub cartoons and animated films into Hindi?",
+          a: "Yes. We cast character voices and dub animated films into Hindi with lip sync. Our work includes [Night of the Zoopocalypse](/projects/night-of-the-zoopocalypse-hindi-dubbing).",
+        },
+        {
+          q: "Can you cast child voices?",
+          a: "Yes. Our pool includes male female and child voices and we share samples per character before booking the booth.",
+        },
+        {
+          q: "Is animation dubbing different from Hollywood film dubbing?",
+          a: "The craft is the same lip-sync process. This page covers animated films and cartoons. Live-action English films are on the [Hollywood movies dubbing](/dubbing-studio/hollywood) page.",
+        },
+      ],
+      cta: { ...CTA },
+    },
+  },
 };
 
 /** Single ordering source: largest film market to smallest (Hollywood, Bollywood, Kollywood).
  * Menu, hub links, cross-links and sitemap all read SEGMENT_SLUGS in this order. */
-export const SEGMENT_ORDER: readonly string[] = ["hollywood", "bollywood", "kollywood"];
+export const SEGMENT_ORDER: readonly string[] = [
+  "hollywood",
+  "bollywood",
+  "kollywood",
+  "web-series-ott",
+  "animation",
+];
 
 const segmentRank = (slug: string) => {
   const i = SEGMENT_ORDER.indexOf(slug);

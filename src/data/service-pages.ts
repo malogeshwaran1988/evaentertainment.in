@@ -144,12 +144,12 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
           {
             t: "ul",
             items: [
-              "**OTT platforms and aggregators** that need Hindi versions of regional films and series, delivered to platform specs.",
+              "**[OTT platforms and aggregators](/dubbing-studio/web-series-ott)** that need Hindi versions of regional films and series, delivered to platform specs.",
               "**Producers and distributors** selling Hindi dubbing rights for satellite TV, YouTube or theatrical release.",
-              "**Web series and TV production houses** localising fiction and non-fiction shows.",
+              "**[Web series and TV production houses](/dubbing-studio/web-series-ott)** localising fiction and non-fiction shows.",
               "**Ad agencies** adapting TV commercials and digital ads for other language markets.",
               "**E-learning and corporate teams** who want training videos dubbed rather than subtitled.",
-              "**Animation and gaming studios** that need character voices in Hindi or other Indian languages.",
+              "**[Animation and gaming studios](/dubbing-studio/animation)** that need character voices in Hindi or other Indian languages.",
             ],
           },
         ],
@@ -305,7 +305,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
           },
           {
             t: "p",
-            text: "Long-form narration for documentaries, audio guides and non-fiction shows, with a narrator who can carry a story.",
+            text: "Long-form narration for documentaries and non-fiction shows. See [documentary voice over in Hindi](/voice-over-studio/documentary-narration).",
           },
           {
             t: "h3",

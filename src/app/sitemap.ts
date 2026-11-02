@@ -49,6 +49,7 @@ const lastmodFor = (path: string) => {
 const ENTRIES: Entry[] = [
   [Routes.HOME, 1],
   ...SERVICE_SLUGS.map((slug): Entry => [serviceHref(slug), 0.9]),
+  ["/voice-over-studio/documentary-narration", 0.85],
   [Routes.PROJECTS, 0.8],
   [Routes.ABOUT, 0.6],
   [Routes.EQUIPMENT, 0.6],

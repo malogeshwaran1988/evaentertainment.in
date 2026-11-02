@@ -109,6 +109,11 @@ export const SEGMENT_NAV: readonly NavLinkChild[] = [
   { label: "Kollywood", href: "/dubbing-studio/kollywood" },
 ];
 
+/** Voice Over child pages, nested under Voice Over in the Services menu (menu mirrors URLs). */
+export const VOICE_OVER_NAV: readonly NavLinkChild[] = [
+  { label: "Documentary Narration", href: "/voice-over-studio/documentary-narration" },
+];
+
 /** Nav seed for language pages; layout overrides with liveLanguageLinks (zero-hide). */
 export const LANGUAGE_NAV: readonly NavLinkChild[] = [
   { label: "Hindi", href: "/dubbing-studio/hindi" },

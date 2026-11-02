@@ -6,7 +6,7 @@ import Link from "@@/components/common/NavLink";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { LOGO_ALT, SITE_NAME } from "@@/constants/constants";
-import { NAV_ITEMS, Routes, serviceHref, type NavItem, type NavLinkChild, type ServiceSlug } from "@@/constants/routes";
+import { NAV_ITEMS, Routes, serviceHref, type NavItem, type NavLinkChild, type ServiceSlug, VOICE_OVER_NAV } from "@@/constants/routes";
 
 const SCROLL_TOP_THRESHOLD = 80;
 
@@ -380,6 +380,9 @@ export function Header({
                     };
                     if (slug === "dubbing-studio" && segmentLinks?.length) {
                       return { ...row, children: segmentLinks };
+                    }
+                    if (slug === "voice-over-studio") {
+                      return { ...row, children: VOICE_OVER_NAV };
                     }
                     return row;
                   });
