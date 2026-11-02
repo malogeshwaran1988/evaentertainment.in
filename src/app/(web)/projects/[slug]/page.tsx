@@ -1,3 +1,4 @@
+import { cdnUploadUrl } from "@@/lib/image-loader";
 import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound, permanentRedirect } from "next/navigation";
@@ -58,9 +59,8 @@ function posterVersion(poster: string) {
   return (h >>> 0).toString(36);
 }
 
-/** Tiny optimizer rendition for the blurred hero backdrop (the full poster is loaded once below). */
-const heroBackdrop = (poster: string | undefined) =>
-  poster ? `/_next/image?url=${encodeURIComponent(poster)}&w=128&q=75` : undefined;
+/** Blurred hero backdrop: the same cdn poster URL as the image below, so the browser fetches it once. */
+const heroBackdrop = (poster: string | undefined) => (poster ? cdnUploadUrl(poster) : undefined);
 
 export async function generateStaticParams() {
   const projects = (await getProjects()).filter(projectIsPublished);

@@ -37,6 +37,9 @@ const nextConfig: NextConfig = {
   },
 
   images: {
+    // No Vercel image optimization: images load straight from R2 via Cloudflare (src/lib/image-loader.ts).
+    loader: "custom",
+    loaderFile: "./src/lib/image-loader.ts",
     formats: ["image/avif", "image/webp"],
     // Uploaded posters carry ?v=<version>; allow the optimizer to resize them for cards.
     localPatterns: [{ pathname: "/images/our-projects/**" }, { pathname: "/**", search: "" }],

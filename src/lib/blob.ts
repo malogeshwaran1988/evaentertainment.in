@@ -90,7 +90,10 @@ export async function writeBlob(pathname: string, body: Buffer | string, options
         Body: body,
         ContentType: options.contentType,
         CacheControl:
-          options.cacheControlMaxAge !== undefined ? `public, max-age=${options.cacheControlMaxAge}` : undefined,
+          options.cacheControlMaxAge === undefined
+            ? undefined
+            : // Year-long objects are uploads with unique names, so they never change: immutable.
+              `public, max-age=${options.cacheControlMaxAge}${options.cacheControlMaxAge >= 31536000 ? ", immutable" : ""}`,
         IfMatch: options.ifMatch,
         // Same default as Vercel Blob: refuse to replace an existing object unless asked to.
         IfNoneMatch: !options.ifMatch && !options.allowOverwrite ? "*" : undefined,
