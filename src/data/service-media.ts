@@ -126,7 +126,7 @@ export const SERVICE_MEDIA: Record<string, ServicePhoto> = {
   },
   "vo-studio": photo("vo-studio", "Indian voice-over artist reading a script at a microphone in a soundproof booth"),
   "vo-voices": {
-    src: "/media/voices/male-poster.avif",
+    src: "/media/voices/mid-male-en-poster.avif",
     alt: "Indian voice artists, a man, a woman and a child, speaking at a studio microphone",
     fx: { width: 4, height: 3, items: [] },
     showcase: "voices",

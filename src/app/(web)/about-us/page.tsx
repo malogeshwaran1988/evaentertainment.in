@@ -1,3 +1,4 @@
+import { media } from "@@/lib/media";
 import BrandMark from "@@/components/common/BrandMark";
 import FounderSection from "@@/components/about/FounderSection";
 import JsonLd from "@@/components/common/JsonLd";
@@ -56,7 +57,7 @@ export default function AboutPage() {
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <span className="eva-brand-host eva-brand-host--inline">
                 <img
-                  src={ABOUT_CONTENT.missionImage}
+                  src={media(ABOUT_CONTENT.missionImage)}
                   className="img-responsive"
                   alt={ABOUT_CONTENT.missionImageAlt}
                   loading="eager"

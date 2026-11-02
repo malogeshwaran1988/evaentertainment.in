@@ -1,3 +1,4 @@
+import { media } from "@@/lib/media";
 import type { Metadata } from "next";
 import JsonLd from "@@/components/common/JsonLd";
 import Link from "@@/components/common/NavLink";
@@ -73,7 +74,7 @@ export default async function ClientsPage() {
               <li key={client.id} id={`client-${client.id}`} className={`eva-clients-item${client.shape ? ` eva-clients-item--${client.shape}` : ""}`}>
                 {/* eslint-disable-next-line @next/next/no-img-element -- pre-optimised AVIF, served as-is */}
                 <img
-                  src={client.logo}
+                  src={media(client.logo)}
                   alt={`${client.name} logo`}
                   width={client.width}
                   height={client.height}

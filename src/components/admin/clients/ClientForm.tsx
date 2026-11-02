@@ -1,5 +1,6 @@
 "use client";
 
+import { media } from "@@/lib/media";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { startTransition, useActionState, useEffect, useRef, useState } from "react";
@@ -96,7 +97,7 @@ export default function ClientForm({ action, initial, submitLabel }: ClientFormP
             then saved at up to 600 × 300 px. Or paste a direct image URL below.
           </>
         }
-        current={initial?.logo}
+        current={initial?.logo ? media(initial.logo) : undefined}
         picked={picked}
         removed={false}
         error={shownLogoError}

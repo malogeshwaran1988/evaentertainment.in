@@ -1,3 +1,4 @@
+import { media } from "@@/lib/media";
 import type { NextConfig } from "next";
 import { LEGACY_REDIRECTS } from "./src/constants/routes";
 
@@ -15,7 +16,7 @@ const CSP = [
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
   "font-src 'self' data: https://fonts.gstatic.com",
   "img-src 'self' data: blob: https: https://c.bing.com",
-  "media-src 'self' blob: data:",
+  "media-src 'self' blob: data: https://media.evaentertainment.in",
   "connect-src 'self' blob: data: https://www.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com https://challenges.cloudflare.com https://*.clarity.ms https://c.bing.com",
   "frame-src https://www.google.com https://www.googletagmanager.com https://challenges.cloudflare.com https://www.youtube-nocookie.com https://player.vimeo.com",
   "worker-src 'self' blob:",
@@ -39,6 +40,8 @@ const nextConfig: NextConfig = {
     formats: ["image/avif", "image/webp"],
     // Uploaded posters carry ?v=<version>; allow the optimizer to resize them for cards.
     localPatterns: [{ pathname: "/images/our-projects/**" }, { pathname: "/**", search: "" }],
+    // Static site media on the public R2 bucket (see src/lib/media.ts).
+    remotePatterns: [{ protocol: "https", hostname: "media.evaentertainment.in", pathname: "/eva/**" }],
   },
 
   async redirects() {

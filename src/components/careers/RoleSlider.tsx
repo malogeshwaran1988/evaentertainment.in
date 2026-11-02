@@ -1,5 +1,6 @@
 "use client";
 
+import { media } from "@@/lib/media";
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState, type KeyboardEvent } from "react";
 import BrandMark from "@@/components/common/BrandMark";
@@ -53,7 +54,7 @@ export default function RoleSlider() {
             hidden={i !== index}
           >
             <div className="eva-role-slide__media eva-brand-host">
-              <Image src={r.image} alt={r.alt} width={1280} height={720} sizes="(max-width: 991px) 100vw, 560px" priority={i === 0} />
+              <Image src={media(r.image)} alt={r.alt} width={1280} height={720} sizes="(max-width: 991px) 100vw, 560px" priority={i === 0} />
               <BrandMark />
             </div>
             <div className="eva-role-slide__body">

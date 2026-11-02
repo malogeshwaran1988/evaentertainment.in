@@ -1,5 +1,6 @@
 "use client";
 
+import { media } from "@@/lib/media";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
@@ -46,7 +47,7 @@ export default function ClientsTable({ clients }: { clients: Row[] }) {
           <li key={c.id} className="flex items-center gap-3 rounded-lg border bg-card p-3">
             <span className="flex h-16 w-28 shrink-0 items-center justify-center rounded-md bg-white p-2">
               {/* eslint-disable-next-line @next/next/no-img-element -- small AVIF, served as-is */}
-              <img src={c.logo} alt={c.name} className="max-h-full max-w-full object-contain" loading="lazy" />
+              <img src={media(c.logo)} alt={c.name} className="max-h-full max-w-full object-contain" loading="lazy" />
             </span>
             <span className="min-w-0 flex-1">
               <span className="block truncate font-medium">{c.name}</span>

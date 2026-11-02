@@ -1,3 +1,4 @@
+import { media } from "@@/lib/media";
 import type { Metadata } from "next";
 import "@@/styles/tailwind-web.css";
 import "@@/styles/globals.scss";
@@ -50,7 +51,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: HOME_OG_IMAGE,
+        url: media(HOME_OG_IMAGE),
         width: 1200,
         height: 630,
         alt: HOME_OG_IMAGE_ALT,
@@ -61,7 +62,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: HOME_SEO.title,
     description: HOME_SEO.description,
-    images: [{ url: HOME_OG_IMAGE, alt: HOME_OG_IMAGE_ALT }],
+    images: [{ url: media(HOME_OG_IMAGE), alt: HOME_OG_IMAGE_ALT }],
   },
 };
 

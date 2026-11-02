@@ -1,3 +1,4 @@
+import { media } from "@@/lib/media";
 import sharp from "sharp";
 import { POSTER_URL_PREFIX, projectIsPublished } from "@@/data/projects";
 import { posterFileName, readPoster } from "@@/lib/project-posters";
@@ -15,7 +16,7 @@ const POSTER_H = 570;
 async function staticBytes(origin: string, rel: string): Promise<Buffer | null> {
   if (!rel.startsWith("/images/") || rel.includes("..")) return null;
   try {
-    const res = await fetch(new URL(rel, origin), { signal: AbortSignal.timeout(8000) });
+    const res = await fetch(new URL(media(rel), origin), { signal: AbortSignal.timeout(8000) });
     return res.ok ? Buffer.from(await res.arrayBuffer()) : null;
   } catch {
     return null;

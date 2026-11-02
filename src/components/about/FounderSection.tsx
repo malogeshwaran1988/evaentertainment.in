@@ -1,3 +1,4 @@
+import { media } from "@@/lib/media";
 import Image from "next/image";
 import Link from "@@/components/common/NavLink";
 import { PosterPlaceholder } from "@@/components/projects/ProjectPoster";
@@ -21,7 +22,7 @@ export default async function FounderSection() {
           <div className={styles.media}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={founder.photo}
+              src={media(founder.photo)}
               alt={founder.photoAlt}
               className={styles.photo}
               width={280}

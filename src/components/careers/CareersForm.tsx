@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+import { media } from "@@/lib/media";
 import { FormEvent, useEffect, useId, useRef, useState, type DragEvent } from "react";
 import { useFormShield } from "@@/components/common/FormShield";
 import { EMAIL_RE, useFormValidation, type Validators } from "@@/components/common/useFormValidation";
@@ -378,7 +380,7 @@ export default function CareersForm() {
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 className="eva-cf-builder__logo"
-                src="/images/partners/templatepix-logo-w.svg"
+                src={media("/images/partners/templatepix-logo-w.svg")}
                 alt="TemplatePix"
                 width={653}
                 height={161}
@@ -510,9 +512,9 @@ export default function CareersForm() {
           </svg>
           <span>
             We use your details only to review your application. See our{" "}
-            <a className="eva-copy-link" href="/privacy-policy">
+            <Link className="eva-copy-link" href="/privacy-policy">
               privacy policy
-            </a>
+            </Link>
             .
           </span>
         </p>

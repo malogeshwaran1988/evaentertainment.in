@@ -1,3 +1,4 @@
+import { media } from "@@/lib/media";
 import BrandMark from "@@/components/common/BrandMark";
 import type { CSSProperties } from "react";
 import type { EquipmentItem } from "@@/data/equipment";
@@ -22,7 +23,7 @@ export default function LivePhoto({ item, eager, alt }: { item: EquipmentItem; e
       <div className="eva-live-stage">
         {/* eslint-disable-next-line @next/next/no-img-element -- pre-optimised AVIF, served as-is */}
         <img
-          src={item.image}
+          src={media(item.image)}
           alt={item.alt}
           width={item.width}
           height={item.height}

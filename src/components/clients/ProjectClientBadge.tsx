@@ -1,3 +1,4 @@
+import { media } from "@@/lib/media";
 import Link from "@@/components/common/NavLink";
 import { Routes } from "@@/constants/routes";
 import type { ProjectClient } from "@@/data/clients";
@@ -12,7 +13,7 @@ export default function ProjectClientBadge({ client }: { client?: ProjectClient 
       <Link className="eva-project-client-link" href={Routes.CLIENTS}>
         <span className="eva-project-client-logo">
           {/* eslint-disable-next-line @next/next/no-img-element -- small pre-optimised AVIF */}
-          <img src={client.logo} alt={`${client.name} logo`} width={client.width} height={client.height} loading="lazy" decoding="async" />
+          <img src={media(client.logo)} alt={`${client.name} logo`} width={client.width} height={client.height} loading="lazy" decoding="async" />
         </span>
         <span className="eva-project-client-name">{client.name}</span>
       </Link>

@@ -1,3 +1,4 @@
+import { media } from "@@/lib/media";
 import type { Metadata } from "next";
 import { APP_BASE_URL, SITE_NAME } from "@@/constants/constants";
 import { BLOG_ENABLED } from "@@/lib/blog/enabled";
@@ -102,7 +103,7 @@ export function buildPageMetadata({
       description,
       url,
       siteName: SITE_NAME,
-      images: [{ url: ogImage, width: 1200, height: 630, alt: ogImageAlt }],
+      images: [{ url: media(ogImage), width: 1200, height: 630, alt: ogImageAlt }],
       locale: "en_US",
       type: "website",
     },
@@ -110,11 +111,14 @@ export function buildPageMetadata({
       card: "summary_large_image",
       title,
       description,
-      images: [{ url: ogImage, alt: ogImageAlt }],
+      images: [{ url: media(ogImage), alt: ogImageAlt }],
     },
   };
 }
 
 /** Absolute URL for a site path such as `/about-us`. */
-export const absoluteUrl = (path: string) =>
-  path === "/" ? `${APP_BASE_URL}/` : `${APP_BASE_URL}${path}`;
+export const absoluteUrl = (path: string) => {
+  const p = media(path);
+  if (/^https?:\/\//.test(p)) return p;
+  return p === "/" ? `${APP_BASE_URL}/` : `${APP_BASE_URL}${p}`;
+};

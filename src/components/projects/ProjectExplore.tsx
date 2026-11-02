@@ -1,5 +1,6 @@
 "use client";
 
+import { media } from "@@/lib/media";
 import Image from "next/image";
 import { useRef } from "react";
 import Link from "@@/components/common/NavLink";
@@ -73,7 +74,7 @@ export default function ProjectExplore({ projects }: ProjectExploreProps) {
                   {project.client ? (
                     <span className="eva-project-explore-client" title={project.client.name}>
                       {/* eslint-disable-next-line @next/next/no-img-element -- small pre-optimised AVIF */}
-                      <img src={project.client.logo} alt={`${project.client.name} logo`} width={project.client.width} height={project.client.height} loading="lazy" decoding="async" />
+                      <img src={media(project.client.logo)} alt={`${project.client.name} logo`} width={project.client.width} height={project.client.height} loading="lazy" decoding="async" />
                     </span>
                   ) : null}
                 </span>
