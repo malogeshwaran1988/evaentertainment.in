@@ -1,3 +1,4 @@
+import { media as mediaUrl } from "@@/lib/media";
 /**
  * All copy for the /dubbing hub and /dubbing/<from>-to-<to> pages lives here (one config spot).
  * Facts only: counts, titles and years come from published projects; process copy matches the
@@ -199,9 +200,9 @@ const PAIR_IMAGES: Record<string, string> = {
 export function pairImage({ from, to }: Pair) {
   const id = `${LANG_CODE[from] ?? "x"}-${LANG_CODE[to] ?? "x"}`;
   return PAIR_IMAGES[id]
-    ? { src: `/images/services/lp-${id}.avif`, alt: PAIR_IMAGES[id] }
+    ? { src: mediaUrl(`/images/services/lp-${id}.avif`), alt: PAIR_IMAGES[id] }
     : {
-        src: "/images/services/svc-dub-studio.avif",
+        src: mediaUrl("/images/services/svc-dub-studio.avif"),
         alt: "Indian voice artist with headphones at a condenser microphone reading a script to a film on the booth monitor",
       };
 }

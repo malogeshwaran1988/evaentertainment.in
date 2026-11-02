@@ -1,3 +1,4 @@
+import { media as mediaUrl } from "@@/lib/media";
 import BrandMark from "@@/components/common/BrandMark";
 import type { CSSProperties, ReactNode } from "react";
 import Link from "@@/components/common/NavLink";
@@ -21,18 +22,18 @@ const Rings = ({ x, y, d, cls = "" }: { x: number; y: number; d: number; cls?: s
 
 /** Natural size of each services-grid image (all are shown uncropped on desktop). */
 const SIZE: Record<string, [number, number]> = {
-  "/images/home/services-grid-1.avif": [630, 322],
-  "/images/home/services-grid-2.avif": [630, 614],
-  "/images/home/services-grid-3.avif": [630, 614],
-  "/images/home/services-grid-4.avif": [630, 322],
-  "/images/home/services-grid-5.avif": [630, 322],
-  "/images/home/services-grid-6.avif": [630, 614],
+  [mediaUrl("/images/home/services-grid-1.avif")]: [630, 322],
+  [mediaUrl("/images/home/services-grid-2.avif")]: [630, 614],
+  [mediaUrl("/images/home/services-grid-3.avif")]: [630, 614],
+  [mediaUrl("/images/home/services-grid-4.avif")]: [630, 322],
+  [mediaUrl("/images/home/services-grid-5.avif")]: [630, 322],
+  [mediaUrl("/images/home/services-grid-6.avif")]: [630, 614],
 };
 
 /** Per-image overlays, positions measured on the source images. */
 const OVERLAYS: Record<string, { kind: string; layer: ReactNode }> = {
   // Dubbing artist: rings from the Neumann grille, voice waveform between mouth and mic.
-  "/images/home/services-grid-1.avif": {
+  [mediaUrl("/images/home/services-grid-1.avif")]: {
     kind: "dub",
     layer: (
       <>
@@ -46,7 +47,7 @@ const OVERLAYS: Record<string, { kind: string; layer: ReactNode }> = {
     ),
   },
   // 5.1 room: surround pulse from each speaker in turn, console glow.
-  "/images/home/services-grid-2.avif": {
+  [mediaUrl("/images/home/services-grid-2.avif")]: {
     kind: "mix",
     layer: (
       <>
@@ -67,7 +68,7 @@ const OVERLAYS: Record<string, { kind: string; layer: ReactNode }> = {
     ),
   },
   // Foley: rings from the Rode shotgun tip, impact rings on gravel, wood and props, glints on brass and steel.
-  "/images/home/services-grid-3.avif": {
+  [mediaUrl("/images/home/services-grid-3.avif")]: {
     kind: "foley",
     layer: (
       <>
@@ -95,7 +96,7 @@ const OVERLAYS: Record<string, { kind: string; layer: ReactNode }> = {
     ),
   },
   // Translator: rings from the headphones, script glyphs drifting over the window and wall.
-  "/images/home/services-grid-4.avif": {
+  [mediaUrl("/images/home/services-grid-4.avif")]: {
     kind: "tr",
     layer: (
       <>
@@ -115,7 +116,7 @@ const OVERLAYS: Record<string, { kind: string; layer: ReactNode }> = {
     ),
   },
   // Pro Tools screens: level meters along the mixer strip, scrolling waveform on the edit screen.
-  "/images/home/services-grid-5.avif": {
+  [mediaUrl("/images/home/services-grid-5.avif")]: {
     kind: "stock",
     layer: (
       <>
@@ -131,7 +132,7 @@ const OVERLAYS: Record<string, { kind: string; layer: ReactNode }> = {
     ),
   },
   // Laptop: playhead running along the subtitle timeline, lamp light breathing.
-  "/images/home/services-grid-6.avif": {
+  [mediaUrl("/images/home/services-grid-6.avif")]: {
     kind: "sub",
     layer: (
       <>

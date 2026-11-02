@@ -1,3 +1,4 @@
+import { mediaAbsolute } from "@@/lib/media";
 import { connection } from "next/server";
 import JsonLd from "@@/components/common/JsonLd";
 import HeroSlider from "@@/components/home/HeroSlider";
@@ -52,7 +53,7 @@ export default async function HomePage() {
     "@type": "LocalBusiness",
     name: SITE_NAME,
     url: HOME_PAGE_URL,
-    image: `${APP_BASE_URL}/images/common/eva-logo.avif`,
+    image: mediaAbsolute("/images/common/eva-logo.avif", APP_BASE_URL),
     telephone: CONTACT.whatsappDisplay,
     email: CONTACT.infoEmail,
     address: POSTAL_ADDRESS,

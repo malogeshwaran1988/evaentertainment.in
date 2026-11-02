@@ -1,3 +1,4 @@
+import { media as mediaUrl } from "@@/lib/media";
 import { PHOTO_FX, SERVICE_FX, type ImageFx } from "@@/data/image-fx";
 
 /** `audio` labels a clip that carries its own soundtrack; it plays muted until the visitor turns sound on. */
@@ -26,13 +27,13 @@ export type ServicePhoto = {
 };
 
 const photo = (id: string, alt: string): ServicePhoto => ({
-  src: `/images/services/svc-${id}.avif`,
+  src: mediaUrl(`/images/services/svc-${id}.avif`),
   alt,
   fx: PHOTO_FX[id],
 });
 
 const plain = (id: string, alt: string): ServicePhoto => ({
-  src: `/images/services/svc-${id}.avif`,
+  src: mediaUrl(`/images/services/svc-${id}.avif`),
   alt,
   fx: { width: 1440, height: 1080, items: [] },
 });
@@ -41,47 +42,47 @@ const plain = (id: string, alt: string): ServicePhoto => ({
 export const SERVICE_MEDIA: Record<string, ServicePhoto> = {
   singer: photo("singer", "Indian male singer with headphones singing Hindi lyrics into a Rode condenser microphone"),
   console: photo("console", "Yamaha mixing console with lit level meters beside a Ganesha figurine and a cup of chai"),
-  workstation: { src: "/images/services/equipment-03.avif", alt: "Editing workstation with audio and video timelines on screen", fx: SERVICE_FX.workstation },
-  preamps: { src: "/images/services/equipment-02.avif", alt: "Rack of microphone preamps with level meters beside a Rode microphone", fx: SERVICE_FX.preamps },
+  workstation: { src: mediaUrl("/images/services/equipment-03.avif"), alt: "Editing workstation with audio and video timelines on screen", fx: SERVICE_FX.workstation },
+  preamps: { src: mediaUrl("/images/services/equipment-02.avif"), alt: "Rack of microphone preamps with level meters beside a Rode microphone", fx: SERVICE_FX.preamps },
   "dub-studio": photo("dub-studio", "Indian voice artist with headphones at a condenser microphone reading a script to a film on the booth monitor"),
   "dub-why": {
-    src: "/media/dubbing/lipsync-poster.avif",
+    src: mediaUrl("/media/dubbing/lipsync-poster.avif"),
     alt: "Voice actor with headphones at a studio microphone, matching an emotional actor's lip movements on a projected screen",
     fx: { width: 960, height: 720, items: [] },
-    video: { webm: "/media/dubbing/lipsync.webm", mp4: "/media/dubbing/lipsync.mp4", audio: "voice actor dubbing the scene", burnedInBrand: true },
+    video: { webm: mediaUrl("/media/dubbing/lipsync.webm"), mp4: mediaUrl("/media/dubbing/lipsync.mp4"), audio: "voice actor dubbing the scene", burnedInBrand: true },
   },
   "foley-lead": {
-    src: "/media/foley/foley-lead-poster.avif",
+    src: mediaUrl("/media/foley/foley-lead-poster.avif"),
     alt: "Indian Foley artist in sandals stepping on gravel and wooden boards under a microphone, as the camera slowly reveals Foley props on the studio shelves",
     fx: { width: 4, height: 3, items: [] },
     // Footstep sounds placed on the measured foot impact frames.
-    video: { webm: "/media/foley/foley-lead.webm", mp4: "/media/foley/foley-lead.mp4", audio: "footstep sounds", autoSound: true, burnedInBrand: true },
+    video: { webm: mediaUrl("/media/foley/foley-lead.webm"), mp4: mediaUrl("/media/foley/foley-lead.mp4"), audio: "footstep sounds", autoSound: true, burnedInBrand: true },
   },
   "foley-what": {
-    src: "/media/foley/ball-poster.avif",
+    src: mediaUrl("/media/foley/ball-poster.avif"),
     alt: "Foley artist in a studio dropping a red ball that bounces on a wooden Foley table in front of a microphone",
     fx: { width: 16, height: 9, items: [] },
     // Sound generated together with the picture, so each bounce lands on its impact frame.
-    video: { webm: "/media/foley/ball.webm", mp4: "/media/foley/ball.mp4", audio: "ball bounce sound", burnedInBrand: true },
+    video: { webm: mediaUrl("/media/foley/ball.webm"), mp4: mediaUrl("/media/foley/ball.mp4"), audio: "ball bounce sound", burnedInBrand: true },
   },
   "foley-studio": {
-    src: "/media/foley/glass-poster.avif",
+    src: mediaUrl("/media/foley/glass-poster.avif"),
     alt: "Foley artist dropping a glass that shatters on a concrete surface beside a condenser microphone",
     fx: { width: 16, height: 9, items: [] },
     // Sound generated together with the picture, so the shatter lands on the impact frame.
-    video: { webm: "/media/foley/glass.webm", mp4: "/media/foley/glass.mp4", audio: "glass breaking sound", burnedInBrand: true },
+    video: { webm: mediaUrl("/media/foley/glass.webm"), mp4: mediaUrl("/media/foley/glass.mp4"), audio: "glass breaking sound", burnedInBrand: true },
   },
   "mix-problems": photo("mix-problems", "Indian sound engineer at a compact mixing console with a Pro Tools session on screen"),
   "mix51-lead": photo("mix51-lead", "Compact 5.1 mixing room in Mumbai with a console and surround speakers around the mix seat"),
   "song-lead": {
-    src: "/media/song/song-ba-poster.avif",
+    src: mediaUrl("/media/song/song-ba-poster.avif"),
     alt: "Indian female singer recording a Hindi line in a quiet vocal booth, first as a plain raw take, then an engineer applies plugins in the editing software and the same take plays back rich and polished",
     fx: { width: 4, height: 3, items: [] },
     // Same take in both halves: the "after" audio is the raw vocal processed (EQ, compression, doubles, reverb, tanpura bed), so lip sync holds.
     video: {
-      webm: "/media/song/song-ba.webm",
+      webm: mediaUrl("/media/song/song-ba.webm"),
       burnedInBrand: true,
-      mp4: "/media/song/song-ba.mp4",
+      mp4: mediaUrl("/media/song/song-ba.mp4"),
       audio: "the raw vocal, then the same vocal after post-production",
       autoSound: true,
       cues: [
@@ -92,14 +93,14 @@ export const SERVICE_MEDIA: Record<string, ServicePhoto> = {
     },
   },
   "song-session": {
-    src: "/media/song/sitar-ba-poster.avif",
+    src: mediaUrl("/media/song/sitar-ba-poster.avif"),
     alt: "Indian sitar player recording an original phrase in a vocal booth, first as a thin raw take, then an engineer processes it in the editing software and the same phrase plays back rich and full",
     fx: { width: 4, height: 3, items: [] },
     // Same footage and take in both halves: the "after" audio is the raw sitar processed (EQ, compression, stereo reverb, tanpura drone), so pluck sync holds.
     video: {
-      webm: "/media/song/sitar-ba.webm",
+      webm: mediaUrl("/media/song/sitar-ba.webm"),
       burnedInBrand: true,
-      mp4: "/media/song/sitar-ba.mp4",
+      mp4: mediaUrl("/media/song/sitar-ba.mp4"),
       audio: "the raw sitar take, then the same take after post-production",
       autoSound: true,
       cues: [
@@ -119,14 +120,14 @@ export const SERVICE_MEDIA: Record<string, ServicePhoto> = {
   "sub-formats": photo("sub-formats", "Laptop exporting SRT, VTT and STL subtitle files beside a hard drive, with an Indian TV series playing with Hindi subtitles on the wall TV"),
   "tr-transcreation": photo("tr-transcreation", "Indian writers reworking dialogue together around a table with notes and a laptop"),
   "translation-lead": {
-    src: "/images/services/svc-translation-delivery.avif",
+    src: mediaUrl("/images/services/svc-translation-delivery.avif"),
     alt: "Script writer in a Mumbai studio translating a film script into Hindi subtitles, with the subtitled film on the wall TV",
     fx: { width: 1440, height: 1080, items: [] },
     overlay: "translation-delivery",
   },
   "vo-studio": photo("vo-studio", "Indian voice-over artist reading a script at a microphone in a soundproof booth"),
   "vo-voices": {
-    src: "/media/voices/mid-male-en-poster.avif",
+    src: mediaUrl("/media/voices/mid-male-en-poster.avif"),
     alt: "Indian voice artists, a man, a woman and a child, speaking at a studio microphone",
     fx: { width: 4, height: 3, items: [] },
     showcase: "voices",

@@ -1,3 +1,4 @@
+import { media as mediaUrl } from "@@/lib/media";
 /**
  * EVA media brand standard (applies to every content image and video, current and future):
  * - a small EVA logo in the top-left corner (about 9% of the media width, soft shadow), and
@@ -10,7 +11,7 @@
  * carries the logo. Do not use it on logos, client logos, icons, avatars, film posters,
  * admin UI or OG/share images (those already carry the logo).
  */
-const LOGO = "/images/common/eva-logo.avif";
+const LOGO = mediaUrl("/images/common/eva-logo.avif");
 
 export default function BrandMark() {
   return (

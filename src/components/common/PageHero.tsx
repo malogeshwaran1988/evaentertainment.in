@@ -1,3 +1,4 @@
+import { media as mediaUrl } from "@@/lib/media";
 import { FontIcon } from "@@/components/common/Icons";
 import type { ReactNode } from "react";
 import { preload } from "react-dom";
@@ -39,7 +40,7 @@ export default function PageHero({
   backgroundUnoptimized,
 }: Props) {
   // The hero block background (custom.css .block--title) is the LCP element; fetch it before CSS is parsed.
-  preload("/images/common/header-bg.avif", { as: "image", type: "image/avif", fetchPriority: "high" });
+  preload(mediaUrl("/images/common/header-bg.avif"), { as: "image", type: "image/avif", fetchPriority: "high" });
   const breadcrumbSchema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",

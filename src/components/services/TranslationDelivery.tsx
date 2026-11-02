@@ -1,3 +1,4 @@
+import { media as mediaUrl } from "@@/lib/media";
 import type { CSSProperties } from "react";
 import s from "./TranslationDelivery.module.scss";
 
@@ -7,8 +8,8 @@ type Scene = { format: string; lang: string; line: string; img?: string };
 // screen-sized patches (same perspective) that crossfade over the wall TV.
 const SCENES: Scene[] = [
   { format: "Movies", lang: "hi", line: "मैं तुम्हारा इंतज़ार करूँगा" },
-  { format: "TV series", lang: "ta", line: "நீ எப்போதும் எங்கள் மகள்தான்", img: "/images/services/svc-translation-screen-tv.avif" },
-  { format: "Web series", lang: "en", line: "We ship tonight. No excuses.", img: "/images/services/svc-translation-screen-web.avif" },
+  { format: "TV series", lang: "ta", line: "நீ எப்போதும் எங்கள் மகள்தான்", img: mediaUrl("/images/services/svc-translation-screen-tv.avif") },
+  { format: "Web series", lang: "en", line: "We ship tonight. No excuses.", img: mediaUrl("/images/services/svc-translation-screen-web.avif") },
 ];
 
 /**

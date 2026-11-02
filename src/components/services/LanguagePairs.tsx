@@ -1,5 +1,6 @@
 "use client";
 
+import { media as mediaUrl } from "@@/lib/media";
 import BrandMark from "@@/components/common/BrandMark";
 import Image from "next/image";
 import { useCallback, useEffect, useId, useRef, useState, type KeyboardEvent } from "react";
@@ -136,7 +137,7 @@ export default function LanguagePairs() {
         {PAIRS.map((p, i) => (
           <div key={p.id} className={s.slide} data-on={i === active} aria-hidden={i !== active}>
             <Image
-              src={`/images/services/lp-${p.id}.avif`}
+              src={mediaUrl(`/images/services/lp-${p.id}.avif`)}
               alt={i === active ? p.alt : ""}
               fill
               sizes="(min-width: 992px) 55vw, 100vw"

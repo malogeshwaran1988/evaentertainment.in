@@ -1,5 +1,6 @@
 "use client";
 
+import { media as mediaUrl } from "@@/lib/media";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -39,7 +40,7 @@ export default function AdminSidebar({ username }: { username: string }) {
                   EVA
                 </span>
                 <Image
-                  src="/images/common/eva-logo.avif"
+                  src={mediaUrl("/images/common/eva-logo.avif")}
                   alt="EVA Entertainment"
                   width={128}
                   height={36}

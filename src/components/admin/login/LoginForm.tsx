@@ -1,5 +1,6 @@
 "use client";
 
+import { media as mediaUrl } from "@@/lib/media";
 import Image from "next/image";
 import { useFormStatus } from "react-dom";
 import { Loader2 } from "lucide-react";
@@ -37,7 +38,7 @@ export default function LoginForm({ backTo, error, notice }: { backTo: string; e
   return (
     <div className="w-full max-w-sm overflow-hidden rounded-xl border bg-card text-card-foreground shadow-card">
       <div className="flex items-center justify-center bg-[#181818] px-6 py-6">
-        <Image src="/images/common/eva-logo.avif" alt="EVA Entertainment" width={160} height={45} priority sizes="160px" />
+        <Image src={mediaUrl("/images/common/eva-logo.avif")} alt="EVA Entertainment" width={160} height={45} priority sizes="160px" />
       </div>
 
       <form action={googleSignInAction} className="space-y-5 p-6">

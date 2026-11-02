@@ -1,3 +1,4 @@
+import { media as mediaUrl } from "@@/lib/media";
 import { SERVICE_MEDIA } from "@@/data/service-media";
 import { APP_BASE_URL } from "@@/constants/constants";
 import { serviceHref, type ServiceSlug } from "@@/constants/routes";
@@ -43,7 +44,7 @@ export const SERVICES: Service[] = [
       description:
         "Lip-sync dubbing studio in Andheri, Mumbai for movies, series, ad films, documentaries and e-learning. Native dubbing artists, directors and translators.",
     },
-    image: "/images/services/equipment-01.avif",
+    image: mediaUrl("/images/services/equipment-01.avif"),
     alt: "Condenser microphones in a dubbing booth",
     fx: SERVICE_FX.microphones,
     ogImage: "/images/og/dubbing-studio-mumbai.jpg",
@@ -79,7 +80,7 @@ export const SERVICES: Service[] = [
       description:
         "Voice-over recording studio in Andheri, Mumbai with native male, female and child voice artists for e-learning, IVR, films, ads and corporate videos.",
     },
-    image: "/images/services/equipment-02.avif",
+    image: mediaUrl("/images/services/equipment-02.avif"),
     alt: "Microphone preamps for voice-over recording",
     fx: SERVICE_FX.preamps,
     ogImage: "/images/og/voice-over-studio-mumbai.jpg",
@@ -191,7 +192,7 @@ export const SERVICES: Service[] = [
       description:
         "Subtitles for movies, TV series and web series in English and India's top 10 languages, written by native speakers. Based in Mumbai.",
     },
-    image: "/images/services/equipment-05.avif",
+    image: mediaUrl("/images/services/equipment-05.avif"),
     alt: "Subtitled video beside a subtitle file",
     fx: SERVICE_FX.subtitles,
     ogImage: "/images/og/subtitling-services-mumbai.jpg",

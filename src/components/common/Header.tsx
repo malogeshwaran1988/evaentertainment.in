@@ -1,5 +1,6 @@
 "use client";
 
+import { media as mediaUrl } from "@@/lib/media";
 import AccessibilityWidget from "@@/components/common/AccessibilityWidget";
 import Image from "next/image";
 import Link from "@@/components/common/NavLink";
@@ -352,7 +353,7 @@ export function Header({
           <div className="logo">
             <Link href={Routes.HOME}>
               <Image
-                src="/images/common/eva-logo.avif"
+                src={mediaUrl("/images/common/eva-logo.avif")}
                 alt={LOGO_ALT}
                 width={160}
                 height={45}

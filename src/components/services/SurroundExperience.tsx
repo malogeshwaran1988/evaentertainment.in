@@ -1,5 +1,6 @@
 "use client";
 
+import { media as mediaUrl } from "@@/lib/media";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { claimAudio, otherHasAudio, registerAudio, releaseAudio, SOUND_BTN_SELECTOR } from "@@/lib/audio-focus";
@@ -18,16 +19,16 @@ export const STUDIO: {
   webm: string; mp4: string; poster: string; width: number; height: number; alt: string;
   credit: { text: string; href: string } | null;
 } = {
-  webm: "/media/surround/studio-51.webm",
-  mp4: "/media/surround/studio-51.mp4",
-  poster: "/images/services/mixing-room-51-eva.avif",
+  webm: mediaUrl("/media/surround/studio-51.webm"),
+  mp4: mediaUrl("/media/surround/studio-51.mp4"),
+  poster: mediaUrl("/images/services/mixing-room-51-eva.avif"),
   width: 1920,
   height: 1080,
   alt: "EVA 5.1 mixing room in Mumbai with a big screen, LCR monitors rear surround speakers, a subwoofer and a mixing console",
   credit: null,
 };
 
-const MEDIA = { sfxWebm: "/media/surround/jet-sfx.webm", sfxMp3: "/media/surround/jet-sfx.mp3" };
+const MEDIA = { sfxWebm: mediaUrl("/media/surround/jet-sfx.webm"), sfxMp3: mediaUrl("/media/surround/jet-sfx.mp3") };
 
 const CH = ["L", "C", "R", "LFE", "Ls", "Rs"] as const;
 // Timeline as a fraction of the clip: [t, L, C, R, LFE, Ls, Rs]

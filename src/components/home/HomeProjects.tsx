@@ -1,4 +1,5 @@
 "use client";
+import { media as mediaUrl } from "@@/lib/media";
 import ProjectLanguages from "@@/components/projects/ProjectLanguages";
 
 import Image from "next/image";
@@ -73,7 +74,7 @@ export default function HomeProjects({ projects }: { projects: PublicProject[] }
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         className="eva-home-projects-bg"
-        src="/images/home/projects-bg.avif"
+        src={mediaUrl("/images/home/projects-bg.avif")}
         alt=""
         aria-hidden="true"
         loading="lazy"

@@ -1,5 +1,6 @@
 "use client";
 
+import { media as mediaUrl } from "@@/lib/media";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { claimAudio, otherHasAudio, registerAudio, releaseAudio } from "@@/lib/audio-focus";
 import BrandMark from "@@/components/common/BrandMark";
@@ -7,7 +8,7 @@ import FullscreenStage, { FsControls } from "@@/components/common/FullscreenStag
 import { SoundIcon } from "@@/components/services/ServiceVideo";
 import s from "./OneVoiceShowcase.module.scss";
 
-const BASE = "/media/onevoice";
+const BASE = mediaUrl("/media/onevoice");
 const FOCUS = "onevoice-showcase";
 
 /** One original line, performed by the same artist in each language. English first. */

@@ -17,7 +17,7 @@ const CSP = [
   "font-src 'self' data: https://fonts.gstatic.com",
   "img-src 'self' data: blob: https: https://c.bing.com",
   "media-src 'self' blob: data: https://cdn.evaentertainment.in",
-  "connect-src 'self' blob: data: https://www.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com https://challenges.cloudflare.com https://*.clarity.ms https://c.bing.com",
+  "connect-src 'self' blob: data: https://cdn.evaentertainment.in https://www.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com https://challenges.cloudflare.com https://*.clarity.ms https://c.bing.com",
   "frame-src https://www.google.com https://www.googletagmanager.com https://challenges.cloudflare.com https://www.youtube-nocookie.com https://player.vimeo.com",
   "worker-src 'self' blob:",
   "object-src 'none'",

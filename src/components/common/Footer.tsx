@@ -1,3 +1,4 @@
+import { media as mediaUrl } from "@@/lib/media";
 import Image from "next/image";
 import Link from "@@/components/common/NavLink";
 import FooterDubbing from "@@/components/common/FooterDubbing";
@@ -29,7 +30,7 @@ export default function Footer() {
           <div className="eva-footer-brand">
             <Link href={Routes.HOME} className="eva-footer-logo">
               <Image
-                src="/images/common/eva-logo.avif"
+                src={mediaUrl("/images/common/eva-logo.avif")}
                 alt={LOGO_ALT}
                 width={160}
                 height={45}

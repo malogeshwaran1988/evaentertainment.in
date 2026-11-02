@@ -1,5 +1,6 @@
 "use client";
 
+import { media as mediaUrl } from "@@/lib/media";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { claimAudio, registerAudio } from "@@/lib/audio-focus";
 import FullscreenStage, { FsControls } from "@@/components/common/FullscreenStage";
@@ -86,7 +87,7 @@ const CLIPS: Clip[] = [
 
 const findClip = (v: VoiceId, l: LangId) => CLIPS.find((c) => c.voice === v && c.lang === l);
 const langsFor = (v: VoiceId) => LANGS.filter((l) => findClip(v, l.id));
-const base = (c: Clip) => `/media/voices/${c.voice}-${c.lang}`;
+const base = (c: Clip) => mediaUrl(`/media/voices/${c.voice}-${c.lang}`);
 const R = 15;
 const CIRC = 2 * Math.PI * R;
 
