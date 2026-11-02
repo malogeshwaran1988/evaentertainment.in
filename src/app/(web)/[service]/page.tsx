@@ -1,3 +1,4 @@
+import { mediaAbsolute } from "@@/lib/media";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import JsonLd from "@@/components/common/JsonLd";
@@ -140,7 +141,7 @@ export default async function ServicePage({ params }: PageProps<"/[service]">) {
     serviceType: page.serviceType,
     description: page.description,
     url,
-    image: `${APP_BASE_URL}${service.ogImage}`,
+    image: mediaAbsolute(service.ogImage, APP_BASE_URL),
     areaServed: [
       { "@type": "Country", name: "India" },
       { "@type": "City", name: "Mumbai" },

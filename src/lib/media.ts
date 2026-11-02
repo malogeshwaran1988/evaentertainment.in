@@ -33,3 +33,9 @@ export function media(localPath: string): string {
   }
   return localPath;
 }
+
+/** Absolute URL for structured data: the R2 URL when migrated, else `${siteBase}${localPath}`. */
+export function mediaAbsolute(localPath: string, siteBase: string): string {
+  const m = media(localPath);
+  return /^https?:\/\//.test(m) ? m : `${siteBase}${m}`;
+}

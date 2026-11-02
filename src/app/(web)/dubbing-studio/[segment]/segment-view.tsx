@@ -1,3 +1,4 @@
+import { mediaAbsolute } from "@@/lib/media";
 import { notFound } from "next/navigation";
 import JsonLd from "@@/components/common/JsonLd";
 import PageHero from "@@/components/common/PageHero";
@@ -152,7 +153,7 @@ export default async function SegmentPageView({ slug }: { slug: string }) {
         serviceType: page.serviceType,
         description: page.description,
         url,
-        image: `${APP_BASE_URL}${segment.ogImage}`,
+        image: mediaAbsolute(segment.ogImage, APP_BASE_URL),
         areaServed: [
           { "@type": "Country", name: "India" },
           { "@type": "City", name: "Mumbai" },

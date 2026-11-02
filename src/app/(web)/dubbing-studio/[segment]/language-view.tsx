@@ -1,3 +1,4 @@
+import { mediaAbsolute } from "@@/lib/media";
 import JsonLd from "@@/components/common/JsonLd";
 import PageHero from "@@/components/common/PageHero";
 import RelatedServices from "@@/components/services/RelatedServices";
@@ -164,7 +165,7 @@ export default async function LanguagePageView({ slug }: { slug: string }) {
         serviceType: page.serviceType,
         description: page.description,
         url,
-        image: `${APP_BASE_URL}${lang.ogImage}`,
+        image: mediaAbsolute(lang.ogImage, APP_BASE_URL),
         areaServed: [
           { "@type": "Country", name: "India" },
           { "@type": "City", name: "Mumbai" },

@@ -1,3 +1,4 @@
+import { mediaAbsolute } from "@@/lib/media";
 import type { Metadata } from "next";
 import JsonLd from "@@/components/common/JsonLd";
 import PageHero from "@@/components/common/PageHero";
@@ -58,7 +59,7 @@ export default function DocumentaryNarrationPage() {
         serviceType: page.serviceType,
         description: page.description,
         url,
-        image: `${APP_BASE_URL}${child.ogImage}`,
+        image: mediaAbsolute(child.ogImage, APP_BASE_URL),
         availableLanguage: page.languages,
         areaServed: [
           { "@type": "Country", name: "India" },
