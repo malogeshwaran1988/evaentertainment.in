@@ -16,7 +16,7 @@ const CSP = [
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
   "font-src 'self' data: https://fonts.gstatic.com",
   "img-src 'self' data: blob: https: https://c.bing.com",
-  "media-src 'self' blob: data: https://media.evaentertainment.in",
+  "media-src 'self' blob: data: https://cdn.evaentertainment.in",
   "connect-src 'self' blob: data: https://www.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com https://challenges.cloudflare.com https://*.clarity.ms https://c.bing.com",
   "frame-src https://www.google.com https://www.googletagmanager.com https://challenges.cloudflare.com https://www.youtube-nocookie.com https://player.vimeo.com",
   "worker-src 'self' blob:",
@@ -41,7 +41,7 @@ const nextConfig: NextConfig = {
     // Uploaded posters carry ?v=<version>; allow the optimizer to resize them for cards.
     localPatterns: [{ pathname: "/images/our-projects/**" }, { pathname: "/**", search: "" }],
     // Static site media on the public R2 bucket (see src/lib/media.ts).
-    remotePatterns: [{ protocol: "https", hostname: "media.evaentertainment.in", pathname: "/eva/**" }],
+    remotePatterns: [{ protocol: "https", hostname: "cdn.evaentertainment.in", pathname: "/eva/**" }],
   },
 
   async redirects() {

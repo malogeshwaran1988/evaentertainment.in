@@ -1,26 +1,26 @@
 /**
- * Static site media (images, video) served from the public Cloudflare R2 bucket "eva-media"
- * at NEXT_PUBLIC_MEDIA_BASE_URL (https://media.evaentertainment.in).
+ * Static site media (images, video) served from the public Cloudflare R2 bucket "eva-projects"
+ * at NEXT_PUBLIC_MEDIA_BASE_URL (https://cdn.evaentertainment.in).
  *
  * media("/images/careers/careers-voice.avif") returns the R2 URL when that folder's group is in
  * MIGRATED_GROUPS, else the local /public path. Rollback for a group = remove it from the list
  * (only while its files are still in public/).
  *
- * R2 layout: eva/pages/<slug>/..., eva/shared/<group>/..., eva/og/<file>.
+ * R2 layout: eva/<slug>/..., eva/shared/<group>/..., eva/shared/og/<file>.
  */
 const FOLDERS: Record<string, { group: string; prefix: string }> = {
-  "/images/careers/": { group: "careers", prefix: "eva/pages/careers/" },
-  "/images/partners/": { group: "careers", prefix: "eva/pages/careers/" },
-  "/images/about/": { group: "about-us", prefix: "eva/pages/about-us/" },
+  "/images/careers/": { group: "careers", prefix: "eva/careers/" },
+  "/images/partners/": { group: "careers", prefix: "eva/careers/" },
+  "/images/about/": { group: "about-us", prefix: "eva/about-us/" },
   "/images/clients/": { group: "clients", prefix: "eva/shared/clients/" },
-  "/images/equipment/": { group: "studio-equipment", prefix: "eva/pages/studio-equipment/" },
-  "/images/og/": { group: "og", prefix: "eva/og/" },
+  "/images/equipment/": { group: "studio-equipment", prefix: "eva/studio-equipment/" },
+  "/images/og/": { group: "og", prefix: "eva/shared/og/" },
 };
 
 /** Page groups whose media is served from R2. */
 export const MIGRATED_GROUPS: readonly string[] = ["careers", "about-us", "clients", "studio-equipment", "og"];
 
-const DEFAULT_BASE = "https://media.evaentertainment.in";
+const DEFAULT_BASE = "https://cdn.evaentertainment.in";
 
 export const mediaBaseUrl = () => (process.env.NEXT_PUBLIC_MEDIA_BASE_URL || DEFAULT_BASE).replace(/\/$/, "");
 
