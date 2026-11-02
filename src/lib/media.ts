@@ -111,6 +111,7 @@ export const MIGRATED_GROUPS: readonly string[] = [
   "careers", "about-us", "clients", "studio-equipment", "og",
   "subtitling-services", "translation-services", "stock-music-library", "shared-services",
   "dubbing", "dubbing-studio", "foley-recording", "song-recording-studio", "5-1-mixing-studio", "voice-over-studio",
+  "home", "brand",
 ];
 
 const DEFAULT_BASE = "https://cdn.evaentertainment.in";
