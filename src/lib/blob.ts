@@ -1,21 +1,12 @@
 import "server-only";
 import { DeleteObjectCommand, GetObjectCommand, HeadObjectCommand, PutObjectCommand } from "@aws-sdk/client-s3";
-import {
-  BlobNotFoundError,
-  BlobPreconditionFailedError as VercelBlobPreconditionFailedError,
-  del,
-  get,
-  head,
-  put,
-} from "@vercel/blob";
-import { blobPath, PRIMARY_STORE, USE_BLOB } from "@@/lib/blob-path";
+import { blobPath, USE_BLOB } from "@@/lib/blob-path";
 import { isNotFound, isPreconditionFailed, r2, r2Bucket } from "@@/lib/r2";
 import { logR2Error, readRemote, readRemoteText } from "@@/lib/storage-read";
 
 /**
- * Remote storage: Cloudflare R2 when its four keys are set, Vercel Blob otherwise. Reads fall back
- * to Vercel Blob when R2 misses or errors (see storage-read.ts). Writes go to one store only, so
- * an ETag from readBlobVersioned always matches the store writeBlob uses.
+ * Remote storage: Cloudflare R2 only. Public reads fetch the cdn URL (storage-read.ts); admin
+ * writes, versioned reads, deletes and HEADs use the R2 S3 API.
  */
 export { USE_BLOB };
 
@@ -27,7 +18,7 @@ export class BlobPreconditionFailedError extends Error {
   }
 }
 
-/** Returns null when the object doesn't exist in either store. */
+/** Returns null when the object doesn't exist. */
 export function readBlob(pathname: string) {
   return readRemote(blobPath(pathname));
 }
@@ -40,18 +31,6 @@ export function readBlobText(pathname: string): Promise<string | null> {
 /** Write path only (admin saves): text plus the ETag that `writeBlob({ ifMatch })` expects. */
 export async function readBlobVersioned(pathname: string) {
   const key = blobPath(pathname);
-  if (PRIMARY_STORE === "vercel-blob") {
-    let etag: string;
-    try {
-      ({ etag } = await head(key));
-    } catch (err) {
-      if (err instanceof BlobNotFoundError) return null;
-      throw err;
-    }
-    const result = await get(key, { access: "private", useCache: false });
-    if (!result || result.statusCode !== 200) return null;
-    return { text: await new Response(result.stream).text(), etag };
-  }
   try {
     const res = await r2().send(new GetObjectCommand({ Bucket: r2Bucket(), Key: key }));
     if (!res.Body || !res.ETag) return null;
@@ -73,15 +52,6 @@ type WriteOptions = {
 
 export async function writeBlob(pathname: string, body: Buffer | string, options: WriteOptions) {
   const key = blobPath(pathname);
-  if (PRIMARY_STORE === "vercel-blob") {
-    try {
-      const res = await put(key, body, { access: "private", addRandomSuffix: false, ...options });
-      return { pathname: res.pathname, etag: res.etag };
-    } catch (err) {
-      if (err instanceof VercelBlobPreconditionFailedError) throw new BlobPreconditionFailedError();
-      throw err;
-    }
-  }
   try {
     const res = await r2().send(
       new PutObjectCommand({
@@ -109,7 +79,6 @@ export async function writeBlob(pathname: string, body: Buffer | string, options
 
 export async function deleteBlob(pathname: string) {
   const key = blobPath(pathname);
-  if (PRIMARY_STORE === "vercel-blob") return del(key);
   try {
     await r2().send(new DeleteObjectCommand({ Bucket: r2Bucket(), Key: key }));
   } catch (err) {
@@ -122,12 +91,11 @@ export async function deleteBlob(pathname: string) {
 export async function blobExists(pathname: string) {
   const key = blobPath(pathname);
   try {
-    if (PRIMARY_STORE === "vercel-blob") await head(key);
-    else await r2().send(new HeadObjectCommand({ Bucket: r2Bucket(), Key: key }));
+    await r2().send(new HeadObjectCommand({ Bucket: r2Bucket(), Key: key }));
     return true;
   } catch (err) {
-    if (err instanceof BlobNotFoundError || isNotFound(err)) return false;
-    if (PRIMARY_STORE === "r2") logR2Error("head", key, err);
+    if (isNotFound(err)) return false;
+    logR2Error("head", key, err);
     throw err;
   }
 }

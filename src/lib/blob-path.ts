@@ -10,20 +10,17 @@ export const R2_MISSING_VARS: string[] = R2_VARS.filter((name) => !process.env[n
 /** Cloudflare R2 is the primary store once all four keys are set. */
 export const R2_CONFIGURED = R2_MISSING_VARS.length === 0;
 
-/** Vercel Blob stays as a read fallback during the migration, while its token still exists. */
-export const BLOB_CONFIGURED = Boolean(process.env.BLOB_READ_WRITE_TOKEN);
 
 /**
  * Remote storage only on Vercel (VERCEL=1, set for builds and functions) or when BLOB_USE_REMOTE=1.
  * Local dev, tests and local builds use the disk store even if .env.local has the keys.
- * Either store counts, so a missing R2 var can no longer silently switch production to the disk store.
  */
 export const USE_BLOB =
-  (R2_CONFIGURED || BLOB_CONFIGURED) &&
+  (R2_CONFIGURED || process.env.VERCEL === "1") &&
   (process.env.VERCEL === "1" || process.env.BLOB_USE_REMOTE === "1");
 
-/** Which store takes writes: R2 when configured, otherwise Vercel Blob as before. */
-export const PRIMARY_STORE: "r2" | "vercel-blob" = R2_CONFIGURED ? "r2" : "vercel-blob";
+/** The only remote store. */
+export const PRIMARY_STORE = "r2" as const;
 
 /**
  * The bucket may be shared with other sites, so everything EVA writes lives under this folder.

@@ -1,5 +1,5 @@
 import { HeadObjectCommand } from "@aws-sdk/client-s3";
-import { blobPath, BLOB_CONFIGURED, BLOB_PREFIX, PRIMARY_STORE, R2_CONFIGURED, R2_MISSING_VARS, USE_BLOB } from "@@/lib/blob-path";
+import { blobPath, BLOB_PREFIX, PRIMARY_STORE, R2_CONFIGURED, R2_MISSING_VARS, USE_BLOB } from "@@/lib/blob-path";
 import { r2, r2Bucket } from "@@/lib/r2";
 
 export const dynamic = "force-dynamic";
@@ -29,7 +29,6 @@ export async function GET() {
       r2MissingVars: R2_MISSING_VARS,
       r2AccountIdLooksValid: /^[0-9a-f]{32}$/.test(account),
       r2BucketLooksLikeName: /^[a-z0-9][a-z0-9-]{1,61}[a-z0-9]$/.test(bucket),
-      blobFallbackAvailable: BLOB_CONFIGURED,
       prefix: BLOB_PREFIX,
       onVercel: process.env.VERCEL === "1",
       r2Probe,
