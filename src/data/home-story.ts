@@ -10,7 +10,7 @@ export const HOME_SECTIONS: ServicePageSection[] = [
     blocks: [
       {
         t: "p",
-        text: "**EVA Entertainment is a dubbing studio in Andheri West, Mumbai for Telugu and Tamil to Hindi dubbing.** Our team dubs regional, pan-India and Hollywood films into Hindi and India's other top languages. Around 30 films so far are mostly Telugu, Tamil, Malayalam and Kannada titles for Hindi audiences. We bring the same craft to English-language films made for the rest of the world.",
+        text: "**EVA Entertainment is a post production audio studio in Andheri West, Mumbai.** Our team dubs regional, pan-India and Hollywood films into Hindi and India's other top languages. We have dubbed around 30 films, mostly Telugu, Tamil, Malayalam and Kannada titles for Hindi audiences. We bring the same craft to English-language films made for the rest of the world.",
       },
       {
         t: "p",
@@ -19,13 +19,13 @@ export const HOME_SECTIONS: ServicePageSection[] = [
     ],
   },
   {
-    heading: "Film dubbing in Mumbai for every Indian audience",
+    heading: "Regional films for every Indian audience",
     media: "home-regional",
     icon: "icon-play-circle",
     blocks: [
       {
         t: "p",
-        text: "Most of our feature film work is regional cinema: Telugu, Tamil, Malayalam and Kannada films dubbed into Hindi for [OTT platforms](/dubbing-studio/web-series-ott), satellite TV and cinemas. Our writers adapt every line to the actors' lips and to the new audience, so a punch line still lands and a joke still gets its laugh. Credits include [Mass Jathara](/projects/mass-jathara-hindi-dubbing), [Ghaati](/projects/ghaati-hindi-dubbing) and [Oddum Kuthira Chaddum Kuthira](/projects/oddum-kuthira-chaddum-kuthira-hindi-dubbing).",
+        text: "Most of our feature film work is regional cinema: Telugu, Tamil, Malayalam and Kannada films dubbed into Hindi for OTT platforms, satellite TV and cinemas. Our writers adapt every line to the actors' lips and to the new audience, so a punch line still lands and a joke still gets its laugh. Credits include [Mass Jathara](/projects/mass-jathara-hindi-dubbing), [Ghaati](/projects/ghaati-hindi-dubbing) and [Oddum Kuthira Chaddum Kuthira](/projects/oddum-kuthira-chaddum-kuthira-hindi-dubbing).",
       },
       {
         t: "p",
@@ -34,7 +34,7 @@ export const HOME_SECTIONS: ServicePageSection[] = [
     ],
   },
   {
-    heading: "OTT dubbing and pan-India films in ten languages",
+    heading: "Pan-India films: one release, ten languages",
     media: "home-panindia",
     icon: "icon-translate2",
     blocks: [
@@ -55,7 +55,7 @@ export const HOME_SECTIONS: ServicePageSection[] = [
     blocks: [
       {
         t: "p",
-        text: "We also dub Hollywood and other international films into Hindi and India's other major languages. Our recent English to Hindi work includes Night of the Zoopocalypse. See [animation and cartoon dubbing](/dubbing-studio/animation).",
+        text: "We also dub Hollywood and other international films into Hindi and India's other major languages. Our recent English to Hindi work includes Night of the Zoopocalypse.",
       },
       {
         t: "p",
