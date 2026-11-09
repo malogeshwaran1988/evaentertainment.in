@@ -25,7 +25,7 @@ export const HOME_SECTIONS: ServicePageSection[] = [
     blocks: [
       {
         t: "p",
-        text: "Most of our feature film work is regional cinema: Telugu, Tamil, Malayalam and Kannada films dubbed into Hindi for OTT platforms, satellite TV and cinemas. Our writers adapt every line to the actors' lips and to the new audience, so a punch line still lands and a joke still gets its laugh. Credits include [Mass Jathara](/projects/mass-jathara-hindi-dubbing), [Ghaati](/projects/ghaati-hindi-dubbing) and [Oddum Kuthira Chaddum Kuthira](/projects/oddum-kuthira-chaddum-kuthira-hindi-dubbing).",
+        text: "Most of our feature film work is regional cinema: Telugu, Tamil, Malayalam and Kannada films dubbed into Hindi for [OTT platforms](/dubbing-studio/web-series-ott), satellite TV and cinemas. Our writers adapt every line to the actors' lips and to the new audience, so a punch line still lands and a joke still gets its laugh. Credits include [Mass Jathara](/projects/mass-jathara-hindi-dubbing), [Ghaati](/projects/ghaati-hindi-dubbing) and [Oddum Kuthira Chaddum Kuthira](/projects/oddum-kuthira-chaddum-kuthira-hindi-dubbing).",
       },
       {
         t: "p",
@@ -55,7 +55,7 @@ export const HOME_SECTIONS: ServicePageSection[] = [
     blocks: [
       {
         t: "p",
-        text: "We also dub Hollywood and other international films into Hindi and India's other major languages. Our recent English to Hindi work includes Night of the Zoopocalypse.",
+        text: "We also dub Hollywood and other international films into Hindi and India's other major languages. Our recent English to Hindi work includes Night of the Zoopocalypse. See [animation and cartoon dubbing](/dubbing-studio/animation).",
       },
       {
         t: "p",
