@@ -8,9 +8,9 @@ export const HOME_OG_IMAGE = DEFAULT_OG_IMAGE;
 export const HOME_OG_IMAGE_ALT = "Singer recording vocals at a studio microphone at EVA Entertainment";
 
 export const HOME_SEO = {
-  title: "Post production audio sound sfx studio andheri west mumbai india",
+  title: "Dubbing Studio in Andheri West, Mumbai | EVA Entertainment",
   description:
-    "Post production audio studio in Andheri West, Mumbai. Dubbing, voice-over, Foley, SFX and 5.1 mixing under one roof. Get a quote from EVA.",
+    "Telugu and Tamil to Hindi dubbing for film and OTT in Mumbai. EVA Entertainment is a dubbing studio in Andheri West and a post production audio studio.",
 };
 
 /** "What We Do" cards on the home page, in display order. */
