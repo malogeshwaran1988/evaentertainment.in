@@ -1,6 +1,7 @@
 import { media } from "@@/lib/media";
 import type { NextConfig } from "next";
 import { LEGACY_REDIRECTS } from "./src/constants/routes";
+import legacyMedia from "./src/data/legacy-media-redirects.json";
 
 const isDev = process.env.NODE_ENV === "development";
 
@@ -58,6 +59,9 @@ const nextConfig: NextConfig = {
       ...LEGACY_REDIRECTS.map(({ from, to, statusCode }) =>
         statusCode ? { source: from, destination: to, statusCode } : { source: from, destination: to, permanent: true },
       ),
+      // Old /public media URLs (moved to R2 in Nov 2026): 301 so Google carries image signals across.
+      ...legacyMedia.patterns.map(({ source, destination }) => ({ source, destination, statusCode: 301 as const })),
+      ...Object.entries(legacyMedia.files).map(([source, destination]) => ({ source, destination, statusCode: 301 as const })),
     ];
   },
 

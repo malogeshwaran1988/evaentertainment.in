@@ -111,6 +111,9 @@ export default async function ProjectDetailPage({
     // A renamed project: its old URL moves permanently (308) to the current one.
     const moved = await getProjectByPreviousSlug(slug);
     if (moved && projectIsPublished(moved)) permanentRedirect(projectHref(moved.slug));
+    // Unpublished in the admin: its URL may already rank, so send visitors and Google to the
+    // projects list instead of a 404. Republishing the project brings the page straight back.
+    if (moved || (await getProjectBySlug(slug))) permanentRedirect(Routes.PROJECTS);
     notFound();
   }
   const clientsById = new Map((await getClients()).map((c) => [c.id, c]));

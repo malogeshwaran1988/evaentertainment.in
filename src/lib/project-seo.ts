@@ -181,8 +181,14 @@ export function projectSeoTitle(
         ? " (Ongoing)"
         : "";
   if (!project.to.length) return `${project.title} (${project.from})${yearPart} | ${SITE_NAME}`;
-  return `${project.title} ${project.from} to ${targets} Dubbing${yearPart} | ${SITE_NAME}`;
+  // Matches how people search for a dubbed film ("<film> 2026 hindi dubbed"). The longer brand
+  // suffix is used only while the title stays within ~60 characters.
+  const lead = `${project.title} ${targets} Dubbed${yearPart}`;
+  const full = `${lead} | Dubbing by ${SITE_NAME}`;
+  return full.length <= SEO_TITLE_MAX ? full : `${lead} | ${SITE_NAME}`;
 }
+
+const SEO_TITLE_MAX = 60;
 
 export function projectSeoDescription(
   project: Pick<Project, "title" | "from" | "to" | "description" | "synopsis">,

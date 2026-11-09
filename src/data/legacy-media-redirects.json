@@ -1,0 +1,108 @@
+{
+  "_note": "Old /public media paths removed in f5fc733..2b3506c, now on R2 (cdn.evaentertainment.in). Read by next.config.ts as permanent 301 redirects. Every target was HEAD-checked 200 on 2026-11-09.",
+  "patterns": [
+    {
+      "source": "/images/about/:file",
+      "destination": "https://cdn.evaentertainment.in/eva/about-us/:file"
+    },
+    {
+      "source": "/images/careers/:file",
+      "destination": "https://cdn.evaentertainment.in/eva/careers/:file"
+    },
+    {
+      "source": "/images/clients/:file",
+      "destination": "https://cdn.evaentertainment.in/eva/shared/clients/:file"
+    },
+    {
+      "source": "/images/common/:file",
+      "destination": "https://cdn.evaentertainment.in/eva/shared/brand/:file"
+    },
+    {
+      "source": "/images/equipment/:file",
+      "destination": "https://cdn.evaentertainment.in/eva/studio-equipment/:file"
+    },
+    {
+      "source": "/images/home/:file",
+      "destination": "https://cdn.evaentertainment.in/eva/home/:file"
+    },
+    {
+      "source": "/images/og/:file",
+      "destination": "https://cdn.evaentertainment.in/eva/shared/og/:file"
+    },
+    {
+      "source": "/images/partners/:file",
+      "destination": "https://cdn.evaentertainment.in/eva/careers/:file"
+    },
+    {
+      "source": "/media/dubbing/:file",
+      "destination": "https://cdn.evaentertainment.in/eva/dubbing-studio/:file"
+    },
+    {
+      "source": "/media/foley/:file",
+      "destination": "https://cdn.evaentertainment.in/eva/foley-recording/:file"
+    },
+    {
+      "source": "/media/onevoice/:file",
+      "destination": "https://cdn.evaentertainment.in/eva/shared/onevoice/:file"
+    },
+    {
+      "source": "/media/song/:file",
+      "destination": "https://cdn.evaentertainment.in/eva/song-recording-studio/:file"
+    },
+    {
+      "source": "/media/surround/:file",
+      "destination": "https://cdn.evaentertainment.in/eva/5-1-mixing-studio/:file"
+    },
+    {
+      "source": "/media/voices/:file",
+      "destination": "https://cdn.evaentertainment.in/eva/voice-over-studio/voices/:file"
+    }
+  ],
+  "files": {
+    "/images/services/equipment-01.avif": "https://cdn.evaentertainment.in/eva/dubbing-studio/equipment-01.avif",
+    "/images/services/equipment-02.avif": "https://cdn.evaentertainment.in/eva/voice-over-studio/equipment-02.avif",
+    "/images/services/equipment-03.avif": "https://cdn.evaentertainment.in/eva/shared/services/equipment-03.avif",
+    "/images/services/equipment-05.avif": "https://cdn.evaentertainment.in/eva/subtitling-services/equipment-05.avif",
+    "/images/services/lp-en-hi.avif": "https://cdn.evaentertainment.in/eva/shared/language-pairs/lp-en-hi.avif",
+    "/images/services/lp-kn-hi.avif": "https://cdn.evaentertainment.in/eva/shared/language-pairs/lp-kn-hi.avif",
+    "/images/services/lp-ml-hi.avif": "https://cdn.evaentertainment.in/eva/shared/language-pairs/lp-ml-hi.avif",
+    "/images/services/lp-ta-hi.avif": "https://cdn.evaentertainment.in/eva/shared/language-pairs/lp-ta-hi.avif",
+    "/images/services/lp-te-hi.avif": "https://cdn.evaentertainment.in/eva/shared/language-pairs/lp-te-hi.avif",
+    "/images/services/lp-te-ta.avif": "https://cdn.evaentertainment.in/eva/shared/language-pairs/lp-te-ta.avif",
+    "/images/services/mixing-room-51-eva.avif": "https://cdn.evaentertainment.in/eva/5-1-mixing-studio/mixing-room-51-eva.avif",
+    "/images/services/svc-console.avif": "https://cdn.evaentertainment.in/eva/home/svc-console.avif",
+    "/images/services/svc-dub-studio.avif": "https://cdn.evaentertainment.in/eva/shared/services/svc-dub-studio.avif",
+    "/images/services/svc-hollywood-lead.avif": "https://cdn.evaentertainment.in/eva/shared/services/svc-hollywood-lead.avif",
+    "/images/services/svc-hollywood-onevoice.avif": "https://cdn.evaentertainment.in/eva/dubbing-studio/svc-hollywood-onevoice.avif",
+    "/images/services/svc-home-hollywood.avif": "https://cdn.evaentertainment.in/eva/home/svc-home-hollywood.avif",
+    "/images/services/svc-home-panindia.avif": "https://cdn.evaentertainment.in/eva/home/svc-home-panindia.avif",
+    "/images/services/svc-home-regional.avif": "https://cdn.evaentertainment.in/eva/home/svc-home-regional.avif",
+    "/images/services/svc-home-three-cinemas.avif": "https://cdn.evaentertainment.in/eva/home/svc-home-three-cinemas.avif",
+    "/images/services/svc-languages-artists.avif": "https://cdn.evaentertainment.in/eva/dubbing/svc-languages-artists.avif",
+    "/images/services/svc-languages-lead.avif": "https://cdn.evaentertainment.in/eva/dubbing-studio/svc-languages-lead.avif",
+    "/images/services/svc-mix-problems.avif": "https://cdn.evaentertainment.in/eva/5-1-mixing-studio/svc-mix-problems.avif",
+    "/images/services/svc-mix51-lead.avif": "https://cdn.evaentertainment.in/eva/5-1-mixing-studio/svc-mix51-lead.avif",
+    "/images/services/svc-panindia-lead.avif": "https://cdn.evaentertainment.in/eva/shared/services/svc-panindia-lead.avif",
+    "/images/services/svc-panindia-mix.avif": "https://cdn.evaentertainment.in/eva/shared/services/svc-panindia-mix.avif",
+    "/images/services/svc-regional-adapt.avif": "https://cdn.evaentertainment.in/eva/shared/services/svc-regional-adapt.avif",
+    "/images/services/svc-regional-lead.avif": "https://cdn.evaentertainment.in/eva/shared/services/svc-regional-lead.avif",
+    "/images/services/svc-singer.avif": "https://cdn.evaentertainment.in/eva/shared/services/svc-singer.avif",
+    "/images/services/svc-song-lead.avif": "https://cdn.evaentertainment.in/eva/shared/services/svc-song-lead.avif",
+    "/images/services/svc-song-session.avif": "https://cdn.evaentertainment.in/eva/shared/services/svc-song-session.avif",
+    "/images/services/svc-song-studio.avif": "https://cdn.evaentertainment.in/eva/song-recording-studio/svc-song-studio.avif",
+    "/images/services/svc-stock-curated.avif": "https://cdn.evaentertainment.in/eva/stock-music-library/svc-stock-curated.avif",
+    "/images/services/svc-stock-lead.avif": "https://cdn.evaentertainment.in/eva/stock-music-library/svc-stock-lead.avif",
+    "/images/services/svc-stock-voice.avif": "https://cdn.evaentertainment.in/eva/stock-music-library/svc-stock-voice.avif",
+    "/images/services/svc-sub-formats.avif": "https://cdn.evaentertainment.in/eva/subtitling-services/svc-sub-formats.avif",
+    "/images/services/svc-sub-south.avif": "https://cdn.evaentertainment.in/eva/subtitling-services/svc-sub-south.avif",
+    "/images/services/svc-sub-together.avif": "https://cdn.evaentertainment.in/eva/subtitling-services/svc-sub-together.avif",
+    "/images/services/svc-sub-workflow.avif": "https://cdn.evaentertainment.in/eva/subtitling-services/svc-sub-workflow.avif",
+    "/images/services/svc-tr-transcreation.avif": "https://cdn.evaentertainment.in/eva/translation-services/svc-tr-transcreation.avif",
+    "/images/services/svc-translation-delivery.avif": "https://cdn.evaentertainment.in/eva/translation-services/svc-translation-delivery.avif",
+    "/images/services/svc-translation-lead.avif": "https://cdn.evaentertainment.in/eva/shared/services/svc-translation-lead.avif",
+    "/images/services/svc-translation-screen-tv.avif": "https://cdn.evaentertainment.in/eva/translation-services/svc-translation-screen-tv.avif",
+    "/images/services/svc-translation-screen-web.avif": "https://cdn.evaentertainment.in/eva/translation-services/svc-translation-screen-web.avif",
+    "/images/services/svc-vo-studio.avif": "https://cdn.evaentertainment.in/eva/voice-over-studio/svc-vo-studio.avif",
+    "/images/services/svc-vo-voices.avif": "https://cdn.evaentertainment.in/eva/shared/services/svc-vo-voices.avif"
+  }
+}

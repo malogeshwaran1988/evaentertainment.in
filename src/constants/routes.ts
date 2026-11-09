@@ -77,6 +77,11 @@ export const LEGACY_REDIRECTS: { from: string; to: string; statusCode?: 301 }[] 
   ...["/our-clients", "/ourclients"].map(
     (from) => ({ from, to: Routes.CLIENTS, statusCode: 301 as const }),
   ),
+  // Project URLs that earned Google impressions before the admin changed their slug (Oct 2026).
+  // Both projects are unpublished now, so they go to the projects list.
+  ...["/projects/akbar-birbal-malayalam-dubbing", "/projects/avkarika-kannada-dubbing"].map(
+    (from) => ({ from, to: Routes.PROJECTS, statusCode: 301 as const }),
+  ),
 ];
 
 
