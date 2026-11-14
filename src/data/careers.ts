@@ -102,7 +102,7 @@ export const DIAL_CODES = Array.from(new Set(COUNTRIES.map((c) => c.dial)));
 export const countryByCode = (code: string) => COUNTRIES.find((c) => c.code === code);
 
 /** TemplatePix resume builder (owner's own brand), shown beside the resume upload. */
-export const RESUME_BUILDER_URL = "https://templatepix.com/";
+export const RESUME_BUILDER_URL = "https://templatepix.com/templates/resumes-cv/voice-actor";
 export const RESUME_BUILDER_CTA = {
   heading: "Create a Professional Voice Artist Resume",
   text: "Templates for Voice Artist, Dubbing Artist, Dubbing Director, Translator, Script Writer and Mixing or Sound Engineer roles. Fresher or experienced, get shortlisted faster.",
