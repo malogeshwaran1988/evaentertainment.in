@@ -83,6 +83,8 @@ type LangCustom = {
   titlesHeading?: string;
 };
 
+const article = (word: string) => (/^[AEIOU]/i.test(word) ? "an" : "a");
+
 function buildLanguage(name: LanguagePlanName, extras: LangExtras): DubbingLanguage {
   const slug = slugifyAscii(name);
   const keyword = `${name} dubbing and voice-over`;
@@ -96,7 +98,7 @@ function buildLanguage(name: LanguagePlanName, extras: LangExtras): DubbingLangu
     icon: "icon-translate2",
     ...leadMedia,
     ogImage: "/images/og/indian-languages.jpg",
-    ogImageAlt: `Voice artist and director working on a ${name} dubbing session at EVA Entertainment Mumbai`,
+    ogImageAlt: `Voice artist and director working on ${article(name)} ${name} dubbing session at EVA Entertainment Mumbai`,
     page: {
       seoTitle: `${name} Dubbing and Voice-Over | Lip-Sync Studio Mumbai | EVA`,
       description: `${name} dubbing and voice-over for film OTT ads and narration. Lip-sync adaptation native artists and mixes from EVA Entertainment Mumbai. Get a quote.`,
@@ -105,7 +107,7 @@ function buildLanguage(name: LanguagePlanName, extras: LangExtras): DubbingLangu
       languages: [name],
       leadHeading: `Content that speaks ${name}`,
       lead: [
-        `**${keyword} means we take your finished title and deliver a ${name} version audiences can watch or hear with clear dialogue that fits the picture.** EVA Entertainment does this work in Andheri West Mumbai for producers platforms and brands that need content converted into ${name} without losing the original performance.`,
+        `**${keyword} means we take your finished title and deliver ${article(name)} ${name} version audiences can watch or hear with clear dialogue that fits the picture.** EVA Entertainment does this work in Andheri West Mumbai for producers platforms and brands that need content converted into ${name} without losing the original performance.`,
         extras.leadExtra,
       ],
       sections: [
@@ -132,7 +134,7 @@ function buildLanguage(name: LanguagePlanName, extras: LangExtras): DubbingLangu
               items: [
                 `Feature films and series dubbed into ${name}`,
                 `Trailers and promos with timed ${name} dialogue`,
-                `Commercials that need lip-sync or a ${name} voice-over read`,
+                `Commercials that need lip-sync or ${article(name)} ${name} voice-over read`,
                 `Narration and voice-over in ${name} (see [Voice Over](/voice-over-studio) for the craft parent)`,
               ],
             },

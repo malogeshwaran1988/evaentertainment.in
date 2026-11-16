@@ -52,7 +52,7 @@ export const DOCUMENTARY_NARRATION: VoiceOverChild = {
     ],
     sections: [
       {
-        heading: "Who this page is for",
+        heading: "Who commissions our narration",
         icon: "icon-like",
         blocks: [
           {
@@ -67,7 +67,7 @@ export const DOCUMENTARY_NARRATION: VoiceOverChild = {
         media: "vo-voices",
       },
       {
-        heading: "How a narration project works",
+        heading: "From script to final narration",
         icon: "icon-settings",
         blocks: [
           {
@@ -110,7 +110,7 @@ export const DOCUMENTARY_NARRATION: VoiceOverChild = {
     ],
     cta: {
       heading: "Get a narration quote",
-      text: "Tell us the runtime language and delivery date. We will reply with samples and a quote.",
+      text: "Send the film length and the narration language with your delivery date. Narrator samples and a price follow.",
       label: "Request a narration quote",
       contact: STUDIO_CONTACT,
       secondary: "Book a studio session",
@@ -143,7 +143,7 @@ export const AUDIOBOOK_NARRATION: VoiceOverChild = {
     ],
     sections: [
       {
-        heading: "Who this page is for",
+        heading: "Who we record audiobooks for",
         icon: "icon-like",
         blocks: [
           {
@@ -158,7 +158,7 @@ export const AUDIOBOOK_NARRATION: VoiceOverChild = {
         media: "vo-voices",
       },
       {
-        heading: "How an audiobook session works",
+        heading: "From manuscript to finished chapters",
         icon: "icon-settings",
         blocks: [
           {
@@ -212,10 +212,10 @@ export const AUDIOBOOK_NARRATION: VoiceOverChild = {
     ],
     cta: {
       heading: "Get an audiobook quote",
-      text: "Tell us the language runtime and how you want the files delivered. We will reply with samples and a quote.",
+      text: "Share the word count or page count of your book plus the format your platform wants. We will come back with narrator options and a quote.",
       label: "Request an audiobook quote",
       contact: STUDIO_CONTACT,
-      secondary: "Book a studio session",
+      secondary: "Book a reading session",
     },
   },
 };

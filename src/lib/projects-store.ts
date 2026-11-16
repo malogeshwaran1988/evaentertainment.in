@@ -14,6 +14,7 @@ import { unstable_cache } from "next/cache";
 import { normalizeProjectCategory } from "@@/data/projects";
 import { BlobPreconditionFailedError, readBlobText, readBlobVersioned, USE_BLOB, writeBlob } from "@@/lib/blob";
 import { DATA_REVALIDATE_SECONDS, PROJECTS_TAG } from "@@/lib/cache-tags";
+import { dropSerialComma } from "@@/lib/project-content";
 import { projectPageSlugBase, uniqueProjectSlug, uniqueSlug } from "@@/lib/project-seo";
 
 const DATA_DIR = path.resolve(
@@ -177,8 +178,15 @@ function mutate<T>(fn: (projects: Project[]) => MutateResult<T> | Promise<Mutate
 /** Ongoing first, then newest year; see compareProjects. */
 export async function getProjects(): Promise<Project[]> {
   const projects = await readAll();
-  return [...projects].sort(compareProjects);
+  return projects.map(cleanCopy).sort(compareProjects);
 }
+
+/** Read-time copy clean-up (stored data is untouched): poster ALT without a serial comma. */
+function cleanCopy(p: Project): Project {
+  return p.posterAlt ? { ...p, posterAlt: dropSerialComma(p.posterAlt) } : p;
+}
+
+const cleanOrNull = (p: Project | undefined) => (p ? cleanCopy(p) : null);
 
 /** Uncached read for admin save actions (slug/poster checks) so they never act on stale data. */
 export async function getProjectsFresh(): Promise<Project[]> {
@@ -191,16 +199,16 @@ export async function getProjectFresh(id: string) {
 }
 
 export async function getProject(id: string) {
-  return (await readAll()).find((p) => p.id === id) ?? null;
+  return cleanOrNull((await readAll()).find((p) => p.id === id));
 }
 
 export async function getProjectBySlug(slug: string) {
-  return (await readAll()).find((p) => p.slug === slug) ?? null;
+  return cleanOrNull((await readAll()).find((p) => p.slug === slug));
 }
 
 /** The project that used to live at this slug (renamed since), or null. */
 export async function getProjectByPreviousSlug(slug: string) {
-  return (await readAll()).find((p) => p.slug !== slug && p.previousSlugs?.includes(slug)) ?? null;
+  return cleanOrNull((await readAll()).find((p) => p.slug !== slug && p.previousSlugs?.includes(slug)));
 }
 
 export function createProject(input: ProjectInput & { slug: string }) {

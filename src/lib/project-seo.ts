@@ -7,7 +7,7 @@ import {
   type Project,
   type ProjectLanguage,
 } from "@@/data/projects";
-import { titleCase } from "@@/lib/project-content";
+import { dropSerialComma, titleCase } from "@@/lib/project-content";
 
 const BRAND_SLUG = "eva-entertainment";
 const DUBBING_BRAND_SLUG = "dubbing-eva-entertainment";
@@ -158,7 +158,8 @@ function targetsPhrase(to: readonly string[]) {
 export function projectSeoAlt(
   project: Pick<Project, "title" | "posterAlt" | "from" | "to">,
 ): string {
-  const base = titleCase(project.posterAlt?.trim() || `${project.title} movie poster`);
+  const typed = project.posterAlt ? dropSerialComma(project.posterAlt.trim()) : "";
+  const base = titleCase(typed || `${project.title} movie poster`);
   if (/\bdubbing\b/i.test(base)) return base;
   return `${base} - ${projectLanguageLine(project)} Dubbing`;
 }

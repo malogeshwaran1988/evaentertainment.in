@@ -41,6 +41,9 @@ export function projectIsIndexable(p: ContentSource, min = PROJECT_INDEX_MIN_WOR
   return projectUniqueWordCount(p) >= min;
 }
 
+/** Copy rule: no serial comma before "and" in admin-typed text such as poster ALT cast lists. */
+export const dropSerialComma = (text: string) => text.replace(/,\s+and\s+/gi, " and ");
+
 /** Extracts the 11-char YouTube video id from watch/share/embed/shorts URLs. */
 export function youtubeId(url: string | undefined): string | null {
   if (!url) return null;
