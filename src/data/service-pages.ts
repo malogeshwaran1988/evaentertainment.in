@@ -408,7 +408,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
             text: "More details on our [studio equipment page](/studio-equipment).",
           },
         ],
-        media: "vo-studio",
+        media: "vo-booth-session",
       },
       {
         heading: "Who books our voice-over studio",

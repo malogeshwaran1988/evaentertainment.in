@@ -145,4 +145,15 @@ export const SERVICE_MEDIA: Record<string, ServicePhoto> = {
   "home-regional": plain("home-regional", "Voice artist with headphones and a Hindi script performing a punch line at the microphone to a South Indian village action scene on the monitor"),
   "home-panindia": plain("home-panindia", "Studio team planning a multi-language film release over a printed release schedule and a laptop with colour-coded language tracks"),
   "home-hollywood": plain("home-hollywood", "Voice artist with headphones dubbing an English sci-fi film scene of an astronaut on the booth monitor"),
+  /* Voice Over pages: one unique photo per slot (batch 1 image audit). */
+  "vo-booth-session": voPhoto("voice-booth-session", 1440, 1080, "Indian voice-over artist smiling as she reads a script at the microphone inside a soundproof voice booth at EVA Entertainment"),
+  "elearning-booth": voPhoto("e-learning/recording-booth", 1440, 1080, "Quiet voice booth set up for e-learning narration with a microphone, tablet stand and headphones on a stool"),
+  "audiobook-desk": voPhoto("audiobook-narration/booth-desk", 962, 572, "Audiobook session desk in the booth with a tablet manuscript, a hardback book, a pencil and a glass of water beside the microphone"),
+  "ad-agency-team": voPhoto("ad-commercials/agency-team", 1440, 1080, "Indian ad agency team reviewing a storyboard together before a commercial voice-over session"),
+  "ad-booth-mic": voPhoto("ad-commercials/booth-mic", 962, 572, "Studio condenser microphone with a pop filter and a stopwatch on the stand in a booth for timed radio and TV ad reads"),
 };
+
+/** A Voice Over page photo stored at eva/voice-over-studio/<path>.avif in R2. */
+function voPhoto(path: string, width: number, height: number, alt: string): ServicePhoto {
+  return { src: mediaUrl(`/images/voice-over-studio/${path}.avif`), alt, fx: { width, height, items: [] } };
+}

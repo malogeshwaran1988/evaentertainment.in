@@ -16,6 +16,7 @@ const FOLDERS: Record<string, { group: string; prefix: string }> = {
   "/images/equipment/": { group: "studio-equipment", prefix: "eva/studio-equipment/" },
   "/images/og/": { group: "og", prefix: "eva/shared/og/" },
   "/media/voices/": { group: "voice-over-studio", prefix: "eva/voice-over-studio/voices/" },
+  "/images/voice-over-studio/": { group: "voice-over-studio", prefix: "eva/voice-over-studio/" },
   "/media/onevoice/": { group: "dubbing", prefix: "eva/shared/onevoice/" },
 };
 

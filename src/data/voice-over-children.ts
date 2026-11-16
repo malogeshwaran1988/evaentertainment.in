@@ -1,7 +1,7 @@
 /* Child pages under /voice-over-studio/<slug>. Copy uses only claims already on /voice-over-studio. */
 import type { ServicePageContent } from "@@/data/service-page-types";
 import { STUDIO_CONTACT } from "@@/data/service-pages-markets";
-import { SERVICE_MEDIA } from "@@/data/service-media";
+import { media as mediaUrl } from "@@/lib/media";
 import type { ImageFx } from "@@/data/image-fx";
 
 export const VOICE_OVER_HREF = "/voice-over-studio" as const;
@@ -20,9 +20,11 @@ export type VoiceOverChild = {
   page: ServicePageContent;
 };
 
-const vo = SERVICE_MEDIA["vo-studio"];
-const voArtists = SERVICE_MEDIA["languages-artists"];
-const stockVoice = SERVICE_MEDIA["stock-voice"];
+/** Hero photo unique to one Voice Over child page (R2: eva/voice-over-studio/<slug>/). */
+const hero = (path: string): { image: string; fx: ImageFx } => ({
+  image: mediaUrl(`/images/voice-over-studio/${path}.avif`),
+  fx: { width: 1440, height: 1080, items: [] },
+});
 
 export const DOCUMENTARY_NARRATION: VoiceOverChild = {
   slug: "documentary-narration",
@@ -31,9 +33,8 @@ export const DOCUMENTARY_NARRATION: VoiceOverChild = {
   subtitle:
     "Hindi narration for documentaries and non-fiction shows recorded with native narrators at our Mumbai studio.",
   icon: "icon-voiceover",
-  image: vo.src,
-  alt: vo.alt,
-  fx: vo.fx,
+  ...hero("documentary-narration/hero-narrator"),
+  alt: "Senior Indian narrator in a shawl reading a documentary script into a ribbon microphone in a wood-panelled booth at EVA Entertainment",
   ogImage: "/images/og/voice-over-studio-mumbai.jpg",
   ogImageAlt: "Voice-over booth at EVA Entertainment in Mumbai",
   page: {
@@ -134,9 +135,8 @@ export const AUDIOBOOK_NARRATION: VoiceOverChild = {
   subtitle:
     "Spoken-word recording for authors and publishers in our soundproof booth in Andheri West, Mumbai.",
   icon: "icon-voiceover",
-  image: vo.src,
-  alt: "Indian narrator reading a manuscript at a microphone in a soundproof booth at EVA Entertainment",
-  fx: vo.fx,
+  ...hero("audiobook-narration/hero-narrator"),
+  alt: "Indian audiobook narrator in a saree reading a book aloud from a tablet in an armchair at the microphone at EVA Entertainment",
   ogImage: "/images/og/voice-over-studio-mumbai.jpg",
   ogImageAlt: "Narrator at a microphone in EVA Entertainment's Mumbai voice booth",
   page: {
@@ -203,7 +203,7 @@ export const AUDIOBOOK_NARRATION: VoiceOverChild = {
             text: "More details on our [studio equipment page](/studio-equipment).",
           },
         ],
-        media: "preamps",
+        media: "audiobook-desk",
       },
       {
         heading: "Languages",
@@ -261,9 +261,8 @@ export const AD_COMMERCIALS: VoiceOverChild = {
   subtitle:
     "Voice-over for TV radio and digital ads recorded with native artists at our Andheri West studio.",
   icon: "icon-voiceover",
-  image: stockVoice.src,
-  alt: "Indian voice artist recording a commercial in the booth while an engineer balances the voice on the mixing console",
-  fx: stockVoice.fx,
+  ...hero("ad-commercials/hero-session"),
+  alt: "Voice artist recording a TV commercial in the booth while the ad director gives a thumbs-up behind the glass at EVA Entertainment",
   ogImage: "/images/og/voice-over-studio-mumbai.jpg",
   ogImageAlt: "Voice artist recording a commercial in EVA Entertainment's Mumbai booth",
   page: {
@@ -292,7 +291,7 @@ export const AD_COMMERCIALS: VoiceOverChild = {
             ],
           },
         ],
-        media: "stock-lead",
+        media: "ad-agency-team",
       },
       {
         heading: "TV radio and digital ads",
@@ -344,7 +343,7 @@ export const AD_COMMERCIALS: VoiceOverChild = {
             text: "More details on our [studio equipment page](/studio-equipment).",
           },
         ],
-        media: "preamps",
+        media: "ad-booth-mic",
       },
       {
         heading: "Languages",
@@ -392,9 +391,8 @@ export const E_LEARNING: VoiceOverChild = {
   subtitle:
     "Hindi course narration recorded with a steady tone and clear technical terms at our Mumbai studio.",
   icon: "icon-voiceover",
-  image: voArtists.src,
-  alt: "Indian voice artists with scripts talking in the studio corridor between e-learning sessions at EVA Entertainment",
-  fx: voArtists.fx,
+  ...hero("e-learning/hero-narrator"),
+  alt: "Indian e-learning narrator with headphones recording a training course from a laptop at the microphone at EVA Entertainment",
   ogImage: "/images/og/voice-over-studio-mumbai.jpg",
   ogImageAlt: "Voice artists preparing to record e-learning narration at EVA Entertainment in Mumbai",
   page: {
@@ -475,7 +473,7 @@ export const E_LEARNING: VoiceOverChild = {
             text: "More details on our [studio equipment page](/studio-equipment).",
           },
         ],
-        media: "vo-studio",
+        media: "elearning-booth",
       },
       {
         heading: "Updates with the same artist",
