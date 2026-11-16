@@ -64,13 +64,31 @@ type LangExtras = {
   /** One casting note that does not invent credits. */
   castingNote: string;
   faqs: { q: string; a: string }[];
+  /**
+   * Hand-written page for a live language. Replaces the template lead, sections, meta and CTA so
+   * no two live language pages share body copy.
+   */
+  custom?: LangCustom;
+};
+
+type LangCustom = {
+  subtitle: string;
+  description: string;
+  leadHeading: string;
+  lead: string[];
+  sections: ServicePageContent["sections"];
+  ctaText: string;
+  /** Show the content-type segment links (kept on one language page only). */
+  segments?: boolean;
+  titlesHeading?: string;
 };
 
 function buildLanguage(name: LanguagePlanName, extras: LangExtras): DubbingLanguage {
   const slug = slugifyAscii(name);
   const keyword = `${name} dubbing and voice-over`;
   const leadMedia = media("languages-lead");
-  return {
+  const custom = extras.custom;
+  const lang: DubbingLanguage = {
     slug,
     name,
     keyword,
@@ -185,7 +203,26 @@ function buildLanguage(name: LanguagePlanName, extras: LangExtras): DubbingLangu
       cta: { ...CTA },
     },
   };
+  if (custom) {
+    lang.subtitle = custom.subtitle;
+    lang.page = {
+      ...lang.page,
+      description: custom.description,
+      leadHeading: custom.leadHeading,
+      lead: custom.lead,
+      sections: custom.sections,
+      cta: { ...CTA, text: custom.ctaText },
+    };
+  }
+  return lang;
 }
+
+/** Live language options read by the language page view. */
+export const languageOptions = (slug: string) => {
+  const c = LANGUAGE_EXTRAS_CUSTOM[slug];
+  return { segments: c?.segments ?? true, titlesHeading: c?.titlesHeading };
+};
+const LANGUAGE_EXTRAS_CUSTOM: Record<string, LangCustom | undefined> = {};
 
 /**
  * All plan language pages. Live visibility is driven by published project matches
@@ -205,18 +242,84 @@ export const LANGUAGE_PAGES: Record<string, DubbingLanguage> = Object.fromEntrie
             "Casting starts from the character list age gender and tone in your brief. We propose Hindi artists from our Mumbai roster then lock them after your approval.",
           faqs: [
             {
-              q: "Is this the same as a Telugu to Hindi dubbing page?",
-              a: "No. [Telugu to Hindi dubbing](/dubbing/telugu-to-hindi) owns that exact pair. This page owns Hindi dubbing and voice-over across sources plus narration in Hindi.",
+              q: "Is this the same as the Telugu to Hindi dubbing page?",
+              a: "No. [Telugu to Hindi dubbing](/dubbing/telugu-to-hindi) covers that one pair in depth. This page covers Hindi as the target for every source language plus Hindi narration.",
             },
             {
-              q: "Do you also do Hindi voice-over without lip sync?",
-              a: "Yes. Narration commercials and reads that do not need matched lips are covered here and on our [Voice Over](/voice-over-studio) craft page.",
+              q: "Can I hear Hindi voice samples before booking?",
+              a: "Yes. Tell us about your content and we will share samples from suitable native Hindi voice artists.",
             },
             {
               q: "Can you dub Hollywood titles into Hindi?",
-              a: "Yes when the brief is English-source lip-sync into Hindi. See also [Hollywood movies dubbing](/dubbing-studio/hollywood) for the content-type page.",
+              a: "Yes. English source titles going into Hindi are also covered on [Hollywood movies dubbing](/dubbing-studio/hollywood).",
             },
           ],
+          custom: {
+            subtitle:
+              "Telugu, Tamil, Malayalam and English titles turned into Hindi versions for theatres, OTT and broadcast from our Andheri West studio.",
+            description:
+              "Hindi dubbing in Mumbai for South Indian and English titles. Most of our published credits are Hindi versions, led by Telugu films. Get a free quote.",
+            leadHeading: "Where most of our work ends up",
+            lead: [
+              "**Hindi is the language most of our published work is dubbed into.** Telugu films make up the bulk of those credits, followed by Tamil titles, with Malayalam and English sources as well.",
+              "A Hindi version opens a South Indian or international title to viewers across North India and on national OTT platforms. Each source language has its own page on the [language pair index](/dubbing).",
+            ],
+            sections: [
+              {
+                heading: "South Indian films into Hindi",
+                icon: "icon-translate2",
+                blocks: [
+                  {
+                    t: "p",
+                    text: "Telugu and Tamil titles reach Hindi audiences through our studio more than any other route. Writers adapt each line for Hindi lip sync before directors cast Hindi voices to the age and energy of the original cast. The craft for each pair is on [Telugu to Hindi](/dubbing/telugu-to-hindi) and [Tamil to Hindi](/dubbing/tamil-to-hindi).",
+                  },
+                ],
+              },
+              {
+                heading: "Hindi for national OTT",
+                icon: "icon-play-circle",
+                blocks: [
+                  {
+                    t: "p",
+                    text: "Streaming platforms serve Hindi to a national audience so the track is usually neutral film Hindi. When the brief names a regional colour we cast to that register instead.",
+                  },
+                ],
+              },
+              {
+                heading: "Child and character voices in Hindi",
+                icon: "icon-users",
+                blocks: [
+                  {
+                    t: "p",
+                    text: "Family films and animation need more than adult leads. We cast male, female and child voices for Hindi versions plus character voices for animated titles such as Night of the Zoopocalypse.",
+                  },
+                ],
+              },
+              {
+                heading: "A Hindi mix that sits on the original M&E",
+                icon: "icon-audio",
+                blocks: [
+                  {
+                    t: "p",
+                    text: "Most Hindi versions are mixed against the producer's music and effects track. Levels are matched so the Hindi dialogue sits where the original did, in stereo or [5.1](/5-1-mixing-studio) when the release needs it.",
+                  },
+                ],
+              },
+              {
+                heading: "Hindi voice-over",
+                icon: "icon-mic",
+                blocks: [
+                  {
+                    t: "p",
+                    text: "For narration, ads and reads without matched lips we record Hindi voice-over in the same rooms. See [Voice Over](/voice-over-studio).",
+                  },
+                ],
+              },
+            ],
+            ctaText:
+              "Tell us the source language and runtime plus your Hindi release date. We will reply with a plan and a quote.",
+            segments: true,
+          },
         },
       ],
       [
@@ -294,17 +397,87 @@ export const LANGUAGE_PAGES: Record<string, DubbingLanguage> = Object.fromEntrie
           faqs: [
             {
               q: "Is this the same as Kollywood movies dubbing?",
-              a: "No. [Kollywood movies dubbing](/dubbing-studio/kollywood) owns Tamil-film content types. This page owns Tamil dubbing and voice-over as a language destination from any source.",
+              a: "No. [Kollywood movies dubbing](/dubbing-studio/kollywood) is about Tamil films going into other languages. This page is about any title coming into Tamil.",
             },
             {
-              q: "Where does English to Tamil dubbing sit?",
-              a: "[English to Tamil dubbing](/dubbing/english-to-tamil) owns that pair. This page links those pairs and owns the broader Tamil language intent.",
+              q: "Can I hear Tamil voice samples first?",
+              a: "Yes. Share the brief and we will send samples from native Tamil artists who suit your characters.",
             },
             {
               q: "Do you record Tamil voice-over without lip sync?",
-              a: "Yes. See also [Voice Over](/voice-over-studio) for the craft parent.",
+              a: "Yes. Narration and ad reads in Tamil are part of our [Voice Over](/voice-over-studio) work.",
             },
           ],
+          custom: {
+            subtitle:
+              "Films and series from other languages turned into natural Tamil, voiced by native Tamil artists at our Andheri West studio.",
+            description:
+              "Dubbing into Tamil from Telugu, English and other sources with native Tamil artists, lip sync and Tamil subtitles. Credits include Jack and The owl & co.",
+            leadHeading: "Tamil as the language you dub into",
+            lead: [
+              "**This page is about content going into Tamil.** A Telugu film or an English series arrives at our studio and leaves with a Tamil version that sounds written in Tamil.",
+              "Tamil films going out to other languages are a different job, covered on [Kollywood movies dubbing](/dubbing-studio/kollywood).",
+            ],
+            sections: [
+              {
+                heading: "What Tamil viewers expect",
+                icon: "icon-like",
+                blocks: [
+                  {
+                    t: "p",
+                    text: "Tamil is the language of Kollywood in Chennai. Viewers in Tamil Nadu and the Tamil audience abroad expect dialogue that sounds native, not translated, so each line is adapted for meaning and lip sync before a native Tamil artist records it.",
+                  },
+                ],
+              },
+              {
+                heading: "Sources we bring into Tamil",
+                icon: "icon-translate2",
+                blocks: [
+                  {
+                    t: "ul",
+                    items: [
+                      "**Telugu.** Jack (2025) was dubbed from Telugu into Tamil as well as Hindi. See [Telugu to Tamil](/dubbing/telugu-to-tamil).",
+                      "**English.** The owl & co (2013) had sessions 1 and 2 dubbed into Tamil. See [English to Tamil](/dubbing/english-to-tamil).",
+                      "**Other sources.** Hindi and other titles can be dubbed into Tamil whenever Tamil is the named target.",
+                    ],
+                  },
+                ],
+              },
+              {
+                heading: "Native Tamil voices",
+                icon: "icon-users",
+                blocks: [
+                  {
+                    t: "p",
+                    text: "We cast Tamil artists to the age, gender and tone of each character, including child and cartoon voices for animation. The slate is locked only after you approve it.",
+                  },
+                ],
+              },
+              {
+                heading: "Tamil subtitles from the dub script",
+                icon: "icon-play-circle",
+                blocks: [
+                  {
+                    t: "p",
+                    text: "When a release needs Tamil [subtitles](/subtitling-services) as well, they are written from the same adapted script so the on-screen text and the Tamil voices agree.",
+                  },
+                ],
+              },
+              {
+                heading: "Tamil voice-over",
+                icon: "icon-mic",
+                blocks: [
+                  {
+                    t: "p",
+                    text: "Narration and commercial reads in Tamil that do not need matched lips are booked through our [Voice Over](/voice-over-studio) studio.",
+                  },
+                ],
+              },
+            ],
+            ctaText:
+              "Send the source title and your Tamil delivery date. We will come back with a plan and a quote.",
+            segments: false,
+          },
         },
       ],
       [
@@ -423,23 +596,61 @@ export const LANGUAGE_PAGES: Record<string, DubbingLanguage> = Object.fromEntrie
             "We cast English-speaking artists to the character brief and confirm before recording.",
           faqs: [
             {
-              q: "Is this for dubbing Indian films into English?",
-              a: "Yes when English is the target language. Live destination titles appear below once published in admin. English-source titles also list here so buyers can see the English lead work.",
+              q: "Do you dub Indian films into English?",
+              a: "Yes when English is the target language. Brief us on the audience and the accent you want.",
             },
             {
-              q: "Where does the one-voice multi-language demo live?",
-              a: "On this page. The same English voice artist performs the lead in Hindi Bengali Marathi Telugu Tamil and more. Distributor packaging for Hollywood buyers stays on [Hollywood dubbing for distributors](/hollywood-dubbing-indian-languages).",
+              q: "Can one artist voice a character in English and in Indian languages?",
+              a: "Yes. The same English voice artist performs the lead in Hindi, Bengali, Marathi, Telugu, Tamil and more, guided by native-language directors. Packages for Hollywood buyers are on [Hollywood dubbing for distributors](/hollywood-dubbing-indian-languages).",
             },
             {
               q: "Where does English to Tamil sit?",
-              a: "[English to Tamil dubbing](/dubbing/english-to-tamil) owns that pair. This page owns English destination work English voice-over and the shared English lead voice across Indian languages.",
+              a: "[English to Tamil dubbing](/dubbing/english-to-tamil) covers that pair, including The owl & co.",
             },
           ],
+          custom: {
+            subtitle:
+              "English versions of Indian titles plus one English lead voice carried into Hindi, Tamil and other Indian languages.",
+            description:
+              "English dubbing in Mumbai: Indian titles delivered in English and one English lead voice recorded into Hindi, Tamil and more Indian languages. Free quote.",
+            leadHeading: "Two kinds of English work",
+            lead: [
+              "**English dubbing at EVA is two jobs.** One is an Indian or foreign title delivered in English for viewers who want that version. The other is an English lead voice that we then record into Hindi, Bengali, Marathi, Telugu, Tamil and the rest of the list, so a campaign or a trailer keeps one performance across languages.",
+              "Hollywood source titles also have a content type home on [Hollywood movies dubbing](/dubbing-studio/hollywood).",
+            ],
+            sections: [
+              {
+                heading: "English versions of Indian titles",
+                icon: "icon-translate2",
+                blocks: [
+                  {
+                    t: "p",
+                    text: "When English is the target, writers adapt the original dialogue into natural English and an English-speaking director casts to the character brief. Accent follows the brief, whether Indian English or a British or American colour.",
+                  },
+                ],
+              },
+              {
+                heading: "English voice-over",
+                icon: "icon-mic",
+                blocks: [
+                  {
+                    t: "p",
+                    text: "Corporate films, explainers and ads that need an English read without lip sync are recorded in our booth too. See [Voice Over](/voice-over-studio).",
+                  },
+                ],
+              },
+            ],
+            ctaText:
+              "Tell us whether you need an English version or one English voice across languages. We will reply with a plan and a quote.",
+            segments: false,
+            titlesHeading: "Our English source and English target credits",
+          },
         },
       ],
     ] as [LanguagePlanName, LangExtras][]
   ).map(([name, extras]) => {
     const lang = buildLanguage(name, extras);
+    LANGUAGE_EXTRAS_CUSTOM[lang.slug] = extras.custom;
     return [lang.slug, lang] as const;
   }),
 );

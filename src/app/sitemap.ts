@@ -16,6 +16,7 @@ import { blogHref } from "@@/lib/blog/slug";
 import { getPublicBlogPosts } from "@@/lib/blog/store";
 import { getProjects } from "@@/lib/projects-store";
 import { LANGUAGE_HUB_PREFIX, languagePairs } from "@@/lib/project-links";
+import { projectIsIndexable } from "@@/lib/project-content";
 import { projectAbsolutePosterUrl, projectHref } from "@@/lib/project-seo";
 import { absoluteUrl, isIndexable } from "@@/lib/seo";
 
@@ -82,9 +83,12 @@ const staticSection: Section = async () =>
     priority,
   }));
 
-/** Every published project is indexable with a self canonical. lastmod is its admin updatedAt. */
+/**
+ * Only projects with a real production note (projectIsIndexable) are listed; thin ones are
+ * noindex, follow on the page itself. lastmod is its admin updatedAt.
+ */
 const projectSection = (projects: PublishedProjects): MetadataRoute.Sitemap =>
-  projects.map((project) => {
+  projects.filter((project) => projectIsIndexable(project)).map((project) => {
     const poster = projectAbsolutePosterUrl(project.poster);
     return {
       url: absoluteUrl(projectHref(project.slug)),

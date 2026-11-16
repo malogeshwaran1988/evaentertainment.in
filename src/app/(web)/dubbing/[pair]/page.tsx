@@ -16,6 +16,7 @@ import {
   pairFaqs,
   pairHeading,
   pairImage,
+  pairCraft,
   pairIntro,
   pairQuote,
   pairSections,
@@ -74,6 +75,7 @@ export default async function LanguageHubPage({
   const heading = pairHeading(pair);
   const h = pairSections(pair);
   const image = pairImage(pair);
+  const craft = pairCraft(pair);
   const faqs = pairFaqs(
     pair,
     pairs
@@ -175,6 +177,7 @@ export default async function LanguageHubPage({
             <div className="eva-svc-copy">
               <p className="eva-pair-lead">{pairIntro(pair)}</p>
               <p>{pairFacts(pair)}</p>
+              {craft ? null : (
               <p>
                 Learn more about our{" "}
                 <Link href={serviceHref("dubbing-studio")}>
@@ -187,6 +190,7 @@ export default async function LanguageHubPage({
                 and{" "}
                 <Link href={serviceHref("5-1-mixing-studio")}>5.1 mixing</Link>.
               </p>
+              )}
             </div>
             <figure className="eva-svc-figure eva-svc-split-media">
               <div className="eva-svc-photo" style={{ aspectRatio: "4 / 3" }}>
@@ -252,10 +256,11 @@ export default async function LanguageHubPage({
                   {String(i + 1).padStart(2, "0")}
                 </span>
                 <h3>{s.title}</h3>
-                <p>{s.text}</p>
+                <p>{inline(s.text)}</p>
               </li>
             ))}
           </ol>
+          {craft ? <p className="eva-pair-pointer">{inline(craft.pointer)}</p> : null}
         </div>
       </section>
 
@@ -270,7 +275,7 @@ export default async function LanguageHubPage({
                 {h.studio}
               </h2>
               {pairStudio(pair).map((p) => (
-                <p key={p}>{p}</p>
+                <p key={p}>{inline(p)}</p>
               ))}
             </div>
             <div>

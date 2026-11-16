@@ -14,7 +14,7 @@ import ProjectTrailer from "@@/components/projects/ProjectTrailer";
 import ProjectClientBadge from "@@/components/clients/ProjectClientBadge";
 import { toProjectClient } from "@@/data/clients";
 import { getClients } from "@@/lib/clients-store";
-import { youtubeId } from "@@/lib/project-content";
+import { projectIsIndexable, youtubeId } from "@@/lib/project-content";
 import { APP_BASE_URL, SITE_NAME } from "@@/constants/constants";
 import { Routes, serviceHref } from "@@/constants/routes";
 import { SERVICES } from "@@/data/services";
@@ -81,6 +81,9 @@ export async function generateMetadata({
     url: absoluteUrl(projectHref(project.slug)),
     ogImage,
     ogImageAlt: projectPosterAlt(project),
+    // Thin pages (no real production note yet) stay live and linked but out of the index.
+    // They come back automatically once the admin adds enough unique text for this film.
+    noindex: !projectIsIndexable(project),
   });
 }
 

@@ -118,6 +118,8 @@ export function pairIntro(pair: Pair) {
   const { from, to } = pair;
   const copy = offered(pair);
   if (copy) return copy.intro;
+  const craftIntro = craftOf(pair)?.intro;
+  if (craftIntro) return craftIntro;
   const own = PAIR_INTRO[from];
   if (own && to === "Hindi") return own;
   const home = LANG_HOME[from]
@@ -158,6 +160,8 @@ export function pairDescription(pair: Pair) {
   const { from, to, projects } = pair;
   const copy = offered(pair);
   if (copy) return copy.description;
+  const craft = pairCraft(pair);
+  if (craft) return craft.description;
   const n = plural(projects.length, `${from} title`, `${from} titles`);
   const first = projects[0]?.title;
   const parts = [
@@ -207,17 +211,25 @@ export function pairImage({ from, to }: Pair) {
       };
 }
 
-export const pairSections = ({ from: S, to: T }: Pair) => ({
+export const pairSections = (pair: Pair) => {
+  const { from: S, to: T } = pair;
+  const c = craftOf(pair);
+  return {
   projects: `${S} to ${T} Dubbing Projects`,
-  process: `How Our ${S} to ${T} Dubbing Works`,
-  studio: "Voice Artists and Studio Quality",
-  why: `Why Choose EVA for ${T} Dubbing`,
+  process: c?.processHeading ?? `How Our ${S} to ${T} Dubbing Works`,
+  studio: c?.craftHeading ?? "Voice Artists and Studio Quality",
+  why: c?.whyHeading ?? `Why Choose EVA for ${T} Dubbing`,
   related: "Other Language Pairs",
   faq: `${S} to ${T} Dubbing FAQs`,
   quote: `Get ${/^[AEIOU]/.test(S) ? "an" : "a"} ${S} to ${T} Dubbing Quote`,
-});
+  };
+};
 
-export const pairSteps = ({ from: S, to: T }: Pair) => [
+export const pairSteps = (pair: Pair) => {
+  const c = craftOf(pair);
+  if (c) return c.steps;
+  const { from: S, to: T } = pair;
+  return [
   {
     title: "Script adaptation",
     text: `Writers turn the ${S} dialogue into natural ${T}, keeping ${focus(S)}. Each line is then fitted to the actor's lip movement.`,
@@ -238,14 +250,31 @@ export const pairSteps = ({ from: S, to: T }: Pair) => [
     title: "Mix and QC",
     text: `The ${T} track is mixed with the original music and effects (5.1 when you need it) and checked before delivery.`,
   },
-];
+  ];
+};
 
-export const pairStudio = ({ from: S, to: T }: Pair) => [
+export const pairStudio = (pair: Pair) => {
+  const c = craftOf(pair);
+  if (c) return c.craft;
+  const { from: S, to: T } = pair;
+  return [
   `Every ${T} line is voiced by a native ${T} artist, so the dub sounds right to ${LANG_AUDIENCE[T] ?? `${T} viewers`}. We cast male, female and child voices of all ages.`,
   `A dubbing director who knows both ${S} and ${T} sits in on each session with a sound engineer at our Andheri West studio in Mumbai.`,
-];
+  ];
+};
 
-export const pairWhy = ({ from: S, to: T, projects }: Pair) => [
+export const pairWhy = (pair: Pair) => {
+  const { from: S, to: T, projects } = pair;
+  const count = {
+    title: `${plural(projects.length, `${S} title`, `${S} titles`)} in ${T}`,
+    text:
+      projects.length === 1
+        ? `A real ${S} to ${T} credit, shown on this page.`
+        : `Real ${S} to ${T} projects, each listed on this page.`,
+  };
+  const c = craftOf(pair);
+  if (c) return [count, ...c.why];
+  return [
   projects.length
     ? {
         title: `${plural(projects.length, `${S} title`, `${S} titles`)} in ${T}`,
@@ -263,7 +292,8 @@ export const pairWhy = ({ from: S, to: T, projects }: Pair) => [
     title: `${S} video in, ${T} video out`,
     text: `Hand over the ${S} master and receive a finished, mixed ${T} version.`,
   },
-];
+  ];
+};
 
 /** `others` = the other languages we have dubbed this source into (real pairs), so each pair's FAQ differs. */
 export const pairFaqs = (pair: Pair, others: string[] = []) => {
@@ -272,11 +302,20 @@ export const pairFaqs = (pair: Pair, others: string[] = []) => {
   if (copy) return copy.faqs;
   const titles = listJoin(projects.slice(0, 3).map((p) => p.title));
   const reach = LANG_AUDIENCE[T] ?? `${T} viewers`;
+  const credits =
+    projects.length === 1
+      ? {
+          q: `Which ${S} title has ${SITE_NAME} dubbed into ${T}?`,
+          a: `${titles}${projects[0]?.year ? ` (${projects[0].year})` : ""}, shown on this page.`,
+        }
+      : {
+          q: `Which ${S} titles has ${SITE_NAME} dubbed into ${T}?`,
+          a: `Our ${S} to ${T} work includes ${titles}. All ${projects.length} projects are listed on this page.`,
+        };
+  const c = craftOf(pair);
+  if (c) return [credits, ...c.faqs];
   return [
-    {
-      q: `Which ${S} titles has ${SITE_NAME} dubbed into ${T}?`,
-      a: `Our ${S} to ${T} work includes ${titles}. All ${plural(projects.length, "project is", "projects are")} listed on this page.`,
-    },
+    credits,
     {
       q: `Who watches ${an(T)} ${T} dub of ${an(S)} ${S} film?`,
       a: `${an(T) === "an" ? "An" : "A"} ${T} version opens a ${S} title to ${reach}, in their own language.`,
@@ -301,7 +340,8 @@ export const pairFaqs = (pair: Pair, others: string[] = []) => {
   ];
 };
 
-export const pairQuote = ({ from: S, to: T }: Pair) =>
+export const pairQuote = (pair: Pair) => craftOf(pair)?.quote ?? defaultQuote(pair);
+const defaultQuote = ({ from: S, to: T }: Pair) =>
   `Send us your ${S} title and tell us about the ${T} version you need. Our team will reply with a free quote.`;
 
 /** Footer column and /dubbing hub. */
@@ -313,3 +353,288 @@ export const DUBBING_HUB = {
   intro: "Pick a language pair to see the titles we have dubbed in it.",
   listHeading: "All language pairs",
 };
+
+/**
+ * Hand-written, pair-only copy for the live pair pages. Each pair talks about its own craft so no
+ * two pages share body text; the general lip-sync process lives once on /dubbing-studio.
+ * Facts only: credits and years come from published projects. Pairs without an entry here fall
+ * back to the template sections below.
+ */
+type PairCraft = {
+  intro?: string;
+  description: string;
+  processHeading: string;
+  steps: { title: string; text: string }[];
+  craftHeading: string;
+  craft: string[];
+  whyHeading: string;
+  why: { title: string; text: string }[];
+  faqs: { q: string; a: string }[];
+  quote: string;
+};
+
+const PROCESS_POINTER =
+  "Recording, lip sync checks and the final mix follow the same studio workflow as every title we dub, set out on our [lip-sync dubbing studio](/dubbing-studio) page.";
+
+const PAIR_CRAFT: Record<string, PairCraft> = {
+  "Telugu>Hindi": {
+    description:
+      "Telugu to Hindi dubbing in Mumbai with mass dialogue and comedy rebuilt for Hindi viewers. See our {count} Telugu titles dubbed into Hindi. Free quote.",
+    processHeading: "How We Take a Telugu Title into Hindi",
+    steps: [
+      {
+        title: "Meaning first, then the mouth",
+        text: "A Hindi line often runs longer than the Telugu one. The writer trims it to the core meaning first and only then fits it to the actor's lips, so nobody sounds rushed.",
+      },
+      {
+        title: "Punch dialogue kept punchy",
+        text: "Mass scenes live on build up and pause. We keep the beat before the big line so a hero moment hits Hindi viewers as hard as it hit the Telugu audience.",
+      },
+      {
+        title: "Voices cast to Telugu energy",
+        text: "Telugu characters are often played big. Hindi voices are chosen for the age and energy of each role with samples shared before the booth.",
+      },
+    ],
+    craftHeading: "Comedy That Survives the Crossing",
+    craft: [
+      "A joke that lands in Telugu can feel flat in Hindi when it is translated word for word. Our writers rebuild the laugh for a North Indian audience and then fit the new line to the actor's mouth.",
+      "Telugu to Hindi is the biggest share of our published credits, each one listed on this page.",
+    ],
+    whyHeading: "Why Producers Bring Telugu Films to EVA",
+    why: [
+      {
+        title: "Laughs rebuilt in Hindi",
+        text: "Comic lines are written again for Hindi humour instead of being translated literally.",
+      },
+      {
+        title: "From Telugu master to Hindi release",
+        text: "Send the Telugu master and get back a mixed Hindi track ready for theatres or OTT.",
+      },
+    ],
+    faqs: [
+      {
+        q: "What is hardest about a Telugu to Hindi dub?",
+        a: "Comedy and mass punch lines. A joke that lands in Telugu can feel flat in Hindi if it is translated word for word so the writer rebuilds the laugh for a North Indian audience before fitting it to the actor's mouth.",
+      },
+      {
+        q: "Who watches the Hindi version of a Telugu film?",
+        a: "Hindi viewers across North India and on national OTT platforms. A natural Hindi track lets a Telugu title play to them as if it were made in their language.",
+      },
+      {
+        q: "Do you also dub Telugu films into Tamil?",
+        a: "Yes. Jack went from Telugu into both Hindi and Tamil. See [Telugu to Tamil dubbing](/dubbing/telugu-to-tamil).",
+      },
+    ],
+    quote:
+      "Tell us about your Telugu film and its Hindi release plan. We will come back with a free quote for the Hindi version.",
+  },
+  "Tamil>Hindi": {
+    description:
+      "Tamil to Hindi dubbing that keeps sharp Tamil writing, songs and crowd scenes alive in Hindi. {count} Tamil titles dubbed at our Mumbai studio. Free quote.",
+    processHeading: "What Changes When Tamil Becomes Hindi",
+    steps: [
+      {
+        title: "Writing that keeps its bite",
+        text: "A cutting Tamil remark or a quiet family line is rewritten so it carries the same weight in Hindi. The Hindi version should feel like the same film, not a softer copy.",
+      },
+      {
+        title: "References Hindi viewers can follow",
+        text: "Local jokes and cultural references stay where Hindi viewers will follow them. Where they would not, the line is adapted so the meaning still comes through.",
+      },
+      {
+        title: "Songs and crowds recorded in Hindi",
+        text: "Crowd scenes and song portions are recorded in Hindi too, so the busiest moments of the film feel as alive as the Tamil original.",
+      },
+    ],
+    craftHeading: "Keeping Tamil Writing Sharp in Hindi",
+    craft: [
+      "Tamil and Hindi sentences rarely line up word for word. Our writers work line by line so the Hindi sits on the actor's lips while the edge of the Tamil dialogue survives.",
+      "Our Tamil to Hindi credits stretch back to 2009, longer than any other pair we have published.",
+    ],
+    whyHeading: "Why Tamil Titles Come to EVA",
+    why: [
+      {
+        title: "Dialogue with the same edge",
+        text: "Each line is adapted for weight and lip sync together, never one at the cost of the other.",
+      },
+      {
+        title: "Full scenes, not just leads",
+        text: "Background voices and song portions are part of the Hindi recording plan.",
+      },
+    ],
+    faqs: [
+      {
+        q: "What is hardest about a Tamil to Hindi dub?",
+        a: "Holding on to the sharpness of Tamil writing. A literal Hindi line can sound flat or rude in the wrong way so the writer picks words that keep the original tone.",
+      },
+      {
+        q: "Do you dub the songs and crowd scenes in Tamil films?",
+        a: "Yes. We record crowd scenes and song portions in Hindi so the dubbed film does not go quiet in its busiest moments.",
+      },
+      {
+        q: "Who is a Hindi version of a Tamil film for?",
+        a: "Viewers across North India and on national OTT platforms who want the story in their own language with the performances intact.",
+      },
+    ],
+    quote:
+      "Share the Tamil title you want in Hindi along with your release date. Our team will send a free quote.",
+  },
+  "Malayalam>Hindi": {
+    description:
+      "Malayalam to Hindi dubbing with restrained Hindi performances and the original sound design kept intact. Recent credit: Oddum Kuthira Chaddum Kuthira.",
+    processHeading: "How We Dub a Quiet Malayalam Film into Hindi",
+    steps: [
+      {
+        title: "Dense dialogue made to fit",
+        text: "Malayalam dramas are dialogue heavy. Writers condense long exchanges so the Hindi keeps every idea without making the actor appear to speed up.",
+      },
+      {
+        title: "Performances kept small",
+        text: "Hindi artists are directed to hold back. A quiet line stays quiet so the realism of the original is not lost to a louder dub.",
+      },
+      {
+        title: "Original sound design protected",
+        text: "The Hindi dialogue is laid into the original ambience and effects so streaming and broadcast viewers hear the film the way it was designed.",
+      },
+    ],
+    craftHeading: "Why a Malayalam Dub Has to Be Subtle",
+    craft: [
+      "Malayalam humour and drama often sit in the delivery more than in the words. If the Hindi voice pushes too hard the moment disappears, so our directors keep each take close to the pitch and pace of the original actor.",
+      "Oddum Kuthira Chaddum Kuthira (2025) is our published Malayalam to Hindi credit.",
+    ],
+    whyHeading: "What You Get with a Malayalam Title",
+    why: [
+      {
+        title: "Quiet scenes stay quiet",
+        text: "Direction aims for natural Hindi that matches a realistic Malayalam performance.",
+      },
+      {
+        title: "Ready for streaming and broadcast",
+        text: "A clean Hindi mix delivered on top of the original sound design.",
+      },
+    ],
+    faqs: [
+      {
+        q: "Will the Hindi dub sound louder than the Malayalam film?",
+        a: "No. We direct Hindi artists toward restrained performances so the dub keeps the realism of the original.",
+      },
+      {
+        q: "Can you keep the original sound design?",
+        a: "Yes. The Hindi dialogue is mixed into the original music and effects so the film keeps its atmosphere.",
+      },
+    ],
+    quote:
+      "Have a Malayalam film that needs a Hindi version? Send us the details for a free quote.",
+  },
+  "Telugu>Tamil": {
+    intro:
+      "Telugu and Tamil are neighbours yet a Tamil viewer still wants a film in Tamil. A dub of a Telugu title has to sound written in Chennai, not borrowed from Hyderabad, with every punch line and joke reworked for Tamil ears.",
+    description:
+      "Telugu to Tamil dubbing that reworks punch lines and comedy timing for Tamil viewers. Credit: Jack, dubbed from Telugu into Tamil and Hindi in 2025.",
+    processHeading: "Moving a Telugu Film into Tamil",
+    steps: [
+      {
+        title: "Two South Indian rhythms",
+        text: "Telugu and Tamil dialogue have different beats. Writers rework each punch line so the pause and the hit land where a Tamil audience expects them.",
+      },
+      {
+        title: "Comedy timed for Tamil",
+        text: "Gags are rewritten for a Tamil ear and timed to the action on screen rather than to the Telugu words.",
+      },
+      {
+        title: "Native Tamil voices",
+        text: "Native Tamil artists record under a Tamil-speaking director at our Andheri West studio.",
+      },
+    ],
+    craftHeading: "One Telugu Film, Two Dubbed Versions",
+    craft: [
+      "Jack (2025) went from Telugu into both Tamil and Hindi at EVA. Each version got its own script adaptation, since a line written for Hindi viewers is rarely the line a Tamil audience wants.",
+    ],
+    whyHeading: "Why Dub Telugu into Tamil with EVA",
+    why: [
+      {
+        title: "Tamil that sounds local",
+        text: "Dialogue written for Tamil viewers in India and abroad.",
+      },
+      {
+        title: "Hindi alongside Tamil",
+        text: "The same Telugu title can also be dubbed into Hindi for a national release.",
+      },
+    ],
+    faqs: [
+      {
+        q: "Why dub a Telugu film into Tamil when the languages are close?",
+        a: "Close is not the same. Tamil viewers notice Telugu rhythm in a line straight away. A proper Tamil dub lets the film play as their own.",
+      },
+      {
+        q: "Can you make a Hindi version at the same time?",
+        a: "Yes. Jack was dubbed from Telugu into both Tamil and Hindi. See [Telugu to Hindi dubbing](/dubbing/telugu-to-hindi).",
+      },
+    ],
+    quote:
+      "Planning a Tamil release for a Telugu film? Tell us the title and we will reply with a free quote.",
+  },
+  "English>Tamil": {
+    intro:
+      "English dialogue moves fast and leans on idiom. A Tamil dub has to keep that speed while sounding written in Tamil, because viewers in Tamil Nadu and the Tamil audience abroad expect dialogue that feels native.",
+    description:
+      "English to Tamil dubbing that adapts idioms, jokes and fast dialogue for Tamil viewers. Credit: The owl & co, sessions 1 and 2 dubbed into Tamil.",
+    processHeading: "Turning English Dialogue into Tamil",
+    steps: [
+      {
+        title: "Idioms rebuilt in Tamil",
+        text: "An English idiom rarely survives a literal Tamil translation. Writers find a Tamil expression with the same meaning and the same tone.",
+      },
+      {
+        title: "Fast lines, Tamil mouths",
+        text: "Quick English exchanges are reworked so the Tamil fits English mouth shapes without the artist racing.",
+      },
+      {
+        title: "Subtitles from the same script",
+        text: "When you need Tamil [subtitles](/subtitling-services) too, they come from the adapted dub script so screen text and speech agree.",
+      },
+    ],
+    craftHeading: "English Humour in Tamil",
+    craft: [
+      "The owl & co (2013) is our English to Tamil credit, with sessions 1 and 2 dubbed into Tamil. Humour in a show like this lives on timing so the Tamil line is written to hit on the same beat as the English one.",
+      "English feature films going into several Indian languages are covered on [Hollywood dubbing into Indian languages](/hollywood-dubbing-indian-languages).",
+    ],
+    whyHeading: "Why English Content Comes to EVA for Tamil",
+    why: [
+      {
+        title: "Idiom that lands in Tamil",
+        text: "Expressions are swapped for Tamil ones viewers actually use.",
+      },
+      {
+        title: "Dub and subtitles that match",
+        text: "One adapted script feeds both the Tamil track and the Tamil subtitles.",
+      },
+    ],
+    faqs: [
+      {
+        q: "What is hardest about English to Tamil dubbing?",
+        a: "Idioms and jokes. Carried over literally they lose their sense, so the writer picks a Tamil line that keeps the joke and still fits the mouth.",
+      },
+      {
+        q: "Can you add Tamil subtitles too?",
+        a: "Yes. We create Tamil [subtitles](/subtitling-services) from the same adapted script so the dub and the subtitles match.",
+      },
+      {
+        q: "Do you dub English feature films into Tamil?",
+        a: "Yes. Feature films are covered on our [Hollywood dubbing](/hollywood-dubbing-indian-languages) page.",
+      },
+    ],
+    quote:
+      "Send us your English series or film with the Tamil delivery you need. We will reply with a free quote.",
+  },
+};
+const craftOf = (pair: Pair) =>
+  pair.projects.length ? PAIR_CRAFT[keyOf(pair)] : undefined;
+
+/** Pair-only page copy, or undefined to use the template sections. */
+export function pairCraft(pair: Pair) {
+  const c = craftOf(pair);
+  if (!c) return undefined;
+  const count = String(pair.projects.length);
+  return { ...c, description: c.description.replaceAll("{count}", count), pointer: PROCESS_POINTER };
+}

@@ -277,7 +277,7 @@ export const SEGMENT_PAGES: Record<string, DubbingSegment> = {
               t: "ol",
               items: [
                 "**Brief and assets.** Locked cut Hindi script or dialogue list M&E and the target language list with your release date.",
-                "**Adaptation.** Native writers fit meaning jokes and lip shapes in the target language. See [script translation](/translation-services).",
+                "**Adaptation.** Native writers carry Bollywood punch lines and song cues into the target language and fit each line to the lips. See [script translation](/translation-services).",
                 "**Casting and samples.** Character-matched artists approved before recording.",
                 "**Directed sessions.** Booth recording with a native-language dubbing director.",
                 "**Sync edit and mix.** Frame-level fitting then a [stereo or 5.1 mix](/5-1-mixing-studio) on your M&E.",
@@ -534,9 +534,9 @@ export const SEGMENT_PAGES: Record<string, DubbingSegment> = {
                 "**Brief and assets.** Locked episodes with scripts or dialogue lists plus the M&E track target languages and the drop date.",
                 "**Lip-sync adaptation.** Native writers fit each line to mouth shapes while names and terms stay the same across episodes. See [script translation](/translation-services).",
                 "**Casting once for the season.** We share samples per character before the first session and keep the approved artist on that character.",
-                "**Directed recording.** Artists record loop by loop with a dubbing director and engineer in our soundproof booth.",
+                "**Episode sessions.** The same artist returns for each episode while the dubbing director holds the voice to the performance approved in episode one.",
                 "**Mix and QC per episode.** New dialogue is mixed with the M&E in [stereo or 5.1](/5-1-mixing-studio) and each episode gets a sync check before delivery.",
-                "**Delivery.** Full mix dialogue stem and M&E named to your spec. Need subtitles too? See [subtitling services](/subtitling-services).",
+                "**Delivery.** Every episode ships as a full mix with its dialogue stem and M&E, named the way your platform asks. Need subtitles too? See [subtitling services](/subtitling-services).",
               ],
             },
           ],
@@ -622,7 +622,7 @@ export const SEGMENT_PAGES: Record<string, DubbingSegment> = {
             {
               t: "ol",
               items: [
-                "**Brief and assets.** Locked picture script or dialogue list M&E and the release date.",
+                "**Brief and assets.** The locked animated cut plus its script or dialogue list, the M&E and your release date.",
                 "**Adaptation.** Writers rework jokes and songs so they land in Hindi while the lines still fit each mouth. See [script translation](/translation-services).",
                 "**Character casting.** Male female and child voices with samples per character before any booth session.",
                 "**Directed recording.** A dubbing director keeps energy and timing in the cartoon style of the original.",

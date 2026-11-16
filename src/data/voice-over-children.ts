@@ -74,32 +74,22 @@ export const DOCUMENTARY_NARRATION: VoiceOverChild = {
             t: "ol",
             items: [
               "**Share your script and brief.** Tell us the audience tone and length. A reference cut helps.",
-              "**Get voice samples.** We shortlist narrators and send samples so you can pick the voice.",
+              "**Hear the narrators.** We shortlist narrators and send samples matched to the subject of your film.",
               "**Script check.** We check pronunciation of names technical terms and numbers before the session.",
-              "**Directed recording.** The narrator records in our soundproof booth with a director and engineer. You are welcome to attend.",
-              "**Editing.** We remove breaths clicks and mistakes and level the audio so it sounds consistent from start to finish.",
-              "**Delivery.** Files in the format you need such as WAV or MP3. We can also sync the voice to your video and mix it in [stereo or 5.1](/5-1-mixing-studio).",
+              "**Narration to picture.** The narrator reads against your cut with a director keeping pace with the edit. You are welcome to sit in.",
+              "**Editing.** Breaths and fluffs come out and the level holds steady scene after scene for the whole runtime.",
+              "**Delivery.** WAV or MP3 narration stems. We can also lay the voice onto your video and mix it in [stereo or 5.1](/5-1-mixing-studio).",
             ],
           },
         ],
       },
       {
-        heading: "Languages",
+        heading: "Narration in other languages",
         icon: "icon-translate2",
         blocks: [
           {
             t: "p",
-            text: "Hindi is our most requested voice-over language. We also record in English Bengali Marathi Telugu Tamil Gujarati Urdu Kannada Odia and Malayalam. Need the script in Hindi first? Our [script translation team](/translation-services) can adapt it.",
-          },
-        ],
-      },
-      {
-        heading: "Live voices, never cloned",
-        icon: "icon-voiceover",
-        blocks: [
-          {
-            t: "p",
-            text: "Every narration is a live human performance captured in our booth with a native-language director. We do not use voice cloning.",
+            text: "Most documentaries we narrate are in Hindi. When the film needs another Indian language version we cast a native narrator for it and keep the same pacing notes. The full language list is on our [voice-over studio](/voice-over-studio) page.",
           },
         ],
       },
@@ -107,7 +97,7 @@ export const DOCUMENTARY_NARRATION: VoiceOverChild = {
     faqs: [
       {
         q: "Do you record documentary narration in Hindi?",
-        a: "Yes. Hindi is our most requested voice-over language and we record long-form documentary narration with native narrators.",
+        a: "Yes. Long-form documentary narration in Hindi is the core of this service, voiced by native narrators.",
       },
       {
         q: "Can I hear samples before booking?",
@@ -115,7 +105,7 @@ export const DOCUMENTARY_NARRATION: VoiceOverChild = {
       },
       {
         q: "Do you use AI or cloned voices?",
-        a: "No. Every narration is a live human performance recorded in our booth.",
+        a: "No. A human narrator voices every documentary. Our position on voice cloning is on the [voice-over studio](/voice-over-studio) page.",
       },
     ],
     cta: {
@@ -175,53 +165,33 @@ export const AUDIOBOOK_NARRATION: VoiceOverChild = {
             t: "ol",
             items: [
               "**Share your manuscript and brief.** Tell us the language audience and the tone you want. A sample chapter helps.",
-              "**Get voice samples.** We shortlist native narrators and send samples so you can pick the voice.",
+              "**Pick a narrator.** We shortlist native narrators and send samples so you can judge how each one would carry your book.",
               "**Script check.** We check names places and numbers before the session so the reading is not stopped by doubts.",
-              "**Directed recording.** The narrator reads in our soundproof booth with a director and engineer. You are welcome to attend.",
-              "**Editing.** We remove breaths clicks and mistakes and level the audio so chapters sound consistent.",
-              "**Delivery.** Files in the format you need such as WAV or MP3.",
+              "**Chapter sessions.** The book is read chapter by chapter with a director following the text line by line.",
+              "**Editing.** Slips are cut and the level is kept even from one chapter to the next.",
+              "**Delivery.** Chapter files as WAV or MP3.",
             ],
           },
         ],
       },
       {
-        heading: "The recording booth",
+        heading: "Where the book is read",
         icon: "icon-mic-2",
         blocks: [
           {
-            t: "ul",
-            items: [
-              "A dedicated soundproof voice booth, separate from the control room",
-              "Neumann and Rode microphones",
-              "Sessions recorded in Pro Tools",
-              "An engineer and director on every session",
-              "Engineers with {years} years of studio experience",
-            ],
-          },
-          {
             t: "p",
-            text: "More details on our [studio equipment page](/studio-equipment).",
+            text: "Audiobooks are read in our soundproof booth in Andheri West with a director and an engineer on the session. The microphones and the rest of the kit are on our [studio equipment](/studio-equipment) page.",
           },
         ],
         media: "audiobook-desk",
       },
       {
-        heading: "Languages",
+        heading: "Books in more than one language",
         icon: "icon-translate2",
         blocks: [
           {
             t: "p",
-            text: "Hindi is our most requested voice-over language. We also record audiobook narration in English, Bengali, Marathi, Telugu, Tamil, Gujarati, Urdu, Kannada, Odia and Malayalam. Need the text in another language first? Our [script translation team](/translation-services) can adapt it.",
-          },
-        ],
-      },
-      {
-        heading: "Live voices, never cloned",
-        icon: "icon-voiceover",
-        blocks: [
-          {
-            t: "p",
-            text: "Every audiobook we record is a live human reading captured in our booth. We do not use voice cloning.",
+            text: "Publishers who release the same title in a second language get a native narrator for that edition, cast to match the tone of the first. The full language list is on our [voice-over studio](/voice-over-studio) page.",
           },
         ],
       },
@@ -237,11 +207,7 @@ export const AUDIOBOOK_NARRATION: VoiceOverChild = {
       },
       {
         q: "Do you use AI or cloned voices?",
-        a: "No. Every audiobook is a live human reading recorded in our booth.",
-      },
-      {
-        q: "Which languages can you record in?",
-        a: "Hindi is our most requested language. We also record in English, Bengali, Marathi, Telugu, Tamil, Gujarati, Urdu, Kannada, Odia and Malayalam.",
+        a: "No. A person reads every chapter. Our position on voice cloning is set out on the [voice-over studio](/voice-over-studio) page.",
       },
     ],
     cta: {
@@ -315,43 +281,33 @@ export const AD_COMMERCIALS: VoiceOverChild = {
             t: "ol",
             items: [
               "**Share the script and the cut.** Tell us where the ad will run (TV radio or digital) the language and the tone. A reference track helps.",
-              "**Get voice samples.** We shortlist artists and send samples. You pick the voice.",
+              "**Hear the voices.** We send samples from artists who fit the brand. You pick the voice.",
               "**Script check.** We check brand names and any line that is hard to say in the time you have.",
-              "**Directed recording.** The artist records in our soundproof booth with a director and engineer. You are welcome to attend.",
-              "**Editing.** We remove breaths clicks and mistakes and level the voice so it sits cleanly in the mix.",
-              "**Delivery.** Files in the format you need such as WAV or MP3. We can also sync the voice to your picture and add music from our [stock music library](/stock-music-library). Need a jingle? See our [song recording studio](/song-recording-studio).",
+              "**Takes to the second.** The artist records to the length of your cut while the director times each take. Your team can join in the room.",
+              "**Editing.** The chosen take is cleaned up so the voice sits clearly under the picture.",
+              "**Delivery.** Broadcast ready WAV or MP3 files. We can also sync the voice to your picture and add music from our [stock music library](/stock-music-library). Need a jingle? See our [song recording studio](/song-recording-studio).",
             ],
           },
         ],
       },
       {
-        heading: "The recording booth",
+        heading: "Where the ad is voiced",
         icon: "icon-mic-2",
         blocks: [
           {
-            t: "ul",
-            items: [
-              "A dedicated soundproof voice booth, separate from the control room, in Andheri West",
-              "Neumann and Rode microphones",
-              "Sessions recorded in Pro Tools",
-              "An engineer and director on every session",
-              "Engineers with {years} years of studio experience",
-            ],
-          },
-          {
             t: "p",
-            text: "More details on our [studio equipment page](/studio-equipment).",
+            text: "Commercial reads are cut in our soundproof booth in Andheri West with the director and engineer in the control room next door. Microphones and the rest of the kit are on our [studio equipment](/studio-equipment) page.",
           },
         ],
         media: "ad-booth-mic",
       },
       {
-        heading: "Languages",
+        heading: "One script, several language versions",
         icon: "icon-translate2",
         blocks: [
           {
             t: "p",
-            text: "Hindi is our most requested voice-over language. We also record commercial reads in English, Bengali, Marathi, Telugu, Tamil, Gujarati, Urdu, Kannada, Odia and Malayalam. Need the same script in more than one language? Our [script translation team](/translation-services) can adapt it and we will cast a native artist for each version.",
+            text: "Campaigns that run across states often need the same script cut in several languages to the same timing. Our [script translation team](/translation-services) adapts each version and we cast a native artist for each one. The full language list is on our [voice-over studio](/voice-over-studio) page.",
           },
         ],
       },
@@ -431,11 +387,11 @@ export const E_LEARNING: VoiceOverChild = {
             t: "ol",
             items: [
               "**Share your script and brief.** Tell us the audience subject and how many modules you have. A pronunciation list for technical terms helps.",
-              "**Get voice samples.** We shortlist native Hindi narrators and send samples so you can pick the voice.",
+              "**Choose a narrator.** We send samples from native Hindi narrators so you can hear how each handles technical language.",
               "**Script check.** We check technical terms names and numbers before the session.",
-              "**Directed recording.** The narrator records in our soundproof booth with a director and engineer. You are welcome to attend. Longer courses are booked module by module.",
-              "**Editing.** We remove breaths clicks and mistakes and level the audio so every module sounds like part of the same course.",
-              "**Delivery.** Files in the format you need such as WAV or MP3, split per module when you ask.",
+              "**Module by module.** Longer courses are booked module by module with a director checking every term against your list.",
+              "**Editing.** Each module is cleaned and levelled so the whole course sounds like one narrator on one day.",
+              "**Delivery.** WAV or MP3 files split per module when you ask.",
             ],
           },
         ],
@@ -446,31 +402,17 @@ export const E_LEARNING: VoiceOverChild = {
         blocks: [
           {
             t: "p",
-            text: "Hindi is our most requested voice-over language and the focus of this page. When a course also needs a regional-language version we use the same booth and the same process.",
-          },
-          {
-            t: "p",
-            text: "We record training narration in English, Bengali, Marathi, Telugu, Tamil, Gujarati, Urdu, Kannada, Odia and Malayalam as well. Our [script translation team](/translation-services) can adapt the modules and we will cast a native artist for each language so timing and file naming stay aligned.",
+            text: "Most course work we record is in Hindi. When the same modules need a second language we bring a native narrator and the same session plan so file names and timing stay aligned across versions. Our [script translation team](/translation-services) can adapt the modules first. The full language list is on our [voice-over studio](/voice-over-studio) page.",
           },
         ],
       },
       {
-        heading: "The recording booth",
+        heading: "Where courses are recorded",
         icon: "icon-mic-2",
         blocks: [
           {
-            t: "ul",
-            items: [
-              "A dedicated soundproof voice booth, separate from the control room, in Andheri West",
-              "Neumann and Rode microphones",
-              "Sessions recorded in Pro Tools",
-              "An engineer and director on every session",
-              "Engineers with {years} years of studio experience",
-            ],
-          },
-          {
             t: "p",
-            text: "More details on our [studio equipment page](/studio-equipment).",
+            text: "Course narration is recorded in our soundproof booth in Andheri West with a director and an engineer on the session. Microphones and the rest of the kit are listed on our [studio equipment](/studio-equipment) page.",
           },
         ],
         media: "elearning-booth",
@@ -489,7 +431,7 @@ export const E_LEARNING: VoiceOverChild = {
     faqs: [
       {
         q: "Do you record e-learning voice-over in Hindi?",
-        a: "Yes. Hindi is our most requested voice-over language and we record course narration with native Hindi speakers.",
+        a: "Yes. Hindi is the main language for our course narration and every module is voiced by a native Hindi speaker.",
       },
       {
         q: "Can you keep the same voice if we update a module later?",

@@ -7,7 +7,6 @@ import ServiceLead, { ServicePageCta } from "@@/components/services/ServiceLead"
 import ServiceSections from "@@/components/services/ServiceSections";
 import ServicePosterStrip from "@@/components/services/ServicePosterStrip";
 import LanguageHubLinks from "@@/components/projects/LanguageHubLinks";
-import Link from "@@/components/common/NavLink";
 import { plain } from "@@/components/services/RichText";
 import { APP_BASE_URL, CONTACT, POSTAL_ADDRESS, SITE_NAME } from "@@/constants/constants";
 import { Routes, serviceHref } from "@@/constants/routes";
@@ -15,6 +14,7 @@ import { projectIsPublished, projectLanguageLine } from "@@/data/projects";
 import {
   getLanguage,
   languageHref,
+  languageOptions,
   pairsIntoLanguage,
   projectsForLanguage,
 } from "@@/data/dubbing-languages";
@@ -40,16 +40,13 @@ async function publishedProjects() {
 function titlesSection(
   languageName: string,
   projects: Awaited<ReturnType<typeof publishedProjects>>,
+  heading?: string,
 ): ServicePageSection | null {
   if (!projects.length) return null;
   return {
-    heading: `Titles we have dubbed into ${languageName}`,
+    heading: heading ?? `Titles we have dubbed into ${languageName}`,
     icon: "icon-play-circle",
     blocks: [
-      {
-        t: "p",
-        text: `Published credits converted into ${languageName}. Each link opens the project page. Titles come from admin data only.`,
-      },
       {
         t: "ul",
         items: projects.map((p) => {
@@ -71,13 +68,9 @@ function segmentsSection(
     icon: "icon-audio",
     blocks: [
       {
-        t: "p",
-        text: "Content-type pages for the kinds of titles we dub. Language destination stays on this page.",
-      },
-      {
         t: "ul",
         items: live.map(
-          (s) => `**[${s.label}](${s.href})** - ${s.keyword}`,
+          (s) => `**[${s.label}](${s.href})**: ${s.keyword}`,
         ),
       },
     ],
@@ -92,8 +85,9 @@ export default async function LanguagePageView({ slug }: { slug: string }) {
   const matched = projectsForLanguage(lang, all);
   if (!matched.length) notFound();
 
-  const titles = titlesSection(lang.name, matched);
-  const segments = segmentsSection(all);
+  const options = languageOptions(lang.slug);
+  const titles = titlesSection(lang.name, matched, options.titlesHeading);
+  const segments = options.segments ? segmentsSection(all) : null;
   const allPairs = pairsWithProjects(languagePairs(all));
   const intoPairs = pairsIntoLanguage(lang, allPairs);
 
@@ -112,8 +106,8 @@ export default async function LanguagePageView({ slug }: { slug: string }) {
           {
             t: "p",
             text: intoPairs.length
-              ? `Exact source-to-${lang.name} queries stay on their pair pages. This page owns ${lang.keyword}.`
-              : `Browse every live pair on our [language pair index](${LANGUAGE_HUB_PREFIX}). Pair pages own each source-to-target keyword. This page owns ${lang.keyword}.`,
+              ? `Each source language going into ${lang.name} has its own page:`
+              : `Browse every live pair on our [language pair index](${LANGUAGE_HUB_PREFIX}).`,
           },
           ...(intoPairs.length
             ? [
@@ -236,26 +230,14 @@ export default async function LanguagePageView({ slug }: { slug: string }) {
       <ServiceSections sections={page.sections} />
       <ServicePosterStrip
         slugs={page.posterStrip}
-        heading={`Films we have dubbed into ${lang.name}`}
+        heading={options.titlesHeading ?? `Films we have dubbed into ${lang.name}`}
+        fill={false}
       />
       <LanguageHubLinks
         pairs={intoPairs}
         heading={`${lang.name} dubbing by source language`}
         section
       />
-      {intoPairs.length === 0 ? (
-        <section className="block eva-svc-section" aria-labelledby="lang-pair-fallback">
-          <div className="container">
-            <h2 id="lang-pair-fallback" className="eva-svc-title">
-              <i className="icon icon-translate2" aria-hidden="true" />
-              Language pairs
-            </h2>
-            <p>
-              Browse every live pair on our <Link href={LANGUAGE_HUB_PREFIX}>language pair index</Link>.
-            </p>
-          </div>
-        </section>
-      ) : null}
       <ServicePageCta page={page} />
       <ServiceFaq faqs={faqs} />
       <RelatedServices current="dubbing-studio" />

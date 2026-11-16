@@ -48,7 +48,7 @@ function titlesSection(
     blocks: [
       {
         t: "p",
-        text: `Published ${segmentName} credits from our studio. Each link opens the project page.`,
+        text: `Published ${segmentName} credits from our studio.`,
       },
       {
         t: "ul",
@@ -70,7 +70,7 @@ function relatedSegmentsSection(
     .map((slug) => getSegment(slug))
     .filter((s): s is NonNullable<typeof s> => Boolean(s))
     .filter((s) => segmentIsLive(s, projects))
-    .map((s) => `**[${s.name}](${segmentHref(s.slug)})** - ${s.keyword}`);
+    .map((s) => `**[${s.name}](${segmentHref(s.slug)})**: ${s.keyword}`);
   if (!links.length) return null;
   return {
     heading: "Related segments",
@@ -111,7 +111,7 @@ export default async function SegmentPageView({ slug }: { slug: string }) {
               blocks: [
                 {
                   t: "p" as const,
-                  text: `For the buyer journey see [${segment.marketLabel ?? "market hub"}](${segment.marketHref}). This page owns the ${segment.keyword} craft keyword.`,
+                  text: `For the buyer journey see [${segment.marketLabel ?? "market hub"}](${segment.marketHref}).`,
                 },
               ],
             },
