@@ -117,6 +117,9 @@ export const SEGMENT_NAV: readonly NavLinkChild[] = [
 /** Voice Over child pages, nested under Voice Over in the Services menu (menu mirrors URLs). */
 export const VOICE_OVER_NAV: readonly NavLinkChild[] = [
   { label: "Documentary Narration", href: "/voice-over-studio/documentary-narration" },
+  { label: "Audiobook Narration", href: "/voice-over-studio/audiobook-narration" },
+  { label: "Commercial Voice Over", href: "/voice-over-studio/ad-commercials" },
+  { label: "E-Learning Voice Over", href: "/voice-over-studio/e-learning" },
 ];
 
 /** Nav seed for language pages; layout overrides with liveLanguageLinks (zero-hide). */

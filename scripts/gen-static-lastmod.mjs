@@ -19,10 +19,17 @@ const ROUTES = {
   "/terms-conditions": ["src/app/(web)/terms-conditions", "src/data/terms.ts"],
   "/clients": ["src/app/(web)/clients", "src/data/clients.ts", "src/components/clients"],
   "/careers": ["src/app/(web)/careers", "src/data/careers.ts"],
-  "/voice-over-studio/documentary-narration": [
-    "src/app/(web)/voice-over-studio/documentary-narration",
-    "src/data/voice-over-children.ts",
-  ],
+  ...Object.fromEntries(
+    [
+      "documentary-narration",
+      "audiobook-narration",
+      "ad-commercials",
+      "e-learning",
+    ].map((slug) => [
+      `/voice-over-studio/${slug}`,
+      ["src/app/(web)/voice-over-studio/[slug]", "src/data/voice-over-children.ts"],
+    ]),
+  ),
   "service:*": ["src/app/(web)/[service]", "src/data/services.ts", "src/components/services"],
   // Core service pages: shared template plus their own copy and media.
   "service:core": [

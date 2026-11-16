@@ -273,7 +273,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
           },
           {
             t: "p",
-            text: "TV commercials, digital ads radio spots and social videos. We match the voice to the brand: a warm, trusted voice for a bank, an energetic one for a youth brand, a gentle one for a baby-care product. Need a jingle too? See our [song recording studio](/song-recording-studio).",
+            text: "TV commercials, digital ads radio spots and social videos. We match the voice to the brand: a warm, trusted voice for a bank, an energetic one for a youth brand, a gentle one for a baby-care product. Need a jingle too? See our [song recording studio](/song-recording-studio). See [commercial voice over in Mumbai](/voice-over-studio/ad-commercials).",
           },
           {
             t: "h3",
@@ -289,7 +289,7 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
           },
           {
             t: "p",
-            text: "Course narration needs a voice that stays easy to listen to for hours and pronounces technical terms correctly. We record long scripts in consistent tone and level across every module and can re-record updates months later with the same artist.",
+            text: "Course narration needs a voice that stays easy to listen to for hours and pronounces technical terms correctly. We record long scripts in consistent tone and level across every module and can re-record updates months later with the same artist. See [e-learning voice over in Hindi](/voice-over-studio/e-learning).",
           },
           {
             t: "h3",
@@ -306,6 +306,14 @@ export const SERVICE_PAGES: Record<string, ServicePageContent> = {
           {
             t: "p",
             text: "Long-form narration for documentaries and non-fiction shows. See [documentary voice over in Hindi](/voice-over-studio/documentary-narration).",
+          },
+          {
+            t: "h3",
+            text: "Audiobook narration",
+          },
+          {
+            t: "p",
+            text: "Spoken-word recording for authors and publishers in our soundproof booth. See [audiobook recording studio in India](/voice-over-studio/audiobook-narration).",
           },
           {
             t: "h3",

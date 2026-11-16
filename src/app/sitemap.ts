@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { Routes, SERVICE_SLUGS, serviceHref } from "@@/constants/routes";
+import { VOICE_OVER_CHILDREN, voiceOverChildHref } from "@@/data/voice-over-children";
 import {
   SEGMENT_SLUGS,
   getSegment,
@@ -49,7 +50,7 @@ const lastmodFor = (path: string) => {
 const ENTRIES: Entry[] = [
   [Routes.HOME, 1],
   ...SERVICE_SLUGS.map((slug): Entry => [serviceHref(slug), 0.9]),
-  ["/voice-over-studio/documentary-narration", 0.85],
+  ...VOICE_OVER_CHILDREN.map((child): Entry => [voiceOverChildHref(child.slug), 0.85]),
   [Routes.PROJECTS, 0.8],
   [Routes.ABOUT, 0.6],
   [Routes.EQUIPMENT, 0.6],

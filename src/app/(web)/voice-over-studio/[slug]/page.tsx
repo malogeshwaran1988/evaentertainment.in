@@ -1,5 +1,6 @@
 import { mediaAbsolute } from "@@/lib/media";
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import JsonLd from "@@/components/common/JsonLd";
 import PageHero from "@@/components/common/PageHero";
 import RelatedServices from "@@/components/services/RelatedServices";
@@ -10,25 +11,45 @@ import { plain } from "@@/components/services/RichText";
 import { APP_BASE_URL, CONTACT, POSTAL_ADDRESS, SITE_NAME } from "@@/constants/constants";
 import { Routes, serviceHref } from "@@/constants/routes";
 import type { Service } from "@@/data/services";
-import { DOCUMENTARY_NARRATION as child, voiceOverChildHref } from "@@/data/voice-over-children";
+import {
+  VOICE_OVER_CHILDREN,
+  getVoiceOverChild,
+  voiceOverChildHref,
+} from "@@/data/voice-over-children";
 import { absoluteUrl, buildPageMetadata } from "@@/lib/seo";
 
+export const dynamicParams = false;
 export const revalidate = 86400;
 
-const href = voiceOverChildHref(child.slug);
+export function generateStaticParams() {
+  return VOICE_OVER_CHILDREN.map((child) => ({ slug: child.slug }));
+}
 
-export function generateMetadata(): Metadata {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const child = getVoiceOverChild((await params).slug);
+  if (!child) return {};
   return buildPageMetadata({
     title: child.page.seoTitle,
     description: child.page.description,
-    url: absoluteUrl(href),
+    url: absoluteUrl(voiceOverChildHref(child.slug)),
     ogImage: child.ogImage,
     ogImageAlt: child.ogImageAlt,
   });
 }
 
-export default function DocumentaryNarrationPage() {
+export default async function VoiceOverChildPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const child = getVoiceOverChild((await params).slug);
+  if (!child) notFound();
   const { page } = child;
+  const href = voiceOverChildHref(child.slug);
   const url = absoluteUrl(href);
   const faqs = page.faqs.map((f) => ({ q: f.q, a: f.a }));
   const serviceLike = {
