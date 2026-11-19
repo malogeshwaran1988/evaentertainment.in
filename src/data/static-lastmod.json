@@ -1,15 +1,18 @@
 {
-  "/": "2026-10-27",
+  "/": "2026-11-09",
   "/our-projects": "2026-10-27",
-  "/about-us": "2026-10-27",
+  "/about-us": "2026-11-02",
   "/studio-equipment": "2026-10-27",
   "/contact-us": "2026-10-25",
   "/privacy-policy": "2026-10-25",
   "/terms-conditions": "2026-10-25",
-  "/clients": "2026-10-27",
-  "/careers": "2026-10-28",
-  "/voice-over-studio/documentary-narration": null,
-  "service:*": "2026-10-27",
-  "service:core": "2026-10-27",
-  "service:markets": "2026-10-28"
+  "/clients": "2026-11-02",
+  "/careers": "2026-11-14",
+  "/voice-over-studio/documentary-narration": "2026-11-16",
+  "/voice-over-studio/audiobook-narration": "2026-11-16",
+  "/voice-over-studio/ad-commercials": "2026-11-16",
+  "/voice-over-studio/e-learning": "2026-11-16",
+  "service:*": "2026-11-03",
+  "service:core": "2026-11-16",
+  "service:markets": "2026-11-03"
 }
