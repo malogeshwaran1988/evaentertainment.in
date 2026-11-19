@@ -10,6 +10,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 # EVA Entertainment notes
 
+- **WARNING — never use `~/Downloads`, `~/Desktop`, or the home-directory root as a workspace.** Scratch folders, shots, builds, media batches, logs, and temp dirs belong only under this repo or `~/Documents/Project /EVA Entertainment/` (e.g. `archive/`, `tmp/`, `Project Assets/`). Do not create `eva-*` (or any project) folders in Downloads again; if something already sits in Downloads, copy into the project tree instead of writing more there. (User-wide Cursor rule: `~/.cursor/rules/no-downloads-workspace.mdc`.)
 - Follow [`eva-pages.mdc`](eva-pages.mdc) for public page / SEO / a11y patterns (AVR-style).
 - Preserve existing design, colors and copy from `public/css`.
 - Images: the first visible image on a page is eager + `fetchPriority="high"`, every other image is lazy; use `imageLoading(i)` from `src/lib/image-loading.ts` (see eva-pages.mdc).
